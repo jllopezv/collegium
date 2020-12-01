@@ -1,0 +1,256 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+progress{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    background-color: #0000009b;
+  }
+
+  progress::-webkit-progress-bar {
+    background-color: #0000009b;
+  }
+
+progress::-moz-progress-bar{
+    background-color: #0000009b;
+}
+
+
+ /* Hide scrollbar for Chrome, Safari and Opera */
+ .nosb::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .nosb {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+
+
+
+/******************************************************************************/
+/*   Noty                                                                     */
+/******************************************************************************/
+
+.noty-title
+{
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.2em;
+}
+
+.noty-subtitle
+{
+    font-size: 18px;
+    line-height: 1.2em;
+    padding-left: 1.4em;
+}
+
+
+.noty-body
+{
+    font-size: 16px;
+    line-height: 1.2em;
+    margin-top: 10px;
+}
+
+
+#noty_layout__topRight
+{
+    min-width: 500px !important;
+}
+
+
+@media (max-width: 576px)
+{
+    .noty-title
+    {
+        font-size: 16px;
+    }
+
+    .noty-body
+    {
+        font-size: 14px;
+    }
+
+
+    #noty_layout__topRight
+    {
+        width: 200px !important;
+        min-width: 90% !important;
+    }
+
+}
+
+
+@media (min-width: 1080px)
+{
+
+    #noty_layout__topRight
+    {
+        width: 600px !important;
+
+    }
+
+}
+
+.noty_theme__gnosys.noty_bar  .noty_body
+{
+    padding: 15px;
+
+}
+
+.noty_theme__gnosys.noty_type__error {
+    background-color: #FF8181;
+    /*border: 1px solid #e25353;*/
+    border-left: 10px solid #e25353;
+    color: #FFF;
+}
+
+.noty_theme__gnosys.noty_type__debug {
+    background-color: #c07436;
+    /*border: 1px solid #e25353;*/
+    border-left: 10px solid #752c0f;
+    color: #FFF;
+}
+
+
+.noty_modal
+{
+    opacity: .7 !important;
+}
+
+.noty_buttons
+{
+    text-align: center;
+}
+
+.noty_buttons button
+{
+    margin: 2px;
+}
+
+.noty_theme__gnosys.noty_type__dialog {
+    background-color: #fff;
+    border-radius: 4px;
+    /*border: 2px solid #fff;*/
+    color: rgb(255, 56, 56);
+    padding: 10px;
+}
+
+
+.noty_theme__gnosys.noty_type__info,
+.noty_theme__gnosys.noty_type__information {
+  background-color: #78C5E7;
+  border-left: 10px solid #3badd6;
+  color: #FFF;
+
+}
+
+
+.noty_theme__gnosys.noty_type__success {
+    background-color: #38c172;
+    border-left: 10px solid #17743d;
+    color: #fff;
+
+  }
+
+
+.noty_theme__gnosys.noty_type__warning {
+    background-color: #ddb636;
+    border-left: 10px solid #806526;
+    color: #fff;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    font-size: 0.70rem;
+    background-color:  #2d3748;
+    color: #fff;
+    text-align: center;
+    padding: 7px 7px;
+    text-align: center;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 10000;
+    white-space: nowrap;
+
+  }
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .tooltiptext-center-right {
+    top: -5px;
+    left: 105%;
+    margin-left: 10px;
+  }
+
+
+
+  .tooltiptext-down-right {
+    top: 105%;
+    left: 0;
+    margin-left: 10px;
+  }
+
+
+  .tooltiptext-up-right {
+    bottom: 105%;
+    left: 55%;
+    margin-left: 10px;
+  }
+
+
+  .tooltiptext-up-left {
+    bottom: 105%;
+    right: 95%;
+    margin-left: 10px;
+  }
+
+
+  .tooltiptext-up-center {
+    bottom: 105%;
+    right: 50%;
+    margin-left: 10px;
+  }
+
+
+  .tooltiptext-down-left {
+    top: 105%;
+    right: 0;
+    margin-right: 10px;
+  }

@@ -1,0 +1,10 @@
+Entry point for permission_groups:
+
+PermissionGroupController
+
+    PermissionGroupController@index
+        models.auth.permission_groups.index
+
+    PermissionGroupController@create
+        models.auth.permission_groups.create
+            component auth.permission-group --> render --> livewire.auth.permission-group-create

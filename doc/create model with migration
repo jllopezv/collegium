@@ -1,0 +1,33 @@
+1. Create migration
+
+    php artisan make:migration CreatePermissionGroupsTable --path=database/migrations/auth
+
+2. Add to the schema ( is not is applied in stub migration )
+
+    $table->boolean('active')->default(1);
+    $table->foreignId('created_by')->nullable()->constrained('users');
+    $table->foreignId('modified_by')->nullable()->constrained('users');
+
+3. Create Model
+
+    php artisan make:model Auth/PermissionGroup
+
+4. Create Livewire Component
+
+    php artisan make:livewire Auth/PermissionGroupComponent
+
+5. Create Controller
+
+    php artisan make:controller Auth/PermissionGroupController -r
+
+6. Create Route in web.php
+
+7. Create Controller ( copy from another )
+
+8. Create resources/views/models
+
+9. Create resources/views/livewire  change names  (Edit fields)
+
+10. Update sidebar ( if is necessary )
+
+
