@@ -75,6 +75,11 @@ class Country extends Model
         return ( "<i class='gnosys-flag fflag fflag-".$this->iso." ff-md ff-wave ff-lt'></i>" );
     }
 
+    public function flagsm()
+    {
+        return ( "<i class='gnosys-flag fflag fflag-".$this->iso." ff-sm ff-wave ff-lt'></i>" );
+    }
+
     public function scopeSearch($query, $search)
     {
         $countries=Country::all();

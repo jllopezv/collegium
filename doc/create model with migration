@@ -20,6 +20,10 @@
 
     php artisan make:controller Auth/PermissionGroupController -r
 
+
+----------------------------------------------------------------------------------------
+createmodel.sh Language Aux Countries Languages
+
 6. Create Route in web.php
 
 7. Create Controller ( copy from another )

@@ -26,7 +26,9 @@ class CreateUsersTable extends Migration
             $table->string('dateformat');
             $table->foreignId('timezone_id')->nullable()->references('id')->on('timezones');
             $table->foreignId('country_id')->nullable()->references('id')->on('countries');
+            $table->foreignId('language_id')->nullable()->references('id')->on('languages');
             $table->timestamps();
+
         });
     }
 

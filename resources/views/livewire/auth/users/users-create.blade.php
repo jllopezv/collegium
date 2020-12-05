@@ -124,6 +124,23 @@
                                     ])
 
                                     @livewire('controls.drop-down-table-component', [
+                                        'model'         => \App\Models\Aux\Language::class,
+                                        'mode'          =>  $mode,
+                                        'filterraw'     => '',
+                                        'sortorder'     => 'language',
+                                        'label'         =>  mb_strtoupper(trans('lopsoft.language')),
+                                        'classdropdown' => 'w-full md:w-3/4 lg:w-full xl:w-3/4',
+                                        'key'           => 'id',
+                                        'field'         => 'language',
+                                        'defaultvalue'  =>  (\App\Models\Aux\Language::where('language',config('lopsoft.locale_default'))->first())->id??null,
+                                        'eventname'     => 'eventsetlanguage',
+                                        'uid'           => 'languagecomponent',
+                                        'modelid'       => 'languages',
+                                        'isTop'         =>  true,
+                                        'template' => 'components.lopsoft.dropdown.languages',
+                                    ])
+
+                                    @livewire('controls.drop-down-table-component', [
                                         'model'         => \App\Models\Aux\Timezone::class,
                                         'mode'          =>  $mode,
                                         'filterraw'     => '',

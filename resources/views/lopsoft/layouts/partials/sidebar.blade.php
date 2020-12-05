@@ -96,7 +96,16 @@
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-user'
                 link="{{ route('countries.index') }}"
-                text='PAISES'
+                text="{{ mb_strtoupper(__('lopsoft.countries')) }}"
+                class='hover:text-red-500'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['languages.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user'
+                link="{{ route('languages.index') }}"
+                text="{{ mb_strtoupper(__('lopsoft.tables.languages')) }}"
                 class='hover:text-red-500'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

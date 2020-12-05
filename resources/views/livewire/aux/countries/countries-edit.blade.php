@@ -108,7 +108,7 @@
                     help='OBLIGATORIO'
                 />
 
-                    @livewire('messages.flash-message', ['msgid' => 'colorsaved'] )
+                    @livewire('messages.flash-message', ['msgid' => 'countrysaved'] )
 
                     <div class='flex items-center justify-between mt-4' >
                         <div class=''>

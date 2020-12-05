@@ -6,14 +6,18 @@ use App\Models\Auth\Role;
 use App\Models\Aux\Color;
 use App\Models\Aux\Country;
 
+use App\Models\Aux\Language;
 use App\Models\School\Student;
 use App\Models\Auth\Permission;
+use Illuminate\Support\Facades\App;
 use App\Models\Auth\PermissionGroup;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Aux\ColorController;
 use App\Http\Controllers\Aux\CountryController;
+use App\Http\Controllers\Aux\LanguageController;
 use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\Auth\PermissionController;
 use App\Http\Controllers\Auth\PermissionGroupController;
@@ -34,6 +38,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    App::setLocale(Auth::user()->country->language);
     return view('dashboard');
 })->name('dashboard');
 
@@ -74,6 +79,7 @@ Route::group( [ 'prefix'        => '/admin',
 
     LopHelp::generateCommonModelRoute('colors', ColorController::class, Color::class);
     LopHelp::generateCommonModelRoute('countries', CountryController::class, Country::class);
+    LopHelp::generateCommonModelRoute('languages', LanguageController::class, Language::class);
 
 });
 
