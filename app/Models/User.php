@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Auth\Role;
+use App\Models\Aux\Timezone;
 use App\Models\Traits\HasOwner;
 use Laravel\Jetstream\HasTeams;
 use App\Models\Traits\HasActive;
@@ -86,6 +87,11 @@ class User extends Authenticatable
     public function getUserLevel()
     {
         return $this->belongsToMany(Role::class)->where('active',1)->select('roles.level')->pluck('level')->min();
+    }
+
+    public function timezone()
+    {
+        return $this->belongsTo(Timezone::class);
     }
 
     public function getRolesTags()

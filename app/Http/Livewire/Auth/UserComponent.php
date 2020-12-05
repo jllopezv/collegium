@@ -73,6 +73,11 @@ class UserComponent extends Component
         $this->loadDefaults();
     }
 
+    public function getQueryData()
+    {
+        return $this->model::with([ 'roles' ]);
+    }
+
     public function loadDefaults()
     {
         $this->dateformat=config('lopsoft.date_format');

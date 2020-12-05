@@ -78,11 +78,11 @@ Trait HasCommon
         {
             if (property_exists($this->model,'hasactive'))
             {
-                $this->data=$this->model::active();
+                $this->data=$this->getQueryData()->active();
             }
             else
             {
-                $this->data=$this->model::query();
+                $this->data=$this->getQueryData();
             }
         }
         if ($this->mode=='edit' || $this->mode=='show') $this->loadRecord();
@@ -427,6 +427,12 @@ Trait HasCommon
         }
     }
 
+    public function getQueryData()
+    {
+        return $this->model::query();
+
+    }
+
     /**
      * Search in field
      *
@@ -434,19 +440,20 @@ Trait HasCommon
      */
     public function querySearch()
     {
+        $this->getQueryData();
         if ($this->showlocks)
         {
-            $this->data=$this->model::query();
+            $this->data=$this->getQueryData();
         }
         else
         {
             if (property_exists($this->model,'hasactive'))
             {
-                $this->data=$this->model::active();
+                $this->data=$this->getQueryData()->active();
             }
             else
             {
-                $this->data=$this->model::query();
+                $this->data=$this->getQueryData();
             }
         }
 

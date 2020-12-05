@@ -51,6 +51,11 @@ class PermissionComponent extends Component
         $this->flashmessageid='permissionsaved';
     }
 
+    public function getQueryData()
+    {
+        return $this->model::with([ 'permissiongroup', 'roles' ]);
+    }
+
     /**
      * Rules to validate model
      *

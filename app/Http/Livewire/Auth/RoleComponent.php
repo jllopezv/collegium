@@ -61,6 +61,11 @@ class RoleComponent extends Component
         }
     }
 
+    public function getQueryData()
+    {
+        return $this->model::with([ 'color', 'permissions' ]);
+    }
+
     /**
      * Rules to validate model
      *

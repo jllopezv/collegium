@@ -42,5 +42,11 @@ class UserSeeder extends Seeder
         $user->dateformat=config('lopsoft.date_format');
         $user->save();
         $user->roles()->sync([(Role::where('level',1000)->first())->id]);
+
+
+
+        // Factory
+
+        User::factory()->count(500)->create();
     }
 }
