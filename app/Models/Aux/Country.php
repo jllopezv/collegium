@@ -30,8 +30,10 @@ class Country extends Model
      * @var array
      */
     protected $fillable = [
-        'country', 'code'
+        'country', 'nicename', 'iso', 'iso3', 'numcode', 'phonecode', 'language'
     ];
+
+    protected $appends=[ 'flag' ];
 
     public function setCountryAttribute($value)
     {
@@ -43,14 +45,24 @@ class Country extends Model
         return strtoupper($value);
     }
 
-    public function setCodeAttribute($value)
+    public function setIsoAttribute($value)
     {
-        $this->attributes['code'] = strtoupper($value);
+        $this->attributes['iso'] = strtoupper($value);
     }
 
-    public function getCodeAttribute($value)
+    public function getIsoAttribute($value)
     {
         return mb_strtoupper($value);
+    }
+
+    public function setLanguageAttribute($value)
+    {
+        $this->attributes['language'] = strtolower($value);
+    }
+
+    public function getLanguageAttribute($value)
+    {
+        return strtolower($value);
     }
 
     public function getFlagAttribute()

@@ -20,7 +20,12 @@ class CountryComponent extends Component
     use WithModalConfirm;
 
     public  $country;
-    public  $code;
+    public  $iso;
+    public  $iso3;
+    public  $numcode;
+    public  $phonecode;
+    public  $language;
+    public  $nicename;
     public  $flag;
     public  $previewmodel=null;
 
@@ -51,6 +56,11 @@ class CountryComponent extends Component
         $this->previewmodel=new $this->model;
     }
 
+    public function getQueryData()
+    {
+        return $this->model::with([ 'translations'  ]);
+    }
+
     /**
      * Rules to validate model
      *
@@ -60,7 +70,12 @@ class CountryComponent extends Component
     {
         return [
             'country'      => 'required|string|max:100|unique:countries,country,'.$this->recordid,
-            'code'          => 'required|string|max:2',
+            'iso'          => 'required|string|max:2',
+            'iso3'         => 'required|string|max:3',
+            'numcode'      => 'numeric',
+            'phonecode'    => 'numeric',
+            'language'     => 'required|string',
+            'nicename'     => 'string',
 
         ];
     }
@@ -73,7 +88,12 @@ class CountryComponent extends Component
     public function resetForm()
     {
         $this->country='';
-        $this->code='';
+        $this->iso='';
+        $this->iso3='';
+        $this->numcode='';
+        $this->phonecode='';
+        $this->language='';
+        $this->nicename='';
     }
 
     /**
@@ -95,7 +115,12 @@ class CountryComponent extends Component
     public function loadRecordDef()
     {
         $this->country=$this->record->country;
-        $this->code=$this->record->code;
+        $this->nicename=$this->record->nicename;
+        $this->iso=$this->record->iso;
+        $this->iso3=$this->record->iso3;
+        $this->numcode=$this->record->numcode;
+        $this->phonecode=$this->record->phonecode;
+        $this->language=$this->record->language;
         $this->flag=$this->record->flag;
     }
 
@@ -108,14 +133,19 @@ class CountryComponent extends Component
     {
         return [
             'country'           =>  $this->country,
-            'code'              =>  $this->code,
+            'nicename'          =>  $this->nicename,
+            'iso'               =>  $this->iso,
+            'iso3'              =>  $this->iso3,
+            'numcode'           =>  $this->numcode,
+            'phonecode'         =>  $this->phonecode,
+            'language'          =>  $this->language,
         ];
     }
 
     public function updatedCore()
     {
         $this->previewmodel->country=$this->country;
-        $this->previewmodel->code=$this->code;
+        $this->previewmodel->iso=$this->iso;
         $this->flag=$this->previewmodel->flag;
     }
 

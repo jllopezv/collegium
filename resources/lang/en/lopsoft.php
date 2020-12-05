@@ -42,9 +42,14 @@ return [
     'today'                 =>  'today',
     'country'               =>  'country',
     'code'                  =>  'code',
+    'alpha3'                =>  'alpha3 code',
     'flag'                  =>  'flag',
     'timezone'              =>  'timezone',
     'timezones'             =>  'timezones',
     'date_format'           =>  'date_format',
+    'numcode'               =>  'numeric code',
+    'phonecode'             =>  'phone code',
+    'language'              =>  'language',
+    'nicename'              =>  'nice name',
 
 ];

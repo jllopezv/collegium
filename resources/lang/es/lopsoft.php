@@ -42,8 +42,13 @@ return [
     'today'                 =>  'hoy',
     'country'               =>  'pais',
     'code'                  =>  'código',
+    'alpha3'                =>  'código alpha3',
     'flag'                  =>  'bandera',
     'timezone'              =>  'zona horaria',
     'timezones'             =>  'zonas horarias',
     'date_format'           =>  'formato de fecha',
+    'numcode'               =>  'código numérico',
+    'phonecode'             =>  'código telefónico',
+    'language'              =>  'idioma',
+    'nicename'              =>  'nombre',
 ];

@@ -8,29 +8,57 @@
     'actioncanlock'    =>  'true',
 ])
 
-<div class='mt-4'>
-    {{-- Edit --}}
-    <div class='tooltip'>
-        <a href='{{ route($table.'.edit',$itemid) }}'><i  class='fa fa-pencil-alt fa-lg fa-fw text-blue-400 hover:text-blue-600'></i></a>
-        <span class='tooltiptext tooltiptext-up-left'>EDITAR</span>
+@php
+    $record=$model::find($itemid);
+@endphp
+
+@if(!is_null($record))
+    <div class='mt-4'>
+        {{-- Edit --}}
+        @if($actioncanedit==='true')
+            @if($record->allowEdit())
+                @if($record->canEditRecord())
+                    <div class='tooltip'>
+                        <a href='{{ route($table.'.edit',$itemid) }}'><i  class='text-blue-400 fa fa-pencil-alt fa-lg fa-fw hover:text-blue-600'></i></a>
+                        <span class='tooltiptext tooltiptext-up-left'>EDITAR</span>
+                    </div>
+                @endif
+            @endif
+        @endif
+        {{-- Delete --}}
+        @if($actioncandelete==='true')
+            @if($record->allowDelete())
+                @if($record->canDestroyRecord())
+                    <div class='tooltip'>
+                        <i wire:click="delete({{ $itemid }})" class='text-red-400 cursor-pointer fa fa-trash fa-lg fa-fw hover:text-red-600'></i>
+                        <span class='tooltiptext tooltiptext-up-left'>BORRAR</span>
+                    </div>
+                @endif
+            @endif
+        @endif
+        @if($actioncanlock==='true')
+            @if(property_exists($model,'hasactive'))
+                @if($record->allowLock())
+                    @if($active!='1')
+                        @if($record->canUnlockRecord())
+                            {{-- Unlock --}}
+                            <div class='tooltip'>
+                                <i wire:click="unlock({{ $itemid }})" class='cursor-pointer fa fa-unlock fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
+                                <span class='tooltiptext tooltiptext-down-left'>DESBLOQUEAR</span>
+                            </div>
+                        @endif
+                    @else
+                        @if($record->canLockRecord())
+                            {{-- Lock --}}
+                            <div class='tooltip'>
+                                <i wire:click="lock({{ $itemid }})" class='cursor-pointer fa fa-lock fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
+                                <span class='tooltiptext tooltiptext-down-left'>BLOQUEAR</span>
+                            </div>
+                        @endif
+                    @endif
+                @endif
+            @endif
+        @endif
     </div>
-    {{-- Delete --}}
-    <div class='tooltip'>
-        <i wire:click="delete({{ $itemid }})" class='fa fa-trash fa-lg fa-fw text-red-400 hover:text-red-600 cursor-pointer'></i>
-        <span class='tooltiptext tooltiptext-up-left'>BORRAR</span>
-    </div>
-    @if($active!='1')
-        {{-- Unlock --}}
-        <div class='tooltip'>
-            <i wire:click="unlock({{ $itemid }})" class='fa fa-unlock fa-lg fa-fw text-green-400 hover:text-green-600 cursor-pointer'></i>
-            <span class='tooltiptext tooltiptext-up-left'>DESBLOQUEAR</span>
-        </div>
-    @else
-        {{-- Lock --}}
-        <div class='tooltip'>
-            <i wire:click="lock({{ $itemid }})" class='fa fa-lock fa-lg fa-fw text-orange-400 hover:text-orange-600 cursor-pointer'></i>
-            <span class='tooltiptext tooltiptext-up-left'>BLOQUEAR</span>
-        </div>
-    @endif
-</div>
+@endif
 
