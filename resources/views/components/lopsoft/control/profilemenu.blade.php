@@ -10,15 +10,21 @@
             <div class='font-bold text-white text-md'>{{$line1}}</div>
             <div class='text-sm font-bold text-green-300 '>{{$line2}}</div>
             <div class='text-sm font-bold text-gray-500'>{{$line3}}</div>
-            <div class='flex items-center justify-start text-sm font-bold text-gray-500'>
-                <div>
-                      <span class=''>{!! Auth::user()->country->flagsm() !!}</span>
+            <div class='flex items-center justify-between text-sm font-bold text-gray-500 border-t border-gray-600'>
+                <div class='flex items-center justify-start text-xs font-bold text-gray-500'>
+                    <div>
+                        <span class=''>{!! Auth::user()->country!=null ? Auth::user()->country->flagsm() : '' !!}</span>
+                    </div>
+                    <div class='pt-1'>
+                        <span class='ml-2'>{{ Str::limit(Auth::user()->country->country??'',25) }}</span>
+                    </div>
                 </div>
-                <div class='pt-1'>
-                      <span class='ml-2'>{{ Auth::user()->country->country??'' }}</span>
+                <div class='text-xs'>
+                    {{ getNow() }}
                 </div>
             </div>
-            <div class='text-xs font-bold text-gray-500'><i class='text-gray-400 fa fa-language'></i> {{ Auth::user()->language->language??'N/A' }}</div>
+
+            {{-- <div class='text-xs font-bold text-gray-500'><i class='text-gray-400 fa fa-language'></i> {{ Auth::user()->language->language??(App\Models\Aux\Language::where('code', config('lopsoft.locale_default'))->first())->language }}</div> --}}
           </div>
           <div class='p-2 rounded-b-lg'>
                 <x-lopsoft.control.profilemenu-link link="{{ route('profile') }}" class='hover:text-green-300'>{{ mb_strtoupper(__('lopsoft.profile')) }}</x-lopsoft.control.profilemenu-link>

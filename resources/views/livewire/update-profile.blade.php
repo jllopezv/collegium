@@ -1,4 +1,4 @@
-<div >
+<div x-data='{}' x-init='$wire.loadDefaults()'>
 
     <div class='px-4 py-5 text-xl bg-white shadow'>
         <div class="">DATOS DEL PERFIL</div>
@@ -49,7 +49,7 @@
                                         @keydown.tab.prevent=' $refs.email.focus() '
                                         @keydown.enter.prevent='$refs.email.focus()'
                                         label='NOMBRE'
-                                        class="w-full"
+                                        classcontainer="w-full"
                                         autofocus
                                     >
                                     </x-lopsoft.control.inputform>
@@ -61,7 +61,7 @@
                                         @keydown.tab.prevent=' $refs.oldpassword.focus() '
                                         @keydown.enter.prevent='$refs.oldpassword.focus()'
                                         label='EMAIL'
-                                        class='w-full'
+                                        classcontainer='w-full'
                                     />
                                 </div>
 
@@ -103,7 +103,7 @@
                                             @keydown.tab.prevent=' $refs.password.focus() '
                                             @keydown.enter.prevent=' $refs.password.focus()'
                                             label='CONTRASEÑA ACTUAL'
-                                            class='w-full xl:w-3/4'
+                                            classcontainer='w-full xl:w-3/4'
                                             type='password'
                                         />
                                         <x-lopsoft.control.inputform
@@ -114,7 +114,7 @@
                                             @keydown.tab.prevent=' $refs.password_confirmation.focus() '
                                             @keydown.enter.prevent=' $refs.password_confirmation.focus() '
                                             label='NUEVA CONTRASEÑA'
-                                            class="w-full xl:w-3/4"
+                                            classcontainer="w-full xl:w-3/4"
                                             type='password'
 
                                         >
@@ -126,7 +126,7 @@
                                             name='password_confirmation'
                                             @keydown.tab.prevent=' $refs.name.focus() '
                                             label='REPETIR CONTRASEÑA'
-                                            class='w-full xl:w-3/4'
+                                            classcontainer='w-full xl:w-3/4'
                                             type='password'
                                         />
                                     </div>
@@ -148,6 +148,106 @@
                         </div>
                     </div>
                 </div>
+
+                <div class='w-full mb-4 border-t-2 border-gray-200 xl:w-2/3'>
+                    <div class='flex flex-wrap items-start justify-center w-full mt-4'>
+                        <div class='w-full mb-4 md:w-1/2 md:mb-0'>
+                            <div class='font-bold text-md'>
+                                <span>CONFIGURACIÓN REGIONAL</span>
+                            </div>
+                            <div class='text-sm text-gray-400'>
+                                <span>Especifique donde se encuentra, la zona horaria y el formato de la fecha que desea.</span>
+                            </div>
+                        </div>
+                        <div class='w-full md:w-1/2'>
+                            <div class='w-full p-4 overflow-hidden text-gray-700 bg-white rounded-lg shadow md:p-8'>
+
+
+                                @livewire('controls.drop-down-table-component', [
+                                        'model'         => \App\Models\Aux\Country::class,
+                                        'mode'          =>  'create',
+                                        'filterraw'     => '',
+                                        'sortorder'     => 'country',
+                                        'label'         => mb_strtoupper(trans('lopsoft.country')),
+                                        'classdropdown' => 'w-full',
+                                        'key'           => 'id',
+                                        'field'         => 'country',
+                                        'defaultvalue'  =>  (\App\Models\Aux\Country::where('country',config('lopsoft.country_default'))->first())->id??null,
+                                        'eventname'     => 'eventsetcountry',
+                                        'uid'           => 'countrycomponent',
+                                        'modelid'       => 'country_id',
+                                        'isTop'         =>  false,
+                                        'template' => 'components.lopsoft.dropdown.countries',
+                                    ])
+
+                                    @livewire('controls.drop-down-table-component', [
+                                        'model'         => \App\Models\Aux\Language::class,
+                                        'mode'          =>  'create',
+                                        'filterraw'     => '',
+                                        'sortorder'     => 'language',
+                                        'label'         =>  mb_strtoupper(trans('lopsoft.language')),
+                                        'classdropdown' => 'w-full',
+                                        'key'           => 'id',
+                                        'field'         => 'language',
+                                        'defaultvalue'  =>  (\App\Models\Aux\Language::where('code',config('lopsoft.locale_default'))->first())->id??null,
+                                        'eventname'     => 'eventsetlanguage',
+                                        'uid'           => 'languagecomponent',
+                                        'modelid'       => 'language_id',
+                                        'isTop'         =>  false,
+                                        'template' => 'components.lopsoft.dropdown.languages',
+                                    ])
+
+                                    @livewire('controls.drop-down-table-component', [
+                                        'model'         => \App\Models\Aux\Timezone::class,
+                                        'mode'          =>  'create',
+                                        'filterraw'     => '',
+                                        'sortorder'     => 'name',
+                                        'label'         => mb_strtoupper(trans('lopsoft.timezone')),
+                                        'classdropdown' => 'w-full',
+                                        'key'           => 'id',
+                                        'field'         => 'name',
+                                        'defaultvalue'  =>  (\App\Models\Aux\Timezone::where('name',config('lopsoft.timezone_default'))->first())->id??null,
+                                        'eventname'     => 'eventsettimezone',
+                                        'uid'           => 'timezonecomponent',
+                                        'modelid'       => 'timezone_id',
+                                        'isTop'         =>  true,
+                                        'template'      => 'components.lopsoft.dropdown.timezones',
+                                    ])
+
+                                    @livewire('controls.drop-down-component', [
+                                        'mode'          => 'create',
+                                        'label'         => mb_strtoupper(trans('lopsoft.date_format')),
+                                        'classdropdown' => 'w-60',
+                                        'options'       => \App\Lopsoft\LopHelp::getDateFormatsDropDown(),
+                                        'defaultvalue'  =>  config('lopsoft.date_format'),
+                                        'eventname'     => 'eventsetdateformat',
+                                        'uid'           => 'dateformatcomponent',
+                                        'modelid'       => 'dateformat',
+                                        'isTop'         =>  true,
+                                    ])
+
+                                    @livewire('messages.flash-message', ['msgid' => 'localeUpdate'] )
+
+
+                                    <div class='mt-4 text-right'>
+                                        <x-lopsoft.button.gray
+                                            wire:click='updateProfileLocale'>
+                                            <div class='flex items-center justify-center'>
+                                                <div wire:loading><i class="fas fa-sync fa-spin"></i></div>
+                                                <div wire:loading.remove><i class="fas fa-sync"></i></div>
+                                                <div  class='pl-1'>ACTUALIZAR</div>
+                                            </div>
+                                        </x-lopsoft.button.gray>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
             </div>
 
     </div>

@@ -132,7 +132,7 @@
                                         'classdropdown' => 'w-full md:w-3/4 lg:w-full xl:w-3/4',
                                         'key'           => 'id',
                                         'field'         => 'language',
-                                        'defaultvalue'  =>  (\App\Models\Aux\Language::where('language',config('lopsoft.locale_default'))->first())->id??null,
+                                        'defaultvalue'  =>  (\App\Models\Aux\Language::where('code',config('lopsoft.locale_default'))->first())->id??null,
                                         'eventname'     => 'eventsetlanguage',
                                         'uid'           => 'languagecomponent',
                                         'modelid'       => 'language_id',

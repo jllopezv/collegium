@@ -2,10 +2,11 @@
 
 namespace App\Http\Livewire\Controls;
 
-use App\Http\Livewire\Traits\WithAlertMessage;
 use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Livewire\Traits\WithAlertMessage;
 
 class Datepicker extends Component
 {
@@ -63,7 +64,7 @@ class Datepicker extends Component
         $this->validationerror="";
         $this->showcontent=false;
         $this->weekdays=Carbon::getWeekendDays();
-        $this->monthname=Carbon::createFromDate(2000, 1, 1)->locale(config('lopsoft.locale_default'));
+        $this->monthname=getDateFromDate(2000,1,1);//Carbon::createFromDate(2000, 1, 1)->locale(config('lopsoft.locale_default'));
 
         // $this->firstdayofweek=Carbon::getWeekStartsAt();
 
@@ -83,17 +84,17 @@ class Datepicker extends Component
 
     public function createDate($year, $month, $day)
     {
-        return Carbon::createFromDate($year, $month, $day, config('lopsoft.timezone_default'))->locale(config('lopsoft.locale_default'));
+        return getDateFromDate($year, $month, $day);
     }
 
     public function setToday()
     {
-        $this->today=Carbon::today(config('lopsoft.timezone_default'))->locale('lopsoft.locale_default');
+        $this->today=getToday();
     }
 
     public function setCalendar()
     {
-        $this->tempdate = Carbon::createFromDate($this->year, $this->month, 1)->locale(config('lopsoft.locale_default'));
+        $this->tempdate = getDateFromDate($this->year, $this->month, 1);
         $this->skip=$this->currentdate->dayOfWeek;
         if ( $this->skip < config('lopsoft.firstweekday' )) $this->skip=7;
         for($i=config('lopsoft.firstweekday');$i<$this->skip;$i++,$this->tempdate->subDay());
@@ -160,8 +161,8 @@ class Datepicker extends Component
 
     public function selectday($day,$month,$year)
     {
-        $this->valuedate=Carbon::createFromDate($year,$month,$day);
-        $this->value=$this->valuedate->format(config('lopsoft.date_format'));
+        $this->valuedate=getDateFromDate($year,$month,$day);
+        $this->value=$this->valuedate->format( Auth::user()->dateformat??config('lopsoft.date_format') );
         $this->updateMonthData();
         if ($this->closeafterselect)
         {
@@ -183,13 +184,14 @@ class Datepicker extends Component
     public function updatedValue()
     {
         try {
-            $this->valuedate=Carbon::createFromFormat(config('lopsoft.date_format'), $this->value, config('lopsoft.timezone_default'))->locale(config('lopsoft.locale_default'));
+            $this->valuedate=getDateFromFormat($this->value);
+            //$this->valuedate=Carbon::createFromFormat(config('lopsoft.date_format'), $this->value, config('lopsoft.timezone_default'))->locale(config('lopsoft.locale_default'));
             //$this->value=$this->valuedate->format(config('lopsoft.format'));
             $this->goDate($this->valuedate->month, $this->valuedate->year);
             $this->emit( $this->eventname, $this->value );
         } catch (\Exception $e) {
             // Invalid date
-            $this->ShowError("FECHA INVÁLIDA","","EL FORMATO ACEPTADO ES ".config('lopsoft.date_format'),false,6000);
+            $this->ShowError("FECHA INVÁLIDA","","EL FORMATO ACEPTADO ES ".Auth::user()->dateformat??config('lopsoft.date_format'),false,6000);
             //$this->value="";
             $this->valuedate=$this->createDate($this->today->year, $this->today->month, $this->today->day );
             $this->goToday();

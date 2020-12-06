@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Controls;
 
 use Livewire\Component;
+use Illuminate\Support\Arr;
 
 /**
  * DropDownComponent
@@ -11,6 +12,12 @@ use Livewire\Component;
  */
 class DropDownComponent extends Component
 {
+    protected $listeners=[
+        'setvalue'  =>  'setValue',
+        'getvalue'  =>  'getValue',
+        'validationerror'   =>  'validationError'
+    ];
+
     public $options=[];
     //[ 'value' => '1', 'text' => "<div class='flex items-center justify-start'><div class='pr-1'><img class='w-6 h-auto rounded-full' src='http://collegium.devel:8000/storage/system/userdefault.png' /></div><div><span class=''>OPCION 1</span></div></div>" ],
     public $showcontent=false;
@@ -26,6 +33,8 @@ class DropDownComponent extends Component
     public $isTop=false;            // where show seach list
     public $eventname='';
     public $readonly=false;
+    public $validationerror='';
+    public $uid='';
 
     public function mount()
     {
@@ -77,6 +86,44 @@ class DropDownComponent extends Component
         else
         {
             $this->hidebody();
+        }
+    }
+
+    /**
+     * Set value
+     *
+     * @param  mixed $index
+     * @return void
+     */
+    public function setValue($uid, $value)
+    {
+        if ($uid==$this->uid || $uid=='*')
+        {
+            foreach($this->options as $index => $option)
+            {
+                if ($option['value']==$value)
+                {
+                    $this->select($index,false);
+                }
+            }
+
+        }
+    }
+
+    public function getValue($uid)
+    {
+        if ($uid==$this->uid || $uid=='*')
+        {
+            $this->emit( $this->eventname, $this->value, false );
+        }
+    }
+
+    public function validationError($errors)
+    {
+        $this->validationerror='';
+        if (Arr::has($errors,$this->modelid))
+        {
+            $this->validationerror=$errors[$this->modelid][0];
         }
     }
 
