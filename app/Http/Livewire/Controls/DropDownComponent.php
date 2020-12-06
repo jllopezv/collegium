@@ -80,12 +80,17 @@ class DropDownComponent extends Component
         }
     }
 
-    public function select($index)
+    public function selectchange($index)
+    {
+        $this->select($index,true);
+    }
+
+    public function select($index, $change=false)
     {
         $this->text=$this->options[$index]['text'];
         $this->value=$this->options[$index]['value'];;
         $this->showcontent=false;
-        $this->emit( $this->eventname, $this->value );
+        $this->emit( $this->eventname, $this->value, $change );
     }
 
     public function render()

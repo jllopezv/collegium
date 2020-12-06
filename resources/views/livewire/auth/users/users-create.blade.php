@@ -4,7 +4,7 @@
 
     <div wire:loading.delay.class='opacity-50' >
 
-        <div class='w-full p-2 mx-auto xl:w-3/4'>
+        <div class='w-full max-w-5xl p-2 mx-auto'>
 
             @include('livewire.partials.topcard')
 
@@ -135,7 +135,7 @@
                                         'defaultvalue'  =>  (\App\Models\Aux\Language::where('language',config('lopsoft.locale_default'))->first())->id??null,
                                         'eventname'     => 'eventsetlanguage',
                                         'uid'           => 'languagecomponent',
-                                        'modelid'       => 'languages',
+                                        'modelid'       => 'language_id',
                                         'isTop'         =>  true,
                                         'template' => 'components.lopsoft.dropdown.languages',
                                     ])

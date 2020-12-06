@@ -11,7 +11,7 @@ return [
         'countries'         =>  'countries',
         'languages'         =>  'languages',
     ],
-    'group'                 =>  'gproup',
+    'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
     'user'                  =>  'user',
     'users'                 =>  'users',
@@ -53,5 +53,7 @@ return [
     'phonecode'             =>  'phone code',
     'language'              =>  'language',
     'nicename'              =>  'nice name',
+    'profile'               =>  'profile',
+    'exit'                  =>  'exit',
 
 ];

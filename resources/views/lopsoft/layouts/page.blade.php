@@ -15,28 +15,30 @@
 
     <body class="subpixel-antialiased bg-gray-100">
 
-
+        @php
+            App::setLocale(Auth::user()->language->code??config('lopsoft.locale_default'));
+        @endphp
 
         <div
             x-data='InitSidebar()'
             x-init='checkWidth()'
-            class=" flex flex-col h-screen">
+            class="flex flex-col h-screen ">
 
             {{-- NAVBAR --}}
-            <div class="py-4 px-4 bg-gray-700 text-white shadow">
+            <div class="px-4 py-4 text-white bg-gray-700 shadow">
                 @include('lopsoft.layouts.partials.navbar')
             </div>
 
             {{-- MAIN --}}
              <div class='flex-1 h-full max-h-full overflow-y-hidden'>
-                <div  class='h-full flex items-start justify-start bg-gray-800 overflow-hidden' >
+                <div  class='flex items-start justify-start h-full overflow-hidden bg-gray-800' >
 
                     {{-- SIDEBAR --}}
                     @include('lopsoft.layouts.partials.sidebar')
 
                     <div
                         {{-- x-on:click='closeAll()' --}}
-                        class="w-full h-full overflow-y-auto bg-gray-100 overflow-x-hidden">
+                        class="w-full h-full overflow-x-hidden overflow-y-auto bg-gray-100">
                         @yield('content')
                     </div>
                 </div>

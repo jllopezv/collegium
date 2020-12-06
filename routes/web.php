@@ -38,7 +38,6 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    App::setLocale(Auth::user()->country->language);
     return view('dashboard');
 })->name('dashboard');
 

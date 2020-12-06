@@ -2,12 +2,15 @@
 
 namespace App\Models\Aux;
 
-use App\Models\Traits\HasOwner;
-use App\Models\Traits\HasActive;
+use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\HasAllowedActions;
 
 class Timezone extends Model
 {
+
+    use HasAbilities;
+    use HasAllowedActions;
 
     public function scopeSearch($query, $search)
     {

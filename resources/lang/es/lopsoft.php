@@ -53,4 +53,6 @@ return [
     'phonecode'             =>  'código telefónico',
     'language'              =>  'idioma',
     'nicename'              =>  'nombre',
+    'profile'               =>  'perfil',
+    'exit'                  =>  'salir',
 ];

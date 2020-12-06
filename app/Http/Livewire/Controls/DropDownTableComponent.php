@@ -95,7 +95,7 @@ class DropDownTableComponent extends Component
     {
         if ($uid==$this->uid || $uid=='*')
         {
-            $this->emit( $this->eventname, $this->value );
+            $this->emit( $this->eventname, $this->value, false );
         }
     }
 
@@ -171,13 +171,18 @@ class DropDownTableComponent extends Component
         }
     }
 
+    public function selectchange($index)
+    {
+        $this->select($index,true,true);
+    }
+
     /**
      * Select Item
      *
      * @param  mixed $index         // Key of selected item
      * @return void
      */
-    public function select($index, $emitevent=true)
+    public function select($index, $emitevent=true, $change=false)
     {
         $this->getData();
         if (is_null($index) && ($this->mode=='edit' || $this->mode=='show') )
@@ -210,7 +215,7 @@ class DropDownTableComponent extends Component
                 $this->contenttoshow=$this->text;
             }
             $this->showcontent=false;
-            if ($emitevent) $this->emit( $this->eventname, $this->value );
+            if ($emitevent) $this->emit( $this->eventname, $this->value, $change );
         }
         else
         {

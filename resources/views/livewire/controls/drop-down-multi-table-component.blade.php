@@ -76,7 +76,7 @@
                                     cursor-pointer {{ array_search($record[$key],$selected)!==false?'bg-cool-gray-200':'' }}
                                     hover:bg-gray-600 hover:text-white hover:rounded-lg
                                     w-full"
-                                    wire:click="select({{$record[$key]}})">
+                                    wire:click="selectchange({{$record[$key]}})">
                                     @if($template)
                                         @include ("$template", [
                                             'record'        => $record,

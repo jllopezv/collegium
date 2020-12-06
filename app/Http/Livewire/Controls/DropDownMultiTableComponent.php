@@ -109,7 +109,7 @@ class DropDownMultiTableComponent extends Component
     {
         if ($uid==$this->uid || $uid=='*')
         {
-            $this->emit( $this->eventname, $this->selected );
+            $this->emit( $this->eventname, $this->selected, false);
         }
     }
 
@@ -185,13 +185,18 @@ class DropDownMultiTableComponent extends Component
         }
     }
 
+    public function selectchange($index)
+    {
+        $this->select($index,true,true);
+    }
+
     /**
      * Select Item
      *
      * @param  mixed $index         // Key of selected item
      * @return void
      */
-    public function select($index, $emitevent=true)
+    public function select($index, $emitevent=true, $change=false)
     {
         $this->getData();
         if (is_null($index) && ($this->mode=='edit' || $this->mode=='show') )
@@ -230,7 +235,7 @@ class DropDownMultiTableComponent extends Component
                 $this->contenttoshow=$this->getText();
             }
             //$this->showcontent=false;
-            if ($emitevent) $this->emit( $this->eventname, $this->selected );
+            if ($emitevent) $this->emit( $this->eventname, $this->selected, $change );
         }
         else
         {

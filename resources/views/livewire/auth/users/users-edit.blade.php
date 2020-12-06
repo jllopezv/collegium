@@ -4,7 +4,7 @@
 
     <div wire:loading.delay.class='opacity-50' >
 
-        <div class='w-full p-2 mx-auto'>
+        <div class='w-full max-w-5xl p-2 mx-auto'>
 
             @include('livewire.partials.topcard')
 
@@ -114,10 +114,27 @@
                                             'defaultvalue'  =>  $record->country_id,
                                             'eventname'     => 'eventsetcountry',
                                             'uid'           => 'countrycomponent',
-                                            'modelid'       => 'countries',
+                                            'modelid'       => 'country_id',
                                             'isTop'         =>  true,
                                             'template' => 'components.lopsoft.dropdown.countries',
 
+                                        ])
+
+                                        @livewire('controls.drop-down-table-component', [
+                                            'model'         => \App\Models\Aux\Language::class,
+                                            'mode'          =>  $mode,
+                                            'filterraw'     => '',
+                                            'sortorder'     => 'language',
+                                            'label'         =>  mb_strtoupper(trans('lopsoft.language')),
+                                            'classdropdown' => 'w-full md:w-3/4 lg:w-full xl:w-3/4',
+                                            'key'           => 'id',
+                                            'field'         => 'language',
+                                            'defaultvalue'  =>  $record->language_id,
+                                            'eventname'     => 'eventsetlanguage',
+                                            'uid'           => 'languagecomponent',
+                                            'modelid'       => 'language_id',
+                                            'isTop'         =>  true,
+                                            'template'      => 'components.lopsoft.dropdown.languages',
                                         ])
 
                                         @livewire('controls.drop-down-table-component', [
@@ -132,7 +149,7 @@
                                             'defaultvalue'  =>  $record->timezone_id,
                                             'eventname'     => 'eventsettimezone',
                                             'uid'           => 'timezonecomponent',
-                                            'modelid'       => 'timezone',
+                                            'modelid'       => 'timezone_id',
                                             'isTop'         =>  true,
                                             'template'      => 'components.lopsoft.dropdown.timezones',
 
@@ -150,7 +167,7 @@
                                             'isTop'         =>  true,
 
                                         ])
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,6 @@
 <div x-data="{}"
    @click.away='$wire.hidebody()'
-   x-init='$wire.getValue("*")'
+   x-init='$wire.getValue($wire.eventname)'
    class='py-4'
 >
 
@@ -74,7 +74,7 @@
                         @foreach($records as $index => $record)
 
                                 <div class='w-full p-2 cursor-pointer hover:bg-gray-600 hover:text-white hover:rounded-lg'
-                                    wire:click="select({{$record[$key]}})">
+                                    wire:click="selectchange({{$record[$key]}})">
                                     @if($template)
                                         @include ("$template", ['record' => $record, 'index' => $index])
                                     @else

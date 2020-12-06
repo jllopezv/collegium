@@ -26,18 +26,6 @@ class LanguageSeeder extends Seeder
         $record->setTranslation('language', 'es', mb_strtoupper('Español') );
 
         $record=new Language;
-        $record->language="Spanish (Dominican Republic)";
-        $record->code='es_DO';
-        $record->save();
-        $record->allowedActions()->create([     'allowShow'     => false,
-                                                'allowEdit'     => false,
-                                                'allowDelete'   => false,
-                                                'allowLock'     => false
-                                        ]);
-
-        $record->setTranslation('language', 'es', mb_strtoupper('Español (República Dominicana)') );
-
-        $record=new Language;
         $record->language="English";
         $record->code='en';
         $record->save();

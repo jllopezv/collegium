@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Auth\Role;
 use App\Models\Aux\Country;
+use App\Models\Aux\Language;
 use App\Models\Aux\Timezone;
 use App\Models\Traits\HasOwner;
 use Laravel\Jetstream\HasTeams;
@@ -38,7 +39,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'active', 'name', 'email', 'username', 'level', 'password', 'profile_photo_path', 'dateformat', 'timezone_id', 'country_id'
+        'active', 'name', 'email', 'username', 'level', 'password', 'profile_photo_path', 'dateformat', 'timezone_id', 'country_id', 'language_id'
     ];
 
     /**
@@ -98,6 +99,11 @@ class User extends Authenticatable
     public function country()
     {
         return $this->belongsTo(Country::class);
+    }
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
     }
 
     public function getRolesTags()

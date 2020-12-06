@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Auth;
 use Livewire\Component;
 use App\Models\Auth\User;
 use App\Models\Aux\Country;
+use App\Models\Aux\Language;
 use App\Models\Aux\Timezone;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +40,7 @@ class UserComponent extends Component
     public  $dateformat;
     public  $timezone_id;
     public  $country_id;
+    public  $language_id;
     private $avatarfolder='profile-photos';
 
 
@@ -53,6 +55,7 @@ class UserComponent extends Component
         'eventsetrole'          => 'eventSetRole',
         'eventsettimezone'      => 'eventSetTimezone',
         'eventsetcountry'       => 'eventSetCountry',
+        'eventsetlanguage'      => 'eventSetLanguage',
         'eventsetdateformat'    => 'eventSetDateformat',
     ];
 
@@ -81,8 +84,9 @@ class UserComponent extends Component
     public function loadDefaults()
     {
         $this->dateformat=config('lopsoft.date_format');
-        $this->timezone_id=(Timezone::where('name',config('lopsoft.timezone_default'))->first())->id;
-        $this->country_id=(Country::where('country',config('lopsoft.country_default'))->first())->id;
+        $this->timezone_id=(Timezone::where('name',config('lopsoft.timezone_default'))->first())->id??null;
+        $this->country_id=(Country::where('country',config('lopsoft.country_default'))->first())->id??null;
+        $this->language_id=(Language::where('code',config('lopsoft.locale_default'))->first())->id??null;
     }
 
     /**
@@ -132,6 +136,7 @@ class UserComponent extends Component
             'dateformat'            =>  $this->dateformat,
             'timezone_id'           =>  $this->timezone_id,
             'country_id'            =>  $this->country_id,
+            'language_id'           =>  $this->language_id,
         ];
 
         if ($this->password!="" || $this->mode=='create')
@@ -202,7 +207,7 @@ class UserComponent extends Component
         $this->dateformat=$this->record->dateformat;
         $this->timezone_id=$this->record->timezone_id;
         $this->country_id=$this->record->country_id;
-        //$this->emit("eventsetrole", $this->roles);
+        $this->language_id=$this->record->language_id;
     }
 
     public function getKeyNotification($record)
@@ -226,14 +231,35 @@ class UserComponent extends Component
         $this->roles=$roles;
     }
 
+    public function eventSetLanguage($language)
+    {
+        $this->language_id=$language;
+    }
+
     public function eventSetTimezone($timezone)
     {
         $this->timezone_id=$timezone;
     }
 
-    public function eventSetCountry($country)
+    public function eventSetCountry($country, $change)
     {
         $this->country_id=$country;
+
+        if ($change)
+        {
+            // Changed by user
+            $country=Country::find($this->country_id);
+            if ( is_null($country) )
+            {
+                $this->language_id=(Language::where('code',config('lopsoft.locale_default'))->first())->id??null;
+            }
+            else
+            {
+                $this->language_id=(Language::where('code',$country->language)->first())->id??null;
+            }
+            $this->emit('setvalue', 'languagecomponent', $this->language_id);
+        }
+
     }
 
     public function eventSetDateformat($dateformat)

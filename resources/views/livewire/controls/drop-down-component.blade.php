@@ -43,7 +43,7 @@
                     @foreach($options as $index => $option)
 
                             <div class='w-full p-2 cursor-pointer hover:bg-gray-600 hover:text-white hover:rounded-lg'
-                                wire:click="select({{$index}})">{!! $option['text'] !!}
+                                wire:click="selectchange({{$index}})">{!! $option['text'] !!}
                             </div>
 
                     @endforeach
