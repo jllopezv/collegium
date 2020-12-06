@@ -33,6 +33,10 @@ use App\Http\Controllers\Auth\PermissionGroupController;
 |
 */
 
+Route::get('/checkcache',  function () {
+    return view('checkcache');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });

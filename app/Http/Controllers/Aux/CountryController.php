@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Aux;
 use App\Models\Aux\Country;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\Traits\HasCommon;
 
 class CountryController extends Controller
@@ -63,6 +64,32 @@ class CountryController extends Controller
     public function edit($id)
     {
         return ($this->commonEdit($id, $options??[]));
+    }
+
+    public function withoutCache()
+    {
+        return view('lopsoft.tests.testcache', [ 'countries' => Country::all() ]);
+    }
+
+    public function withoutCacheButWith()
+    {
+        return view('lopsoft.tests.testcache', [ 'countries' => Country::with(['translations'])->get() ]);
+    }
+
+    public function withCache()
+    {
+        if (Cache::has('timezone.all'))
+        {
+            $data=Cache::get('timezone.all' );
+        }
+        else
+        {
+            $data=Cache::remember('timezone.all', 100, function () {
+                return Country::with(['translations'])->get();
+            });
+
+        }
+        return view('lopsoft.tests.testcache', [ 'countries' =>  $data]);
     }
 
 }

@@ -2,7 +2,9 @@
 
 namespace App\Lopsoft;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 class LopHelp
@@ -63,4 +65,6 @@ class LopHelp
             [ 'value' => 'Y/m/d', 'text' => "yyyy/mm/dd" ],
         ];
     }
+
+
 }

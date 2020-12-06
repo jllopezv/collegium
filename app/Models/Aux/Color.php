@@ -24,6 +24,8 @@ class Color extends Model
         'name', 'textcolor', 'background',
     ];
 
+    protected $appends = ['tag'];
+
     public function setNameAttribute($value)
     {
         $this->attributes['name']=mb_strtoupper($value);

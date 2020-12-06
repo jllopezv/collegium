@@ -58,7 +58,7 @@ class CountryComponent extends Component
 
     public function getQueryData()
     {
-        return $this->model::with([ 'translations'  ]);
+        return $this->model::with([ 'translations' ]);
     }
 
     /**

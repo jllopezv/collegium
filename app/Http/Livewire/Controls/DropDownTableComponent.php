@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Controls;
 use Livewire\Component;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class DropDownTableComponent extends Component
 {
@@ -28,6 +29,7 @@ class DropDownTableComponent extends Component
 
     /* table */
     private $data=null;             // data to show
+    public $lastcachekey='';
     public $model='';               // Table Model
     public $filterraw='';           // raw applies whereRaw
     public $sortorder='';           // orderby
@@ -280,6 +282,14 @@ class DropDownTableComponent extends Component
             }
             $this->data->orderBy($field,$dir);
         }
+
+    }
+
+    public function setCacheKey()
+    {
+        // It depends of:     onlyactives, filterraw, search, sortorder
+
+        return $this->model."-".$this->onlyactives."-".$this->filterraw."-".$this->search."-".$this->sortorder;
     }
 
     /**
@@ -290,7 +300,21 @@ class DropDownTableComponent extends Component
     public function render()
     {
         $this->getData();
-        $records=$this->data->get()->toArray();
+        $data=$this->data;
+
+        if ($this->lastcachekey!=$this->setCacheKey())
+        {
+            Cache::forget($this->lastcachekey);
+            $records=Cache::remember($this->setCacheKey(),1800,function() use ($data) {
+                return $data->get()->toArray();
+            });
+            $this->lastcachekey=$this->setCacheKey();
+        }
+        else
+        {
+            $records=Cache::get($this->lastcachekey);
+        }
+
         return view('livewire.controls.drop-down-table-component',
         [ 'records' => $records ] );
     }

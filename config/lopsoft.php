@@ -25,7 +25,7 @@ return [
     */
     'country_default'       =>  'DOMINICAN REPUBLIC',
     'timezone_default'      =>  'America/Santo_Domingo',
-    'locale_default'        =>  'es_DO',
+    'locale_default'        =>  'es',
     'firstweekday'          =>  1,  // Monday
     'date_format'           =>  'd/m/Y',
     'time_format'           =>  'hh:mm',

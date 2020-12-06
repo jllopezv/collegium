@@ -2,6 +2,7 @@
 
 namespace App\Models\Aux;
 
+use App\Models\Traits\HasCache;
 use App\Models\Traits\HasAbilities;
 use App\Models\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ class Language extends Model
     use HasAbilities;
     use HasAllowedActions;
     use HasTranslation;
+    use HasCache;
 
     /**
      * Fields with translation

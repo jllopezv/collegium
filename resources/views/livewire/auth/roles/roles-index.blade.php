@@ -99,8 +99,8 @@
                                             </div>
                                         </div>
                                         <div class='mt-1 text-center'>
-                                            <span class='text-gray-600'><b>{{ $item->level }}</b></span>
-                                            <span class='text-gray-500'>{!! $item->getRoleTagAttribute() !!}</span>
+                                            <div><span class='text-xl text-gray-500'><b>{{ $item->level }}</b></span></div>
+                                            <div><span class='text-gray-500'>{!! $item->getRoleTagAttribute() !!}</span></div>
                                         </div>
                                         <div  class='text-right'>
                                             <x-lopsoft.datatable.row-actions-xs table='{{$table}}' model='{{$model}}' itemid="{{ $item->id }}" active="{{ $item->active??null }}"/>

@@ -15,10 +15,10 @@
                       <span class=''>{!! Auth::user()->country->flagsm() !!}</span>
                 </div>
                 <div class='pt-1'>
-                      <span class='ml-2'>{{ Auth::user()->country->country }}</span>
+                      <span class='ml-2'>{{ Auth::user()->country->country??'' }}</span>
                 </div>
             </div>
-            <div class='text-xs font-bold text-gray-600'><i class='fa fa-language'></i> {{ Auth::user()->language->language }}</div>
+            <div class='text-xs font-bold text-gray-500'><i class='text-gray-400 fa fa-language'></i> {{ Auth::user()->language->language??'N/A' }}</div>
           </div>
           <div class='p-2 rounded-b-lg'>
                 <x-lopsoft.control.profilemenu-link link="{{ route('profile') }}" class='hover:text-green-300'>{{ mb_strtoupper(__('lopsoft.profile')) }}</x-lopsoft.control.profilemenu-link>

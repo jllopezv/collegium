@@ -29,6 +29,7 @@
                     <x-lopsoft.datatable.header-th class='w-3/4' sortable sortorder='{{ $sortorder }}' columnname='username'>USUARIO</x-lopsoft.datatable.header-th>
                     <x-lopsoft.datatable.header-th class='w-40' justify='end' columnname='level'>NIVEL</x-lopsoft.datatable.header-th>
                     <x-lopsoft.datatable.header-th class='w-3/4' columnname='roles'>ROLES</x-lopsoft.datatable.header-th>
+                    <x-lopsoft.datatable.header-th class='w-3/4' >INFO</x-lopsoft.datatable.header-th>
                     <x-lopsoft.datatable.header-th-space class='w-3/4' ></x-lopsoft.datatable.header-th-space>
                     <x-lopsoft.datatable.header-th-actions class='w-32' justify='end'/>
                 </x-lopsoft.datatable.header-tr>
@@ -53,6 +54,12 @@
                                 </x-lopsoft.datatable.row-column>
                                 <x-lopsoft.datatable.row-column link="{{ route($table.'.show',$item->id) }}" >
                                     {!! $item->getRolesTags() !!}
+                                </x-lopsoft.datatable.row-column>
+                                <x-lopsoft.datatable.row-column link="{{ route($table.'.show',$item->id) }}" >
+                                    <div class='flex items-center justify-start'>
+                                        <div>{!! $item->country->flag !!}</div>
+                                        <div class='pt-1 ml-1 text-sm'>{{ strtoupper($item->language->code??'') }}</div>
+                                    </div>
                                 </x-lopsoft.datatable.row-column>
                                 <x-lopsoft.datatable.row-column-space />
                                 <x-lopsoft.datatable.row-actions table='{{$table}}' model='{{$model}}' itemid="{{ $item->id }}" active="{{ $item->active??null }}"/>

@@ -61,6 +61,7 @@ Trait HasCommon
     public $paramscallback;
 
     private $data=null;
+    private $newmodel=null;
 
     /**
      * Common functions to mount. Must be into the mount function of the class. Set default values.
@@ -69,6 +70,7 @@ Trait HasCommon
      */
     public function commonMount()
     {
+        $this->newmodel=new $this->model;
         $this->multiple=false;
         $this->record=null;
         $this->sortorder='id';

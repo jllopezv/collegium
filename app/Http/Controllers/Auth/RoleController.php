@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\Auth\Role;
+
 use App\Models\Auth\Permission;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\HasCommon;
 use App\Models\Auth\PermissionGroup;
+use App\Http\Controllers\Traits\HasCommon;
 
 class RoleController extends Controller
 {
 
     use HasCommon;
-
 
     protected $table='roles';
     protected $module='auth';
