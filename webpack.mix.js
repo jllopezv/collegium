@@ -26,3 +26,7 @@ mix.scripts([
     'resources/js/lopsoft/sidebar.js',
     'resources/js/lopsoft/notifications.js',
     ], 'public/js/lopsoft.js');
+
+mix.styles([
+    'resources/css/lopsoft/customnoty.css',
+], 'public/css/lopsoft.css');

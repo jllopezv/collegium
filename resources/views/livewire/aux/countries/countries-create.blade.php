@@ -23,7 +23,7 @@
                                 autofocus
                                 classcontainer='w-full'
                                 requiredfield
-                                help='OBLIGATORIO Y ÚNICO'
+                                help="{{ transup('mandatory_unique') }}"
                                 nextref='nicename'
                             />
                         </div>
@@ -61,7 +61,7 @@
                                 nextref='iso3'
                                 classcontainer='w-full'
                                 requiredfield
-                                help='OBLIGATORIO'
+                                help="{{ transup('mandatory') }}"
                             />
                         </div>
                         <div class='w-full ml-auto mr-0 sm:w-1/2 '>
@@ -73,7 +73,7 @@
                                 nextref='numcode'
                                 classcontainer='w-full'
                                 requiredfield
-                                help='OBLIGATORIO'
+                                help="{{ transup('mandatory') }}"
                             />
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                         nextref='btnCreate'
                         classcontainer='w-full sm:w-1/3'
                         requiredfield
-                        help='OBLIGATORIO'
+                        help="{{ transup('mandatory') }}"
                     />
 
 

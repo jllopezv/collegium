@@ -27,7 +27,7 @@
                                 nextref='username'
                                 autofocus
                                 requiredfield
-                                help="OBLIGATORIO"
+                                help="{{ transup('mandatory') }}"
                             />
                             <x-lopsoft.control.inputform
                                 wire:model.lazy='username'
@@ -37,7 +37,7 @@
                                 classcontainer='w-full md:w-1/2'
                                 nextref='email'
                                 requiredfield
-                                help="OBLIGATORIO Y ÚNICO"
+                                help="{{ transup('mandatory_unique') }}"
                             />
                             <x-lopsoft.control.inputform
                                 wire:model.lazy='email'
@@ -47,7 +47,7 @@
                                 classcontainer='w-full'
                                 nextref='password'
                                 requiredfield
-                                help="OBLIGATORIO"
+                                help="{{ transup('mandatory') }}"
                             />
                             <x-lopsoft.control.inputform
                                 wire:model.lazy='password'
@@ -58,7 +58,7 @@
                                 classcontainer='w-full md:w-1/2'
                                 nextref='password_confirmation'
                                 requiredfield
-                                help="OBLIGATORIO"
+                                help="{{ transup('mandatory') }}"
                             />
                             <x-lopsoft.control.inputform
                                 wire:model.lazy='password_confirmation'
@@ -69,7 +69,7 @@
                                 classcontainer='w-full md:w-1/2'
                                 @keydown.enter='$refs.btnCreate.click()'
                                 requiredfield
-                                help="OBLIGATORIO"
+                                help="{{ transup('mandatory') }}"
                             />
 
                             @livewire('controls.drop-down-multi-table-component', [

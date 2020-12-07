@@ -1,11 +1,12 @@
 <div x-data="{}"
    @click.away='$wire.hidebody()'
+   x-init='$wire.getValue($wire.uid)'
    class='py-4'
 >
     <label class="block font-bold">
         {{ $label }}
     </label>
-    <div class='relative pt-2 {{ $classdropdown }}'>
+    <div class='relative pt-1 {{ $classdropdown }}'>
         <div class='flex items-center justify-center'>
             <div class='flex items-center justify-between
             p-0 m-0 rounded-none border-b-2 border-t-0 border-l-0 border-r-0 border-gray-300
@@ -14,7 +15,7 @@
             focus:border-gray-500 focus:shadow-none
             transition-all duration-300 w-full {{ $readonly?'cursor-default':'cursor-pointer'}}  {{$classchevron}}' wire:click='togglebody'>
                 <div class='w-full py-1 pl-1'>
-                    <div class='text-black'>{!! $text !!}</div>
+                    <div class='text-lg text-black'>{!! $contenttoshow !!}</div>
                     <input wire:model='value' type='text' class='hidden w-full pb-1 pl-1 text-lg bg-transparent border-0 form-input hover:shadow-none active:shadow-none focus:shadow-none' readonly/>
                 </div>
                 @if(!$readonly)
@@ -38,12 +39,17 @@
                 @if($cansearch)
                     <input type='text' class='w-full p-2 border border-gray-400 rounded-lg shadow' placeholder='buscar...' />
                 @endif
-                <div class='w-full overflow-y-scroll max-h-40'
+                <div class='w-full overflow-y-scroll max-h-40 nosb'
                     >
                     @foreach($options as $index => $option)
 
-                            <div class='w-full p-2 cursor-pointer hover:bg-gray-600 hover:text-white hover:rounded-lg'
-                                wire:click="selectchange({{$index}})">{!! $option['text'] !!}
+                            <div class='w-full p-2 text-lg cursor-pointer hover:bg-gray-600 hover:text-white hover:rounded-lg'
+                                wire:click="selectchange({{$index}})">
+                                @if($template)
+                                    @include ("$template", ['option' => $option, 'index' => $index])
+                                @else
+                                    {!! $option['text'] !!}
+                                @endif
                             </div>
 
                     @endforeach

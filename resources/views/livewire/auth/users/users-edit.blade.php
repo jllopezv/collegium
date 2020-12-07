@@ -25,7 +25,7 @@
                                 nextref='username'
                                 autofocus
                                 requiredfield
-                                help="OBLIGATORIO"
+                                help="{{ transup('mandatory') }}"
                             />
                             <x-lopsoft.control.inputform
                                 wire:model.lazy='username'
@@ -35,7 +35,7 @@
                                 classcontainer='w-full md:w-1/2'
                                 nextref='email'
                                 requiredfield
-                                help="OBLIGATORIO Y ÚNICO"
+                                help="{{ transup('mandatory_unique') }}"
                             />
                             <x-lopsoft.control.inputform
                                 wire:model.lazy='email'
@@ -45,7 +45,7 @@
                                 classcontainer='w-full'
                                 nextref='password'
                                 requiredfield
-                                help="OBLIGATORIO"
+                                help="{{ transup('mandatory') }}"
                             />
 
                             <div class='mt-16 mb-4 text-gray-500'>

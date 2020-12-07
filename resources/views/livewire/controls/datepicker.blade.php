@@ -1,13 +1,14 @@
 <div x-data="{}"
    @click.away='$wire.hidebody()'
    @keydown.escape='$wire.hidebody()'
-   x-init='$wire.getValue("*")'
+   x-init='$wire.getValue($wire.uid)'
    class='py-4'
+
 >
     <label class="block font-bold">
         {{ $label }}
     </label>
-    <div class='relative w-40 pt-2 '>
+    <div class='relative w-40'>
         <div class='flex items-center justify-center'>
             <div class='flex items-center justify-between
                 p-0 m-0 rounded-none border-b-2 border-t-0 border-l-0 border-r-0 border-gray-300
@@ -15,7 +16,7 @@
                 active:border-gray-500 active:shadow-none
              focus:border-gray-500 focus:shadow-none
                 transition-all duration-300 w-full {{ $readonly?'cursor-default':'cursor-pointer'}}' wire:click='togglebody'>
-                <div class='py-1 pl-1'>
+                <div class='pl-1'>
                     {{-- <div class='text-black'>{!! $contenttoshow !!}</div> --}}
                     <input wire:model.lazy='value' type='text' class='w-full pb-1 pl-1 text-lg bg-transparent border-0 form-input hover:shadow-none active:shadow-none focus:shadow-none'/>
                 </div>
@@ -41,8 +42,8 @@
             <span class='text-red-500'>{{ $validationerror }}</span>
         </div>
         @if($showcontent)
-            <div class='absolute border border-gray-300  rounded-lg z-10
-                        {{$isTop?'bottom-14':''}}  left-0 shadow-lg p-2 bg-gray-100 w-60 h-80
+            <div @click.away='$wire.hidebody()' class='absolute border border-gray-300  rounded-lg z-10
+                        {{$isTop?'bottom-10':''}}  left-0 shadow-lg p-2 bg-gray-100 w-60 h-80
                         ' >
                 <div class='flex items-center justify-between p-2'>
                     <div wire:click='prevMonth' class='items-center w-8 h-8 text-xl font-bold text-center rounded-full cursor-pointer hover:bg-cool-gray-300'>

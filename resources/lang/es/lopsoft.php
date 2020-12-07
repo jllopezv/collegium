@@ -55,4 +55,18 @@ return [
     'nicename'              =>  'nombre',
     'profile'               =>  'perfil',
     'exit'                  =>  'salir',
+    'mandatory'             =>  'obligatorio',
+    'mandatory_unique'      =>  'obligatorio y único',
+    'sex'                   =>  'sexo',
+    'male'                  =>  'masculino',
+    'female'                =>  'femenino',
+    'gender'                =>  'género',
+    'age'                   =>  'edad',
+    'day'                   =>  'día',
+    'days'                  =>  'días',
+    'month'                 =>  'mes',
+    'months'                =>  'meses',
+    'year'                  =>  'año',
+    'years'                 =>  'años',
+
 ];

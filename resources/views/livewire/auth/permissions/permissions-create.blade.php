@@ -20,7 +20,7 @@
                         classcontainer='w-1/2'
                         nextref='name'
                         requiredfield
-                        help='OBLIGATORIO Y ÚNICO'
+                        help="{{ transup('mandatory_unique') }}"
                         autofocus
                     />
                     <x-lopsoft.control.inputform
@@ -31,7 +31,7 @@
                         classcontainer='w-full'
                         nextref='description'
                         requiredfield
-                        help='OBLIGATORIO'
+                        help="{{ transup('mandatory') }}"
 
                     />
                     <x-lopsoft.control.inputform

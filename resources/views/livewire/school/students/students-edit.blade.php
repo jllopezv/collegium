@@ -19,7 +19,7 @@
                         autofocus
                         classcontainer='w-full'
                         requiredfield
-                        help='OBLIGATORIO Y ÚNICO'
+                        help="{{ transup('mandatory_unique') }}"
                         nextref='textcolor'
                     />
                     <x-lopsoft.control.inputform
@@ -31,7 +31,7 @@
                         autofocus
                         classcontainer='w-1/3'
                         requiredfield
-                        help='OBLIGATORIO'
+                        help="{{ transup('mandatory') }}"
                     />
                     <x-lopsoft.control.inputform
                         wire:model.lazy='background'
@@ -42,7 +42,7 @@
                         autofocus
                         classcontainer='w-1/3'
                         requiredfield
-                        help='OBLIGATORIO'
+                        help="{{ transup('mandatory') }}"
                     />
 
                     <div class='py-4'>

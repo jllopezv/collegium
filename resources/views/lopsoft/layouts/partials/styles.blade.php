@@ -7,6 +7,7 @@
 <link href="{{ asset('css/lib/toastr.css') }}" rel="stylesheet">
 <link href="{{ asset('css/lib/noty.css') }}" rel="stylesheet">
 <link href="{{ asset('js/lib/freakflags/freakflags.css') }}" rel="stylesheet">
+<link href="{{ asset('css/lopsoft.css') }}" rel="stylesheet">
 
 <style>
     [x-cloak] { display: none; }

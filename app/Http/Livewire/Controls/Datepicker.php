@@ -64,21 +64,29 @@ class Datepicker extends Component
         $this->validationerror="";
         $this->showcontent=false;
         $this->weekdays=Carbon::getWeekendDays();
-        $this->monthname=getDateFromDate(2000,1,1);//Carbon::createFromDate(2000, 1, 1)->locale(config('lopsoft.locale_default'));
-
-        // $this->firstdayofweek=Carbon::getWeekStartsAt();
-
+        $this->monthname=getDateFromDate(2000,1,1);
         $this->setToday();
-
         $this->month=$this->today->month;
         $this->year=$this->today->year;
-        $this->currentdate=$this->createDate($this->year,$this->month,1);
+        if ($this->defaultvalue=='')
+        {
+            $this->currentdate=$this->createDate($this->year,$this->month,1);
+        }
+        else
+        {
+            $this->currentdate=getDateFromFormat($this->defaultvalue);
+            $this->month=$this->currentdate->month;
+            $this->year=$this->currentdate->year;
+        }
+        $this->value=getDateString($this->currentdate);
+        $this->valuedate=getDateFromDate($this->currentdate->year, $this->currentdate->month, $this->currentdate->day,);
         //Establish first day
         for($i=0;$i<config('lopsoft.firstweekday');$i++)
         {
             array_push($this->daystr, array_shift($this->daystr));
         }
         $this->updateMonthData();
+
     }
 
 
@@ -109,7 +117,6 @@ class Datepicker extends Component
         $this->lastdaymonth = $this->createDate($this->year, $this->month, 1); //Carbon::createFromDate($this->year, $this->month, 1)->setTimezone(config('lopsoft.timezone_default'));
         $this->lastdaymonth->addMonth()->subDay();
         $this->setCalendar();
-
     }
 
     public function prevMonth()
@@ -175,24 +182,34 @@ class Datepicker extends Component
     {
         $this->tempdate=$this->currentdate;
 
-        if ($this->valuedate!=null)
-        {
-            $this->goDate($this->valuedate->month, $this->valuedate->year);
-        }
+        // if ($this->value!='')
+        // {
+        //     $this->valuedate=getDateFromFormat($this->value);
+        //     $this->goDate($this->valuedate->month, $this->valuedate->year);
+        // }
     }
 
     public function updatedValue()
     {
-        try {
+        try
+        {
             $this->valuedate=getDateFromFormat($this->value);
-            //$this->valuedate=Carbon::createFromFormat(config('lopsoft.date_format'), $this->value, config('lopsoft.timezone_default'))->locale(config('lopsoft.locale_default'));
-            //$this->value=$this->valuedate->format(config('lopsoft.format'));
+            if ($this->valuedate->year<100)
+            {
+                $this->valuedate->addYear(1900);
+            }
             $this->goDate($this->valuedate->month, $this->valuedate->year);
+            $this->updateMonthData();
+            if ($this->closeafterselect)
+            {
+                $this->hidebody();
+            }
+            $this->emit( $this->eventname, $this->value );
+            $this->value=getDateString($this->valuedate);
             $this->emit( $this->eventname, $this->value );
         } catch (\Exception $e) {
             // Invalid date
             $this->ShowError("FECHA INVÁLIDA","","EL FORMATO ACEPTADO ES ".Auth::user()->dateformat??config('lopsoft.date_format'),false,6000);
-            //$this->value="";
             $this->valuedate=$this->createDate($this->today->year, $this->today->month, $this->today->day );
             $this->goToday();
             $this->emit( $this->eventname, $this->value );

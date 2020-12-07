@@ -1,6 +1,6 @@
 <div x-data="{}"
    @click.away='$wire.hidebody()'
-   x-init='$wire.getValue("*")'
+   x-init='$wire.getValue($wire.uid)'
    class='py-4'
 >
     <label class="block font-bold">
@@ -67,7 +67,7 @@
                         </div>
                     </div>
 
-                <div class='w-full overflow-y-auto max-h-40'
+                <div class='w-full overflow-y-auto max-h-40 nosb'
                     >
                     @if(count($records))
                         @foreach($records as $index => $record)

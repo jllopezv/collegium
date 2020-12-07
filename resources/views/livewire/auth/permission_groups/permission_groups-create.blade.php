@@ -22,7 +22,7 @@
                         autofocus
                         classcontainer='w-full'
                         requiredfield
-                        help='OBLIGATORIO'
+                        help="{{ transup('mandatory') }}"
                     />
                     <x-lopsoft.control.inputform
                         wire:model.lazy='priority'
@@ -34,7 +34,7 @@
                         @keydown.enter='$refs.btnCreate.click()'
                         classcontainer='w-32'
                         requiredfield
-                        help='OBLIGATORIO'
+                        help="{{ transup('mandatory') }}"
                     />
                     @livewire('messages.flash-message', ['msgid' => 'groupsaved'] )
                     <div class='text-right mt-4'>

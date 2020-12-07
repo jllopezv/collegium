@@ -22,7 +22,7 @@
                         autofocus
                         classcontainer='w-full'
                         requiredfield
-                        help='OBLIGATORIO Y ÚNICO'
+                        help="{{ transup('mandatory_unique') }}"
                         nextref='code'
                     />
 
@@ -34,7 +34,7 @@
                         nextref='btnCreate'
                         classcontainer='w-60'
                         requiredfield
-                        help='OBLIGATORIO Y ÚNICO'
+                        help="{{ transup('mandatory_unique') }}"
                     />
 
                     @livewire('messages.flash-message', ['msgid' => 'languagesaved'] )

@@ -28,6 +28,7 @@ class StudentComponent extends Component
     public  $first_surname;
     public  $second_surname;
     public  $birth;
+    public  $age;
     public  $gender;
     public  $avatar;
     public  $profile_photo_path;
@@ -42,7 +43,8 @@ class StudentComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
-        'setBirth'              => 'setBirth',
+        'eventsetbirth'         => 'eventSetBirth',
+        'eventsetgender'        => 'eventSetGender',
     ];
 
     /**
@@ -137,15 +139,22 @@ class StudentComponent extends Component
         $this->name=$record->name;
     }
 
-    public function setBirth($date)
+    public function eventSetBirth($date)
     {
         if ($date!=null)
         {
-            $this->birth=Carbon::createFromFormat(config('lopsoft.date_format'), $date, config('lopsoft.timezone_default'))->locale(config('lopsoft.locale_default'));
+            $this->birth=getDateFromFormat($date);
             $this->birth->hour(0);
             $this->birth->minute(0);
             $this->birth->second(0);
+            $this->age=getAge($this->birth);
         }
+
+    }
+
+    public function eventSetGender($gender)
+    {
+        $this->gender=$gender;
 
     }
 

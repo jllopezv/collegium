@@ -55,5 +55,18 @@ return [
     'nicename'              =>  'nice name',
     'profile'               =>  'profile',
     'exit'                  =>  'exit',
+    'mandatory'             =>  'mandatory',
+    'mandatory_unique'      =>  'mandatory and unique',
+    'sex'                   =>  'sex',
+    'male'                  =>  'male',
+    'female'                =>  'female',
+    'gender'                =>  'gender',
+    'age'                   =>  'age',
+    'day'                   =>  'day',
+    'days'                  =>  'days',
+    'month'                 =>  'month',
+    'months'                =>  'months',
+    'year'                  =>  'year',
+    'years'                 =>  'years',
 
 ];

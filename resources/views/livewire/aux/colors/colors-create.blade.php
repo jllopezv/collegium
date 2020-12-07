@@ -21,7 +21,7 @@
                         autofocus
                         classcontainer='w-full'
                         requiredfield
-                        help='OBLIGATORIO Y ÚNICO'
+                        help="{{ transup('mandatory_unique') }}"
                         nextref='textcolor'
                     />
                     <x-lopsoft.control.inputform
@@ -33,7 +33,7 @@
                         nextref='background'
                         classcontainer='w-1/3'
                         requiredfield
-                        help='OBLIGATORIO'
+                        help="{{ transup('mandatory') }}"
                     />
                     <x-lopsoft.control.inputform
                         wire:model.lazy='background'
@@ -43,7 +43,7 @@
                         sublabel='Vea la documentación sobre los valores aceptados (ej. blue-200)'
                         classcontainer='w-1/3'
                         requiredfield
-                        help='OBLIGATORIO'
+                        help="{{ transup('mandatory') }}"
                         nextref='btnCreate'
                     />
 

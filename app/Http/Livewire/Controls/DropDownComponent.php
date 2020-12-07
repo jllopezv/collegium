@@ -21,6 +21,7 @@ class DropDownComponent extends Component
     public $options=[];
     //[ 'value' => '1', 'text' => "<div class='flex items-center justify-start'><div class='pr-1'><img class='w-6 h-auto rounded-full' src='http://collegium.devel:8000/storage/system/userdefault.png' /></div><div><span class=''>OPCION 1</span></div></div>" ],
     public $showcontent=false;
+    public $contenttoshow;          // Content to show in select
     public $text;
     public $value;
     public $defaultvalue;
@@ -35,6 +36,8 @@ class DropDownComponent extends Component
     public $readonly=false;
     public $validationerror='';
     public $uid='';
+    public $modelid='';
+    public $template='';
 
     public function mount()
     {
@@ -51,12 +54,21 @@ class DropDownComponent extends Component
         }
         if ($this->defaultvalue!="")
         {
-            foreach($this->options as $option)
+            foreach($this->options as $index => $option)
             {
                 if ($option['value']==$this->defaultvalue)
                 {
                     $this->value=$option['value'];
                     $this->text=$option['text'];
+                    if ($this->template!="")
+                    {
+
+                        $this->contenttoshow=view($this->template, [ 'option' => $this->options[$index], 'index' => $index ])->render();
+                    }
+                    else
+                    {
+                        $this->contenttoshow=$this->text;
+                    }
                 }
             }
         }
@@ -137,6 +149,15 @@ class DropDownComponent extends Component
         $this->text=$this->options[$index]['text'];
         $this->value=$this->options[$index]['value'];;
         $this->showcontent=false;
+        if ($this->template!="")
+        {
+
+            $this->contenttoshow=view($this->template, [ 'option' => $this->options[$index], 'index' => $index ])->render();
+        }
+        else
+        {
+            $this->contenttoshow=$this->text;
+        }
         $this->emit( $this->eventname, $this->value, $change );
     }
 

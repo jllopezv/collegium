@@ -19,7 +19,7 @@
                         autofocus
                         classcontainer='w-full'
                         requiredfield
-                        help='OBLIGATORIO Y ÚNICO'
+                        help="{{ transup('mandatory_unique') }}"
                         nextref='textcolor'
                         disabled
                     />
@@ -32,7 +32,7 @@
                         autofocus
                         classcontainer='w-1/3'
                         requiredfield
-                        help='OBLIGATORIO'
+                        help="{{ transup('mandatory') }}"
                         disabled
                     />
                     <x-lopsoft.control.inputform
@@ -44,7 +44,7 @@
                         autofocus
                         classcontainer='w-1/3'
                         requiredfield
-                        help='OBLIGATORIO'
+                        help="{{ transup('mandatory') }}"
                         disabled
                     />
 

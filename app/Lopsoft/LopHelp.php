@@ -63,6 +63,16 @@ class LopHelp
             [ 'value' => 'm/d/Y', 'text' => "mm/dd/yyyy" ],
             [ 'value' => 'Y-m-d', 'text' => "yyyy-mm-dd" ],
             [ 'value' => 'Y/m/d', 'text' => "yyyy/mm/dd" ],
+            [ 'value' => 'Y.m.d', 'text' => "yyyy.mm.dd" ],
+        ];
+    }
+
+    static public function getSexDropDown()
+    {
+        return
+        [
+            [ 'value' => 'M', 'text' => transup('male') ],
+            [ 'value' => 'F', 'text' => transup('female') ],
         ];
     }
 
