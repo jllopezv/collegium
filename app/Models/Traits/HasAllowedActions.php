@@ -4,16 +4,18 @@ namespace App\Models\Traits;
 
 use App\Models\Auth\AllowAction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 trait HasAllowedActions
 {
+
     /**
      *  Global Show Action
      */
     public function allowShow()
     {
         if (Auth::user()->isSuperadmin()) return(true);
-        return($this->allowedActions->allowShow ?? true);
+        return($this->allowedActionsCached()->allowShow ?? true);
     }
 
     /**
@@ -22,7 +24,7 @@ trait HasAllowedActions
     public function allowEdit()
     {
         if (Auth::user()->isSuperadmin()) return(true);
-        return($this->allowedActions->allowEdit ?? true);
+        return($this->allowedActionsCached()->allowEdit ?? true);
     }
 
     /**
@@ -31,7 +33,7 @@ trait HasAllowedActions
     public function allowDelete()
     {
         if (Auth::user()->isSuperadmin()) return(true);
-        return($this->allowedActions->allowDelete ?? true);
+        return($this->allowedActionsCached()->allowDelete ?? true);
     }
 
     /**
@@ -40,7 +42,7 @@ trait HasAllowedActions
     public function allowLock()
     {
         if (Auth::user()->isSuperadmin()) return(true);
-        return($this->allowedActions->allowLock ?? true);
+        return($this->allowedActionsCached()->allowLock ?? true);
     }
 
     /**
@@ -50,4 +52,17 @@ trait HasAllowedActions
     {
         return $this->morphOne(AllowAction::class, 'allowable');
     }
+
+    /**
+     * Get all of the model's allow actions.
+     */
+    public function allowedActionsCached()
+    {
+        $allowactions=Cache::remember('allowedactions', 60*60*24, function() {
+            return AllowAction::all();
+        });
+        return $allowactions->where( 'allowable_type',get_class($this->getModel()) )
+                ->where('allowable_id', $this->id)->first();
+    }
+
 }

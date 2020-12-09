@@ -2,9 +2,9 @@
 
     <div class='relative text-center'>
         <div wire:loading.delay class='absolute w-16 h-16' style='top: calc(50% - 1.5rem ); left: calc( 50% - 2rem )'>
-            <i class='fas fa-spinner fa-pulse fa-3x text-white opacity-75'></i>
+            <i class='text-white opacity-75 fas fa-spinner fa-pulse fa-3x'></i>
         </div>
-        <div class='mx-auto w-40 h-40 rounded-full' wire:loading.class='bg-black' >
+        <div class='w-40 h-40 mx-auto rounded-full' wire:loading.class='bg-black' >
         <img
             wire:loading.delay.class='hidden'
             @if($canmodify)
@@ -28,7 +28,7 @@
 
     </div>
 
-    <div class='text-center mt-2'>
+    <div class='mt-2 text-center'>
         @error('image') <span class='text-red-600'>{{$message}}</span> @enderror
     </div>
 

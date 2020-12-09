@@ -1,4 +1,6 @@
-<td class='text-left px-4 py-2'>
+@props([ 'readonly' => false])
+
+<td class='px-4 py-2 text-left'>
     <input
         type='checkbox'
         wire:model='rowselected'
@@ -8,5 +10,6 @@
                 active:shadow-none
                 focus:shadow-none focus:border-gray-500"
     ]) }}
+        {{ $readonly!==false ? 'disabled' : '' }}
     />
 </td>

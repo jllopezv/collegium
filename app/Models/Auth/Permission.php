@@ -5,6 +5,7 @@ namespace App\Models\Auth;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasAbilities;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
 
@@ -23,6 +24,27 @@ class Permission extends Model
     protected $fillable = [
         'name', 'slug', 'description', 'group'
     ];
+
+
+    public static function boot()
+    {
+        parent::boot();
+        static::created(function($model){
+            Cache::forget('role.permissions');
+        });
+
+        static::deleted(function($model){
+            Cache::forget('role.permissions');
+        });
+
+        static::updated(function($model){
+            Cache::forget('role.permissions');
+        });
+
+        static::saved(function($model){
+            Cache::forget('role.permissions');
+        });
+    }
 
     /*******************************************/
     /* Relationships

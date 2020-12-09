@@ -5,13 +5,11 @@ namespace App\Models\Aux;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasAbilities;
-use App\Models\Traits\HasAllowedActions;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\HasAllowedActions;
 
 class Color extends Model
 {
-    use HasActive;
-    use HasOwner;
     use HasAbilities;
     use HasAllowedActions;
 

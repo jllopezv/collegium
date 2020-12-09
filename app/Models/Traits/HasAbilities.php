@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
  */
 trait HasAbilities
 {
-    public function canDestroyRecordCustom()
+    public function canDeleteRecordCustom()
     {
         return true;
     }
@@ -75,10 +75,10 @@ trait HasAbilities
     }
 
 
-    public function canDestroyRecord()
+    public function canDeleteRecord()
     {
         if ( !$this->abilityDestroy() ) return false;
-        return $this->canDestroyRecordCustom();
+        return $this->canDeleteRecordCustom();
     }
 
     public function canShowRecord()
@@ -108,6 +108,11 @@ trait HasAbilities
     public function canUnlockRecord()
     {
         if ( Auth::user()->isAdmin() ) return true;
+        return false;
+    }
+
+    public function canCustomActionRecord()
+    {
         return false;
     }
 

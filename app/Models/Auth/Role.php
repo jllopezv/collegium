@@ -7,6 +7,7 @@ use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
 
@@ -46,6 +47,13 @@ class Role extends Model
     public function permissions()
     {
         return $this->belongsToMany(Permission::class)->where('active',1);
+    }
+
+    public function permissionsCached()
+    {
+        return Cache::remember('role.permissions', 60*60*24, function() {
+            return $this->belongsToMany(Permission::class)->where('active',1)->get();
+        });
     }
 
     /**
@@ -105,7 +113,7 @@ class Role extends Model
     public function hasAbility($slug)
     {
         if (Auth::user()->isSuperadmin()) return true;
-        $permission=$this->permissions()->where('slug',$slug)->first();
+        $permission=$this->permissionsCached()->where('slug',$slug)->first();
         return ($permission?true:false);
     }
 

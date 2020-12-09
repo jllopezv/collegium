@@ -38,7 +38,7 @@ class AvatarComponent extends Component
     public function updatedImage()
     {
         $this->validate([
-            'image' => 'nullable|image|mimes:jpeg,bmp,png|file|max:'.config('lopsoft.avatar_max_size')
+            'image' => 'nullable|image|mimes:jpg,gif,jpeg,bmp,png|file|max:'.config('lopsoft.avatar_max_size')
         ]);
 
         if (Storage::disk(config('lopsoft.temp_disk'))->exists($this->tempavatar)) Storage::disk(config('lopsoft.temp_disk'))->delete($this->tempavatar);
@@ -50,8 +50,6 @@ class AvatarComponent extends Component
         }
 
     }
-
-
     public function savetemporary()
     {
         $filename=$this->image->getFileName();
@@ -71,92 +69,6 @@ class AvatarComponent extends Component
         $this->avatarpath=null;
     }
 
-    /*
-
-    public function avatarcleartemporary()
-    {
-        Storage::disk('public')->delete($this->avatarpath);
-    }
-    public function avatarrefresh($avatar)
-    {
-        $this->avatar=$avatar;
-    }
-
-
-    /*
-    public function updateavatar($id, $folder, $field)
-    {
-        if ($this->tempavatar)
-        {
-            $avatarfilename='avatar_'.Str::random(40).'.'.$this->ext;
-            Storage::disk('public')->move($this->tempavatar,$folder.'/'.$avatarfilename);
-            $this->emit('avatarstored', $id, $folder.'/'.$avatarfilename);
-            return;
-        }
-        $this->emit('avatarstored', $id, null);
-    }
-
-    /*
-    public function storeavatar($id, $folder, $field)
-    {
-        if ($this->avatarpath)
-        {
-            // Move from temp to folder
-            $avatarfilename='avatar_'.Str::random(40).'.'.$this->ext;
-            Storage::disk('public')->move($this->avatarpath,$folder.'/'.$avatarfilename);
-            $this->emit('avatarstored', $id, $folder.'/'.$avatarfilename);
-            return;
-        }
-        $this->emit('avatarstored', $id, null);
-    }
-
-    // // public function storeavatar($id, $folder, $field)
-    // // {
-    // //     if ($this->image)
-    // //     {
-    // //         // STORE
-    // //         $filename=$this->image->getFileName();
-    // //         $savedimage=$this->image->store($folder,'public');
-    // //         $handlerimg=Image::make($this->image->getRealPath())->fit(300);
-    // //         $ret=$handlerimg->save(Storage::disk('public')->path($savedimage));
-    // //     }
-    // //     $this->avatar=Storage::disk('public')->url(config('lopsoft.default_avatar'));
-    // //     $this->emit('avatarstored', $id, $savedimage);
-    // // }
-
-    public function updateavatar($id, $folder, $field, $oldtodelete)
-    {
-        //dd($this->avatarpath, $oldtodelete);
-
-        if ( !Str::startsWith($oldtodelete, config('lopsoft.temp_dir').'/') )
-        {
-            Storage::disk('public')->delete($oldtodelete);
-            // Move from temp to folder
-            $avatarfilename='avatar_'.Str::random(40).'.'.$this->ext;
-            if ($this->avatarpath && file_exists($this->avatarpath)) Storage::disk('public')->move($this->avatarpath,$folder.'/'.$avatarfilename);
-        }
-        $this->emit('avatarupdated', $id, $folder.'/'.$avatarfilename);
-
-
-
-
-        // if ($this->image)
-        // {
-        //     // Delete
-        //     Storage::disk('public')->delete($this->avatarpath);
-
-        //     // STORE
-        //     $filename=$this->image->getFileName();
-        //     $savedimage=$this->image->store($folder,'public');
-        //     $handlerimg=Image::make($this->image->getRealPath())->fit(300);
-        //     $ret=$handlerimg->save(Storage::disk('public')->path($savedimage));
-        //     $this->emit('avatarupdated', $id, $savedimage);
-        //     return;
-        // }
-        // $this->avatar=Storage::disk('public')->url(config('lopsoft.default_avatar'));
-        // $this->emit('avatarupdated', $id, null);
-
-    }*/
     public function render()
     {
         return view('components.lopsoft.avatar');

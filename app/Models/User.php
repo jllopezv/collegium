@@ -247,6 +247,11 @@ class User extends Authenticatable
 
     /* Can rules */
 
+    public function canDeleteRecordCustom()
+    {
+        return $this->canBeDeleted();
+    }
+
     /**
      * General rule for destroy record
      *

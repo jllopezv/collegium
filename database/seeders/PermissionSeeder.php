@@ -33,6 +33,21 @@ class PermissionSeeder extends Seeder
         $table='countries';
         $this->createPermissions($table,'AUXILIARES');
 
+        $table='timezones';
+        $this->createPermissions($table,'AUXILIARES');
+
+        $table='languages';
+        $this->createPermissions($table,'AUXILIARES');
+
+        $table='students';
+        $this->createPermissions($table,'ACADÉMICA');
+
+        $table='school_levels';
+        $this->createPermissions($table,'ACADÉMICA');
+
+        $table='school_grades';
+        $this->createPermissions($table,'ACADÉMICA');
+
     }
 
     public function createPermissions($table, $group)
@@ -43,6 +58,11 @@ class PermissionSeeder extends Seeder
         $record->description="PERMITE ACCEDER A LOS REGISTROS";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="LISTAR REGISTROS";
@@ -50,6 +70,11 @@ class PermissionSeeder extends Seeder
         $record->description="PERMITE LISTAR LOS REGISTROS";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="LISTAR SOLO MIS REGISTROS";
@@ -57,6 +82,11 @@ class PermissionSeeder extends Seeder
         $record->description="PERMITE LISTAR SOLO LOS REGISTROS CREADOS POR EL USUARIO";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="CREAR REGISTROS";
@@ -64,6 +94,11 @@ class PermissionSeeder extends Seeder
         $record->description="CREAR REGISTROS";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="ELIMINAR REGISTROS";
@@ -71,6 +106,11 @@ class PermissionSeeder extends Seeder
         $record->description="ELIMINAR REGISTROS";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="ELIMINAR REGISTROS PROPIOS";
@@ -78,6 +118,11 @@ class PermissionSeeder extends Seeder
         $record->description="SOLO SE PODRÁN ELIMINAR REGISTROS CREADOS POR EL USUARIO";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="VER REGISTROS";
@@ -85,6 +130,11 @@ class PermissionSeeder extends Seeder
         $record->description="PERMITE VER REGISTROS LOS REGISTROS";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="VER REGISTROS PROPIOS";
@@ -92,6 +142,11 @@ class PermissionSeeder extends Seeder
         $record->description="VER SOLO LOS REGISTROS CREADOS POR EL USUARIO";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="EDITAR REGISTROS";
@@ -99,6 +154,11 @@ class PermissionSeeder extends Seeder
         $record->description="PUEDE EDITAR REGISTROS";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="EDITAR REGISTROS PROPIOS";
@@ -106,6 +166,11 @@ class PermissionSeeder extends Seeder
         $record->description="EDITAR SOLO LOS REGISTROS CREADOS POR EL USUARIO";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="IMPRIMIR REGISTROS";
@@ -113,6 +178,11 @@ class PermissionSeeder extends Seeder
         $record->description="PUEDE IMPRIMIR REGISTROS";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
         $record=new Permission;
         $record->name="IMPRIMIR SOLO REGISTROS DEL USUARIO";
@@ -120,6 +190,11 @@ class PermissionSeeder extends Seeder
         $record->description="IMPRIMIR SOLO REGISTROS CREADOS POR EL USUARIO";
         $record->group=$this->getGroupID($group);
         $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
 
     }
 

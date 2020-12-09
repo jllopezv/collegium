@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
@@ -132,8 +133,6 @@ class PermissionComponent extends Component
             'group'             =>  $this->group,
         ];
     }
-
-
 
 
 

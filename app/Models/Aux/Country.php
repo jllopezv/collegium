@@ -2,9 +2,6 @@
 
 namespace App\Models\Aux;
 
-
-use Facades\App\Models\Aux\Country as Countries;
-use App\Models\Traits\HasCache;
 use App\Models\Traits\HasAbilities;
 use App\Models\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +13,6 @@ class Country extends Model
     use HasAbilities;
     use HasAllowedActions;
     use HasTranslation;
-    use HasCache;
 
     /**
      * Fields with translation
@@ -83,7 +79,7 @@ class Country extends Model
 
     public function scopeSearch($query, $search)
     {
-        $countries=Countries::allCache();
+        $countries=Country::all();
         $filtered=$countries->filter(function($value,$key) use($search)
         {
             return (strpos( mb_strtoupper($value->country), mb_strtoupper($search) ) !== false);

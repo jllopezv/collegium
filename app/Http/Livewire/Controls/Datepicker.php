@@ -58,7 +58,6 @@ class Datepicker extends Component
     {
         if ($this->label=='') $this->label="FECHA";
         $this->classchevron='text-gray-300 hover:text-gray-700';
-        $this->readonly=false;
         $this->contenttoshow=false;
         $this->isTop=true;
         $this->validationerror="";
@@ -256,6 +255,8 @@ class Datepicker extends Component
      */
     public function showbody()
     {
+
+        if ($this->readonly) return;
         $this->showcontent=true;
         $this->classchevron='text-gray-700';
         $this->setCalendar();

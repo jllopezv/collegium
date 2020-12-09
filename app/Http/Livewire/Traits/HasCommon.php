@@ -149,7 +149,7 @@ Trait HasCommon
             'exists'    =>  'VALOR NO VÁLIDO',
             'array_size'=>  'DEBE SER UN ARRAY',
             'numeric'   =>  'DEBE INTRODUCIR UN NÚMERO',
-            'date'      =>  'LA FECHA NO ES CORRECTA'
+            'date'      =>  'LA FECHA NO ES CORRECTA',
         ];
     }
 
@@ -484,20 +484,7 @@ Trait HasCommon
         $this->setDataFilter();
     }
 
-    /**
-     * Delete temp files. Valid if the component has temporary files to load like avatars
-     *
-     * @return void
-     */
-    public function deleteTemp()
-    {
-        collect(Storage::disk('public')->listContents(config('lopsoft.temp_dir'), true))
-	        ->each(function($file) {
-		        if ($file['type'] == 'file' && $file['timestamp'] < now()->subDays(config('lopsoft.garbagecollection_days'))->getTimestamp()) {
-			        Storage::disk('public')->delete($file['path']);
-		        }
-	    });
-    }
+
 
     /**
      * Update Search
@@ -754,7 +741,7 @@ Trait HasCommon
                 }
                 else
                 {
-                    $this->ShowError("NO SE PUDO BORRAR EL REGISTRO ".$this->getKeyNotification($record));
+                    //$this->ShowError("NO SE PUDO BORRAR EL REGISTRO ".$this->getKeyNotification($record));
                 }
             }
         }
@@ -1163,6 +1150,7 @@ Trait HasCommon
      */
     public function render()
     {
+
         if ($this->mode=='index')
         {
             $this->querySearch();
@@ -1172,16 +1160,10 @@ Trait HasCommon
         {
             $this->data=null;
         }
-        return view('livewire.'.$this->module.'.'.$this->table.'.'.$this->table.'-'.$this->mode, [
+        return view('livewire.tables.'.$this->module.'.'.$this->table.'.'.$this->table.'-'.$this->mode, [
             'data'      =>  $this->data,
 
         ]);
     }
-
-
-
-
-
-
 
 }

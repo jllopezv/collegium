@@ -32,6 +32,7 @@ class StudentComponent extends Component
     public  $gender;
     public  $avatar;
     public  $profile_photo_path;
+    private $avatarfolder='students-photos';
 
     public  $name;
 
@@ -43,6 +44,7 @@ class StudentComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
+        'avatar_updated'        => 'avatarUpdated',
         'eventsetbirth'         => 'eventSetBirth',
         'eventsetgender'        => 'eventSetGender',
     ];
@@ -56,6 +58,7 @@ class StudentComponent extends Component
     {
         $this->table='students';
         $this->module='school';
+        $this->avatar_prefix='student';
         $this->commonMount();
         $this->multiple=true;
         // Default order for table
@@ -64,6 +67,7 @@ class StudentComponent extends Component
         if ($this->mode=='create')
         {
             // default create options
+            $this->loadDefaults();
         }
     }
 
@@ -85,6 +89,14 @@ class StudentComponent extends Component
         ];
     }
 
+    public function loadDefaults()
+    {
+        $this->gender='M';
+        $this->emit('setvalue', 'gendercomponent', $this->gender);
+        $this->birth=getDateFromDate(2000,1,1);
+        $this->emit('setvalue', 'birthcomponent', getDateString($this->birth));
+    }
+
     public function resetForm()
     {
         $this->exp='';
@@ -93,6 +105,9 @@ class StudentComponent extends Component
         $this->second_surname='';
         $this->birth='';
         $this->gender='';
+        $this->profile_photo_path=null;
+        $this->loadDefaults();
+        $this->emit('avatarreset');
     }
 
     public function loadRecordDef()
@@ -101,9 +116,11 @@ class StudentComponent extends Component
         $this->names=$this->record->names;
         $this->first_surname=$this->record->first_surname;
         $this->second_surname=$this->record->second_surname;
+        $this->profile_photo_path=$this->record->profile_photo_path;
         $this->birth=$this->record->birth;
         $this->gender=$this->record->gender;
         $this->name=$this->record->name;
+        $this->avatar=$this->record->avatar;
 
     }
 
@@ -120,12 +137,13 @@ class StudentComponent extends Component
     public function saveRecord()
     {
         return [
-            'exp'              =>  $this->exp,
-            'names'            =>  $this->names,
-            'first_surname'    =>  $this->first_surname,
-            'second_surname'   =>  $this->second_surname,
-            'birth'            =>  $this->birth,
-            'gender'           =>  $this->gender,
+            'exp'                   =>  $this->exp,
+            'profile_photo_path'    =>  $this->profile_photo_path,
+            'names'                 =>  $this->names,
+            'first_surname'         =>  $this->first_surname,
+            'second_surname'        =>  $this->second_surname,
+            'birth'                 =>  $this->birth,
+            'gender'                =>  $this->gender,
         ];
     }
 
@@ -136,6 +154,7 @@ class StudentComponent extends Component
         $record->names=$this->names;
         $record->first_surname=$this->first_surname;
         $record->second_surname=$this->second_surname;
+        $record->profile_photo_path=$this->profile_photo_path;
         $this->name=$record->name;
     }
 
@@ -158,6 +177,24 @@ class StudentComponent extends Component
 
     }
 
+    public function canUpdate()
+    {
+        return $this->saveAvatar();
+    }
 
+    public function canStore()
+    {
+        return $this->saveAvatar();
+    }
+
+    public function beforeGoBack()
+    {
+        $this->deleteTemp();
+    }
+
+    public function deleting($record)
+    {
+        return $this->deleteAvatar($record);
+    }
 
 }

@@ -10,6 +10,9 @@ return [
         'students'          =>  'students',
         'countries'         =>  'countries',
         'languages'         =>  'languages',
+        'timezones'         =>  'timezones',
+        'school_levels'     =>  'school_levels',
+        'school_grades'     =>  'school_grades',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -68,5 +71,13 @@ return [
     'months'                =>  'months',
     'year'                  =>  'year',
     'years'                 =>  'years',
+    'student'               =>  'student',
+    'schoollevel'           =>  'academic level',
+    'schoollevels'          =>  'levels',
+    'showorder'             =>  'order',
+    'school_grade'          =>  'academic grade',
+    'schoolgrades'          =>  'grades',
+    'flag'                  =>  'flag',
+    'photo'                 =>  'photo',
 
 ];

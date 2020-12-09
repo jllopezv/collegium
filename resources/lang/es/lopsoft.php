@@ -10,6 +10,9 @@ return [
         'students'          =>  'estudiantes',
         'countries'         =>  'paises',
         'languages'         =>  'idiomas',
+        'timezones'         =>  'zonas horarias',
+        'school_levels'     =>  'niveles académicos',
+        'school_grades'     =>  'grados académicos',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -68,5 +71,13 @@ return [
     'months'                =>  'meses',
     'year'                  =>  'año',
     'years'                 =>  'años',
+    'student'               =>  'estudiante',
+    'schoollevel'           =>  'nivel académico',
+    'schoollevels'          =>  'niveles',
+    'showorder'             =>  'orden',
+    'school_grade'          =>  'grado académico',
+    'schoolgrades'          =>  'grados',
+    'flag'                  =>  'bandera',
+    'photo'                 =>  'foto',
 
 ];

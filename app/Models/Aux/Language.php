@@ -41,6 +41,11 @@ class Language extends Model
         return mb_strtoupper($value);
     }
 
+    public function getFlagAttribute()
+    {
+        return ( "<i class='gnosys-flag fflag fflag-".strtoupper(substr($this->code=='en'?'us':$this->code, 0, 2))." ff-md ff-wave ff-lt'></i>" );
+    }
+
     public function scopeSearch($query, $search)
     {
         $languages=Language::all();

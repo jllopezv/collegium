@@ -66,30 +66,5 @@ class CountryController extends Controller
         return ($this->commonEdit($id, $options??[]));
     }
 
-    public function withoutCache()
-    {
-        return view('lopsoft.tests.testcache', [ 'countries' => Country::all() ]);
-    }
-
-    public function withoutCacheButWith()
-    {
-        return view('lopsoft.tests.testcache', [ 'countries' => Country::with(['translations'])->get() ]);
-    }
-
-    public function withCache()
-    {
-        if (Cache::has('timezone.all'))
-        {
-            $data=Cache::get('timezone.all' );
-        }
-        else
-        {
-            $data=Cache::remember('timezone.all', 100, function () {
-                return Country::with(['translations'])->get();
-            });
-
-        }
-        return view('lopsoft.tests.testcache', [ 'countries' =>  $data]);
-    }
 
 }

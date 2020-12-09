@@ -271,9 +271,19 @@ class CountrySeeder extends Seeder
             array('id' => '251','iso' => 'MF','country' => 'SAINT MARTIN','nicename' => 'Saint Martin','iso3' => 'MAF','numcode' => '663','phonecode' => '590','language' => 'en'),
             array('id' => '252','iso' => 'SX','country' => 'SINT MAARTEN','nicename' => 'Sint Maarten','iso3' => 'SXM','numcode' => '534','phonecode' => '1','language' => 'en'),
             array('id' => '253','iso' => 'SS','country' => 'SOUTH SUDAN','nicename' => 'South Sudan','iso3' => 'SSD','numcode' => '728','phonecode' => '211','language' => 'en')
-          );
+        );
 
-          DB::table('countries')->insert($countries);
+        DB::table('countries')->insert($countries);
+
+
+        foreach(Country::all() as $country)
+        {
+            $country->allowedActions()->create([  'allowShow'     => false,
+                            'allowEdit'     => false,
+                            'allowDelete'   => false,
+                            'allowLock'     => false
+                        ]);
+        }
 
 
 

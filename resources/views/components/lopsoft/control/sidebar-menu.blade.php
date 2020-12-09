@@ -1,8 +1,8 @@
-@props(['icon','link','text', 'menuid', 'help' => '', 'look' => '' ])
+@props(['icon','link','text', 'menuid', 'help' => '', 'look' => '' ,'classmenu' => ''])
 <div class=''>
     <div
         x-on:click.prevent="menuEvent('{{$menuid}}')"
-        class='cursor-pointer mx-2 p-2 transition-all duration-300 rounded-md text-gray-500 hover:bg-gray-700 hover:text-white ' >
+        class='p-2 mx-2 text-gray-500 transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-700 {{ $classmenu!=''?$classmenu:'hover:text-gray-400' }} ' >
 
         <div class='flex justify-between'>
             <div class='flex items-center'>

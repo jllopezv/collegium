@@ -9,6 +9,8 @@ use App\Models\Aux\Country;
 use App\Models\Aux\Language;
 use App\Models\School\Student;
 use App\Models\Auth\Permission;
+use App\Models\School\SchoolGrade;
+use App\Models\School\SchoolLevel;
 use Illuminate\Support\Facades\App;
 use App\Models\Auth\PermissionGroup;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +22,8 @@ use App\Http\Controllers\Aux\CountryController;
 use App\Http\Controllers\Aux\LanguageController;
 use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\Auth\PermissionController;
+use App\Http\Controllers\School\SchoolGradeController;
+use App\Http\Controllers\School\SchoolLevelController;
 use App\Http\Controllers\Auth\PermissionGroupController;
 
 /*
@@ -68,8 +72,21 @@ Route::group( [ 'prefix'        => '/admin',
     LopHelp::generateCommonModelRoute('permission_groups', PermissionGroupController::class, PermissionGroup::class);
     LopHelp::generateCommonModelRoute('users', UserController::class, User::class);
     LopHelp::generateCommonModelRoute('roles', RoleController::class, Role::class);
-    LopHelp::generateCommonModelRoute('students', StudentController::class, Student::class);
 
+});
+
+
+/*****************************************************/
+/* ACADÉMICA                                         */
+/*****************************************************/
+
+Route::group( [ 'prefix'        => '/admin',
+                'middleware'    => ['web', 'auth', 'verified'],
+                'namespace'     => '\App\Http\Controllers\School' ], function() {
+
+    LopHelp::generateCommonModelRoute('students', StudentController::class, Student::class);
+    LopHelp::generateCommonModelRoute('school_levels', SchoolLevelController::class, SchoolLevel::class);
+    LopHelp::generateCommonModelRoute('school_grades', SchoolGradeController::class, SchoolGrade::class);
 });
 
 /*****************************************************/

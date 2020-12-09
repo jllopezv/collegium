@@ -301,19 +301,7 @@ class DropDownTableComponent extends Component
     {
         $this->getData();
         $data=$this->data;
-
-        if ($this->lastcachekey!=$this->setCacheKey())
-        {
-            Cache::forget($this->lastcachekey);
-            $records=Cache::remember($this->setCacheKey(),1800,function() use ($data) {
-                return $data->get()->toArray();
-            });
-            $this->lastcachekey=$this->setCacheKey();
-        }
-        else
-        {
-            $records=Cache::get($this->lastcachekey);
-        }
+        $records=$data->get()->toArray();
 
         return view('livewire.controls.drop-down-table-component',
         [ 'records' => $records ] );

@@ -19,8 +19,8 @@ class PermissionGroupSeeder extends Seeder
         $group->group='ESPECIALES';
         $group->priority=1;
         $group->save();
-        $group->allowedActions()->create([  'allowShow'     => true,
-                                            'allowEdit'     => true,
+        $group->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
                                             'allowDelete'   => false,
                                             'allowLock'     => false
                                         ]);
@@ -29,8 +29,18 @@ class PermissionGroupSeeder extends Seeder
         $group->group='AUTENTICACIÓN';
         $group->priority=2;
         $group->save();
-        $group->allowedActions()->create([  'allowShow'     => true,
-                                            'allowEdit'     => true,
+        $group->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
+
+        $group=new PermissionGroup;
+        $group->group='ACADÉMICA';
+        $group->priority=3;
+        $group->save();
+        $group->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
                                             'allowDelete'   => false,
                                             'allowLock'     => false
                                         ]);
@@ -39,8 +49,8 @@ class PermissionGroupSeeder extends Seeder
         $group->group='AUXILIARES';
         $group->priority=3;
         $group->save();
-        $group->allowedActions()->create([  'allowShow'     => true,
-                                            'allowEdit'     => true,
+        $group->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
                                             'allowDelete'   => false,
                                             'allowLock'     => false
                                         ]);

@@ -13,13 +13,13 @@
 @endphp
 
 @if(!is_null($record))
-    <div class='mt-4'>
+    <div class='pt-2'>
         {{-- Edit --}}
         @if($actioncanedit==='true')
             @if($record->allowEdit())
                 @if($record->canEditRecord())
                     <div class='tooltip'>
-                        <a href='{{ route($table.'.edit',$itemid) }}'><i  class='text-blue-400 fa fa-pencil-alt fa-lg fa-fw hover:text-blue-600'></i></a>
+                        <a href='{{ route($table.'.edit',$itemid) }}'><i  class=' fa fa-pencil-alt fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i></a>
                         <span class='tooltiptext tooltiptext-up-left'>EDITAR</span>
                     </div>
                 @endif
@@ -28,7 +28,7 @@
         {{-- Delete --}}
         @if($actioncandelete==='true')
             @if($record->allowDelete())
-                @if($record->canDestroyRecord())
+                @if($record->canDeleteRecord())
                     <div class='tooltip'>
                         <i wire:click="delete({{ $itemid }})" class='text-red-400 cursor-pointer fa fa-trash fa-lg fa-fw hover:text-red-600'></i>
                         <span class='tooltiptext tooltiptext-up-left'>BORRAR</span>
@@ -44,7 +44,7 @@
                             {{-- Unlock --}}
                             <div class='tooltip'>
                                 <i wire:click="unlock({{ $itemid }})" class='cursor-pointer fa fa-unlock fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
-                                <span class='tooltiptext tooltiptext-down-left'>DESBLOQUEAR</span>
+                                <span class='tooltiptext tooltiptext-up-left'>DESBLOQUEAR</span>
                             </div>
                         @endif
                     @else
@@ -52,7 +52,7 @@
                             {{-- Lock --}}
                             <div class='tooltip'>
                                 <i wire:click="lock({{ $itemid }})" class='cursor-pointer fa fa-lock fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
-                                <span class='tooltiptext tooltiptext-down-left'>BLOQUEAR</span>
+                                <span class='tooltiptext tooltiptext-up-left'>BLOQUEAR</span>
                             </div>
                         @endif
                     @endif

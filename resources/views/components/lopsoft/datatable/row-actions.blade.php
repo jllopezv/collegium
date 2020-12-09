@@ -28,7 +28,7 @@
         {{-- Delete --}}
         @if($actioncandelete==='true')
             @if($record->allowDelete())
-                @if($record->canDestroyRecord())
+                @if($record->canDeleteRecord())
                     <div class='tooltip'>
                         <i wire:click="delete({{ $itemid }})" class='cursor-pointer fa fa-trash fa-lg fa-fw text-cool-gray-400 hover:text-red-600'></i>
                         <span class='tooltiptext tooltiptext-down-left'>BORRAR</span>

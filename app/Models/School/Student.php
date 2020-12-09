@@ -6,6 +6,7 @@ use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -22,10 +23,10 @@ class Student extends Model
      * @var array
      */
     protected $fillable = [
-        'exp', 'names', 'first_surname', 'second_surname', 'birth', 'gender'
+        'exp', 'names', 'profile_photo_path', 'first_surname', 'second_surname', 'birth', 'gender'
     ];
 
-    protected $appends= [ 'name' ];
+    protected $appends= [ 'name', 'avatar' ];
 
     protected $dates=[ 'birth' ];
 
@@ -111,6 +112,39 @@ class Student extends Model
         if (config('lopsoft.studentsname_uppercase')) $this->attributes['second_surname'] = mb_strtoupper($value);
     }
 
+    /**
+     * Get Avatar, if not exists return defaul avatar
+     *
+     * @return void
+     */
+    public function getAvatarAttribute()
+    {
+        if (is_null($this->profile_photo_path)) return Storage::disk('public')->url(config('lopsoft.default_avatar'));
+        if ( !Storage::disk('public')->exists( 'thumbs/'.$this->profile_photo_path ) )
+        {
+            if ( !Storage::disk('public')->exists( $this->profile_photo_path ) )
+            {
+                return Storage::disk('public')->url(config('lopsoft.default_avatar'));
+            }
+            else
+            {
+                return Storage::disk('public')->url( $this->profile_photo_path );
+            }
+        }
+        return Storage::disk('public')->url( 'thumbs/'.$this->profile_photo_path );
+    }
+
+    /**
+     * Set avatar path for user
+     *
+     * @param  mixed $value
+     * @return void
+     */
+    public function setAvatarAttribute($value)
+    {
+        $this->profile_photo_path=$value;
+    }
+
     /*******************************************/
     /* Methods
     /*******************************************/
@@ -120,7 +154,7 @@ class Student extends Model
         return $query->where('exp', 'like', '%'.$search.'%' )
             ->orWhere('names', 'like', '%'.$search.'%')
             ->orWhere('first_surname', 'like', '%'.$search.'%')
-            ->orWhere('last_surname', 'like', '%'.$search.'%' );
+            ->orWhere('second_surname', 'like', '%'.$search.'%' );
     }
 
 }

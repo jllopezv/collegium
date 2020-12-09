@@ -2,21 +2,31 @@
 
 @section('content')
 
-    @livewire('controls.drop-down-table-component', [
-        'model'         => \App\Models\Aux\Country::class,
-        'mode'          =>  'create',
-        'filterraw'     => '',
-        'sortorder'     => 'country',
-        'label'         => mb_strtoupper(trans('lopsoft.country')),
-        'classdropdown' => 'w-full md:w-3/4 lg:w-full xl:w-3/4',
-        'key'           => 'id',
-        'field'         => 'country',
-        'defaultvalue'  =>  (\App\Models\Aux\Country::where('country',config('lopsoft.country_default'))->first())->id??null,
-        'eventname'     => 'eventsetcountry',
-        'uid'           => 'countrycomponent',
-        'modelid'       => 'countries',
-        'isTop'         =>  false,
-        'template'      => 'components.lopsoft.dropdown.countries',
-    ])
+    @php
+
+        //echo Cache::get('roles.permissions');
+
+        $storage = \Cache::getStore(); // will return instance of FileStore
+        $filesystem = $storage->getFilesystem(); // will return instance of Filesystem
+        $dir = (\Cache::getDirectory());
+        $keys = [];
+        foreach ($filesystem->allFiles($dir) as $file1) {
+
+            if (is_dir($file1->getPath())) {
+
+                foreach ($filesystem->allFiles($file1->getPath()) as $file2) {
+                    $keys = array_merge($keys, [$file2->getRealpath() => unserialize(substr(\File::get($file2->getRealpath()), 10))]);
+                }
+            }
+            else {
+
+            }
+        }
+    @endphp
+
+    @foreach($keys as $key)
+        <div class='text-white'>{{ $key }}</div>
+        <div class='text-red-700'>----------------------------------------------------------------------------</div>
+    @endforeach
 
 @endsection

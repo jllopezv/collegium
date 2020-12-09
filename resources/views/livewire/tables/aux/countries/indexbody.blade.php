@@ -1,0 +1,5 @@
+@include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->flag ])
+@include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->country ])
+@include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->iso ])
+@include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->iso3 ])
+@include('components.lopsoft.datatable.rowcolumn', ['slot'=> '+'.$item->phonecode ])

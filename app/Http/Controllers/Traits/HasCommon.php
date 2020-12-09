@@ -64,6 +64,7 @@ Trait HasCommon
             'record'            =>  $this->model::find($id),
             'recordid'          =>  $id,
         ];
+
         return view('models.'.$this->module.'.'.$this->table.'.show', array_merge($params,$options)); // Show View
     }
 
