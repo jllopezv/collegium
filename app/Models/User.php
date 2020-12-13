@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
+use App\Models\Traits\HasCommon;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +33,7 @@ class User extends Authenticatable
     use HasOwner;
     use HasAbilities;
     use HasAllowedActions;
+    use HasCommon;
 
     /*******************************************/
     /* Properties

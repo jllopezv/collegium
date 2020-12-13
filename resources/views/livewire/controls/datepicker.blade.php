@@ -18,7 +18,7 @@
                 transition-all duration-300 w-full {{ $readonly?'cursor-default':'cursor-pointer'}}' wire:click='togglebody'>
                 <div class='pl-1'>
                     {{-- <div class='text-black'>{!! $contenttoshow !!}</div> --}}
-                    <input wire:model.lazy='value' type='text' class='w-full pb-1 pl-1 text-lg bg-transparent border-0 form-input hover:shadow-none active:shadow-none focus:shadow-none' {{ $readonly?'readonly':'' }} />
+                    <input wire:model.lazy='value' type='text' class='w-full pb-1 pl-1 bg-transparent border-0 form-input hover:shadow-none active:shadow-none focus:shadow-none' {{ $readonly?'readonly':'' }} />
                 </div>
                 @if(!$readonly)
                     <div class="{{ $readonly?'cursor-default':'cursor-pointer'}}  {{$classchevron}} pr-1" >

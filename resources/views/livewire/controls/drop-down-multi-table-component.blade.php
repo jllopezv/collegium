@@ -16,7 +16,7 @@
             transition-all duration-300 w-full {{ $readonly?'cursor-default':'cursor-pointer'}}  {{$classchevron}}' wire:click='togglebody'>
                 <div class='w-full py-1 pl-1'>
                     <div class='text-black'>{!! $contenttoshow !!}</div>
-                    <input wire:model='value' type='text' class='hidden w-full pb-1 pl-1 text-lg bg-transparent border-0 form-input hover:shadow-none active:shadow-none focus:shadow-none' readonly/>
+                    <input wire:model='value' type='text' class='hidden w-full pb-1 pl-1 bg-transparent border-0 form-input hover:shadow-none active:shadow-none focus:shadow-none' readonly/>
                 </div>
                 @if(!$readonly)
                     <div class="{{ $readonly?'cursor-default':'cursor-pointer'}} pr-1" ><i class='fa fa-angle-{{$isTop?'up':'down'}} pt-2'></i></div>

@@ -1,7 +1,10 @@
 @include('components.lopsoft.datatable.rowcolumnavatar')
 <x-lopsoft.datatable.row-column canshow="{{ $item->canShowRecord() && $item->allowShow() }}" >
     <div class='text-lg font-bold'><a href="{{ route($table.'.show',$item->id) }}">{{ $item->name }}</a></div>
-    <div class='text-sm text-gray-500'><a href='mailto: {{ $item->email }}'>{{ $item->email }}</a></div>
+    <div class='text-sm text-gray-500'>
+        {{-- <a href='mailto: {{ $item->email }}'>{{ $item->email }}</a> --}}
+        <a href="{{ route($table.'.show',$item->id) }}">{{ $item->email }}</a>
+    </div>
 </x-lopsoft.datatable.row-column>
 @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->username])
 @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->level, 'classrow' => 'text-right'])

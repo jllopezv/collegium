@@ -1,8 +1,8 @@
 @if($mode!='create')
-    <div class='bg-gray-200 m-0 text-right px-4 pt-0 pb-1 flex items-center justify-between'>
+    <div class='flex items-center justify-between px-4 pt-0 pb-1 m-0 text-right bg-gray-200'>
         <div class=''>
             @if($mode=='show')
-                Lop
+                {{ $record->owner==null?'SYSTEM':$record->owner->username }} ({{ $record->created_aged }})
             @endif
         </div>
         <div>
