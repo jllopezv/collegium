@@ -23,8 +23,8 @@ class CreateTranslationsTable extends Migration
             $table->unique(['translatable_type', 'translatable_id', 'locale']);
 
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');
         });
     }
 

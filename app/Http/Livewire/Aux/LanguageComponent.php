@@ -112,4 +112,9 @@ class LanguageComponent extends Component
         ];
     }
 
+    public function deletingRecord($record)
+    {
+        return $record->canBeDeleted();
+    }
+
 }

@@ -24,6 +24,12 @@ class LanguageSeeder extends Seeder
                                                 'allowLock'     => false
                                         ]);
         $record->setTranslation('language', 'es', mb_strtoupper('Español') );
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
+
 
         $record=new Language;
         $record->language="English";
@@ -36,6 +42,12 @@ class LanguageSeeder extends Seeder
                                         ]);
 
         $record->setTranslation('language', 'es', mb_strtoupper('Inglés') );
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
+
 
     }
 }

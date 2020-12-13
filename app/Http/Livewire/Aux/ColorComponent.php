@@ -115,7 +115,6 @@ class ColorComponent extends Component
         ];
     }
 
-
     public function updatedCore()
     {
         $this->previewmodel->textcolor=$this->textcolor;
@@ -124,17 +123,9 @@ class ColorComponent extends Component
         $this->muestra=$this->previewmodel->tag;
     }
 
-    // public function deletedRecord($table,$id)
-    // {
-    //     if ($this->table!=$table) return;
-
-    //     if ($this->mode=='edit'  || $this->mode=='show')
-    //     {
-    //         if ($this->recordid==$id)
-    //         {
-    //             dd("estoy viendo el que se ha borrado");
-    //         }
-    //     }
-    // }
+    public function deletingRecord($record)
+    {
+        return $record->canBeDeleted();
+    }
 
 }

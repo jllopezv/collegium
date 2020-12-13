@@ -46,6 +46,11 @@ class LoginComponent extends Component
 
         if ( $success )
         {
+            if ( Auth::user()->roles->count()==0 )
+            {
+                Auth::logout();
+                redirect(route('login'));
+            }
             return redirect(route('dashboard'));
         }
         else

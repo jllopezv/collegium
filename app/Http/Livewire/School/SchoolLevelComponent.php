@@ -16,7 +16,6 @@ class SchoolLevelComponent extends Component
 {
     use WithPagination;
     use HasCommon;
-    use HasAvatar;
     use WithFlashMessage;
     use WithAlertMessage;
     use WithModalAlert;
@@ -44,10 +43,8 @@ class SchoolLevelComponent extends Component
         $this->table='school_levels';
         $this->module='school';
         $this->commonMount();
-        $this->multiple=true;
         // Default order for table
         $this->sortorder='showorder';
-        $this->flashmessageid='schoollevelsaved';
         if ($this->mode=='create')
         {
             // default create options

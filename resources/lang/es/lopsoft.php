@@ -76,8 +76,10 @@ return [
     'schoollevels'          =>  'niveles',
     'showorder'             =>  'orden',
     'school_grade'          =>  'grado académico',
+    'schoolgrade'           =>  'grado académico',
     'schoolgrades'          =>  'grados',
     'flag'                  =>  'bandera',
     'photo'                 =>  'foto',
+    'grade'                 =>  'grado',
 
 ];

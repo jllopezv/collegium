@@ -55,6 +55,7 @@ class DropDownMultiTableComponent extends Component
      */
     public function mount()
     {
+        if ($this->mode=='show') $this->readonly=true;
         if ($this->readonly)
         {
             $this->classchevron='text-gray-300 hover:text-gray-300';

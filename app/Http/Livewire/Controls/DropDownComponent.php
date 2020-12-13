@@ -38,11 +38,13 @@ class DropDownComponent extends Component
     public $uid='';
     public $modelid='';
     public $template='';
+    public $mode='';
 
     public function mount()
     {
         $this->text='';
         $this->index=0;
+        if ($this->mode=='show') $this->readonly=true;
         if ($this->readonly)
         {
             $this->classchevron='text-gray-300 hover:text-gray-300';

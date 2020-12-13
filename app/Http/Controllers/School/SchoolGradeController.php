@@ -2,11 +2,27 @@
 
 namespace App\Http\Controllers\School;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\School\SchoolGrade;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\HasCommon;
 
 class SchoolGradeController extends Controller
 {
+    use HasCommon;
+
+    protected $table='school_grades';
+    protected $module='school';
+    protected $model=SchoolGrade::class;
+    protected $title;
+    protected $subtitle;
+
+    public function __construct()
+    {
+        $this->title=transup('tables.'.$this->table);
+        $this->subtitle='Grado académico';
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +30,7 @@ class SchoolGradeController extends Controller
      */
     public function index()
     {
-        //
+        return ($this->commonIndex($options??[]));
     }
 
     /**
@@ -24,18 +40,7 @@ class SchoolGradeController extends Controller
      */
     public function create()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return ($this->commonCreate($options??[]));
     }
 
     /**
@@ -46,7 +51,7 @@ class SchoolGradeController extends Controller
      */
     public function show($id)
     {
-        //
+        return ($this->commonShow($id, $options??[]));
     }
 
     /**
@@ -57,29 +62,6 @@ class SchoolGradeController extends Controller
      */
     public function edit($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return ($this->commonEdit($id, $options??[]));
     }
 }

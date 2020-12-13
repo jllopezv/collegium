@@ -30,19 +30,35 @@ class Permission extends Model
     {
         parent::boot();
         static::created(function($model){
-            Cache::forget('role.permissions');
+            $roles=Role::all();
+            foreach($roles as $role)
+            {
+                Cache::forget('role'.$role->id.'permissions');
+            }
         });
 
         static::deleted(function($model){
-            Cache::forget('role.permissions');
+            $roles=Role::all();
+            foreach($roles as $role)
+            {
+                Cache::forget('role'.$role->id.'permissions');
+            }
         });
 
         static::updated(function($model){
-            Cache::forget('role.permissions');
+            $roles=Role::all();
+            foreach($roles as $role)
+            {
+                Cache::forget('role'.$role->id.'permissions');
+            }
         });
 
         static::saved(function($model){
-            Cache::forget('role.permissions');
+            $roles=Role::all();
+            foreach($roles as $role)
+            {
+                Cache::forget('role'.$role->id.'permissions');
+            }
         });
     }
 

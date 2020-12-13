@@ -71,9 +71,10 @@ Trait HasCommon
     public function commonMount()
     {
         $this->newmodel=new $this->model;
-        $this->multiple=false;
+        $this->multiple=true;
         $this->record=null;
         $this->sortorder='id';
+        $this->flashmessageid=$this->table.'saved';
         if ($this->callforward==null) $this->callforward=$this->table.'.index';
         if ($this->callback==null) $this->callback=$this->table.'.index';
         if ($this->mode=='index')
@@ -696,7 +697,7 @@ Trait HasCommon
      *
      * @return void
      */
-    public function deleting()
+    public function deletingRecord()
     {
         return true;
     }
@@ -727,7 +728,7 @@ Trait HasCommon
         }
         try
         {
-            if ($this->deleting($record))
+            if ($this->deletingRecord($record))
             {
                 if ( $record->delete() )
                 {

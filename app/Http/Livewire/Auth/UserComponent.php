@@ -167,6 +167,8 @@ class UserComponent extends Component
     public function postUpdate($recordupdated)
     {
         $recordupdated->roles()->sync($this->roles);
+        $recordupdated->level=$recordupdated->getUserLevel();
+        $recordupdated->save();
     }
 
     public function validateCustomFields()
@@ -190,7 +192,7 @@ class UserComponent extends Component
         $this->deleteTemp();
     }
 
-    public function deleting($record)
+    public function deletingRecord($record)
     {
         return $this->deleteAvatar($record);
     }

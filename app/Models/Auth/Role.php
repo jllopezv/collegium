@@ -2,6 +2,7 @@
 
 namespace App\Models\Auth;
 
+use App\Models\User;
 use App\Models\Aux\Color;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
@@ -27,6 +28,26 @@ class Role extends Model
         'role', 'level', 'dashboard', 'color_id', 'quota', 'unlimited_quota'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        static::created(function($model){
+            Cache::forget('role'.$model->id.'.permissions');
+        });
+
+        static::deleted(function($model){
+            Cache::forget('role'.$model->id.'.permissions');
+        });
+
+        static::updated(function($model){
+            Cache::forget('role'.$model->id.'.permissions');
+        });
+
+        static::saved(function($model){
+            Cache::forget('role'.$model->id.'.permissions');
+        });
+    }
+
     /*******************************************/
     /* Relationships
     /*******************************************/
@@ -51,7 +72,7 @@ class Role extends Model
 
     public function permissionsCached()
     {
-        return Cache::remember('role.permissions', 60*60*24, function() {
+        return Cache::remember('role'.$this->id.'.permissions', 60*60*24, function() {
             return $this->belongsToMany(Permission::class)->where('active',1)->get();
         });
     }
@@ -114,7 +135,7 @@ class Role extends Model
     {
         if (Auth::user()->isSuperadmin()) return true;
         $permission=$this->permissionsCached()->where('slug',$slug)->first();
-        return ($permission?true:false);
+        return (($permission && $this->active)?true:false);
     }
 
     /*******************************************/
@@ -124,6 +145,24 @@ class Role extends Model
     public function getRoleTagAttribute()
     {
         return $this->color->getCustomTag($this->role);
+    }
+
+    public function customLocked()
+    {
+        $users=$this->users;
+        foreach($users as $user)
+        {
+            $user->recalcLevel();
+        }
+    }
+
+    public function customUnLocked()
+    {
+        $users=$this->users;
+        foreach($users as $user)
+        {
+            $user->recalcLevel();
+        }
     }
 
     public function scopeSearch($query, $search)

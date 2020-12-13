@@ -33,6 +33,10 @@ class User extends Authenticatable
     use HasAbilities;
     use HasAllowedActions;
 
+    /*******************************************/
+    /* Properties
+    /*******************************************/
+
     /**
      * The attributes that are mass assignable.
      *
@@ -73,6 +77,10 @@ class User extends Authenticatable
         'avatar',
     ];
 
+    /*******************************************/
+    /* Relationships
+    /*******************************************/
+
     /**
      * Get Roles
      */
@@ -106,31 +114,9 @@ class User extends Authenticatable
         return $this->belongsTo(Language::class);
     }
 
-    public function getRolesTags()
-    {
-        $tag='';
-        foreach($this->roles as $role)
-        {
-            $tag.=$role->getRoleTagAttribute()." ";
-        }
-        return $tag;
-    }
-
-    /*********************************************/
-    /* Methods
-    /*********************************************/
-
-    public function isAdmin()
-    {
-        if (Auth::user()->level<=config('lopsoft.maxLevelAdmin')) return true;
-        return false;
-    }
-
-    public function isSuperadmin()
-    {
-        if (Auth::user()->level==1) return true;
-        return false;
-    }
+    /*******************************************/
+    /* Accessors and mutators
+    /*******************************************/
 
     /**
      * Get Avatar, if not exists return defaul avatar
@@ -165,19 +151,32 @@ class User extends Authenticatable
         $this->profile_photo_path=$value;
     }
 
-    /**
-     * Query to search in model
-     *
-     * @param  mixed $query
-     * @param  mixed $search
-     * @return void
-     */
-    public function scopeSearch($query, $search)
+    /*********************************************/
+    /* Methods
+    /*********************************************/
+
+    public function getRolesTags()
     {
-        return $query->where('name', 'like', '%'.$search.'%' )
-            ->orWhere('username', 'like', '%'.$search.'%' )
-            ->orWhere('email', 'like', '%'.$search.'%' );
+        $tag='';
+        foreach($this->roles as $role)
+        {
+            $tag.=$role->getRoleTagAttribute()." ";
+        }
+        return $tag;
     }
+
+    public function isAdmin()
+    {
+        if (Auth::user()->level<=config('lopsoft.maxLevelAdmin')) return true;
+        return false;
+    }
+
+    public function isSuperadmin()
+    {
+        if (Auth::user()->level==1) return true;
+        return false;
+    }
+
 
 
     /**
@@ -245,7 +244,35 @@ class User extends Authenticatable
     }
 
 
-    /* Can rules */
+    public function recalcLevel()
+    {
+        $this->level=$this->getUserLevel()??50000;
+        $this->save();
+    }
+
+    /*********************************************/
+    /* Scopes
+    /*********************************************/
+
+    /**
+     * Query to search in model
+     *
+     * @param  mixed $query
+     * @param  mixed $search
+     * @return void
+     */
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('name', 'like', '%'.$search.'%' )
+            ->orWhere('username', 'like', '%'.$search.'%' )
+            ->orWhere('email', 'like', '%'.$search.'%' );
+    }
+
+
+
+    /*******************************************/
+    /* Rules
+    /*******************************************/
 
     public function canDeleteRecordCustom()
     {
@@ -261,6 +288,5 @@ class User extends Authenticatable
     {
         if ($this->id==Auth::user()->id) return false;  // Rule 1: Nobody can destroy itself
         if (Auth::user()->level==1) return true;        // Rule 2: Superuser can destroy everyone
-
     }
 }

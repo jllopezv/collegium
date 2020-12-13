@@ -33,6 +33,6 @@ class PermissionAssignComponent extends Component
 
     public function render()
     {
-        return view('livewire.auth.permissions.permission-assign-component');
+        return view('livewire.tables.auth.permissions.permission-assign-component');
     }
 }

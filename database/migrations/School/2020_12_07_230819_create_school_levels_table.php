@@ -19,8 +19,8 @@ class CreateSchoolLevelsTable extends Migration
             $table->string('showorder')->default(1);
             $table->string('level')->unique();
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');
         });
     }
 

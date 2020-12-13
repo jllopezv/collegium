@@ -51,7 +51,7 @@ return [
     'flag'                  =>  'flag',
     'timezone'              =>  'timezone',
     'timezones'             =>  'timezones',
-    'date_format'           =>  'date_format',
+    'date_format'           =>  'date format',
     'numcode'               =>  'numeric code',
     'phonecode'             =>  'phone code',
     'language'              =>  'language',
@@ -76,8 +76,10 @@ return [
     'schoollevels'          =>  'levels',
     'showorder'             =>  'order',
     'school_grade'          =>  'academic grade',
+    'schoolgrade'           =>  'academic grade',
     'schoolgrades'          =>  'grades',
     'flag'                  =>  'flag',
     'photo'                 =>  'photo',
+    'grade'                 =>  'grado',
 
 ];

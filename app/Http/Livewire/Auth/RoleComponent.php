@@ -50,10 +50,8 @@ class RoleComponent extends Component
         $this->table='roles';
         $this->module='auth';
         $this->commonMount();
-        $this->multiple=true;
         // Default order for table
         $this->sortorder='level';
-        $this->flashmessageid='rolesaved';
         if ($this->mode=='create')
         {
             //$this->level=config('lopsoft.maxlevelVIPUsers');

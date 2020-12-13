@@ -43,12 +43,8 @@ class PermissionGroupComponent extends Component
         $this->table='permission_groups';
         $this->module='auth';
         $this->commonMount();
-        $this->multiple=true;
         // Default order for table
         $this->sortorder='priority';
-        $this->sortorder='priority';
-        $this->flashmessageid='groupsaved';
-
         if ($this->mode=='create') $this->priority=PermissionGroup::count()+1;   // Default falue
     }
 

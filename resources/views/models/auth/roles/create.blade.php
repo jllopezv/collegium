@@ -9,9 +9,9 @@
 
     @include('livewire.partials.states.commonheader', ['mode' => 'create'] )
 
-    <div class='flex flex-wrap items-top justify-center mt-4 p-2 w-full'>
+    <div class='flex flex-wrap justify-center w-full p-2 mt-4 items-top'>
 
-        <div class='w-full xl:w-1/2 pb-4 xl:pr-4'>
+        <div class='w-full pb-4 xl:w-1/2 xl:pr-4'>
             @livewire($module.'.'.$component.'-component', [
                 'table'         =>  $table,
                 'model'         =>  $model,
@@ -23,8 +23,8 @@
 
 
 
-        <div class='w-full xl:w-1/2  xl:pl-1'>
-            <div class='flex items-center justify-center mr-auto p-4 rounded-t-md bg-gray-700  text-white'>
+        <div class='w-full xl:w-1/2 xl:pl-1'>
+            <div class='flex items-center justify-center p-4 mr-auto text-white bg-gray-700 rounded-t-md'>
                 <div class='w-full py-2'>
                     <div class='text-lg font-bold'>
                         PERMISOS
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class='bg-white shadow-md rounded-b-md p-2 w-full'>
+            <div class='w-full p-2 bg-white shadow-md rounded-b-md'>
 
                 <div class='flex items-center justify-center mt-4'>
                     <div>
@@ -48,9 +48,9 @@
 
     </div>
 
-    <div class='w-full p-2'>
+    {{-- <div class='w-full p-2'>
         @livewire($module.'.'.$component.'-component', \App\Lopsoft\LopHelp::getCommonOptionsIndexSlaveComponents($table, $model, $title, $subtitle))
-    </div>
+    </div> --}}
 
 
 

@@ -192,7 +192,7 @@ class StudentComponent extends Component
         $this->deleteTemp();
     }
 
-    public function deleting($record)
+    public function deletingRecord($record)
     {
         return $this->deleteAvatar($record);
     }

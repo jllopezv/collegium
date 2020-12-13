@@ -23,7 +23,7 @@
                     <div class="{{ $readonly?'cursor-default':'cursor-pointer'}} pr-1" ><i class='fa fa-angle-{{$isTop?'up':'down'}} pt-2'></i></div>
                 @endif
             </div>
-            @if($requiredfield)
+            @if($requiredfield && $mode!='show')
                 <div class='cursor-pointer tooltip'>
                     <i class='text-red-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
                     @if($help!='')

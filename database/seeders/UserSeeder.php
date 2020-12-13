@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Auth\Role;
 use App\Models\Aux\Country;
+use App\Models\Aux\Language;
 use App\Models\Aux\Timezone;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -26,6 +27,7 @@ class UserSeeder extends Seeder
         $user->level=1;
         $user->timezone_id=Timezone::where('name',config('lopsoft.timezone_default'))->first()->id??null;
         $user->country_id=Country::where('country',config('lopsoft.country_default'))->first()->id??null;
+        $user->language_id=Language::where('code','es')->first()->id??null;
         $user->dateformat=config('lopsoft.date_format');
         $user->save();
         $user->roles()->sync([(Role::where('level',1)->first())->id]);
@@ -39,6 +41,7 @@ class UserSeeder extends Seeder
         $user->level=5;
         $user->timezone_id=Timezone::where('name',config('lopsoft.timezone_default'))->first()->id??null;
         $user->country_id=Country::where('country',config('lopsoft.country_default'))->first()->id??null;
+        $user->language_id=Language::where('code','es')->first()->id??null;
         $user->dateformat=config('lopsoft.date_format');
         $user->save();
         $user->roles()->sync([(Role::where('level',5)->first())->id]);

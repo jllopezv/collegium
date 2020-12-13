@@ -149,5 +149,10 @@ class CountryComponent extends Component
         $this->flag=$this->previewmodel->flag;
     }
 
+    public function deletingRecord($record)
+    {
+        return $record->canBeDeleted();
+    }
+
 
 }

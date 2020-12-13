@@ -16,6 +16,11 @@ class SchoolLevel extends Model
     use HasAbilities;
     use HasAllowedActions;
 
+
+    /*******************************************/
+    /* Properties
+    /*******************************************/
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,6 +37,29 @@ class SchoolLevel extends Model
     /*******************************************/
     /* Accessors and mutators
     /*******************************************/
+
+    /**
+     * Set Level
+     *
+     * @param  String $value
+     * @return void
+     */
+    public function setLevelAttribute($value)
+    {
+        $this->attributes['level']=mb_strtoupper($value);
+    }
+
+    /**
+     * Get Level
+     *
+     * @param  String $value
+     * @return String
+     */
+    public function getLevelAttribute($value)
+    {
+        return mb_strtoupper($value);
+    }
+
 
     /*******************************************/
     /* Methods

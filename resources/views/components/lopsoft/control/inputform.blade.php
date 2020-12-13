@@ -11,6 +11,7 @@
     'nextref'       => '',
     'help'          => '',
     'classcontainer' => '',
+    'mode'          =>  'create',
 ])
 
 
@@ -36,6 +37,7 @@
         nextref='{{$nextref}}'
         requiredfield='{{$requiredfield}}'
         help='{!! $help !!}'
+        mode='{{ $mode }}'
     />
 
     @if($showerror)

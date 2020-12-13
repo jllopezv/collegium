@@ -7,6 +7,7 @@
     'requiredfield' => false,
     'help'          => '',
     'classcontainer'    => '',
+    'mode'          => 'create',
     ])
 
 
@@ -28,16 +29,19 @@
     @if($value)
         value='{!! $value !!}'
     @endif
+    @if($mode=='show')
+        readonly
+    @endif
 >
     </div>
-@if($requiredfield)
-<div class='tooltip  cursor-pointer'>
-    <i class='fa fa-exclamation-circle fa-fw fa-xs text-red-400'></i>
-    @if($help!='')
-        <span class='tooltiptext tooltiptext-down-left'>
-            {!! $help !!}
-        </span>
+    @if($requiredfield && ( $mode!='show'))
+        <div class='cursor-pointer tooltip'>
+            <i class='text-red-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
+            @if($help!='')
+                <span class='tooltiptext tooltiptext-down-left'>
+                    {!! $help !!}
+                </span>
+            @endif
+        </div>
     @endif
-</div>
-@endif
 </div>

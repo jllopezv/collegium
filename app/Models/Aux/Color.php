@@ -5,6 +5,7 @@ namespace App\Models\Aux;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasAbilities;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
 
@@ -68,6 +69,17 @@ class Color extends Model
     public function scopeSearch($query, $search)
     {
         return $query->where('name', 'like', '%'.$search.'%' );
+    }
+
+    public function canDeleteRecordCustom()
+    {
+        return ($this->canBeDeleted());
+    }
+
+    public function canBeDeleted()
+    {
+        if (Auth::user()->level==1) return true;        // Superuser can destroy everyone
+        return false; // Admins cannot delete languages
     }
 
 

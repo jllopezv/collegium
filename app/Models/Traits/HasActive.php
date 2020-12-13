@@ -38,11 +38,37 @@ trait HasActive
 
     public function lock()
     {
-        return $this->setInactive();
+        $this->customLocking();
+        $ret=$this->setInactive();
+        $this->customLocked();
+        return $ret;
     }
 
     public function unlock()
     {
-        return $this->setActive();
+        $this->customUnlocking();
+        $ret=$this->setActive();
+        $this->customUnLocked();
+        return $ret;
+    }
+
+    public function customLocking()
+    {
+
+    }
+
+    public function customUnLocking()
+    {
+
+    }
+
+    public function customLocked()
+    {
+
+    }
+
+    public function customUnLocked()
+    {
+
     }
 }

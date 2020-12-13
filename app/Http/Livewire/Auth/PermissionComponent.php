@@ -47,9 +47,7 @@ class PermissionComponent extends Component
         $this->table='permissions';
         $this->module='auth';
         $this->commonMount();
-        $this->multiple=true;
         $this->sortorder='slug';
-        $this->flashmessageid='permissionsaved';
     }
 
     public function getQueryData()

@@ -11,7 +11,7 @@
             canadd='{{ $canadd }}'
             canselect='{{ $canselect }}'
             showlocks='{{ $showlocks }}'
-            minwidth='700px'
+            minwidth="{{ $minwidth??'700px' }}"
             cansearch='{{ $cansearch }}'
             slave='{{ $slave }}'
             >

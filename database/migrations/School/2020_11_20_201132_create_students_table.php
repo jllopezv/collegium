@@ -26,8 +26,8 @@ class CreateStudentsTable extends Migration
             $table->text('profile_photo_path')->nullable();
 
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');
         });
     }
 

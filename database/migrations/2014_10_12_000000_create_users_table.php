@@ -19,14 +19,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->unsignedInteger('level')->default( config('lopsoft.maxlevelVIPUsers') );
             $table->rememberToken();
             $table->string('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
-            $table->string('dateformat');
-            $table->foreignId('timezone_id')->nullable()->references('id')->on('timezones');
-            $table->foreignId('country_id')->nullable()->references('id')->on('countries');
-            $table->foreignId('language_id')->nullable()->references('id')->on('languages');
+
             $table->timestamps();
 
         });

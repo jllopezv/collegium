@@ -23,8 +23,8 @@ class CreateRolesTable extends Migration
             $table->boolean('unlimited_quota')->default(false);
             $table->foreignId('color_id')->references('id')->on('colors');
             $table->timestamps();
-            $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');
         });
     }
 
