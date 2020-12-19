@@ -5,6 +5,7 @@
     <div wire:loading.delay.class='opacity-50'>
         <x-lopsoft.datatable.mainlayout
             table='{{ $table }}'
+            module='{{ $module }}'
             model='{{ $model }}'
             data='{{ $data }}'
             title='{!! $title !!}'
@@ -32,9 +33,9 @@
                         @if($canselect!=='false') <x-lopsoft.datatable.header-th-checkbox class='w-20' /> @endif
                         @yield('header')
                         @if($showactions!='false')
-                            <x-lopsoft.datatable.header-th-space class='w-3/4' ></x-lopsoft.datatable.header-th-space>
+                            <x-lopsoft.datatable.header-th-space class='w-2/4' ></x-lopsoft.datatable.header-th-space>
                             <x-lopsoft.datatable.header-th-actions
-                                class='w-32'
+                                class='w-52'
                                 justify='end'
                                 actioncandelete="{{ $actioncandelete }}"
                                 actioncanlock="{{ $actioncanlock }}"
@@ -68,6 +69,7 @@
                                         <x-lopsoft.datatable.row-actions
                                             table='{{$table}}'
                                             model='{{$model}}'
+                                            module='{{$module}}'
                                             itemid="{{ $item->id }}"
                                             active="{{ $item->active??null }}"
                                             actioncandelete="{{ $actioncandelete }}"

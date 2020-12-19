@@ -5,6 +5,4 @@
         'subtitle'  => $subtitle,
     ])
 
-    <hr>
-
     @include('livewire.partials.recordinfo')

@@ -41,6 +41,10 @@ Route::get('/checkcache',  function () {
     return view('checkcache');
 });
 
+Route::get('/testpaths', function () {
+    return view('testpaths');
+});
+
 Route::get('/', function () {
     return view('welcome');
 });

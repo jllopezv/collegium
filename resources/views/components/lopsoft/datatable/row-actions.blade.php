@@ -1,6 +1,7 @@
 @props([
     'itemid'    =>  '0',
     'table'     =>  '',
+    'module'    =>  '',
     'active'    =>  '0',
     'model'     =>  null,
     'actioncandelete'  =>  'true',
@@ -59,5 +60,6 @@
                 @endif
             @endif
         @endif
+        @includeIf('livewire.tables.'.$module.'.'.$table.'.actions')
     </td>
 @endif

@@ -2,11 +2,11 @@
 
 @section('content')
 
-<div class='w-full h-screen flex items-center justify-center'>
+<div class='flex items-center justify-center w-full h-screen'>
     <div class='block text-center'>
-        <div class='text-white font-bold text-lg'>BIENVENIDO A LOPSOFT.COM</div>
+        <div class='text-lg font-bold text-white'>BIENVENIDO A LOPSOFT.COM</div>
         <div class='mt-4'>
-            <x-lopsoft.link.success link="{{ route('login') }}" text='LOGIN' />
+            <x-lopsoft.link.success link="{{ route('login') }}" text='LOGIN' textxs/>
         </div>
     </div>
 </div>

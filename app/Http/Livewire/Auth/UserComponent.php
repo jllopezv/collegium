@@ -274,6 +274,19 @@ class UserComponent extends Component
         $this->data->where('level','>=', Auth::user()->level);
     }
 
+    public function login($id)
+    {
+        $user=Auth::loginUsingId($id);
+
+        if ($user===false)
+        {
+            $this->showError("NO SE PUDO REALIZAR LOGIN CON EL USUARIO");
+            return;
+        }
+
+        return redirect()->route('dashboard');
+    }
+
 
 
 }

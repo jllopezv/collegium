@@ -21,8 +21,6 @@
                 ])
         </div>
 
-
-
         <div class='w-full xl:w-1/2 xl:pl-1'>
             <div class='flex items-center justify-center p-4 mr-auto text-white bg-gray-700 rounded-t-md'>
                 <div class='w-full py-2'>
@@ -35,11 +33,8 @@
                 </div>
             </div>
             <div class='w-full p-2 bg-white shadow-md rounded-b-md'>
-
-                <div class='flex items-center justify-center mt-4'>
-                    <div>
-                        @livewire('auth.permission-assign-component', ['permissionsselected' => []])
-                    </div>
+                <div class='w-full'>
+                    @livewire('auth.permission-assign-component', ['permissionsselected' => []])
                 </div>
             </div>
         </div>

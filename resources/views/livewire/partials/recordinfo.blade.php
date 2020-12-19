@@ -1,8 +1,9 @@
 @if($mode!='create')
-    <div class='flex items-center justify-between px-4 pt-0 pb-1 m-0 text-right bg-gray-200'>
+    @includeIf('livewire.tables.'.$module.'.'.$table.'.recordinfocustom')
+    <div class='flex items-center justify-between px-4 py-2 m-0 text-right bg-gray-600'>
         <div class=''>
-            @if($mode=='show')
-                {{ $record->owner==null?'SYSTEM':$record->owner->username }} ({{ $record->created_aged }})
+            @if( $mode=='show' && Auth::user()->level<=config('lopsoft.maxLevelAdmin') )
+                <span class='px-2 text-sm font-bold text-green-200 bg-gray-500 rounded-md'>{{ $record->owner==null?'SYSTEM':$record->owner->username }}<span> <span class='text-xs text-gray-300'>{{ $record->created_aged!=''?"( $record->created_aged )":'' }}</span>
             @endif
         </div>
         <div>

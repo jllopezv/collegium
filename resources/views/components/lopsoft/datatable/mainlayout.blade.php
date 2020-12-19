@@ -1,5 +1,6 @@
 @props([
     'table'     =>  '',
+    'module'    =>  '',
     'model'     =>  null,
     'data'      =>  null,
     'title'     =>  '',

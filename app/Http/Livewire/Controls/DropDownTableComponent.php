@@ -26,6 +26,7 @@ class DropDownTableComponent extends Component
     public $readonly=false;         // Readonly property
     public $validationerror='';     // VAlidation errors
     public $classdropdown='w-full'; // Class for container
+    public $table='';
 
     /* table */
     private $data=null;             // data to show
@@ -55,6 +56,8 @@ class DropDownTableComponent extends Component
      */
     public function mount()
     {
+        $object=new $this->model;
+        $this->table=$object->getTable();
         if ($this->mode=='show') $this->readonly=true;
         if ($this->readonly)
         {

@@ -66,6 +66,12 @@ progress::-moz-progress-bar{
     margin-left: 10px;
   }
 
+  .tooltiptext-center-left {
+    top: -5px;
+    right: 95%;
+    margin-right: 10px;
+  }
+
 
 
   .tooltiptext-down-right {
