@@ -1,6 +1,7 @@
 @props([
     'itemid'    =>  '0',
     'table'     =>  '',
+    'module'    =>  '',
     'active'    =>  '0',
     'model'     =>  null,
     'actioncandelete'  =>  'true',
@@ -13,7 +14,7 @@
 @endphp
 
 @if(!is_null($record))
-    <div class='pt-2'>
+    <div class='pt-3'>
         {{-- Edit --}}
         @if($actioncanedit==='true')
             @if($record->allowEdit())
@@ -59,6 +60,7 @@
                 @endif
             @endif
         @endif
+        @includeIf('livewire.tables.'.$module.'.'.$table.'.actions-xs')
     </div>
 @endif
 

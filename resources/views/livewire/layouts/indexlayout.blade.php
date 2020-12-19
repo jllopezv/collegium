@@ -128,7 +128,12 @@
                                     @include('livewire.tables.'.$module.".".$table.".indexbodyxs")
 
                                     <div  class='text-right'>
-                                        <x-lopsoft.datatable.row-actions-xs table='{{$table}}' model='{{$model}}' itemid="{{ $item->id }}" active="{{ $item->active??true }}"/>
+                                        <x-lopsoft.datatable.row-actions-xs
+                                            table='{{$table}}'
+                                            model='{{$model}}'
+                                            module='{{ $module }}'
+                                            itemid="{{ $item->id }}"
+                                            active="{{ $item->active??true }}"/>
                                     </div>
                                 </div>
                             @endforeach
