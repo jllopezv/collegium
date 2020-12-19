@@ -9,23 +9,23 @@
     <x-lopsoft.control.sidebar-link
         icon='fa fa-home'
         link="{{ route('dashboard') }}"
-        text='INICIO'
-        help='INICIO'
+        text="{{ transup('home') }}"
+        help="{{ transup('home') }}"
         class='hover:text-green-300'>
     </x-lopsoft.control.sidebar-link>
     @hasAbilityOr(["permission_groups.access", "permissions.access", "roles.access", "users.access"])
     <x-lopsoft.control.sidebar-menu
         icon='fa fa-user'
         link='linkeando'
-        text='ACCESOS'
-        help='ACCESOS'
+        text="{{ transup('access') }}"
+        help="{{ transup('access') }}"
         menuid='menuacceso'
         classmenu='hover:text-green-300'>
         @hasAbility("users.access")
         <x-lopsoft.control.sidebar-sublink
             icon='hover:text-red-500 fa fa-user'
             link="{{ route('users.index') }}"
-            text='USUARIOS'
+            text="{{ transup('users') }}"
             class='hover:text-green-300'
             help=''>
         </x-lopsoft.control.sidebar-sublink>
@@ -34,25 +34,25 @@
         <x-lopsoft.control.sidebar-sublink
             icon='hover:text-red-500 fa fa-user'
             link="{{ route('roles.index') }}"
-            text='ROLES'
+            text="{{ transup('roles') }}"
             class='hover:text-green-300'
-            help='ROLES'>
+            help=''>
         </x-lopsoft.control.sidebar-sublink>
         @endhasAbility
         @hasAbility("permissions.access")
         <x-lopsoft.control.sidebar-sublink
             icon='hover:text-red-500 fa fa-user'
             link="{{ route('permissions.index') }}"
-            text='PERMISOS'
+            text="{{ transup('permissions') }}"
             class='hover:text-green-300'
-            help='PERMISOS'>
+            help=''>
         </x-lopsoft.control.sidebar-sublink>
         @endhasAbility
         @hasAbility("permission_groups.access")
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-user'
                 link="{{ route('permission_groups.index') }}"
-                text='PERMISOS GRUP.'
+                text="{{ transup('permission_grp') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
@@ -63,8 +63,8 @@
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user'
             link='linkeando'
-            text='ACADÉMICO'
-            help='ACADÉMICO'
+            text="{{ transup('academic') }}"
+            help="{{ transup('academic') }}"
             menuid='menuacademico'
             classmenu='hover:text-green-300'>
             @hasAbility(['school_levels.access'])
@@ -107,7 +107,7 @@
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-user'
                 link="{{ route('colors.index') }}"
-                text='COLORES'
+                text="{{ transup('colors') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
@@ -116,7 +116,7 @@
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-user'
                 link="{{ route('countries.index') }}"
-                text="{{ mb_strtoupper(__('lopsoft.countries')) }}"
+                text="{{ transup('tables.countries') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
@@ -125,7 +125,7 @@
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-user'
                 link="{{ route('languages.index') }}"
-                text="{{ mb_strtoupper(__('lopsoft.tables.languages')) }}"
+                text="{{ transup('tables.languages') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
@@ -136,8 +136,8 @@
 
     <x-lopsoft.control.sidebar-link
         icon='hover:text-red-500 fa fa-sign-out'
-        text='SALIR'
-        help='SALIR'
+        text="{{ transup('exit') }}"
+        help="{{ transup('exit') }}"
         class='hover:text-red-500'
         onclick="document.getElementById('formlogout').submit();">
     </x-lopsoft.control.sidebar-link>

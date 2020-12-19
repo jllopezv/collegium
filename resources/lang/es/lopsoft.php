@@ -16,6 +16,7 @@ return [
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
+    'permission_grp'        =>  'permisos (grupos)',
     'user'                  =>  'usuario',
     'users'                 =>  'usuarios',
     'username'              =>  'usuario',
@@ -81,5 +82,9 @@ return [
     'flag'                  =>  'bandera',
     'photo'                 =>  'foto',
     'grade'                 =>  'grado',
+    'home'                  =>  'inicio',
+    'access'                =>  'acceso',
+    'academic'              =>  'académica',
+    'colors'                =>  'colores',
 
 ];

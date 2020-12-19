@@ -20,7 +20,7 @@ class CountryController extends Controller
 
     public function __construct()
     {
-        $this->title=mb_strtoupper(__('lopsoft.country'));
+        $this->title=transup('tables.'.$this->table);
         $this->subtitle='Establece los paises y sus características';
     }
 

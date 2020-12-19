@@ -18,7 +18,7 @@ class ColorController extends Controller
 
     public function __construct()
     {
-        $this->title=mb_strtoupper(__('lopsoft.color'));
+        $this->title=transup('tables.'.$this->table);
         $this->subtitle='Define los conjuntos de colores disponibles para otras tablas';
     }
 

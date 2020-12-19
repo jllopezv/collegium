@@ -18,7 +18,7 @@ class LanguageController extends Controller
 
     public function __construct()
     {
-        $this->title=mb_strtoupper(__('lopsoft.language'));
+        $this->title=transup('tables.'.$this->table);
         $this->subtitle='Idiomas disponibles';
     }
 
