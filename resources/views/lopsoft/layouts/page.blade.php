@@ -39,6 +39,8 @@
                     <div
                         {{-- x-on:click='closeAll()' --}}
                         class="w-full h-full overflow-x-hidden overflow-y-auto bg-gray-100">
+                        {{-- INFOBAR --}}
+                        @include('lopsoft.layouts.partials.infobar')
                         @yield('content')
                     </div>
                 </div>

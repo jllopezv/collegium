@@ -3,7 +3,7 @@
         {{-- Login --}}
         <div class='tooltip'>
             <i wire:click="login({{ $itemid }})" class='cursor-pointer fa fa-sign-in fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
-            <span class='tooltiptext tooltiptext-up-left'>LOGIN</span>
+            <span class='tooltiptext tooltiptext-center-left'>LOGIN</span>
         </div>
     @endif
 @endhasAbility

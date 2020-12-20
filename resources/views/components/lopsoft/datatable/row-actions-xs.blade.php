@@ -21,7 +21,7 @@
                 @if($record->canEditRecord())
                     <div class='tooltip'>
                         <a href='{{ route($table.'.edit',$itemid) }}'><i  class=' fa fa-pencil-alt fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i></a>
-                        <span class='tooltiptext tooltiptext-up-left'>EDITAR</span>
+                        <span class='tooltiptext tooltiptext-center-left'>EDITAR</span>
                     </div>
                 @endif
             @endif
@@ -32,7 +32,7 @@
                 @if($record->canDeleteRecord())
                     <div class='tooltip'>
                         <i wire:click="delete({{ $itemid }})" class='text-red-400 cursor-pointer fa fa-trash fa-lg fa-fw hover:text-red-600'></i>
-                        <span class='tooltiptext tooltiptext-up-left'>BORRAR</span>
+                        <span class='tooltiptext tooltiptext-center-left'>BORRAR</span>
                     </div>
                 @endif
             @endif
@@ -45,7 +45,7 @@
                             {{-- Unlock --}}
                             <div class='tooltip'>
                                 <i wire:click="unlock({{ $itemid }})" class='cursor-pointer fa fa-unlock fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>DESBLOQUEAR</span>
+                                <span class='tooltiptext tooltiptext-center-left'>DESBLOQUEAR</span>
                             </div>
                         @endif
                     @else
@@ -53,7 +53,7 @@
                             {{-- Lock --}}
                             <div class='tooltip'>
                                 <i wire:click="lock({{ $itemid }})" class='cursor-pointer fa fa-lock fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>BLOQUEAR</span>
+                                <span class='tooltiptext tooltiptext-center-left'>BLOQUEAR</span>
                             </div>
                         @endif
                     @endif
