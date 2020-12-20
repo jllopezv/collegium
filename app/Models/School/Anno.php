@@ -100,4 +100,15 @@ class Anno extends Model
         if ($this->current) return false;
         return true;
     }
+
+    public function canDeleteRecordCustom()
+    {
+        return ($this->canBeDeleted());
+    }
+
+    public function canBeDeleted()
+    {
+        if ($this->current) return false;
+        return true;
+    }
 }

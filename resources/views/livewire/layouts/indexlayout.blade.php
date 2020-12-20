@@ -102,16 +102,20 @@
                         @if($data->count())
                             @foreach($data as $index => $item)
                                 {{-- Card --}}
-                                <div class='p-2 m-2 bg-white rounded-lg shadow'>
+                                <div class='p-2 m-2
+                                    @include('livewire.partials.cardstates', [ 'record' => $item ])
+                                    rounded-lg shadow'>
+
+
                                     <div class='flex items-center justify-between'>
                                         <div class=''>
                                             @if($canselect!=='false')
                                                 <input
-                                                id="row{{$index}}"
-                                                value="{{$item->id}}"
-                                                type='checkbox'
-                                                wire:model='rowselected'
-                                                class="w-5 h-5 text-green-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500"
+                                                    id="row{{$index}}"
+                                                    value="{{$item->id}}"
+                                                    type='checkbox'
+                                                    wire:model='rowselected'
+                                                    class="w-5 h-5 text-green-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500"
                                                 />
                                             @endif
                                         </div>
@@ -128,9 +132,13 @@
                                             {{-- /RECORD INFO --}}
                                         </div>
                                     </div>
-
-                                    @include('livewire.tables.'.$module.".".$table.".indexbodyxs")
-
+                                    @if($item->canShowRecord() && $item->allowShow())
+                                        <a class='cursor-pointer' href="{{ route($table.'.show',$item->id) }}">
+                                    @endif
+                                        @include('livewire.tables.'.$module.".".$table.".indexbodyxs")
+                                    @if($item->canShowRecord() && $item->allowShow())
+                                        </a>
+                                    @endif
                                     <div  class='text-right'>
                                         <x-lopsoft.datatable.row-actions-xs
                                             table='{{$table}}'
