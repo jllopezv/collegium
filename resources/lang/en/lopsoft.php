@@ -13,6 +13,7 @@ return [
         'timezones'         =>  'timezones',
         'school_levels'     =>  'school_levels',
         'school_grades'     =>  'school_grades',
+        'annos'             =>  'annos',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -86,5 +87,9 @@ return [
     'access'                =>  'access',
     'academic'              =>  'academic',
     'colors'                =>  'colors',
+    'start'                 =>  'start',
+    'end'                   =>  'end',
+    'anno'                  =>  'anno',
+    'config'                =>  'config',
 
 ];

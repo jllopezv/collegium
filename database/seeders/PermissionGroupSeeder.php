@@ -46,8 +46,18 @@ class PermissionGroupSeeder extends Seeder
                                         ]);
 
         $group=new PermissionGroup;
+        $group->group='CONFIGURACIÓN';
+        $group->priority=4;
+        $group->save();
+        $group->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
+
+        $group=new PermissionGroup;
         $group->group='AUXILIARES';
-        $group->priority=3;
+        $group->priority=10;
         $group->save();
         $group->allowedActions()->create([  'allowShow'     => false,
                                             'allowEdit'     => false,

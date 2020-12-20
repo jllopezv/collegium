@@ -4,6 +4,7 @@ namespace App\Models\Auth;
 
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
+use App\Models\Traits\HasCommon;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ class Permission extends Model
 {
     use HasActive;
     use HasOwner;
+    use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
 

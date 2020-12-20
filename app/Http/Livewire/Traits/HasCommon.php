@@ -436,6 +436,11 @@ Trait HasCommon
 
     }
 
+    public function preSortOrder()
+    {
+
+    }
+
     /**
      * Search in field
      *
@@ -464,6 +469,10 @@ Trait HasCommon
         {
             $this->data=$this->data->search($this->search);
         }
+
+        // Raw Order
+
+        $this->preSortOrder();
 
         // Order
         if($this->sortorder!='')
@@ -703,6 +712,26 @@ Trait HasCommon
     }
 
     /**
+     * Controls if is possible to lock record ( must be override in class to obtain a diferent behavior)
+     *
+     * @return void
+     */
+    public function lockingRecord()
+    {
+        return true;
+    }
+
+    /**
+     * Controls if is possible to unlock record ( must be override in class to obtain a diferent behavior)
+     *
+     * @return void
+     */
+    public function unlockingRecord()
+    {
+        return true;
+    }
+
+    /**
      * Entry point to delete action
      *
      * @param  mixed $id
@@ -797,15 +826,18 @@ Trait HasCommon
         }
         try
         {
-            if ($record->lock())
+            if ($this->lockingRecord($record))
             {
-                $this->emit("refreshForm");  // Broadcast to all components in form mode ( show or edit )
-                $this->updateDatatable();
-                return true;
-            }
-            else
-            {
-                return false;
+                if ($record->lock())
+                {
+                    $this->emit("refreshForm");  // Broadcast to all components in form mode ( show or edit )
+                    $this->updateDatatable();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         catch(\Exception $e)
@@ -832,15 +864,18 @@ Trait HasCommon
         }
         try
         {
-            if ($record->unlock())
+            if ($this->unlockingRecord($record))
             {
-                $this->emit("refreshForm");  // Broadcast to all components in form mode ( show or edit )
-                $this->updateDatatable();
-                return true;
-            }
-            else
-            {
-                return false;
+                if ($record->unlock())
+                {
+                    $this->emit("refreshForm");  // Broadcast to all components in form mode ( show or edit )
+                    $this->updateDatatable();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         catch(\Exception $e)

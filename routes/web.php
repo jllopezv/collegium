@@ -6,6 +6,7 @@ use App\Models\Auth\Role;
 use App\Models\Aux\Color;
 use App\Models\Aux\Country;
 
+use App\Models\School\Anno;
 use App\Models\Aux\Language;
 use App\Models\School\Student;
 use App\Models\Auth\Permission;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Aux\ColorController;
 use App\Http\Controllers\Aux\CountryController;
+use App\Http\Controllers\School\AnnoController;
 use App\Http\Controllers\Aux\LanguageController;
 use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\Auth\PermissionController;
@@ -91,6 +93,7 @@ Route::group( [ 'prefix'        => '/admin',
     LopHelp::generateCommonModelRoute('students', StudentController::class, Student::class);
     LopHelp::generateCommonModelRoute('school_levels', SchoolLevelController::class, SchoolLevel::class);
     LopHelp::generateCommonModelRoute('school_grades', SchoolGradeController::class, SchoolGrade::class);
+    LopHelp::generateCommonModelRoute('annos', AnnoController::class, Anno::class);
 });
 
 /*****************************************************/

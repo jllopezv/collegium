@@ -8,12 +8,14 @@ use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
+use App\Models\Traits\HasCommon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
 {
     use HasActive;
     use HasOwner;
+    use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
 

@@ -30,6 +30,16 @@ trait HasAbilities
         return true;
     }
 
+    public function canLockRecordCustom()
+    {
+        return true;
+    }
+
+    public function canUnlockRecordCustom()
+    {
+        return true;
+    }
+
     public function abilityDestroy()
     {
         if (!Auth::user()->hasAbility($this->getTable().'.destroy')) return false;
@@ -101,14 +111,14 @@ trait HasAbilities
 
     public function canLockRecord()
     {
-        if ( Auth::user()->isAdmin() ) return true;
-        return false;
+        if ( Auth::user()->isSuperadmin() ) return true;
+        return $this->canLockRecordCustom();
     }
 
     public function canUnlockRecord()
     {
-        if ( Auth::user()->isAdmin() ) return true;
-        return false;
+        if ( Auth::user()->isSuperadmin() ) return true;
+        return $this->canUnlockRecordCustom();
     }
 
     public function canCustomActionRecord()

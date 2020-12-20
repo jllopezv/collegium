@@ -96,6 +96,24 @@
             @endhasAbility
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
+    @hasAbilityOr(['annos.access'])
+        <x-lopsoft.control.sidebar-menu
+            icon='fa fa-user'
+            link='linkeando'
+            text="{{ transup('config') }}"
+            menuid='menuconfig'
+            classmenu='hover:text-green-300'>
+            @hasAbility(['annos.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user'
+                link="{{ route('annos.index') }}"
+                text="{{ transup('tables.annos') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+        </x-lopsoft.control.sidebar-menu>
+    @endhasAbilityOr
     @hasAbilityOr(['colors.access','countries.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user'

@@ -6,6 +6,7 @@ use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasAbilities;
 use App\Models\Traits\HasAllowedActions;
+use App\Models\Traits\HasCommon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -14,6 +15,7 @@ class PermissionGroup extends Model
     use HasFactory;
     use HasActive;
     use HasOwner;
+    use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
 

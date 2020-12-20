@@ -8,6 +8,6 @@
 
             @include('livewire.partials.topcard')
 
-                @include('livewire.partials.createmultiples')
+                @includeWhen( $mode=='create' ,'livewire.partials.createmultiples')
 
                 @include('livewire.partials.bottomcard')

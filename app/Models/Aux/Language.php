@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Traits\HasTranslation;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
+use App\Models\Traits\HasCommon;
 
 class Language extends Model
 {

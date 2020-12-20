@@ -48,6 +48,9 @@ class PermissionSeeder extends Seeder
         $table='school_grades';
         $this->createPermissions($table,'ACADÉMICA');
 
+        $table='annos';
+        $this->createPermissions($table,'CONFIGURACIÓN');
+
         $record=new Permission;
         $record->name="HACER LOGIN DE USUARIOS";
         $record->slug='users.login';

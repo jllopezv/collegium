@@ -4,12 +4,13 @@ namespace App\Models\School;
 
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
+use App\Models\Traits\HasCommon;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
-use App\Models\Traits\HasCommon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class SchoolGrade extends Model
+class Anno extends Model
 {
     use HasActive;
     use HasOwner;
@@ -27,17 +28,16 @@ class SchoolGrade extends Model
      * @var array
      */
     protected $fillable = [
-        'grade', 'showorder', 'level_id'
+        'anno', 'anno_start', 'anno_end'
+    ];
+
+    protected $dates = [
+        'anno_start', 'anno_end'
     ];
 
     /*******************************************/
     /* Relationships
     /*******************************************/
-
-    public function level()
-    {
-        return $this->belongsTo(SchoolLevel::class);
-    }
 
     /*******************************************/
     /* Accessors and mutators
@@ -49,9 +49,9 @@ class SchoolGrade extends Model
      * @param  String $value
      * @return void
      */
-    public function setGradeAttribute($value)
+    public function setAnnoAttribute($value)
     {
-        $this->attributes['grade']=mb_strtoupper($value);
+        $this->attributes['anno']=mb_strtoupper($value);
     }
 
     /**
@@ -60,7 +60,7 @@ class SchoolGrade extends Model
      * @param  String $value
      * @return String
      */
-    public function getGradeAttribute($value)
+    public function getAnnoAttribute($value)
     {
         return mb_strtoupper($value);
     }
@@ -71,6 +71,33 @@ class SchoolGrade extends Model
 
     public function scopeSearch($query, $search)
     {
-        return $query->where('grade', 'like', '%'.$search.'%' );
+        return $query->where('anno', 'like', '%'.$search.'%' );
+    }
+
+    public function setCurrent()
+    {
+        $currents=Anno::where('current', true)->get();
+        foreach($currents as $current)
+        {
+            $current->current=false;
+            $current->save();
+        }
+        $this->current=true;
+        $this->save();
+    }
+
+    /*******************************************/
+    /* Events
+    /*******************************************/
+
+    public function canLockRecordCustom()
+    {
+        return ($this->canBeLocked());
+    }
+
+    public function canBeLocked()
+    {
+        if ($this->current) return false;
+        return true;
     }
 }

@@ -13,6 +13,7 @@ return [
         'timezones'         =>  'zonas horarias',
         'school_levels'     =>  'niveles académicos',
         'school_grades'     =>  'grados académicos',
+        'annos'             =>  'años académicos',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -86,5 +87,9 @@ return [
     'access'                =>  'acceso',
     'academic'              =>  'académica',
     'colors'                =>  'colores',
+    'start'                 =>  'comienzo',
+    'end'                   =>  'final',
+    'anno'                  =>  'año académico',
+    'config'                =>  'configuración',
 
 ];

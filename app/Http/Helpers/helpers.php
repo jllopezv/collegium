@@ -70,6 +70,7 @@
          */
         function getDateString( $carbondate )
         {
+            if ($carbondate==null) return getNow();
             return $carbondate->format( Auth::user()->dateformat??config('lopsoft.date_format') );
         }
     }

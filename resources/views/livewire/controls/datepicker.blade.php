@@ -27,7 +27,7 @@
                     </div>
                 @endif
             </div>
-            @if($requiredfield)
+            @if($requiredfield && !$readonly)
                 <div class='cursor-pointer tooltip'>
                     <i class='text-red-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
                     @if($help!='')

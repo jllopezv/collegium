@@ -56,6 +56,7 @@ class Datepicker extends Component
 
     public function mount()
     {
+        if ($this->mode=='show') $this->readonly=true;
         if ($this->label=='') $this->label="FECHA";
         $this->classchevron='text-gray-300 hover:text-gray-700';
         $this->contenttoshow=false;

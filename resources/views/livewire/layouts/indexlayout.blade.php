@@ -50,7 +50,11 @@
                     @if(!is_null($data))
                         @if($data->count())
                             @foreach($data as $index => $item)
-                                <x-lopsoft.datatable.body-tr active='{{$item->active??true}}'>
+                                <x-lopsoft.datatable.body-tr
+                                    active='{{$item->active??true}}'
+                                    model='{{ $model }}'
+                                    index="{{$item->id}}"
+                                    table="{{$table}}">
                                     @if($canselect!=='false')
                                         @if($item->allowDelete() || $item->allowLock())
                                             @if($item->canDeleteRecord() || $item->canLockRecord() || $item->canUnlockRecord() || $item->canCustomActionRecord() )

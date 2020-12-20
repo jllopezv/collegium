@@ -7,12 +7,14 @@ use App\Models\Traits\HasActive;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
+use App\Models\Traits\HasCommon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SchoolLevel extends Model
 {
     use HasActive;
     use HasOwner;
+    use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
 

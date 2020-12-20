@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Aux\Color;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
+use App\Models\Traits\HasCommon;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -16,6 +17,7 @@ class Role extends Model
 {
     use HasActive;
     use HasOwner;
+    use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
 

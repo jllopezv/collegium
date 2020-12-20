@@ -8,10 +8,12 @@ use App\Models\Traits\HasAbilities;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
+use App\Models\Traits\HasCommon;
 
 class Color extends Model
 {
     use HasAbilities;
+    use HasCommon;
     use HasAllowedActions;
 
     /**
