@@ -116,6 +116,8 @@ class AppSettingComponent extends Component
         $this->settingvalue = $this->record->settingvalue;
         $this->type = $this->record->type;
         $this->page_id = $this->record->page_id;
+        if ($this->type=='boolean') $this->typecheckbox=$this->settingvalue==='true'?1:0;
+        if ($this->type=='image') $this->typeimage=$this->settingvalue;
         $this->emit('setvalue','appsettingcomponent', $this->page_id);
     }
 

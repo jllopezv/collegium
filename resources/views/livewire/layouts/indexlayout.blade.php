@@ -102,7 +102,7 @@
                         @if($data->count())
                             @foreach($data as $index => $item)
                                 {{-- Card --}}
-                                <div class='p-2 m-2
+                                <div class='p-2 m-2 bg-white
                                     @include('livewire.partials.cardstates', [ 'record' => $item ])
                                     rounded-lg shadow'>
 

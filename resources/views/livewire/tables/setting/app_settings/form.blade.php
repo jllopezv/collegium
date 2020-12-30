@@ -86,7 +86,7 @@
     'sublabel'      => 'Página dónde se guardará la configuración',
     'key'           => 'id',
     'field'         => 'settingpage',
-    'defaultvalue'  => $record->settingpage??null,
+    'defaultvalue'  => $record->page_id??null,
     'eventname'     => 'eventsetpage',
     'linknew'       => route('app_setting_pages.create'),
     'uid'           => 'appsettingpagecomponent',

@@ -1,5 +1,8 @@
-@include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->settingkey ])
-
+<x-lopsoft.datatable.row-column
+    canshow="{{ $item->canShowRecord() && $item->allowShow() }}"
+    link="{{ route($table.'.show',$item->id) }}" >
+    {{ $item->settingkey }}
+</x-lopsoft.datatable.row-column>
 <x-lopsoft.datatable.row-column
     canshow="{{ $item->canShowRecord() && $item->allowShow() }}"
     link="{{ route($table.'.show',$item->id) }}" >
