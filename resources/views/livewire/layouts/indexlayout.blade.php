@@ -2,7 +2,7 @@
 
     @include('livewire.partials.loading-message')
 
-    <div wire:loading.delay.class='opacity-25'>
+    <div @if(!$disableloading) wire:loading.delay.class='opacity-25' @endif>
         <x-lopsoft.datatable.mainlayout
             table='{{ $table }}'
             module='{{ $module }}'

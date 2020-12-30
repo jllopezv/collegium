@@ -59,6 +59,7 @@ Trait HasCommon
     public $callback=null;
     public $paramscallforward;
     public $paramscallback;
+    public $disableloading=false;
 
     private $data=null;
     private $newmodel=null;
@@ -270,6 +271,26 @@ Trait HasCommon
      * @return boolean
      */
     public function canUpdate()
+    {
+        return true;
+    }
+
+    /**
+     * Prevalidation for store method
+     *
+     * @return boolean
+     */
+    public function customStoreValidation()
+    {
+        return true;
+    }
+
+    /**
+     * Prevalidation for update method
+     *
+     * @return boolean
+     */
+    public function customUpdateValidation()
     {
         return true;
     }
@@ -1081,6 +1102,11 @@ Trait HasCommon
             $this->emit('validationerror',$this->getErrorBag());
             return;
         }
+        if (!$this->customStoreValidation())
+        {
+            // usefull for custom validation filter
+            return;
+        }
         $this->preStore();
         $this->showFlashError($this->flashmessageid,"ERROR EN LOS DATOS");
         $validator=Validator::make(
@@ -1135,6 +1161,11 @@ Trait HasCommon
             $this->emit('validationerror',$this->getErrorBag());
             return;
         }
+        if (!$this->customUpdateValidation())
+        {
+            // usefull for custom validation filter
+            return;
+        }
         $this->preUpdate();
         $this->showFlashError($this->flashmessageid,"ERROR EN LOS DATOS");
         $validator=Validator::make(
@@ -1172,6 +1203,12 @@ Trait HasCommon
         }
         $this->emit('refreshDatatable');
         if ($exit) $this->goForward();
+    }
+
+
+    public function disableLoading()
+    {
+        $this->disableloading=true;
     }
 
 

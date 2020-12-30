@@ -27,6 +27,7 @@ class DropDownComponent extends Component
     public $defaultvalue;
     public $classchevron='';
     public $label;
+    public $sublabel="";
     public $requiredfield=false;
     public $help='';
     public $cansearch=false;

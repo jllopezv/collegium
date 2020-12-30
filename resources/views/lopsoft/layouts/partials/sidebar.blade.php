@@ -85,6 +85,15 @@
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
             @endhasAbility
+            @hasAbility(['annos.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user'
+                link="{{ route('annos.index') }}"
+                text="{{ transup('tables.annos') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
             @hasAbility(['students.access'])
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-user'
@@ -96,18 +105,27 @@
             @endhasAbility
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
-    @hasAbilityOr(['annos.access'])
+    @hasAbilityOr(['app_setting_pages.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user'
             link='linkeando'
             text="{{ transup('config') }}"
             menuid='menuconfig'
             classmenu='hover:text-green-300'>
-            @hasAbility(['annos.access'])
+            @hasAbility(['app_settings.access'])
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-user'
-                link="{{ route('annos.index') }}"
-                text="{{ transup('tables.annos') }}"
+                link="{{ route('app_settings.index') }}"
+                text="{{ transup('tables.app_settings') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['app_setting_pages.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user'
+                link="{{ route('app_setting_pages.index') }}"
+                text="{{ transup('tables.app_setting_pages') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
@@ -151,7 +169,13 @@
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
 
-
+    <x-lopsoft.control.sidebar-link
+        icon='hover:text-red-500 fa fa-file'
+        text="{{ transup('filemanger') }}"
+        help="{{ transup('filemanager') }}"
+        class='hover:text-blue-500'
+        link="{{ route('filemanager.test') }}">
+    </x-lopsoft.control.sidebar-link>
     <x-lopsoft.control.sidebar-link
         icon='hover:text-red-500 fa fa-sign-out'
         text="{{ transup('exit') }}"

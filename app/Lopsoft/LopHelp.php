@@ -76,5 +76,16 @@ class LopHelp
         ];
     }
 
+    static public function getAppSettingTypesDropDown()
+    {
+        return
+        [
+            [ 'value' => 'text',    'text' => "<i class='text-cool-gray-400 fa fa-keyboard fa-fw'></i> TEXTO" ],
+            [ 'value' => 'number', 'text' => "<i class='text-green-300 fa fa-calculator fa-fw'></i>  NÚMERO" ],
+            [ 'value' => 'boolean', 'text' => "<i class='text-blue-400 fa fa-toggle-on fa-fw'></i> SI/NO" ],
+            [ 'value' => 'image',   'text' => "<i class='text-orange-300 fa fa-image fa-fw'></i> IMAGEN" ],
+        ];
+    }
+
 
 }

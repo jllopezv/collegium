@@ -14,6 +14,8 @@ return [
         'school_levels'     =>  'school_levels',
         'school_grades'     =>  'school_grades',
         'annos'             =>  'annos',
+        'app_setting_pages' =>  'setting pages',
+        'app_settings'      =>  'settings',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -91,5 +93,10 @@ return [
     'end'                   =>  'end',
     'anno'                  =>  'anno',
     'config'                =>  'config',
-
+    'page'                  =>  'page',
+    'key'                   =>  'key',
+    'desc'                  =>  'description',
+    'value'                 =>  'value',
+    'type'                  =>  'type',
+    'image'                 =>  'image',
 ];

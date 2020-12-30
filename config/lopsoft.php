@@ -16,6 +16,7 @@ return [
     'vendorweb'             =>  'www.lopsoft.com',
     'vendorlogo_overblack'  =>  'system/vendorlogo_bgblack.png',
     'vendorlogo'            =>  'system/vendorlogo.png',
+    'prefix_admin'          =>  'admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -66,6 +67,18 @@ return [
     'garbagecollection_days'    =>  1,              // Days to let temp files
 
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Files Manager
+    |--------------------------------------------------------------------------
+    |
+    */
+    'filemanager_disk'              =>  'public',
+    'filemanager_storage_folder'    =>  'files',
+    'filemanager_max_upload_size'   =>  8192,
+
+
      /*
     |--------------------------------------------------------------------------
     | Users
@@ -73,8 +86,8 @@ return [
     |
     */
 
-    'default_avatar'        =>  'system/userdefault.png',
-    'avatar_max_size'       =>  5120, // 5Mb
+    'default_avatar'        => 'system/userdefault.png',
+    'avatar_max_size'       => 5120, // 5Mb
     'ucAccess'              => true,        // Uppercase Access Models (users,roles)
     'maxLevelAdmin'         => 10,          // Maximun level for admins ( between 1 and maxLevelAdmin both includes)
     'maxlevelVIPUsers'      => 100,

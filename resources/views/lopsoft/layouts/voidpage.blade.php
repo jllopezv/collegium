@@ -11,14 +11,36 @@
 
     </head>
 
-    <body class="subpixel-antialiased bg-gray-800">
+    <body class="subpixel-antialiased">
 
-        @yield('content')
+        <div class='w-full h-full'>
 
-        @stack('modals')
-        @stack('scripts')
+            @yield('content')
+
+        </div>
+
+        @livewire('messages.modal-alert')
+        @livewire('messages.modal-confirm')
+
+        @if(session()->has('status_success'))
+            <script> ShowSuccess("{{ session('status_success') }}"); </script>
+        @endif
+        @if(session()->has('status_error'))
+            <script> ShowError("{{ session('status_error') }}"); </script>
+        @endif
+        @if(session()->has('status_info'))
+            <script> ShowInfo("{{ session('status_info') }}"); </script>
+        @endif
+        @if(session()->has('status_warning'))
+            <script> ShowWarning("{{ session('status_warning') }}"); </script>
+        @endif
 
         @livewireScripts
+
+        <script>
+            $('html,body').scrollTop(0); // top right now
+        </script>
+
     </body>
 </html>
 

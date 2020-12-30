@@ -102,8 +102,8 @@ class PermissionGroupComponent extends Component
     public function saveRecord()
     {
         return [
-            'group' =>  $this->group,
-            'priority' =>  $this->priority,
+            'group'     =>  $this->group,
+            'priority'  =>  $this->priority,
         ];
     }
 

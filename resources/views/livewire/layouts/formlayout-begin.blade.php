@@ -2,7 +2,7 @@
 
     @include('livewire.partials.loading-message')
 
-    <div wire:loading.delay.class='opacity-25' >
+    <div @if(!$disableloading) wire:loading.delay.class='opacity-25' @endif >
 
         <div class='w-full {{ $classcard }} mx-auto'>
 

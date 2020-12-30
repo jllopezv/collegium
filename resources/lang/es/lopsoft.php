@@ -14,6 +14,8 @@ return [
         'school_levels'     =>  'niveles académicos',
         'school_grades'     =>  'grados académicos',
         'annos'             =>  'años académicos',
+        'app_setting_pages' =>  'páginas de configuración',
+        'app_settings'      =>  'configuraciones',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -91,5 +93,10 @@ return [
     'end'                   =>  'final',
     'anno'                  =>  'año académico',
     'config'                =>  'configuración',
-
+    'page'                  =>  'página',
+    'key'                   =>  'clave',
+    'desc'                  =>  'descripción',
+    'value'                 =>  'valor',
+    'type'                  =>  'tipo',
+    'image'                 =>  'imagen',
 ];

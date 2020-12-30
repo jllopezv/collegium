@@ -1,12 +1,20 @@
-@props([ 'text' => null, 'icon' => null,  'ref' => '', 'help' => '', 'helpclass' =>'tooltiptext-up-center', 'textxs' => false ])
+@props([
+    'text'      => null,
+    'icon'      => null,
+    'ref'       => '',
+    'help'      => '',
+    'helpclass' =>'tooltiptext-up-center',
+    'textxs'    => false,
+    'buttonxs'  => false ])
 
 <button
     @if($ref)
         x-ref="{{$ref}}"
     @endif
     {{ $attributes->merge([
-    'class' => 'inline-flex items-center tooltip
-                px-4 py-2 border border-transparent
+    'class' => 'inline-flex items-center tooltip '
+                .( $buttonxs ? 'px-2 py-1' : 'px-4 py-2' ).
+                ' border border-transparent
                 rounded-md font-bold text-sm text-white uppercase
                 focus:outline-none  focus:shadow-none
                 cursor-pointer transition ease-in-out duration-150
@@ -34,4 +42,5 @@
             </span>
         @endif
     </div>
-</a>
+
+</button>

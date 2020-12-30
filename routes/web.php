@@ -12,10 +12,10 @@ use App\Models\School\Student;
 use App\Models\Auth\Permission;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
-use Illuminate\Support\Facades\App;
+use App\Models\Setting\AppSetting;
 use App\Models\Auth\PermissionGroup;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\Setting\AppSettingPage;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Aux\ColorController;
@@ -26,7 +26,9 @@ use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\Auth\PermissionController;
 use App\Http\Controllers\School\SchoolGradeController;
 use App\Http\Controllers\School\SchoolLevelController;
+use App\Http\Controllers\Setting\AppSettingController;
 use App\Http\Controllers\Auth\PermissionGroupController;
+use App\Http\Controllers\Setting\AppSettingPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,12 +67,19 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/profile', function() {
     return view('lopsoft.auth.profile');
 })->name('profile');
 
+Route::get('/fm', function () {
+    return view('lopsoft.filemanager.browser');
+})->middleware('permission:filemanager')->name('filemanager.browser');
+
+Route::get('/testfm', function () {
+    return view('testfm');
+})->middleware('permission:filemanager')->name('filemanager.test');
 
 /*****************************************************/
 /* AUTENTICACIÓN                                     */
 /*****************************************************/
 
-Route::group( [ 'prefix'        => '/admin',
+Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
                 'middleware'    => ['web', 'auth', 'verified'],
                 'namespace'     => '\App\Http\Controllers\Auth' ], function() {
 
@@ -86,7 +95,7 @@ Route::group( [ 'prefix'        => '/admin',
 /* ACADÉMICA                                         */
 /*****************************************************/
 
-Route::group( [ 'prefix'        => '/admin',
+Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
                 'middleware'    => ['web', 'auth', 'verified'],
                 'namespace'     => '\App\Http\Controllers\School' ], function() {
 
@@ -96,11 +105,25 @@ Route::group( [ 'prefix'        => '/admin',
     LopHelp::generateCommonModelRoute('annos', AnnoController::class, Anno::class);
 });
 
+
+/*****************************************************/
+/* SETTINGS                                          */
+/*****************************************************/
+
+Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
+                'middleware'    => ['web', 'auth', 'verified'],
+                'namespace'     => '\App\Http\Controllers\Setting' ], function() {
+
+    LopHelp::generateCommonModelRoute('app_setting_pages', AppSettingPageController::class, AppSettingPage::class);
+    LopHelp::generateCommonModelRoute('app_settings', AppSettingController::class, AppSetting::class);
+
+});
+
 /*****************************************************/
 /* AUXILIARES                                        */
 /*****************************************************/
 
-Route::group( [ 'prefix'        => '/admin',
+Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
                 'middleware'    => ['web', 'auth', 'verified'],
                 'namespace'     => '\App\Http\Controllers\Aux' ], function() {
 

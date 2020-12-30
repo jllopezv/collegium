@@ -18,9 +18,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CountrySeeder::class);
         $this->call(TimezoneSeeder::class);
         $this->call(LanguageSeeder::class);
-
-        // Config
         $this->call(AnnoSeeder::class);
+
+        // Setting
+        $this->call(AppSettingPageSeeder::class);
 
         //Auth
         $this->call(PermissionGroupSeeder::class);

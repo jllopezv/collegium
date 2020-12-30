@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class='flex items-center justify-center w-full h-screen'>
+<div class='flex items-center justify-center w-full h-screen bg-cool-gray-800'>
     <div class='block text-center'>
         <div class='text-lg font-bold text-white'>BIENVENIDO A LOPSOFT.COM</div>
         <div class='mt-4'>

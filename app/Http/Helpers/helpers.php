@@ -3,6 +3,17 @@
     use Illuminate\Support\Facades\Auth;
     use Carbon\Carbon;
 
+
+    // To Debug. Imitate delay com
+
+    if (! function_exists('delayCom')) {
+
+        function delayCom()
+        {
+            for($i=0,$a=0;$i<1000000000;$i++) $a=$a+$i;
+        }
+    }
+
     // Carbon Helpers
 
     if (! function_exists('getNow')) {
@@ -13,6 +24,17 @@
                         ->setTimezone( Auth::user()->timezone->name??config('lopsoft.timezone_default') )
                         ->locale( Auth::user()->language->code??config('lopsoft.locale_default') )
                         ->format( Auth::user()->dateformat??config('lopsoft.date_format') );
+        }
+    }
+
+    if (! function_exists('getNowFile')) {
+
+        function getNowFile()
+        {
+            return Carbon::now()
+                        ->setTimezone( Auth::user()->timezone->name??config('lopsoft.timezone_default') )
+                        ->locale( Auth::user()->language->code??config('lopsoft.locale_default') )
+                        ->format( 'YmdHisv' );
         }
     }
 
@@ -90,6 +112,20 @@
     }
 
 
+    // Files
+    if (! function_exists('humanFileSize')) {
+
+        function humanFileSize($size,$unit="") {
+            if( (!$unit && $size >= 1<<30) || $unit == "GB")
+            return number_format($size/(1<<30),2)."GB";
+            if( (!$unit && $size >= 1<<20) || $unit == "MB")
+            return number_format($size/(1<<20),2)."MB";
+            if( (!$unit && $size >= 1<<10) || $unit == "KB")
+            return number_format($size/(1<<10),2)."KB";
+            return number_format($size)." bytes";
+        }
+
+    }
 
 
     // Translate

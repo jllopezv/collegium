@@ -6,6 +6,9 @@
 
     <label class="block font-bold">
         {{ $label }}
+        @if($sublabel!="")
+            <div class='text-sm font-normal text-gray-400'>{{ $sublabel}}</div>
+        @endif
     </label>
     <div class='relative {{ $classdropdown }} pt-2'>
         <div class='flex items-center justify-center'>

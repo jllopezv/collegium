@@ -18,6 +18,7 @@ class DropDownMultiTableComponent extends Component
     public $defaultvalue;           // default key. null to select first
     public $classchevron='';        // class for chevron ( hover or not hover )
     public $label;                  // label for inputgroup
+    public $sublabel="";
     public $requiredfield=false;    // show info
     public $help='';                // show help for requiredfield
     public $cansearch=true;         // can show search box
