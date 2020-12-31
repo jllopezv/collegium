@@ -13,6 +13,8 @@
     'classcontainer' => '',
     'mode'          =>  'create',
     'fileid'        => Str::random(20),
+    'modelid'       => '',
+    'params'        => '',  // Extra params array like [ 'mimes' => ['jpg', 'png'] ]
 ])
 
 
@@ -44,7 +46,7 @@
                     mode='{{ $mode }}'
                 />
             </div>
-            <div class='' wire:click="$emitTo('filemanager.filemanager','showFilemanager','*')"> {{--@click="$refs.{{ $fileid }}.click()">
+            <div class='' wire:click="$emitTo('filemanager.filemanager','showFilemanager','*', '{{  $modelid }}', '{{ $params }}')"> {{--@click="$refs.{{ $fileid }}.click()">
              <div class='' @click="window.open('{{ route('filemanager.browser') }}', 'Popup', 'location,status,scrollbars,resizable,width=800, height=800');"> --}}
                 <i class='text-blue-400 cursor-pointer hover:text-blue-500 fa fa-search fa-fw' ></i>
             </div>

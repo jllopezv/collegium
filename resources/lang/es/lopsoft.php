@@ -16,6 +16,7 @@ return [
         'annos'             =>  'años académicos',
         'app_setting_pages' =>  'páginas de configuración',
         'app_settings'      =>  'configuraciones',
+        'app'               =>  'aplicación',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',

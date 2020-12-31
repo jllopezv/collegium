@@ -38,9 +38,12 @@ class Filemanager extends Component
     public $actionindex=-1;
     public $fileupload;
     public $allowedmimetypes='jpg,gif,jpeg,bmp,png';
+    public $downloadmimetypes='';
     public $onlyimages=false;
     public $uploading=false;
     public $source="";
+    public $modelid;
+    public $params;
 
     protected $listeners = [
         'showFilemanager' => 'open',
@@ -50,11 +53,14 @@ class Filemanager extends Component
         'filemanager-savetemporary' => 'savetemporary',
     ];
 
-    public function open($uuid='*')
+    public function open($uuid='*', $modelid='', $params)
     {
         if ($uuid=='*' || $uuid==$this->uuid)
         {
             $this->isOpen = true;
+            $this->modelid=$modelid;
+            $this->params=$params;
+            $this->parseParams();
         }
     }
 
@@ -80,6 +86,22 @@ class Filemanager extends Component
         $this->root=$this->currentdir;
         //if (Str::endsWith($this->currentdir, DIRECTORY_SEPARATOR)) $this->currentdir=Str::substr($this->currentdir, 0, Str::length($this->currentdir)-1);
         $this->readFiles();
+    }
+
+    public function parseParams()
+    {
+        $params=explode('|',$this->params);
+        foreach($params as $param)
+        {
+            $key=explode(':', $param)[0];
+            $value=explode(':', $param)[1];
+            switch($key)
+            {
+                case 'types':
+                    $this->downloadmimetypes=$value;
+                    break;
+            }
+        }
     }
 
     public function readFiles()
@@ -262,7 +284,17 @@ class Filemanager extends Component
 
     public function applySelect()
     {
-        $this->emit('filemanagerselect', $this->uuid, Str::after( $this->currentdir, $this->root), $this->getSelectedFiles());
+        if ($this->downloadmimetypes!="")
+        {
+            $mimetypes=explode(',', $this->downloadmimetypes);
+            $getfile=$this->getSelectedFiles();
+            if (!in_array($getfile[0]['extension'], $mimetypes))
+            {
+                $this->showAlertError("EL ARCHIVO NO ES VÁLIDO. DEBE SER ".$this->downloadmimetypes);
+                return;
+            }
+        }
+        $this->emit('filemanagerselect', $this->uuid, Str::after( $this->currentdir, $this->root), $this->getSelectedFiles(), $this->modelid);
         $this->close();
     }
 

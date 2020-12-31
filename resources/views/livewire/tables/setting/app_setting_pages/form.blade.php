@@ -7,6 +7,16 @@
     classcontainer='w-full'
     requiredfield
     help="{{ transup('mandatory_unique') }}"
+    nextref='description'
+    mode="{{ $mode }}"
+/>
+<x-lopsoft.control.inputform
+    wire:model.lazy='description'
+    id='description'
+    x-ref='description'
+    label="{{ transup('description') }}"
+    autofocus
+    classcontainer='w-full'
     nextref='priority'
     mode="{{ $mode }}"
 />
@@ -22,3 +32,15 @@
     help="{{ transup('mandatory') }}"
     mode='{{ $mode }}'
 />
+@isSuperadmin
+<div class='mt-2'>
+    <x-lopsoft.control.checkbox
+        label='SOLO SUPERADMIN'
+        model='onlysuperadmin'
+        color='text-blue-400'
+        classlabel='font-bold'
+        mode='{{ $mode }}'
+    />
+</div>
+@endisSuperadmin
+

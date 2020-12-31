@@ -65,6 +65,18 @@ class PermissionSeeder extends Seeder
                                             'allowDelete'   => false,
                                             'allowLock'     => false,
                                         ]);
+
+        $record=new Permission;
+        $record->name="CAMBIAR CONFIGURACIÓN";
+        $record->slug='app.settings';
+        $record->description="PERMITE CAMBIAR PARÁMETROS DE CONFIGURACIÓN";
+        $record->group=$this->getGroupID('ESPECIALES');
+        $record->save();
+        $record->allowedActions()->create([ 'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false,
+                                        ]);
     }
 
     public function createPermissions($table, $group)

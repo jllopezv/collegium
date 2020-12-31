@@ -22,6 +22,8 @@ class AppSettingPageComponent extends Component
 
     public $settingpage;
     public $priority;
+    public $description;
+    public $onlysuperadmin;
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',      // Refresh all components in index mode
@@ -44,7 +46,11 @@ class AppSettingPageComponent extends Component
         $this->commonMount();
         // Default order for table
         $this->sortorder='priority';
-        if ($this->mode=='create') $this->priority=AppSettingPage::count()+1;   // Default falue
+        if ($this->mode=='create')
+        {
+            $this->priority=AppSettingPage::count()+1;   // Default falue
+            $this->onlysuperadmin=false;
+        }
     }
 
     /**
@@ -69,7 +75,9 @@ class AppSettingPageComponent extends Component
     public function resetForm()
     {
         $this->settingpage = '';
-        $this->priority=AppSettingPage::count()+1;
+        $this->description = "";
+        $this->onlysuperadmin=false;
+        $this->priority = AppSettingPage::count()+1;
     }
 
     /**
@@ -91,6 +99,8 @@ class AppSettingPageComponent extends Component
     public function loadRecordDef()
     {
         $this->settingpage = $this->record->settingpage;
+        $this->description = $this->record->description;
+        $this->onlysuperadmin = $this->record->onlysuperadmin;
         $this->priority = $this->record->priority;
     }
 
@@ -104,6 +114,8 @@ class AppSettingPageComponent extends Component
         return [
             'settingpage'          =>  $this->settingpage,
             'priority'             =>  $this->priority,
+            'description'          =>  $this->description,
+            'onlysuperadmin'       =>  $this->onlysuperadmin,
         ];
     }
 

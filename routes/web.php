@@ -117,6 +117,10 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('app_setting_pages', AppSettingPageController::class, AppSettingPage::class);
     LopHelp::generateCommonModelRoute('app_settings', AppSettingController::class, AppSetting::class);
 
+    Route::get('settings', function () {
+        return view('lopsoft.settings');
+    })->middleware('permission:app.settings')->name('app.settings');
+
 });
 
 /*****************************************************/

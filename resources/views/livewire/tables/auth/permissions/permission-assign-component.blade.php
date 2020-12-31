@@ -52,6 +52,10 @@
                             <i class='fa fa-sign-in'></i>
                             <span class='tooltiptext tooltiptext-center-left'>LOGIN</span>
                         </div>
+                        <div class='w-8 font-bold text-center border-b-2 border-gray-400 cursor-pointer tooltip'>
+                            <i class='fa fa-cogs'></i>
+                            <span class='tooltiptext tooltiptext-center-left'>CONFIGURACIÓN</span>
+                        </div>
                     @endif
                 </div>
             </div>
@@ -63,7 +67,7 @@
                 @foreach($tables as $table)
                     <div class=''>
                         <div class='inline-flex items-center justify-start'>
-                            <div class='w-48'>
+                            <div class='w-48 pt-1'>
                                 <span class='font-bold'>{{ transup('tables.'.$table) }}</span>
                             </div>
                             @if($group->group!='ESPECIALES')
@@ -228,6 +232,21 @@
                                 <div class='w-8 text-center'>
                                     @php
                                         $permission=$permissions->where('slug',$table.'.login')->first();
+                                    @endphp
+                                    @if(!is_null($permission))
+                                        @hasAbility($permission->slug)
+                                            @if(!is_null($permission))
+                                                <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
+                                                    class="w-5 h-5 text-blue-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
+                                            @endif
+                                        @else
+                                            <i class='text-red-500 fa fa-ban'></i>
+                                        @endhasAbility
+                                    @endif
+                                </div>
+                                <div class='w-8 text-center'>
+                                    @php
+                                        $permission=$permissions->where('slug',$table.'.settings')->first();
                                     @endphp
                                     @if(!is_null($permission))
                                         @hasAbility($permission->slug)

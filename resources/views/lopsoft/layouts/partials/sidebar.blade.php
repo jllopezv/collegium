@@ -13,6 +13,41 @@
         help="{{ transup('home') }}"
         class='hover:text-green-300'>
     </x-lopsoft.control.sidebar-link>
+    @hasAbilityOr(['app_setting_pages.access'])
+        <x-lopsoft.control.sidebar-menu
+            icon='fa fa-cogs'
+            text="{{ transup('config') }}"
+            menuid='menuconfig'
+            classmenu='hover:text-green-300'>
+            @hasAbility(['app.settings'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-cogs'
+                link="{{ route('app.settings') }}"
+                text="{{ transup('config') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['app_settings.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-tools'
+                link="{{ route('app_settings.index') }}"
+                text="{{ transup('tables.app_settings') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['app_setting_pages.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-tools'
+                link="{{ route('app_setting_pages.index') }}"
+                text="{{ transup('tables.app_setting_pages') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+        </x-lopsoft.control.sidebar-menu>
+    @endhasAbilityOr
     @hasAbilityOr(["permission_groups.access", "permissions.access", "roles.access", "users.access"])
     <x-lopsoft.control.sidebar-menu
         icon='fa fa-user'
@@ -105,33 +140,7 @@
             @endhasAbility
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
-    @hasAbilityOr(['app_setting_pages.access'])
-        <x-lopsoft.control.sidebar-menu
-            icon='fa fa-user'
-            link='linkeando'
-            text="{{ transup('config') }}"
-            menuid='menuconfig'
-            classmenu='hover:text-green-300'>
-            @hasAbility(['app_settings.access'])
-            <x-lopsoft.control.sidebar-sublink
-                icon='hover:text-red-500 fa fa-user'
-                link="{{ route('app_settings.index') }}"
-                text="{{ transup('tables.app_settings') }}"
-                class='hover:text-green-300'
-                help=''>
-            </x-lopsoft.control.sidebar-sublink>
-            @endhasAbility
-            @hasAbility(['app_setting_pages.access'])
-            <x-lopsoft.control.sidebar-sublink
-                icon='hover:text-red-500 fa fa-user'
-                link="{{ route('app_setting_pages.index') }}"
-                text="{{ transup('tables.app_setting_pages') }}"
-                class='hover:text-green-300'
-                help=''>
-            </x-lopsoft.control.sidebar-sublink>
-            @endhasAbility
-        </x-lopsoft.control.sidebar-menu>
-    @endhasAbilityOr
+
     @hasAbilityOr(['colors.access','countries.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user'

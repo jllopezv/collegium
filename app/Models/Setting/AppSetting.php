@@ -25,15 +25,32 @@ class AppSetting extends Model
         'settingkey', 'settingdesc', 'settingvalue', 'type', 'page_id'
     ];
 
+    /*******************************************/
+    /* Accessor / Mutators
+    /*******************************************/
+
     public function setSettingkeyAttribute($value)
     {
-        $this->attributes['settingkey']=mb_strtoupper($value);
+        $this->attributes['settingkey']=str_replace(' ','_',mb_strtoupper($value));
     }
 
     public function getSettingkeyAttribute($value)
     {
-        return mb_strtoupper($value);
+        return str_replace(' ','_',mb_strtoupper($value));
     }
+
+    /*******************************************/
+    /* Relationships
+    /*******************************************/
+
+    /**
+     * Get Settings
+     */
+    public function page()
+    {
+        return $this->hasOne(AppSettingPage::class, 'page_id' ,'id')->where('active',1);
+    }
+
 
 
     public function scopeSearch($query, $search)

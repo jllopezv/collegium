@@ -4,6 +4,7 @@ namespace App\Models\Setting;
 
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
+use App\Models\Setting\AppSetting;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
@@ -21,7 +22,7 @@ class AppSettingPage extends Model
      * @var array
      */
     protected $fillable = [
-        'settingpage', 'priority',
+        'settingpage', 'priority', 'description', 'onlysuperadmin'
     ];
 
     public function setSettingpageAttribute($value)
@@ -34,6 +35,17 @@ class AppSettingPage extends Model
         return mb_strtoupper($value);
     }
 
+    /*******************************************/
+    /* Relationships
+    /*******************************************/
+
+    /**
+     * Get Settings
+     */
+    public function settings()
+    {
+        return $this->hasMany(AppSetting::class,  'page_id' ,'id')->where('active',1);
+    }
 
     public function scopeSearch($query, $search)
     {

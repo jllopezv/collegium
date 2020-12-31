@@ -12,6 +12,7 @@
     'help'          => '',
     'classcontainer' => '',
     'mode'          =>  'create',
+    'value'         =>  '',
 ])
 
 
@@ -38,6 +39,7 @@
         requiredfield='{{$requiredfield}}'
         help='{!! $help !!}'
         mode='{{ $mode }}'
+        value='{!! $value !!}'
     />
 
     @if($showerror)

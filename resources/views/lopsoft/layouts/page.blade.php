@@ -69,6 +69,10 @@
 
         <script>
             $('html,body').scrollTop(0); // top right now
+            // window.addEventListener('setelementvalue', event => {
+            //     console.log(event.detail);
+            //     alert('ID: ' + event.detail.objectid+ " value: "+event.detail.objectvalue);
+            // })
         </script>
 
     </body>

@@ -16,6 +16,7 @@ return [
         'annos'             =>  'annos',
         'app_setting_pages' =>  'setting pages',
         'app_settings'      =>  'settings',
+        'app'               =>  'application',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
