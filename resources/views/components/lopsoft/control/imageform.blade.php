@@ -14,43 +14,50 @@
     'mode'          =>  'create',
     'fileid'        => Str::random(20),
     'modelid'       => '',
-    'params'        => '',  // Extra params array like [ 'mimes' => ['jpg', 'png'] ]
+    'params'        => '',  // Extra params array like 'types:png,jpg'
+    'classcomponent'=>'',
+    'searchpos'     =>'before',
 ])
 
 
 
-<div class='py-4'>
+<div class='py-4 {{$classcomponent}}'>
     <x-lopsoft.control.label
         class="font-bold {{ $labelclass }} {{ $errors->has($id)?'text-red-600 ':''}}"
-        {{-- text="{!! $label .( $requiredfield ? '<span class=\'text-red-500\'> *</span>' : '' ) !!}" --}}
         text="{!! $label !!}"
         labelwidth="{{ $labelwidth }}"/>
-        @if($sublabel)
-            <div class='text-sm text-gray-400'>{{ $sublabel}}</div>
-        @endif
+    @if($sublabel)
+        <div class='text-sm text-gray-400'>{{ $sublabel}}</div>
+    @endif
 
-        <div class='inline-flex items-center justify-start w-full'>
-            <div class='w-full'>
-                <x-lopsoft.control.input
-                    id="{{$id}}"
-                    name="{{$id}}"
-                    disabled='{{ $disabled ? "disabled" : "" }}'
-                    classcontainer="{{$classcontainer}}"
-                    {{ $attributes->merge([
-                        'class' => ($errors->has($id)?'border-red-500':'')
-                    ]) }}
-                    placeholder='{{ $placeholder }}'
-                    nextref='{{$nextref}}'
-                    requiredfield='{{$requiredfield}}'
-                    help='{!! $help !!}'
-                    mode='{{ $mode }}'
-                />
-            </div>
-            <div class='' wire:click="$emitTo('filemanager.filemanager','showFilemanager','*', '{{  $modelid }}', '{{ $params }}')"> {{--@click="$refs.{{ $fileid }}.click()">
-             <div class='' @click="window.open('{{ route('filemanager.browser') }}', 'Popup', 'location,status,scrollbars,resizable,width=800, height=800');"> --}}
+    <div class='inline-flex items-center justify-start w-full'>
+        @if($searchpos=='before')
+            <div class='mt-2' wire:click="$emitTo('filemanager.filemanager','showFilemanager','*', '{{  $modelid }}', '{{ $params }}')">
                 <i class='text-blue-400 cursor-pointer hover:text-blue-500 fa fa-search fa-fw' ></i>
             </div>
+        @endif
+        <div class='w-full'>
+            <x-lopsoft.control.input
+                id="{{$id}}"
+                name="{{$id}}"
+                disabled='{{ $disabled ? "disabled" : "" }}'
+                classcontainer="{{$classcontainer}}"
+                {{ $attributes->merge([
+                    'class' => ($errors->has($id)?'border-red-500':'')
+                ]) }}
+                placeholder='{{ $placeholder }}'
+                nextref='{{$nextref}}'
+                requiredfield='{{$requiredfield}}'
+                help='{!! $help !!}'
+                mode='{{ $mode }}'
+            />
         </div>
+        @if($searchpos=='after')
+            <div class='mt-2' wire:click="$emitTo('filemanager.filemanager','showFilemanager','*', '{{  $modelid }}', '{{ $params }}')">
+                <i class='text-blue-400 cursor-pointer hover:text-blue-500 fa fa-search fa-fw' ></i>
+            </div>
+        @endif
+    </div>
 
     @if($showerror)
         @if( $errors->has($id) )

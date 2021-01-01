@@ -8,17 +8,17 @@
 function InitSidebar()
 {
     return {
-        opensidebar: false,
-        showsidebar: true,
+        opensidebar: true,
+        showsidebar: false,
         open() {
-            if (this.opensidebar) return;
+            //if (this.opensidebar) return;
             this.opensidebar=true;
             ShowSidebar();
             // this.closeProfileMenu();
         },
         close() {
-            if (!this.opensidebar) return;
-            this.opensidebar=false;
+            //if (!this.opensidebar) return;
+            this.opensidebar=true;
             HideSidebar();
             CloseAllSidebarMenu('none');
             // this.closeProfileMenu();

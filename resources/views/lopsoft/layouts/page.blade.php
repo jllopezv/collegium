@@ -21,7 +21,7 @@
 
         <div
             x-data='InitSidebar()'
-            x-init='checkWidth()'
+            {{-- x-init='checkWidth()' --}}
             class="flex flex-col h-screen ">
 
             {{-- NAVBAR --}}
@@ -30,17 +30,17 @@
             </div>
 
             {{-- MAIN --}}
-             <div class='flex-1 h-full max-h-full overflow-y-hidden'>
+             <div class='relative flex-1 h-full max-h-full overflow-y-hidden'>
+
+                {{-- SIDEBAR --}}
+                @include('lopsoft.layouts.partials.sidebar')
 
                 <div  class='flex items-start justify-start h-full overflow-hidden bg-gray-800' >
-
-                    {{-- SIDEBAR --}}
-                    @include('lopsoft.layouts.partials.sidebar')
 
                     <div class='w-full h-full'>
                         {{-- INFOBAR --}}
                         @include('lopsoft.layouts.partials.infobar')
-                        <div class="w-full h-full overflow-x-hidden overflow-y-auto bg-gray-100">
+                        <div class="w-full h-full overflow-x-hidden overflow-y-auto bg-gray-100 nosb">
                             @yield('content')
                         </div>
                     </div>

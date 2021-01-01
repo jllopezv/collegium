@@ -5,9 +5,10 @@
     'model'         =>  '',
     'positionlabel' =>  'after',    // after, before
     'mode'          =>  'create',
+    'classcomponent'=>  '',
 ])
 
-<div>
+<div class='{{ $classcomponent }}'>
     <label class="inline-flex items-center">
         @if($positionlabel=='before') <span class="mr-2 {{ $classlabel }}">{{ $label }}</span> @endif
         <input type="checkbox" {{ $attributes }} wire:model='{{$model}}'

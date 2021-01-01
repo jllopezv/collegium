@@ -24,7 +24,7 @@
     mode="{{ $mode }}"
 />
 
-<div class='inline-flex items-center justify-start w-full'>
+<div class='flex flex-wrap items-center justify-start w-full md:inline-flex'>
     <div class='mr-2'>
         @livewire('controls.drop-down-component', [
                 'mode'          => $mode,
@@ -60,19 +60,26 @@
         </div>
 
         <div x-show="$wire.type=='image'" >
-            <x-lopsoft.control.imageform
-                wire:model.lazy='typeimage'
-                id='typeimage'
-                x-ref='typeimage'
-                label="{{ transup('image') }}"
-                autofocus
-                classcontainer='w-full'
-                requiredfield
-                help="{{ transup('mandatory_unique') }}"
-                nextref='type'
-                mode="{{ $mode }}"
-                fileid="filetypeimage"
-            />
+            <div class='flex flex-wrap items-center justify-start md:flex-no-wrap'>
+                <div class='w-full'>
+                    <x-lopsoft.control.imageform
+                        wire:model.lazy='typeimage'
+                        id='typeimage'
+                        x-ref='typeimage'
+                        label="{{ transup('image') }}"
+                        autofocus
+                        classcontainer='w-full'
+                        requiredfield
+                        help="{{ transup('mandatory_unique') }}"
+                        nextref='type'
+                        mode="{{ $mode }}"
+                        fileid="filetypeimage"
+                    />
+                </div>
+                <div class='h-full pb-2 mx-auto md:pb-0'>
+                    <img src="{{getImage( $typeimage )}}" style='max-height: 100px' />
+                </div>
+            </div>
         </div>
 
     </div>

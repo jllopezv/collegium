@@ -50,7 +50,7 @@ class Filemanager extends Component
         'closeFilemanager' => 'close',
         'deleteselectaction' => 'deleteSelectAction',
         'filemanager_update' => 'filemanagerUpdate',
-        'filemanager-savetemporary' => 'savetemporary',
+        'filemanager-savefile' => 'saveFile',
     ];
 
     public function open($uuid='*', $modelid='', $params)
@@ -90,17 +90,21 @@ class Filemanager extends Component
 
     public function parseParams()
     {
-        $params=explode('|',$this->params);
-        foreach($params as $param)
+        if ($this->params!='')
         {
-            $key=explode(':', $param)[0];
-            $value=explode(':', $param)[1];
-            switch($key)
+            $params=explode('|',$this->params);
+            foreach($params as $param)
             {
-                case 'types':
-                    $this->downloadmimetypes=$value;
-                    break;
+                $key=explode(':', $param)[0];
+                $value=explode(':', $param)[1];
+                switch($key)
+                {
+                    case 'types':
+                        $this->downloadmimetypes=$value;
+                        break;
+                }
             }
+
         }
     }
 
@@ -284,10 +288,17 @@ class Filemanager extends Component
 
     public function applySelect()
     {
+        $getfile=$this->getSelectedFiles();
+        if ($getfile[0]['type']=='folder')
+        {
+            $this->clearSelected();
+            $this->syncFiles();
+            return;
+        }
         if ($this->downloadmimetypes!="")
         {
             $mimetypes=explode(',', $this->downloadmimetypes);
-            $getfile=$this->getSelectedFiles();
+
             if (!in_array($getfile[0]['extension'], $mimetypes))
             {
                 $this->showAlertError("EL ARCHIVO NO ES VÁLIDO. DEBE SER ".$this->downloadmimetypes);
@@ -427,11 +438,11 @@ class Filemanager extends Component
         if ($this->fileupload)
         {
             $this->uploading=true;
-            $this->emit("filemanager-savetemporary");
+            $this->emit("filemanager-savefile");
         }
     }
 
-    public function savetemporary()
+    public function saveFile()
     {
         //$filename=$this->fileupload->getFileName();
         $filename='file_'.getNowFile().'.'.$this->fileupload->getClientOriginalExtension();
@@ -450,6 +461,11 @@ class Filemanager extends Component
             copy(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage) ),
                  Storage::disk(config('lopsoft.filemanager_disk'))->path(config('lopsoft.filemanager_storage_folder').$currentpath.$filename));
             unlink(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage) ));
+
+            // Create thumbnail
+            $handlerimg=Image::make(Storage::disk(config('lopsoft.filemanager_disk'))->path(config('lopsoft.filemanager_storage_folder').$currentpath.$filename))->fit(300);
+            $handlerimg->save(Storage::disk(config('lopsoft.filemanager_disk'))->path('thumbs'.DIRECTORY_SEPARATOR.config('lopsoft.filemanager_storage_folder').$currentpath.$filename));
+
 
         }
         catch(Exception $e)
@@ -480,13 +496,6 @@ class Filemanager extends Component
 			        Storage::disk(config('lopsoft.temp_disk'))->delete($file['path']);
 		        }
         });
-    }
-
-
-
-    public function filemanagerUpdate()
-    {
-        $this->ShowAlertSuccess("Yupiiii");
     }
 
 

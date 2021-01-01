@@ -13,11 +13,12 @@
     'classcontainer' => '',
     'mode'          =>  'create',
     'value'         =>  '',
+    'classcomponent' => '',
 ])
 
 
 
-<div class='py-4'>
+<div class='py-4 {{ $classcomponent }}'>
     <x-lopsoft.control.label
         class="font-bold {{ $labelclass }} {{ $errors->has($id)?'text-red-600 ':''}}"
         {{-- text="{!! $label .( $requiredfield ? '<span class=\'text-red-500\'> *</span>' : '' ) !!}" --}}

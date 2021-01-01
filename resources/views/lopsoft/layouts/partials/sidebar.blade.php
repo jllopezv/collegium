@@ -2,10 +2,11 @@
     id='sidebar'
     x-cloak
     x-show.transition.opacity.duration.500ms='showsidebar'
-    x-on:click.away='if (opensidebar==true)  checkWidth()'
-    @resize.window='checkWidth()'
-    :class="' bg-gray-800 text-white h-full text-xs transition-all duration-500  '+(opensidebar?' w-full sm:w-48 overflow-y-auto':'w-13')">
-    <x-lopsoft.control.sidebar-open />
+    x-on:click.away='showsidebar=false'
+    {{-- x-on:click.away='if (opensidebar==true)  checkWidth()' --}}
+    {{-- @resize.window='checkWidth()' --}}
+    :class="'absolute top-0 left-0 z-50 bg-gray-800 text-white h-full text-xs transition-all duration-500 w-72 overflow-y-auto nosb'">
+    {{-- <x-lopsoft.control.sidebar-open /> --}}
     <x-lopsoft.control.sidebar-link
         icon='fa fa-home'
         link="{{ route('dashboard') }}"
@@ -13,7 +14,7 @@
         help="{{ transup('home') }}"
         class='hover:text-green-300'>
     </x-lopsoft.control.sidebar-link>
-    @hasAbilityOr(['app_setting_pages.access'])
+    @hasAbilityOr(['app.settings', 'app_settings.access', 'app_setting_pages.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-cogs'
             text="{{ transup('config') }}"

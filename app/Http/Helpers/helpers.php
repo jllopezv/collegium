@@ -127,6 +127,30 @@
 
     }
 
+    // Images from filemanager
+
+    if (! function_exists('getImage')) {
+
+        function getImage($image) {
+
+            if ($image!="")
+            {
+                // THUMB?
+                if ( file_exists(Storage::disk(config('lopsoft.filemanager_disk'))->path('thumbs'.DIRECTORY_SEPARATOR.config('lopsoft.filemanager_storage_folder').DIRECTORY_SEPARATOR.$image)))
+                {
+                    return (Storage::disk(config('lopsoft.filemanager_disk'))->url('thumbs'.DIRECTORY_SEPARATOR.config('lopsoft.filemanager_storage_folder').DIRECTORY_SEPARATOR.$image));
+                }
+                if ( file_exists(Storage::disk(config('lopsoft.filemanager_disk'))->path(config('lopsoft.filemanager_storage_folder').DIRECTORY_SEPARATOR.$image)))
+                {
+                    return (Storage::disk(config('lopsoft.filemanager_disk'))->url(config('lopsoft.filemanager_storage_folder').DIRECTORY_SEPARATOR.$image));
+                }
+            }
+
+            return Storage::disk(config('lopsoft.filemanager_disk'))->url('fileicons'.DIRECTORY_SEPARATOR.'default_image.png');
+        }
+
+    }
+
 
     // Translate
 

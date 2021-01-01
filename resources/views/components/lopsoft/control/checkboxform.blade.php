@@ -5,9 +5,10 @@
     'classlabel'    =>  '',
     'model'         =>  '',
     'mode'          =>  'create',
+    'classcomponent'=>  '',
 ])
 
-<div class='py-3'>
+<div class='py-3 {{ $classcomponent }}'>
     <div>
         <label class="inline-flex items-center">
             <span class="{{ $classlabel }}">{{ $label }}</span>

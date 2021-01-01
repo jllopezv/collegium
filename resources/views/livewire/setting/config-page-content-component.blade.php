@@ -1,6 +1,9 @@
 <div class='h-full'>
     @if($page==null)
-        LISTA DE COFIGURACIONES
+        <div class='w-full p-2 border-b border-l bg-cool-gray-300 border-cool-gray-400'>
+            <div class='text-xl font-bold text-gray-700'>CONFIGURACIÓN DEL SISTEMA</div>
+            <div class='text-lg text-gray-600'>SELECCIONE LA PÁGINA DE OPCIONES QUE QUIERE CONFIGURAR</div>
+        </div>
     @else
         <div class='w-full p-2 border-b border-l bg-cool-gray-300 border-cool-gray-400'>
             <div class='text-xl font-bold text-gray-700'>{{ $page->settingpage??'' }}</div>
@@ -16,6 +19,8 @@
                             sublabel="{{ $setting->settingdesc }}"
                             autofocus
                             classcontainer="{{ $setting->type=='text'?'w-full':'w-80' }}"
+                            classcomponent="{{ true?'bg-cool-gray-100 px-2':''}}"
+                            class="{{ true?'bg-cool-gray-100':''}}"
                             value="{{ $setting->settingvalue }}"
                             wire:model='settingsvalues.{{ $setting->settingkey }}'
                         />
@@ -27,27 +32,40 @@
                             sublabel="{{ $setting->settingdesc }}"
                             color='text-blue-400' classlabel='font-bold'
                             wire:model='settingsvalues.{{ $setting->settingkey }}'
+                            classcomponent="{{ true?'bg-cool-gray-100 px-2':''}}"
                             />
                     @endif
                     @if ($setting->type=='image')
-                        <x-lopsoft.control.imageform
-                            id='{{ $setting->settingkey }}'
-                            label="{{ $setting->settingkey }}"
-                            sublabel="{{ $setting->settingdesc }}"
-                            classcontainer='w-full'
-                            mode="create"
-                            fileid="filetypeimage"
-                            modelid='{{ $setting->settingkey }}'
-                            wire:model='settingsvalues.{{ $setting->settingkey }}'
-                            params='types:jpg,png'
-                        />
+                        <div class='flex flex-wrap md:flex-no-wrap items-center justify-start {{ true?'bg-cool-gray-100':''}}'>
+                            <div class='w-full'>
+                                <x-lopsoft.control.imageform
+                                    id='{{ $setting->settingkey }}'
+                                    label="{{ $setting->settingkey }}"
+                                    sublabel="{{ $setting->settingdesc }}"
+                                    classcontainer='w-full'
+                                    mode="create"
+                                    fileid="filetypeimage"
+                                    modelid='{{ $setting->settingkey }}'
+                                    wire:model='settingsvalues.{{ $setting->settingkey }}'
+                                    params='types:jpg,png,jpeg'
+                                    classcomponent="{{ true?'bg-cool-gray-100 px-2':''}}"
+                                    class="{{ true?'bg-cool-gray-100':''}}"
+                                >
+
+                                </x-lopsoft.control.imageform>
+
+                            </div>
+                            <div class='pr-2 {{ true?'bg-cool-gray-100':''}} h-full mx-auto pb-2 md:pb-0'>
+                                <img src="{{getImage( $settingsvalues[$setting->settingkey] )}}" style='max-height: 100px' />
+                            </div>
+                        </div>
                     @endif
-                    {{-- <input type='text' value='{{ $setting->type }}' /> --}}
+                    <div class='h-2 border-t border-cool-gray-200'></div>
 
             @endforeach
         </div>
 
-        <div class='p-4 border-l border-cool-gray-400'>
+        <div class='p-4 bg-white border-l border-cool-gray-400'>
             @livewire('messages.flash-message', ['msgid' => 'configpagecontent'] )
         </div>
 
