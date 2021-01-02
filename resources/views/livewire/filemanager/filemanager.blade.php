@@ -16,6 +16,13 @@
                             <x-lopsoft.button.danger wire:click='cancelOptions' class='m-1' buttonxs icon='fa fa-times fa-fw'></x-lopsoft.button.danger>
                         </div>
                     </div>
+                    <div class='absolute top-0 right-0 z-50 m-1' x-show='!$wire.renamebox && $wire.showoptionsfolder'>
+                        <div class='w-auto p-2 bg-gray-600 rounded-md'>
+                            <x-lopsoft.button.warning wire:click='rename' class='m-1' buttonxs icon='fa fa-i-cursor fa-fw' />
+                            <x-lopsoft.button.danger wire:click='deleteSelect' class='m-1' buttonxs icon='fa fa-trash fa-fw' />
+                            <x-lopsoft.button.danger wire:click='cancelOptions' class='m-1' buttonxs icon='fa fa-times fa-fw'></x-lopsoft.button.danger>
+                        </div>
+                    </div>
                     <div class='absolute top-0 right-0 z-50 m-1'  x-show='$wire.renamebox'>
                         <div class='w-auto p-2 bg-gray-600 rounded-md'>
                             <x-lopsoft.button.success wire:click='applyRename' class='m-1' buttonxs icon='fa fa-check fa-fw' />
@@ -39,6 +46,12 @@
                         <div class=''>
                             <div><i class='fa fa-user'></i> {{ Auth::user()->username }}</div>
                             <div><i class='fa fa-folder'></i> {{ DIRECTORY_SEPARATOR.Str::after($currentdir,$root) }}</div>
+                            <div> Root: {{ $root }}</div>
+                            <div> currentdir: {{ $currentdir }}</div>
+                            <div> path: {{ $path }}</div>
+                            <div> dir: {{ $dir }}</div>
+                            <div> getPath: {{ $root.$path.$dir }}</div>
+                            @dump($filesindir)
                         </div>
                         <div class='pt-1 text-right'>
                             <i @click='$refs.filemanager_selectfile.click()' class='mr-2 text-indigo-300 fas fa-cloud-upload-alt fa-lg fa-fw'></i>
@@ -69,15 +82,6 @@
                     </div>
                 </div>
                 @endif
-
-
-
-
-                {{-- @error('fileupload')
-                    <script>
-                        ShowAlertError("{{ $message }}","","ERROR",true);
-                    </script>
-                @enderror --}}
             </div>
         </div>
         @endif

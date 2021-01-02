@@ -6,6 +6,7 @@ use Exception;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -26,10 +27,16 @@ class Filemanager extends Component
     public $rootdirectory;      // dir where filemanager work
     public $root;               // dir base
     public $currentdir;
+    public $path;               // Current path
+    public $dir;                // Current Dir
+    public $userid;             // User folder
+    public $firsttime=true;
     public $filesindir;
     public $selectedfiles=[];
+    public $currentselected=null;
     public $filestoshow;
     public $showoptions=false;
+    public $showoptionsfolder=false;
     public $multiselect=false;
     public $renamebox=false;
     public $copybox=false;
@@ -42,6 +49,7 @@ class Filemanager extends Component
     public $onlyimages=false;
     public $uploading=false;
     public $source="";
+    public $sourcethumb="";
     public $modelid;
     public $params;
 
@@ -81,11 +89,24 @@ class Filemanager extends Component
 
     public function mount()
     {
-        $this->rootdirectory=config('lopsoft.filemanager_storage_folder');
-        $this->getCurrentDir();
-        $this->root=$this->currentdir;
-        //if (Str::endsWith($this->currentdir, DIRECTORY_SEPARATOR)) $this->currentdir=Str::substr($this->currentdir, 0, Str::length($this->currentdir)-1);
+        $this->root=Storage::disk(config('lopsoft.filemanager_disk'))->path('');
+        $this->dir='/';
+        $this->userid=$this->getUserFolder();
+        $this->currentdir=$this->dir.$this->userid;
+        $this->path=config('lopsoft.filemanager_storage_folder').($this->userid!=''?$this->dir:'').$this->userid;
         $this->readFiles();
+    }
+
+    public function getPath()
+    {
+        return ($this->root . $this->path . $this->dir);
+    }
+
+    public function getUserFolder()
+    {
+        $userid=Auth::user()->id;
+        if ( Auth::user()->level==1 ) $userid='';
+        return $userid;
     }
 
     public function parseParams()
@@ -110,9 +131,17 @@ class Filemanager extends Component
 
     public function readFiles()
     {
+        if (!file_exists($this->root . $this->path . $this->dir) && $this->firsttime)
+        {
+            mkdir ($this->root . $this->path . $this->dir);
+            mkdir ($this->root . 'thumbs/' . $this->path . $this->dir);
+            $this->firsttime=false;
+        }
+
+
         try
         {
-            $scanned_directory = scandir( $this->currentdir, SCANDIR_SORT_ASCENDING );
+            $scanned_directory = scandir( $this->root . $this->path . $this->dir, SCANDIR_SORT_ASCENDING );
         }
         catch(\Exception $e)
         {
@@ -124,17 +153,20 @@ class Filemanager extends Component
         $result=[];
         $info=[];
 
+        $userid=$this->getUserFolder();
+
         // First Dirs
         foreach ($scanned_directory as $key => $value)
         {
+
             if (!in_array($value,array(".")))
             {
-                if (is_dir( $this->currentdir . DIRECTORY_SEPARATOR . $value) )
+                if (is_dir( $this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value ) )
                 {
-                    if ( $value!='..' || ($value=='..' && $this->root!=$this->currentdir) )
+                    if ( $value!='..' || ($value=='..' && $this->dir!='/') )
                     {
-                        $info=pathinfo( $this->currentdir.DIRECTORY_SEPARATOR.$value);
-                        $info=array_merge( $info,['size' => filesize( $this->currentdir.DIRECTORY_SEPARATOR.$value) ] );
+                        $info=pathinfo( $this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value );
+                        $info=array_merge( $info,['size' => filesize( $this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value) ] );
                         $info=array_merge( $info, ['mime_type' => '' ]);
                         $info=array_merge( $info, ['url' => '' ]);
                         $info=array_merge( $info, ['type' => 'folder']);
@@ -144,23 +176,24 @@ class Filemanager extends Component
                 }
             }
         }
+
         foreach ($scanned_directory as $key => $value)
         {
             if (!in_array($value,array(".")))
             {
-                if (!is_dir( $this->currentdir . DIRECTORY_SEPARATOR . $value) )
+                if (!is_dir( $this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value) )
                 {
-                    $info=pathinfo( $this->currentdir.DIRECTORY_SEPARATOR.$value);
+                    $info=pathinfo( $this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value);
                     if (!array_key_exists('extension',$info))
                     {
                         $info=array_merge( $info, ['extension' => '' ]);
                     }
                     $currentpath=Str::after($this->currentdir,$this->root);
-                    if (!Str::endsWith($currentpath, '/')) $currentpath.='/';
-                    if (!Str::startsWith($currentpath, '/')) $currentpath='/'.$currentpath;
-                    $info=array_merge( $info,['size' => filesize( $this->currentdir.DIRECTORY_SEPARATOR.$value) ] );
-                    $info=array_merge( $info, ['mime_type' => mime_content_type( $this->currentdir.DIRECTORY_SEPARATOR.$value) ]);
-                    $info=array_merge( $info, ['url' => asset(Storage::disk(config('lopsoft.filemanager_disk'))->url(config('lopsoft.filemanager_storage_folder').$currentpath.$value)) ]);
+                    //if (Str::endsWith($currentpath, '/')) $currentpath=substr($currentpath,0,strlen($currentpath)-1);
+                    //if (!Str::startsWith($currentpath, '/')) $currentpath='/'.$currentpath;
+                    $info=array_merge( $info,['size' => filesize($this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value) ] );
+                    $info=array_merge( $info, ['mime_type' => mime_content_type( $this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value) ]);
+                    $info=array_merge( $info, ['url' => asset(Storage::disk(config('lopsoft.filemanager_disk'))->url($this->path . $this->dir .$value)) ]);
                     $info=array_merge( $info, ['type' => 'file']);
                     $info=array_merge( $info, [ 'selected' => false ]);
                     $result[] = $info;
@@ -174,7 +207,11 @@ class Filemanager extends Component
 
     public function getCurrentDir()
     {
-        $this->currentdir=Storage::disk(config('lopsoft.filemanager_disk'))->path($this->rootdirectory.$this->root);
+        $this->currentdir=Storage::disk(config('lopsoft.filemanager_disk'))->path($this->rootdirectory);
+        if ( !file_exists($this->currentdir)) mkdir($this->currentdir);
+        // Thumbs
+        $thumb=Storage::disk(config('lopsoft.filemanager_disk'))->path('thumbs'.DIRECTORY_SEPARATOR.$this->rootdirectory);
+        if ( !file_exists($thumb)) mkdir($thumb);
     }
 
     /**
@@ -190,7 +227,17 @@ class Filemanager extends Component
 
     public function updateFilesRender()
     {
-        $this->showoptions=sizeof($this->selectedfiles)==0?false:true;
+        if ($this->currentselected!=null && $this->currentselected['type']!='folder')
+        {
+            $this->showoptions=sizeof($this->selectedfiles)==0?false:true;
+            $this->showoptionsfolder=false;
+
+        }
+        else
+        {
+            $this->showoptionsfolder=sizeof($this->selectedfiles)==0?false:true;
+            $this->showoptions=false;
+        }
         $this->filestoshow=view('lopsoft.filemanager.showfiles',[
             'filesindir'    => $this->filesindir,
             'showoptions'   => $this->showoptions,
@@ -219,17 +266,26 @@ class Filemanager extends Component
     {
 
         try{
-            chdir($this->currentdir.$folder);
-            $this->currentdir=getcwd().DIRECTORY_SEPARATOR;
+            chdir($this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $folder);
+            if ($folder=='..')
+            {
+                $this->dir=Str::before( $this->dir, DIRECTORY_SEPARATOR . basename($this->dir) ) . DIRECTORY_SEPARATOR;
+                if ($this->dir=='') $this->dir=DIRECTORY_SEPARATOR;
+            }
+            else
+            {
+                $this->dir=Str::after(getcwd(), $this->root . $this->path ). DIRECTORY_SEPARATOR;
+            }
         }
         catch(\Exception $e)
         {
-            $this->showAlertError("NO SE PUDO ACCEDER A $this->currentdir.$folder<br/".$e->getMessage());
+            $this->showAlertError("NO SE PUDO ACCEDER A $this->root$this->path".DIRECTORY_SEPARATOR."$folder<br/".$e->getMessage());
         }
         finally
         {
             $this->renamebox=false;
             $this->showoptions=false;
+            $this->showoptionsfolder=false;
             $this->clearSelected();
             $this->readFiles();
         }
@@ -263,6 +319,7 @@ class Filemanager extends Component
             $this->selectedfiles[]=$index;
             $this->filesindir[$index]['selected']=true;
             $this->actionindex=$index;
+            $this->currentselected=$this->filesindir[$index];
         }
         else
         {
@@ -270,6 +327,8 @@ class Filemanager extends Component
             $this->filesindir[$index]['selected']=false;
             $this->actionindex=-1;
             $this->showoptions=false;
+            $this->showoptionsfolder=false;
+            $this->currentselected=null;
         }
 
         $this->updateFilesRender();
@@ -305,7 +364,7 @@ class Filemanager extends Component
                 return;
             }
         }
-        $this->emit('filemanagerselect', $this->uuid, Str::after( $this->currentdir, $this->root), $this->getSelectedFiles(), $this->modelid);
+        $this->emit('filemanagerselect', $this->uuid,$this->path.$this->dir, $this->getSelectedFiles(), $this->modelid);
         $this->close();
     }
 
@@ -317,9 +376,10 @@ class Filemanager extends Component
 
     public function createFolder()
     {
-
         try{
-            mkdir($this->currentdir.DIRECTORY_SEPARATOR."CARPETA_".Str::random(20));
+            $folder="CARPETA_".Str::random(20);
+            mkdir($this->root . $this->path . $this->dir . $folder);
+            mkdir($this->root . 'thumbs/' . $this->path . $this->dir . $folder);
         }
         catch(\Exception $e)
         {
@@ -349,22 +409,33 @@ class Filemanager extends Component
         {
             $texttoshow="EL ARCHIVO";
         }
-        $this->showConfirm("error","¿SEGURO QUE DESEA ELIMINAR ".$texttoshow." ".$selected[0]['filename'].".".$selected[0]['extension']."?","BORRAR ".$texttoshow,"deleteselectaction","close", null);
+        $this->showConfirm("error","¿SEGURO QUE DESEA ELIMINAR ".$texttoshow." ".$selected[0]['filename'].($selected[0]['type']=='folder'?"":".".$selected[0]['extension'])."?","BORRAR ".$texttoshow,"deleteselectaction","close", null);
     }
 
     public function deleteSelectAction()
     {
 
         $selected=$this->getSelectedFiles();
-
         try{
             if ($selected[0]['type']=='folder')
             {
-                rmdir($this->currentdir.$selected[0]['basename']);
+                if (!is_readable($this->root . $this->path . $this->dir . $selected[0]['basename']))
+                {
+                    $this->showAlertError("NO SE PUEDE ACCEDER AL DIRECTORIO");
+                    return;
+                }
+                if ( count(scandir($this->root . $this->path . $this->dir . $selected[0]['basename']))>2 )
+                {
+                    $this->showAlertError("EL DIRECTORIO NO ESTÁ VACÍO. NO SE PUEDE BORRAR.");
+                    return;
+                }
+                rmdir($this->root . $this->path . $this->dir . $selected[0]['basename']);
+                rmdir($this->root . 'thumbs/' . $this->path . $this->dir . $selected[0]['basename']);
             }
             else
             {
-                unlink($this->currentdir.$selected[0]['basename']);
+                unlink($this->root . $this->path . $this->dir . $selected[0]['basename']);
+                unlink($this->root . 'thumbs/' . $this->path . $this->dir . $selected[0]['basename']);
             }
             $this->syncFiles();
         }
@@ -377,8 +448,16 @@ class Filemanager extends Component
 
     public function rename()
     {
-        $this->renamebox=true;
         $selected=$this->getSelectedFiles();
+        if ($selected[0]['basename']=='..')
+        {
+            $this->showoptionsfolder=false;
+            $this->showoptions=false;
+            $this->clearSelected();
+            $this->syncFiles();
+            return;
+        }
+        $this->renamebox=true;
         $this->temporaryfilename=$selected[0]['basename'];
         $this->updateFilesRender();
     }
@@ -388,7 +467,9 @@ class Filemanager extends Component
         $selected=$this->getSelectedFiles();
         $this->copybox=true;
         $this->showoptions=false;
-        $this->source=$this->currentdir.$selected[0]['basename'];
+        $this->showoptionsfolder=false;
+        $this->source=$this->root.$this->path.$this->dir.$selected[0]['basename'];
+        $this->sourcethumb=$this->root.'thumbs/'.$this->path.$this->dir.$selected[0]['basename'];
     }
 
     public function move()
@@ -396,7 +477,9 @@ class Filemanager extends Component
         $selected=$this->getSelectedFiles();
         $this->movebox=true;
         $this->showoptions=false;
-        $this->source=$this->currentdir.$selected[0]['basename'];
+        $this->showoptionsfolder=false;
+        $this->source=$this->root.$this->path.$this->dir.$selected[0]['basename'];
+        $this->sourcethumb=$this->root.'thumbs/'.$this->path.$this->dir.$selected[0]['basename'];
     }
 
     public function cancelAction()
@@ -411,8 +494,28 @@ class Filemanager extends Component
     {
         $selected=$this->getSelectedFiles();
 
+        if ($this->root.$this->path.$this->dir.$selected[0]['basename']==$this->root.$this->path.$this->dir.$this->temporaryfilename)
+        {
+            $this->renamebox=false;
+            $this->showoptions=false;
+            $this->clearSelected();
+            $this->readFiles();
+            return;
+        }
+
+        if( file_exists($this->root.$this->path.$this->dir.$this->temporaryfilename) )
+        {
+            $this->showAlertError("EL ARCHIVO YA EXISTE. ELIJA OTRO NOMBRE");
+            $this->renamebox=false;
+            $this->showoptions=false;
+            $this->clearSelected();
+            $this->readFiles();
+            return;
+        }
+
         try{
-            rename($this->currentdir.DIRECTORY_SEPARATOR.$selected[0]['basename'], $this->currentdir.DIRECTORY_SEPARATOR.$this->temporaryfilename);
+            rename($this->root.$this->path.$this->dir.$selected[0]['basename'], $this->root.$this->path.$this->dir.$this->temporaryfilename);
+            rename($this->root.'thumbs/'.$this->path.$this->dir.$selected[0]['basename'], $this->root.'thumbs/'.$this->path.$this->dir.$this->temporaryfilename);
         }
         catch(\Exception $e)
         {
@@ -444,27 +547,17 @@ class Filemanager extends Component
 
     public function saveFile()
     {
-        //$filename=$this->fileupload->getFileName();
         $filename='file_'.getNowFile().'.'.$this->fileupload->getClientOriginalExtension();
-
-        //$savedimage=$this->fileupload->store(config('lopsoft.temp_dir'),config('lopsoft.filemanager_disk'));
-        //$handlerimg=Image::make(Storage::disk(config('lopsoft.temp_disk'))->path($savedimage));
-        //$ret=$handlerimg->save();
         $savedimage=$this->fileupload->getFileName();
-
-        $currentpath=Str::after($this->currentdir,$this->root);
-        if (!Str::endsWith($currentpath, '/')) $currentpath.='/';
-        if (!Str::startsWith($currentpath, '/')) $currentpath='/'.$currentpath;
 
         try
         {
-            copy(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage) ),
-                 Storage::disk(config('lopsoft.filemanager_disk'))->path(config('lopsoft.filemanager_storage_folder').$currentpath.$filename));
+            copy(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage)) , $this->root.$this->path.$this->dir.$filename);
             unlink(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage) ));
 
             // Create thumbnail
-            $handlerimg=Image::make(Storage::disk(config('lopsoft.filemanager_disk'))->path(config('lopsoft.filemanager_storage_folder').$currentpath.$filename))->fit(300);
-            $handlerimg->save(Storage::disk(config('lopsoft.filemanager_disk'))->path('thumbs'.DIRECTORY_SEPARATOR.config('lopsoft.filemanager_storage_folder').$currentpath.$filename));
+            $handlerimg=Image::make($this->root.$this->path.$this->dir.$filename)->fit(300);
+            $handlerimg->save($this->root.'thumbs/'.$this->path.$this->dir.$filename);
 
 
         }
@@ -473,7 +566,7 @@ class Filemanager extends Component
             $this->showException($e);
         }
         $this->uploading=false;
-        $this->emit('filemanager-upload-postprocess', $filename, $currentpath, Storage::disk(config('lopsoft.filemanager_disk'))->path(config('lopsoft.filemanager_storage_folder').$currentpath.$filename));
+        $this->emit('filemanager-upload-postprocess', $filename, $this->root.$this->path.$this->dir, $this->root.$this->path.$this->dir.$filename);
         $this->syncFiles();
         return $savedimage;
     }
@@ -514,26 +607,30 @@ class Filemanager extends Component
 
     public function applyCopy()
     {
-        $currentpath=Str::after($this->currentdir,$this->root);
-        if (!Str::endsWith($currentpath, '/')) $currentpath.='/';
-        if (!Str::startsWith($currentpath, '/')) $currentpath='/'.$currentpath;
-        $destination=Storage::disk(config('lopsoft.filemanager_disk'))->path(config('lopsoft.filemanager_storage_folder').$currentpath);
-        if (file_exists($destination.basename($this->source) ))
+        $destination=$this->root.$this->path.$this->dir;
+        $destinationthumb=$this->root.'thumbs/'.$this->path.$this->dir;
+        $target=basename($this->source);
+        while( file_exists($destination.$target) )
         {
-            $target=$destination.basename($this->source)."_copia";
-        }
-        else
-        {
-            $target=$destination.basename($this->source);
+            $dotpos=strrpos($target,".");
+            $ext=substr($target,$dotpos+1, strlen($target)-$dotpos);
+            $file=substr($target,0,$dotpos);
+            $target=$file."_copy".".".$ext;
         }
         try
         {
-            copy( $this->source, $target);
-            $this->syncFiles();
+            copy( $this->source, $destination.$target);
+            copy( $this->sourcethumb, $destinationthumb.$target);
+
         }
         catch(Exception $e)
         {
             $this->showException($e);
+        }
+        finally
+        {
+            $this->copybox=false;
+            $this->syncFiles();
         }
 
 
@@ -541,27 +638,35 @@ class Filemanager extends Component
 
     public function applyMove()
     {
-        $currentpath=Str::after($this->currentdir,$this->root);
-        if (!Str::endsWith($currentpath, '/')) $currentpath.='/';
-        if (!Str::startsWith($currentpath, '/')) $currentpath='/'.$currentpath;
-        $destination=Storage::disk(config('lopsoft.filemanager_disk'))->path(config('lopsoft.filemanager_storage_folder').$currentpath);
-        $target=$destination.basename($this->source);
-
-        if ($target!=$this->source)
+        $destination=$this->root.$this->path.$this->dir;
+        $destinationthumb=$this->root.'thumbs/'.$this->path.$this->dir;
+        $target=basename($this->source);
+        // while( file_exists($destination.$target) )
+        // {
+        //     $dotpos=strrpos($target,".");
+        //     $ext=substr($target,$dotpos+1, strlen($target)-$dotpos);
+        //     $file=substr($target,0,$dotpos);
+        //     $target=$file."_copy".".".$ext;
+        // }
+        if ($this->source!=$destination.$target)
         {
             try
             {
-                copy( $this->source, $target);
+                copy( $this->source, $destination.$target);
+                copy( $this->sourcethumb, $destinationthumb.$target);
                 unlink($this->source);
+                unlink($this->sourcethumb);
+
 
             }
             catch(Exception $e)
             {
                 $this->showException($e);
             }
-        }
-        $this->syncFiles();
 
+        }
+        $this->movebox=false;
+        $this->syncFiles();
 
     }
 

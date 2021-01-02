@@ -15,11 +15,11 @@
     @foreach($filesindir as $index => $fileindir)
         <div
             class="flex items-center justify-start p-2 cursor-pointer hover:text-gray-800 {{ $fileindir['selected']==true ? 'hover:bg-green-300' : 'hover:bg-gray-200' }}  {{ $fileindir['selected']==true ? 'bg-green-200' : '' }} "
-            wire:click='select({{ $index }})'>
+             >
             <div class='w-40'>
-                <div class='flex justify-center'>
+                <div class='flex justify-center' wire:click='select({{ $index }})'>
                     @if( in_array($fileindir['mime_type'], ['image/jpeg', 'image/png']) )
-                        <img src="{{ $fileindir['url'] }}" style='width: auto; max-width: 100px; height: 50px' />
+                        <img  src="{{ getImageUrl($fileindir['url']) }}" style='width: auto; max-width: 100px; height: 50px' />
                     @else
                         @if($fileindir['type']=='folder')
                             <img src="{{ asset(Storage::disk('public')->url('fileicons/folder.png') ) }}" width='50px' />
@@ -33,9 +33,9 @@
                     @endif
                 </div>
             </div>
-            <div class='w-full overflow-x-hidden'>
+            <div class='w-full h-full overflow-x-hidden' wire:click='select({{ $index }})'>
                 @if(!$renamebox || $fileindir['selected']==false)
-                    <div>{{ $fileindir['basename'] }}</div>
+                    <div>{{ $fileindir['basename'] }} - {{ $fileindir['dirname'] }}</div>
                     <div class='md:hidden'>@if($fileindir['type']!='folder'){{ humanFileSize($fileindir['size']) }}@endif</div>
                 @else
                     <input wire:model='temporaryfilename' type='text' class='w-full form-input' value="{{ $fileindir['basename'] }}" autofocus/>
@@ -46,5 +46,5 @@
             </div>
         </div>
     @endforeach
-    <div class='my-6'></div>
+    <div class='h-32'></div>
 </div>
