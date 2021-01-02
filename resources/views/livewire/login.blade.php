@@ -6,22 +6,24 @@
 
             <div class='w-full'>
                 <div class='mt-40 mb-10 sm:mt-0' >
-                    <img class='mx-auto w-80' src='{{ Illuminate\Support\Facades\Storage::disk('public')->url(config('lopsoft.vendorlogo_overblack')) }}' />
+                    <img class='mx-auto w-80' src="{{ Illuminate\Support\Facades\Storage::disk('public')->url(appsetting('vendorlogo_overblack')) }}" />
                 </div>
                 <div class='flex items-center justify-center '>
 
                     <div class='py-4 mx-2 bg-white rounded-lg shadow-md lg:w-2/3 lg:mx-0 xl:w-1/2'>
                         <div class='w-full h-full py-0 sm:inline-flex lg:py-10'>
                             <div class='self-center px-3 py-10 border-b border-gray-200 sm:py-20 sm:w-2/4 sm:border-b-0 sm:border-r'>
-                                <img class='mx-auto' src='{{ Illuminate\Support\Facades\Storage::disk('public')->url(config('lopsoft.loginlogo')) }}' />
+                                <img class='mx-auto' src='{{ Illuminate\Support\Facades\Storage::disk('public')->url(appsetting('loginlogo')) }}' />
                                 <div class='pt-4 text-xl text-center'>
-                                    <span class='{{ config('lopsoft.title_line1_class') }}'>{{ config('lopsoft.title_line1') }}</span><br/>
-                                    <span class='{{ config('lopsoft.title_line2_class') }}'>{{ config('lopsoft.title_line2') }}</span>
+                                    <span class='{{ appsetting('title_line1_class') }}'>{{ appsetting('title_line1') }}</span><br/>
+                                    <span class='{{ appsetting('title_line2_class') }}'>{{ appsetting('title_line2') }}</span>
                                 </div>
                             </div>
                             <div class='self-center px-6 sm:w-2/4 sm:px-4'>
                                 <div class='mt-10 mb-10 sm:mt-0' >
-                                    <img class='w-20 h-20 mx-auto border-4 border-gray-200 rounded-full md:h-24 md:w-24' src='{{ $avatar }}' />
+                                    @if (appsetting('showavatar'))
+                                        <img class='w-20 h-20 mx-auto border-4 border-gray-200 rounded-full md:h-24 md:w-24' src='{{ $avatar }}' />
+                                    @endif
                                 </div>
                                     @if($errors->any())
                                         <div class='w-full p-2 font-bold text-center text-white bg-red-400 '>

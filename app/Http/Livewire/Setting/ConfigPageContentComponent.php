@@ -28,8 +28,9 @@ class ConfigPageContentComponent extends Component
     {
         $this->page_id=$id;
         $this->page=AppSettingPage::find($id);
-        $this->settings = $this->page->settings()->where('level','>=', Auth::user()->level)->get();
+        $this->settings = $this->page->settings;
         $sets=$this->page->settings()->where('level','>=', Auth::user()->level)->get();
+
         foreach($sets as $set)
         {
             if ($set->type!='boolean')

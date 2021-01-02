@@ -35,7 +35,7 @@
             </div>
             <div class='w-full h-full overflow-x-hidden' wire:click='select({{ $index }})'>
                 @if(!$renamebox || $fileindir['selected']==false)
-                    <div>{{ $fileindir['basename'] }} - {{ $fileindir['dirname'] }}</div>
+                    <div>{{ $fileindir['basename'] }}</div>
                     <div class='md:hidden'>@if($fileindir['type']!='folder'){{ humanFileSize($fileindir['size']) }}@endif</div>
                 @else
                     <input wire:model='temporaryfilename' type='text' class='w-full form-input' value="{{ $fileindir['basename'] }}" autofocus/>

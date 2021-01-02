@@ -45,13 +45,13 @@
                         <div class='absolute top-0 right-2'><i wire:click='close' class='text-red-300 fa fa-times'></i></div>
                         <div class=''>
                             <div><i class='fa fa-user'></i> {{ Auth::user()->username }}</div>
-                            <div><i class='fa fa-folder'></i> {{ DIRECTORY_SEPARATOR.Str::after($currentdir,$root) }}</div>
-                            <div> Root: {{ $root }}</div>
+                            <div><i class='fa fa-folder'></i> {{ $dir }}</div>
+                            {{-- <div> Root: {{ $root }}</div>
                             <div> currentdir: {{ $currentdir }}</div>
                             <div> path: {{ $path }}</div>
                             <div> dir: {{ $dir }}</div>
                             <div> getPath: {{ $root.$path.$dir }}</div>
-                            @dump($filesindir)
+                            @dump($filesindir) --}}
                         </div>
                         <div class='pt-1 text-right'>
                             <i @click='$refs.filemanager_selectfile.click()' class='mr-2 text-indigo-300 fas fa-cloud-upload-alt fa-lg fa-fw'></i>

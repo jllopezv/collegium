@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
 
         // Setting
         $this->call(AppSettingPageSeeder::class);
+        $this->call(AppSettingSeeder::class);
 
         //Auth
         $this->call(PermissionGroupSeeder::class);

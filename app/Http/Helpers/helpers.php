@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Setting\AppSetting;
+
     use Illuminate\Support\Str;
     use Illuminate\Support\Facades\Auth;
     use Carbon\Carbon;
@@ -12,6 +14,22 @@
         function delayCom()
         {
             for($i=0,$a=0;$i<1000000000;$i++) $a=$a+$i;
+        }
+    }
+
+    // Config
+
+    if (! function_exists('appsetting'))
+    {
+        function appsetting($key)
+        {
+            $cfg=AppSetting::where('settingkey', $key)->first();
+            if (is_null($cfg)) return config('lopsoft.'.$key);
+            if ($cfg->type=='boolean')
+            {
+                return $cfg->settingvalue=='true'?true:false;
+            }
+            return $cfg->settingvalue;
         }
     }
 
