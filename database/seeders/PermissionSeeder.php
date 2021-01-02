@@ -54,6 +54,9 @@ class PermissionSeeder extends Seeder
         $table='app_setting_pages';
         $this->createPermissions($table,'CONFIGURACIÓN');
 
+        $table='app_settings';
+        $this->createPermissions($table,'CONFIGURACIÓN');
+
         $record=new Permission;
         $record->name="HACER LOGIN DE USUARIOS";
         $record->slug='users.login';

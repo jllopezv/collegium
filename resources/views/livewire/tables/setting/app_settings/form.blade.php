@@ -20,8 +20,20 @@
     classcontainer='w-full'
     requiredfield
     help="{{ transup('mandatory_unique') }}"
-    nextref='settingvalue'
+    nextref='level'
     mode="{{ $mode }}"
+/>
+<x-lopsoft.control.inputform
+    wire:model.lazy='level'
+    id='level'
+    x-ref='level'
+    label="{{ transup('level') }}"
+    sublabel='Nivel necesario para poder acceder a esta configuración'
+    classcontainer='w-20'
+    nextref='settingvalue'
+    requiredfield
+    help="{{ transup('mandatory') }}"
+    mode='{{ $mode }}'
 />
 
 <div class='flex flex-wrap items-center justify-start w-full md:inline-flex'>

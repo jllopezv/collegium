@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire\Setting;
 
-use App\Http\Livewire\Traits\WithFlashMessage;
 use Livewire\Component;
 use App\Models\Setting\AppSetting;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Setting\AppSettingPage;
 use App\Http\Livewire\Traits\WithModalAlert;
+use App\Http\Livewire\Traits\WithFlashMessage;
 
 class ConfigPageContentComponent extends Component
 {
@@ -27,8 +28,8 @@ class ConfigPageContentComponent extends Component
     {
         $this->page_id=$id;
         $this->page=AppSettingPage::find($id);
-        $this->settings = $this->page->settings;
-        $sets=$this->page->settings;
+        $this->settings = $this->page->settings()->where('level','>=', Auth::user()->level)->get();
+        $sets=$this->page->settings()->where('level','>=', Auth::user()->level)->get();
         foreach($sets as $set)
         {
             if ($set->type!='boolean')

@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\Setting\AppSetting;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use App\Http\Livewire\Traits\HasCommon;
 use Illuminate\Support\Facades\Storage;
@@ -29,6 +30,7 @@ class AppSettingComponent extends Component
     public $settingdesc;
     public $settingvalue;
     public $type;
+    public $level;
     public $typecheckbox;
     public $typeimage;
     public $filetypeimage;
@@ -61,8 +63,11 @@ class AppSettingComponent extends Component
         $this->commonMount();
         // Default order for table
         $this->sortorder='settingkey';
-        if ($this->mode=='create') $this->priority=AppSetting::count()+1;   // Default falue
-        //$this->root=Str::after($this->root,"/");
+        if ($this->mode=='create')
+        {
+            $this->priority=AppSetting::count()+1;   // Default falue
+            $this->level=Auth::user()->level;
+        }
     }
 
     /**
@@ -76,6 +81,7 @@ class AppSettingComponent extends Component
             'settingkey'        => 'required|string|max:255|unique:app_settings,settingkey,'.$this->recordid,
             'settingdesc'       => 'required|string|max:255',
             'settingvalue'      => 'required|string|max:255',
+            'level'             => 'required|numeric|min:'.Auth::user()->level.'|max:50000',
         ];
     }
 
@@ -91,6 +97,7 @@ class AppSettingComponent extends Component
         $this->settingdesc = '';
         $this->settingvalue = '';
         $this->type='text';
+        $this->level=Auth::user()->level;
     }
 
     /**
@@ -115,6 +122,7 @@ class AppSettingComponent extends Component
         $this->settingdesc = $this->record->settingdesc;
         $this->settingvalue = $this->record->settingvalue;
         $this->type = $this->record->type;
+        $this->level=$this->record->level;
         $this->page_id = $this->record->page_id;
         if ($this->type=='boolean') $this->typecheckbox=$this->settingvalue==='true'?1:0;
         if ($this->type=='image') $this->typeimage=$this->settingvalue;
@@ -133,6 +141,7 @@ class AppSettingComponent extends Component
             'settingdesc'           =>  $this->settingdesc,
             'settingvalue'          =>  $this->settingvalue,
             'type'                  =>  $this->type,
+            'level'                 =>  $this->level,
             'page_id'               =>  $this->page_id,
         ];
     }
