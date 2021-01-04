@@ -8,6 +8,7 @@ use App\Models\Traits\HasAbilities;
 use App\Models\Traits\HasFilemanager;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
+use App\Models\Traits\HasPriority;
 
 class AppSetting extends Model
 {
@@ -15,6 +16,7 @@ class AppSetting extends Model
     use HasCommon;
     use HasAllowedActions;
     use HasActive;
+    use HasPriority;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +24,7 @@ class AppSetting extends Model
      * @var array
      */
     protected $fillable = [
-        'settingkey', 'settingdesc', 'settingvalue', 'type', 'page_id'
+        'settingkey', 'settingdesc', 'settingvalue', 'type', 'page_id', 'priority'
     ];
 
     /*******************************************/
@@ -48,7 +50,7 @@ class AppSetting extends Model
      */
     public function page()
     {
-        return $this->hasOne(AppSettingPage::class, 'page_id' ,'id')->where('active',1);
+        return $this->hasOne(AppSettingPage::class, 'id' ,'page_id');
     }
 
 

@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use App\Models\School\SchoolLevel;
 use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
+use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
@@ -20,9 +21,10 @@ class SchoolLevelComponent extends Component
     use WithAlertMessage;
     use WithModalAlert;
     use WithModalConfirm;
+    use HasPriority;
 
     public  $level;
-    public  $showorder;
+    public  $priority;
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -44,7 +46,7 @@ class SchoolLevelComponent extends Component
         $this->module='school';
         $this->commonMount();
         // Default order for table
-        $this->sortorder='showorder';
+        $this->sortorder='priority';
         if ($this->mode=='create')
         {
             // default create options
@@ -61,19 +63,19 @@ class SchoolLevelComponent extends Component
     {
         return [
             'level'             => 'required|string|max:255|unique:school_levels,level,'.$this->recordid,
-            'showorder'         => 'required|numeric',
+            'priority'         => 'required|numeric',
         ];
     }
 
     public function loadDefaults()
     {
         $levels=SchoolLevel::active()->count();
-        $this->showorder=$levels+1;
+        $this->priority=$levels+1;
     }
 
     public function resetForm()
     {
-        $this->showorder='';
+        $this->priority='';
         $this->level='';
         $this->loadDefaults();
     }
@@ -81,7 +83,7 @@ class SchoolLevelComponent extends Component
     public function loadRecordDef()
     {
         $this->level=$this->record->level;
-        $this->showorder=$this->record->showorder;
+        $this->priority=$this->record->priority;
     }
 
     public function getKeyNotification($record)
@@ -98,7 +100,7 @@ class SchoolLevelComponent extends Component
     {
         return [
             'level'                 =>  $this->level,
-            'showorder'             =>  $this->showorder,
+            'priority'             =>  $this->priority,
         ];
     }
 
@@ -107,7 +109,7 @@ class SchoolLevelComponent extends Component
     {
         $record=new SchoolLevel;
         $record->level=$this->level;
-        $record->showorder=$this->showorder;
+        $record->priority=$this->priority;
     }
 
 

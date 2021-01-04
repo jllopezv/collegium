@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use App\Http\Livewire\Traits\HasCommon;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
@@ -25,10 +26,12 @@ class AppSettingComponent extends Component
     use WithAlertMessage;
     use WithModalAlert;
     use WithModalConfirm;
+    use HasPriority;
 
     public $settingkey;
     public $settingdesc;
     public $settingvalue;
+    public $priority;
     public $type;
     public $level;
     public $typecheckbox;
@@ -62,7 +65,7 @@ class AppSettingComponent extends Component
         $this->module='setting';
         $this->commonMount();
         // Default order for table
-        $this->sortorder='settingkey';
+        $this->sortorder='priority';
         if ($this->mode=='create')
         {
             $this->priority=AppSetting::count()+1;   // Default falue
@@ -82,6 +85,7 @@ class AppSettingComponent extends Component
             'settingdesc'       => 'required|string|max:255',
             'settingvalue'      => 'required|string|max:255',
             'level'             => 'required|numeric|min:'.Auth::user()->level.'|max:50000',
+            'priority'          => 'required|numeric|min:1',
         ];
     }
 
@@ -98,6 +102,7 @@ class AppSettingComponent extends Component
         $this->settingvalue = '';
         $this->type='text';
         $this->level=Auth::user()->level;
+        $this->priority = AppSetting::count()+1;
     }
 
     /**
@@ -121,6 +126,7 @@ class AppSettingComponent extends Component
         $this->settingkey = $this->record->settingkey;
         $this->settingdesc = $this->record->settingdesc;
         $this->settingvalue = $this->record->settingvalue;
+        $this->priority = $this->record->priority;
         $this->type = $this->record->type;
         $this->level=$this->record->level;
         $this->page_id = $this->record->page_id;
@@ -143,6 +149,7 @@ class AppSettingComponent extends Component
             'type'                  =>  $this->type,
             'level'                 =>  $this->level,
             'page_id'               =>  $this->page_id,
+            'priority'             =>  $this->priority,
         ];
     }
 

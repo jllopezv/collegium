@@ -16,7 +16,7 @@ class CreateSchoolGradesTable extends Migration
         Schema::create('school_grades', function (Blueprint $table) {
             $table->id();
             $table->boolean('active')->default(1);
-            $table->string('showorder')->default(1);
+            $table->unsignedBigInteger('priority')->default(1);
             $table->string('grade')->unique();
             $table->foreignId('level_id')->nullable()->references('id')->on('school_levels')->onDelete('cascade');
             $table->timestamps();

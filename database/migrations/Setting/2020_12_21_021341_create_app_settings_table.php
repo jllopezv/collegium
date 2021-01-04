@@ -19,6 +19,7 @@ class CreateAppSettingsTable extends Migration
             $table->string('settingkey')->unique();
             $table->string('settingdesc')->default('');
             $table->string('settingvalue')->default('');
+            $table->unsignedBigInteger('priority')->default(1);
             $table->enum( 'type', ['text', 'number', 'boolean', 'image'] )->default('text');
             $table->integer('level')->default(config('lopsoft.maxlevelVIPUsers'));
             $table->foreignId('page_id')->references('id')->on('app_setting_pages')->onDelete('cascade');

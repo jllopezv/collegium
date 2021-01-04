@@ -79,7 +79,7 @@ return [
     'student'               =>  'estudiante',
     'schoollevel'           =>  'nivel académico',
     'schoollevels'          =>  'niveles',
-    'showorder'             =>  'orden',
+    'priority'             =>  'orden',
     'school_grade'          =>  'grado académico',
     'schoolgrade'           =>  'grado académico',
     'schoolgrades'          =>  'grados',

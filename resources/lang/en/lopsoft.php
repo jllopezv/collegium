@@ -79,7 +79,7 @@ return [
     'student'               =>  'student',
     'schoollevel'           =>  'academic level',
     'schoollevels'          =>  'levels',
-    'showorder'             =>  'order',
+    'priority'             =>  'order',
     'school_grade'          =>  'academic grade',
     'schoolgrade'           =>  'academic grade',
     'schoolgrades'          =>  'grades',

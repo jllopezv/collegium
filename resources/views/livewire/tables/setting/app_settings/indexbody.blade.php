@@ -1,3 +1,12 @@
+@include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->priority, 'classrow' => 'text-right'])
+@include('components.lopsoft.datatable.setpriority')
+<x-lopsoft.datatable.row-column
+    canshow="{{ $item->canShowRecord() && $item->allowShow() }}"
+    link="{{ route($table.'.show',$item->id) }}" >
+        <div class=''>
+            {{ $item->page->settingpage }}
+        </div>
+</x-lopsoft.datatable.row-column>
 <x-lopsoft.datatable.row-column
     canshow="{{ $item->canShowRecord() && $item->allowShow() }}"
     link="{{ route($table.'.show',$item->id) }}" >

@@ -17,7 +17,7 @@ class CreatePermissionGroupsTable extends Migration
             $table->id();
             $table->boolean('active')->default(1);
             $table->string('group')->unique();
-            $table->integer('priority')->default(1);
+            $table->unsignedBigInteger('priority')->default(1);
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');

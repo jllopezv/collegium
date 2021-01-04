@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Setting\AppSettingPage;
 use App\Http\Livewire\Traits\HasCommon;
+use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
@@ -19,6 +20,7 @@ class AppSettingPageComponent extends Component
     use WithAlertMessage;
     use WithModalAlert;
     use WithModalConfirm;
+    use HasPriority;
 
     public $settingpage;
     public $priority;

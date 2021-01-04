@@ -4,10 +4,11 @@ namespace App\Models\School;
 
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
+use App\Models\Traits\HasCommon;
+use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
-use App\Models\Traits\HasCommon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SchoolLevel extends Model
@@ -17,6 +18,7 @@ class SchoolLevel extends Model
     use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
+    use HasPriority;
 
 
     /*******************************************/
@@ -29,7 +31,7 @@ class SchoolLevel extends Model
      * @var array
      */
     protected $fillable = [
-        'level', 'showorder'
+        'level', 'priority'
     ];
 
     /*******************************************/

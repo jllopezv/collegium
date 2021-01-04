@@ -1,8 +1,8 @@
 <x-lopsoft.control.inputform
-    wire:model.lazy='showorder'
-    id='showorder'
-    x-ref='showorder'
-    label="{{ transup('showorder') }}"
+    wire:model.lazy='priority'
+    id='priority'
+    x-ref='priority'
+    label="{{ transup('priority') }}"
     sublabel='Orden en el que se mostrará cuando vaya a elegir el nivel en otro formulario'
     nextref='level'
     classcontainer='w-24'

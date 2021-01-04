@@ -94,6 +94,9 @@
                         <x-lopsoft.control.checkbox label='SELECCIONAR PAGINA' model='rowselectpage' color='text-green-400' classlabel='font-bold'/>
                         <x-lopsoft.control.checkbox label='SELECCIONAR TODOS'  model='rowselectall'  color='text-green-600' classlabel='font-bold'/>
                     @endif
+                    @if(!is_null($data) && method_exists($data->first(),'syncPriority'))
+                        <i wire:click='syncPriority' class='font-bold cursor-pointer fa fa-sync fa-fw fa-sm text-cool-gray-400 hover:text-cool-gray-600'></i><span class='pl-3 text-sm font-bold'>SYNC PRIORIDAD</span>
+                    @endif
                 </x-slot>
             {{-- /HEADERXS --}}
             {{-- BODYXS --}}
@@ -139,13 +142,33 @@
                                     @if($item->canShowRecord() && $item->allowShow())
                                         </a>
                                     @endif
-                                    <div  class='text-right'>
-                                        <x-lopsoft.datatable.row-actions-xs
-                                            table='{{$table}}'
-                                            model='{{$model}}'
-                                            module='{{ $module }}'
-                                            itemid="{{ $item->id }}"
-                                            active="{{ $item->active??true }}"/>
+                                    <div  class='flex items-baseline justify-between'>
+                                        <div>
+                                            @if(method_exists($item,'syncPriority'))
+                                                <div class='flex items-center justify-start'>
+                                                    <div class='pt-1 tooltip'>
+                                                        <i wire:click='upPriority({{$item->id}})' class="fa fa-angle-up fa-lg {{ $item->priority<2?'text-cool-gray-300':'text-cool-gray-400 hover:text-cool-gray-600 cursor-pointer ' }}"></i>
+                                                        <span class='tooltiptext tooltiptext-center-right'>AUMENTAR PRIORIDAD</span>
+                                                    </div>
+                                                    <div class='px-2 tooltip'>
+                                                        <span class='px-2 text-xs font-bold text-green-300 rounded-md bg-cool-gray-600'>{{ $item->priority }}</span>
+                                                        <span class='tooltiptext tooltiptext-center-right'>PRIORIDAD</span>
+                                                    </div>
+                                                    <div class='pt-1 tooltip'>
+                                                        <i wire:click='downPriority({{$item->id}})' class='cursor-pointer text-cool-gray-400 hover:text-cool-gray-600 fa fa-angle-down fa-lg'></i>
+                                                        <span class='tooltiptext tooltiptext-center-right'>DECREMENTAR PRIORIDAD</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class=''>
+                                            <x-lopsoft.datatable.row-actions-xs
+                                                table='{{$table}}'
+                                                model='{{$model}}'
+                                                module='{{ $module }}'
+                                                itemid="{{ $item->id }}"
+                                                active="{{ $item->active??true }}"/>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach

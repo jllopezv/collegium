@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use App\Models\Auth\PermissionGroup;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Traits\HasCommon;
+use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
@@ -20,6 +21,7 @@ class PermissionGroupComponent extends Component
     use WithAlertMessage;
     use WithModalAlert;
     use WithModalConfirm;
+    use HasPriority;
 
     public  $group;
     public  $priority;

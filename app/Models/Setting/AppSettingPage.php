@@ -5,6 +5,7 @@ namespace App\Models\Setting;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use App\Models\Setting\AppSetting;
+use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
@@ -15,6 +16,7 @@ class AppSettingPage extends Model
     use HasCommon;
     use HasAllowedActions;
     use HasActive;
+    use HasPriority;
 
     /**
      * The attributes that are mass assignable.

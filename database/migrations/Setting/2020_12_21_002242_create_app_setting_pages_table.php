@@ -18,7 +18,7 @@ class CreateAppSettingPagesTable extends Migration
             $table->boolean('active')->default(1);
             $table->string('settingpage')->unique();
             $table->string('description')->default('');
-            $table->integer('priority')->default(1);
+            $table->unsignedBigInteger('priority')->default(1);
             $table->boolean('onlysuperadmin')->default(0);
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');

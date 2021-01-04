@@ -21,7 +21,7 @@ class SchoolGradeComponent extends Component
     use WithModalConfirm;
 
     public  $grade;
-    public  $showorder;
+    public  $priority;
     public  $level_id;
 
     protected $listeners=[
@@ -45,7 +45,7 @@ class SchoolGradeComponent extends Component
         $this->module='school';
         $this->commonMount();
         // Default order for table
-        $this->sortorder='showorder';
+        $this->sortorder='priority';
         if ($this->mode=='create')
         {
             // default create options
@@ -62,19 +62,19 @@ class SchoolGradeComponent extends Component
     {
         return [
             'grade'             => 'required|string|max:255|unique:school_grades,grade,'.$this->recordid,
-            'showorder'         => 'required|numeric',
+            'priority'         => 'required|numeric',
         ];
     }
 
     public function loadDefaults()
     {
         $grades=SchoolGrade::active()->count();
-        $this->showorder=$grades+1;
+        $this->priority=$grades+1;
     }
 
     public function resetForm()
     {
-        $this->showorder='';
+        $this->priority='';
         $this->grade='';
         $this->loadDefaults();
     }
@@ -82,7 +82,7 @@ class SchoolGradeComponent extends Component
     public function loadRecordDef()
     {
         $this->grade=$this->record->grade;
-        $this->showorder=$this->record->showorder;
+        $this->priority=$this->record->priority;
         $this->level_id=$this->record->level_id;
         $this->emit('setvalue', 'levelcomponent', $this->level_id);
     }
@@ -101,7 +101,7 @@ class SchoolGradeComponent extends Component
     {
         return [
             'grade'                 =>  $this->grade,
-            'showorder'             =>  $this->showorder,
+            'priority'             =>  $this->priority,
             'level_id'              =>  $this->level_id,
         ];
     }
@@ -111,7 +111,7 @@ class SchoolGradeComponent extends Component
     {
         $record=new SchoolGrade;
         $record->grade=$this->grade;
-        $record->showorder=$this->showorder;
+        $record->priority=$this->priority;
         $record->level_id=$this->level_id;
     }
 
