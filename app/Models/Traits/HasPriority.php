@@ -22,9 +22,9 @@ trait HasPriority
         $this->save();
     }
 
-    static public function syncPriority()
+    static public function syncPriority($items)
     {
-        $items=self::orderBy('priority')->get();
+        if (count($items)==0) return;
         $priority=1;
         foreach($items as $item)
         {

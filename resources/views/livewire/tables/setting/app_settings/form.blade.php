@@ -113,7 +113,7 @@ nextref='settingkey'
 @livewire('controls.drop-down-table-component', [
     'model'         => \App\Models\Setting\AppSettingPage::class,
     'mode'          =>  $mode,
-    'filterraw'     => '',
+    'filterraw'     => Auth::user()->level!=1?'onlysuperadmin=0':'',
     'label'         => transup('page'),
     'sublabel'      => 'Página dónde se guardará la configuración',
     'key'           => 'id',

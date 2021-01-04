@@ -44,8 +44,8 @@
                 @endisAdmin
             @endif
         </div>
-
     </div>
+    {{ $filters }}
     <div x-show='!(screen_width>640)'>
         @if($slave=='true')
             <div class='w-full pb-2 bg-gray-700 rounded-b-lg'></div>

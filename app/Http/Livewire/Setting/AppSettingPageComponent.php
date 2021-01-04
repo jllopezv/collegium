@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Setting;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Setting\AppSettingPage;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\HasPriority;
@@ -119,6 +120,18 @@ class AppSettingPageComponent extends Component
             'description'          =>  $this->description,
             'onlysuperadmin'       =>  $this->onlysuperadmin,
         ];
+    }
+
+    public function forceFilter()
+    {
+        if (Auth::user()->level==1) return;
+        $items=$this->data->get();
+        $ids=[];
+        foreach($items as $item)
+        {
+            if ($item->onlysuperadmin==0) $ids[]=$item->id;
+        }
+        $this->data->whereIn('id', $ids );
     }
 
 }

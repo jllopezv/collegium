@@ -21,7 +21,7 @@ Trait HasPriority
 
     public function syncPriority()
     {
-        $this->model::syncPriority();
+        $this->model::syncPriority($this->querySearch()->get());
     }
 
 }

@@ -192,6 +192,7 @@ class DropDownTableComponent extends Component
     public function select($index, $emitevent=true, $change=false)
     {
         $this->getData();
+
         if (is_null($index) && ($this->mode=='edit' || $this->mode=='show') )
         {
             $this->value=null;

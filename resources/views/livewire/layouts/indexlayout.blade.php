@@ -27,6 +27,11 @@
                     @endif
                 </x-slot>
             {{-- /BATCH COMMON --}}
+            {{-- FILTERS --}}
+                <x-slot name='filters'>
+                    @yield('filters')
+                </x-slot>
+            {{-- /FILTERS --}}
             {{-- HEADER --}}
                 <x-slot name="header">
                     <x-lopsoft.datatable.header-tr>
@@ -50,6 +55,7 @@
                     @if(!is_null($data))
                         @if($data->count())
                             @foreach($data as $index => $item)
+
                                 <x-lopsoft.datatable.body-tr
                                     active='{{$item->active??true}}'
                                     model='{{ $model }}'
@@ -82,6 +88,7 @@
                                         />
                                     @endif
                                 </x-lopsoft.datatable.body-tr>
+
                             @endforeach
                         @endif
                     @endif
@@ -90,13 +97,15 @@
             {{-- HEADERXS --}}
                 <x-slot name="headerxs">
                     @yield('headerxs')
-                    @if($canselect!=='false')
-                        <x-lopsoft.control.checkbox label='SELECCIONAR PAGINA' model='rowselectpage' color='text-green-400' classlabel='font-bold'/>
-                        <x-lopsoft.control.checkbox label='SELECCIONAR TODOS'  model='rowselectall'  color='text-green-600' classlabel='font-bold'/>
-                    @endif
-                    @if(!is_null($data) && method_exists($data->first(),'syncPriority'))
-                        <i wire:click='syncPriority' class='font-bold cursor-pointer fa fa-sync fa-fw fa-sm text-cool-gray-400 hover:text-cool-gray-600'></i><span class='pl-3 text-sm font-bold'>SYNC PRIORIDAD</span>
-                    @endif
+                    <div class='ml-2'>
+                        @if($canselect!=='false')
+                            <x-lopsoft.control.checkbox label='SELECCIONAR PAGINA' model='rowselectpage' color='text-green-400' classlabel='font-bold'/>
+                            <x-lopsoft.control.checkbox label='SELECCIONAR TODOS'  model='rowselectall'  color='text-green-600' classlabel='font-bold'/>
+                        @endif
+                        @if(!is_null($data) && method_exists($data->first(),'syncPriority'))
+                            <i wire:click='syncPriority' class='font-bold cursor-pointer fa fa-sync fa-fw fa-sm text-cool-gray-400 hover:text-cool-gray-600'></i><span class='pl-3 text-sm font-bold'>SYNC PRIORIDAD</span>
+                        @endif
+                    </div>
                 </x-slot>
             {{-- /HEADERXS --}}
             {{-- BODYXS --}}
@@ -189,7 +198,7 @@
                         @if( $data->count() )
                             <div class='w-full p-4'>
                                 <div>
-                                    <span class='text-sm text-gray-700'>Total registros {{ (!$showlocks && property_exists($model,'hasactive') )?$model::active()->count().' de ':'' }} {{ $model::all()->count() }}.</span>
+                                    <span class='text-sm text-gray-700'>Total registros {{ (!$showlocks && property_exists($model,'hasactive') )?$recordcount.' de ':'' }} {{ $model::all()->count() }}.</span>
                                     @if(count($rowselected)) <span class='text-sm text-gray-700'>Registros seleccionados: {{ count($rowselected) }}</span>@endif
                                 </div>
                                 {{-- {{ $data->links('components.lopsoft.datatable.pagination') }} --}}

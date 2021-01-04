@@ -1,5 +1,6 @@
 <div class='mt-1 text-center'>
     <div class='font-bold '>{!! $item->settingkey !!}</div>
+    <div class='text-xs font-bold text-cool-gray-600'>{{ $item->page->settingpage }}</div>
     <div class=''>
         @switch($item->type)
             @case('text')

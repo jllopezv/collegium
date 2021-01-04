@@ -39,6 +39,7 @@ class AppSettingComponent extends Component
     public $filetypeimage;
     public $page_id;
     public $root='/';
+    public $filterdata="";
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',      // Refresh all components in index mode
@@ -51,7 +52,8 @@ class AppSettingComponent extends Component
         'eventsettype'          => 'eventSetType',
         'filemanagerselect'     => 'filemanagerSelect',
         'filemanager_uploadfile'=> 'filemanagerUploadFile',
-        'disable_loading'       => 'disableLoading'
+        'disable_loading'       => 'disableLoading',
+        'eventfilterpage'       => 'eventFilterPage',
     ];
 
     /**
@@ -241,5 +243,37 @@ class AppSettingComponent extends Component
             $this->settingvalue=$this->typeimage;
         }
     }
+
+
+    public function eventFilterPage($page_id)
+    {
+        if ($page_id=='*')
+        {
+            $this->filterdata='';
+        }
+        else
+        {
+            $this->filterdata='page_id='.$page_id;
+        }
+    }
+
+    public function setDataFilter()
+    {
+        if ($this->filterdata!='') $this->data->whereRaw( $this->filterdata );
+    }
+
+    public function forceFilter()
+    {
+        if (Auth::user()->level==1) return;
+
+        $items=$this->data->get();
+        $ids=[];
+        foreach($items as $item)
+        {
+            if ($item->page->onlysuperadmin==0) $ids[]=$item->id;
+        }
+        $this->data->whereIn('id', $ids );
+    }
+
 
 }

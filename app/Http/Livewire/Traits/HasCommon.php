@@ -60,6 +60,7 @@ Trait HasCommon
     public $paramscallforward;
     public $paramscallback;
     public $disableloading=false;
+    public $recordcount=0;
 
     private $data=null;
     private $newmodel=null;
@@ -439,6 +440,16 @@ Trait HasCommon
 
     }
 
+    /**
+     * Force Filter must be $this->data->whereIn('id', array of valid ids)
+     *
+     * @return void
+     */
+    public function forceFilter()
+    {
+
+    }
+
     public function setDataFilterOwner()
     {
         $command=$this->mode;
@@ -470,6 +481,7 @@ Trait HasCommon
     public function querySearch()
     {
         $this->getQueryData();
+
         if ($this->showlocks)
         {
             $this->data=$this->getQueryData();
@@ -513,6 +525,12 @@ Trait HasCommon
 
         $this->setDataFilterOwner();
         $this->setDataFilter();
+
+        $this->forceFilter();
+
+        $this->recordcount=$this->data->count();
+
+        return $this->data;
     }
 
 

@@ -87,5 +87,23 @@ class LopHelp
         ];
     }
 
+    static public function getFilterDropDown($model, $key, $value, $filterraw, $hasall,$orderraw)
+    {
+        $query=$model::query();
+        if ($filterraw!="") $query->whereRaw($filterraw);
+        if ($orderraw!="") $query->orderByRaw($orderraw);
+        $records=$query->get();
+        $ret=[];
+        if ($hasall)
+        {
+            $ret[] = [ 'value' => '*', 'text' => 'TODOS' ];
+        }
+        foreach($records as $record)
+        {
+            $ret[] = [ 'value' => $record[$key], 'text' => $record[$value] ];
+        }
+        return $ret;
+    }
+
 
 }

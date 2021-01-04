@@ -72,10 +72,10 @@
                             </div>
                         </div>
                     </div>
-
                 <div class='w-full overflow-y-auto max-h-40 nosb'
                     >
                     @if(count($records))
+
                         @foreach($records as $index => $record)
 
                                 <div class='w-full p-2 cursor-pointer hover:bg-gray-600 hover:text-white hover:rounded-lg'
@@ -95,6 +95,5 @@
                 </div>
             </div>
         @endif
-
     </div>
 </div>
