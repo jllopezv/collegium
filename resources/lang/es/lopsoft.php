@@ -17,6 +17,7 @@ return [
         'app_setting_pages' =>  'páginas de configuración',
         'app_settings'      =>  'configuraciones',
         'app'               =>  'aplicación',
+        'website_post_cats' =>  'categorías de artículos',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -100,4 +101,8 @@ return [
     'value'                 =>  'valor',
     'type'                  =>  'tipo',
     'image'                 =>  'imagen',
+    'post'                  =>  'artículo',
+    'website'               =>  'website',
+    'categories'            =>  'categorías',
+    'category'              =>  'categoría',
 ];

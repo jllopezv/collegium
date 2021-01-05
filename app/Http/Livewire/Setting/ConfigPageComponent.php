@@ -12,7 +12,7 @@ class ConfigPageComponent extends Component
 
     public function mount()
     {
-        $this->pages=AppSettingPage::active()->orderBy('priority','asc')->get();
+        $this->pages=AppSettingPage::active()->orderBy('onlysuperadmin','desc')->orderBy('priority','asc')->get();
         //$this->currentpage=$this->pages->first()->id;
     }
 

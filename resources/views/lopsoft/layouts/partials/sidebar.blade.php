@@ -95,6 +95,23 @@
         @endhasAbility
     </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
+    @hasAbilityOr(['website_post_cats.access'])
+        <x-lopsoft.control.sidebar-menu
+            icon='fa fa-globe'
+            text="{{ transup('website') }}"
+            menuid='menuwebsite'
+            classmenu='hover:text-green-300'>
+            @hasAbility(['website_post_cats.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-align-justify'
+                link="{{ route('website_post_cats.index') }}"
+                text="{{ transup('categories') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+        </x-lopsoft.control.sidebar-menu>
+    @endhasAbilityOr
     @hasAbilityOr(['students.access', 'school_levels.access', 'school_grades.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user'

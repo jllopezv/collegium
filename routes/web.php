@@ -16,6 +16,7 @@ use App\Models\Setting\AppSetting;
 use App\Models\Auth\PermissionGroup;
 use Illuminate\Support\Facades\Route;
 use App\Models\Setting\AppSettingPage;
+use App\Models\Website\WebsitePostCat;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Aux\ColorController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\School\SchoolLevelController;
 use App\Http\Controllers\Setting\AppSettingController;
 use App\Http\Controllers\Auth\PermissionGroupController;
 use App\Http\Controllers\Setting\AppSettingPageController;
+use App\Http\Controllers\Website\WebsitePostCatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -134,6 +136,18 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('colors', ColorController::class, Color::class);
     LopHelp::generateCommonModelRoute('countries', CountryController::class, Country::class);
     LopHelp::generateCommonModelRoute('languages', LanguageController::class, Language::class);
+
+});
+
+/*****************************************************/
+/* WEBSITE                                           */
+/*****************************************************/
+
+Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
+                'middleware'    => ['web', 'auth', 'verified'],
+                'namespace'     => '\App\Http\Controllers\Website' ], function() {
+
+    LopHelp::generateCommonModelRoute('website_post_cats', WebsitePostCatController::class, WebsitePostCat::class);
 
 });
 
