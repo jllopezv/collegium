@@ -26,6 +26,7 @@ class RichEditorComponent extends Component
         {
             $this->content=$value;
             $this->emit($this->event,$value);
+            $this->dispatchBrowserEvent('richeditor-updated');
         }
     }
 
@@ -44,14 +45,13 @@ class RichEditorComponent extends Component
         }
     }
 
-    public function getValue($modelid)
+    public function getValue($modelid, $param=false)
     {
         if ($modelid==$this->modelid || $modelid=='*')
         {
-            $this->emit( $this->event, $this->content );
+            $this->emit( $this->event, $this->content, $param );
         }
     }
-
 
     public function render()
     {

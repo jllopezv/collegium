@@ -206,6 +206,27 @@ Trait HasCommon
         }
     }
 
+
+    /**
+     * initStore Init Store procedure. Useful if you want in the child class manager store process
+     *
+     * @return void
+     */
+    public function initStore()
+    {
+        $this->store();
+    }
+
+     /**
+     * initStore Init Update procedure. Useful if you want in the child class manager update process
+     *
+     * @return void
+     */
+    public function initUpdate($exit=false)
+    {
+        $this->update($exit);
+    }
+
     /**
      * Save or Update record data
      *

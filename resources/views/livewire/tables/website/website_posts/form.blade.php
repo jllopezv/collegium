@@ -37,6 +37,7 @@
     </div>
 </div>
 
+
 <div class='flex'>
     <div wire:click="$emitTo('filemanager.filemanager','showFilemanager','filemanager-{{$table}}', 'image', '')"
          class='mx-auto cursor-pointer '><img class='rounded-md shadow-lg' src="{{getImage( $image, false )}}" style='max-width: auto; max-height: {{appsetting('posts_default_height')}}px' /></div>
@@ -67,8 +68,8 @@
 
 <x-lopsoft.control.inputform
     wire:model.lazy='posttitle'
-    id='posttitle'
-    x-ref='posttitle'
+    id='title'
+    x-ref='title'
     label="{{ transup('title') }}"
     class='w-full'
     autofocus
@@ -86,7 +87,7 @@
     'filterraw'     => '',
     'sortorder'     => 'priority',
     'label'         =>  mb_strtoupper(trans('lopsoft.category')),
-    'classdropdown' => 'w-full',
+    'classdropdown' => 'w-1/4',
     'key'           => 'id',
     'field'         => 'category',
     'defaultvalue'  =>  null,
@@ -97,13 +98,12 @@
     'template'      => 'components.lopsoft.dropdown.websitepostcat',
 ])
 
-@livewire('filemanager.filemanager', ['uuid' => 'filemanager-body', 'multiselect' => false, 'root' => '/', 'allowedmimetypes' => '' ])
+@livewire('filemanager.filemanager', ['uuid' => 'filemanagerbody', 'multiselect' => false, 'root' => '/', 'allowedmimetypes' => '' ])
 
 @livewire('controls.rich-editor-component', [
-    'uuid'      => 'filemanager-body',  // filemanager uuid
+    'uuid'      => 'filemanagerbody',  // filemanager uuid
     'modelid'   => 'body',
     'default'   => $record->body??'',
     'event'     => 'eventsetbody',
     'label'     => transup('body'),
- ])
-
+])

@@ -5,7 +5,9 @@
     'help'      => '',
     'helpclass' =>'tooltiptext-up-center',
     'textxs'    => false,
-    'buttonxs'  => false ])
+    'buttonxs'  => false,
+    'readonly'  => false,
+])
 
 <button
     @if($ref)
@@ -16,8 +18,9 @@
                 .( $buttonxs ? 'px-2 py-1' : 'px-4 py-2' ).
                 ' border border-transparent
                 rounded-md font-bold text-sm text-white uppercase
-                focus:outline-none  focus:shadow-none
-                cursor-pointer transition ease-in-out duration-150
+                focus:outline-none  focus:shadow-none '
+                .( $readonly ? 'cursor-pointer' : '' ).
+                'transition ease-in-out duration-150
                 bg-gray-500 hover:bg-gray-600 active:bg-gray-500 focus:border-gray-500'
     ]) }}
     >

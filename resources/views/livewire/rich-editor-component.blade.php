@@ -1,22 +1,25 @@
 <div
     class="py-4"
     x-data='{}'
-    x-init="editor.setData($wire.default)">
+    x-init="editor.setData($wire.default);">
     <label class="block mb-2 font-bold">
         {{ $label }}
         @if($sublabel!="")
             <div class='text-sm font-normal text-gray-400'>{{ $sublabel}}</div>
         @endif
     </label>
-    <div wire:ignore wire:key='{{ $uuid }}'>
-        <div id='ckeditor_{{$uuid}}' ></div>
+
+    <div wire:ignore wire:key='{{ $uuid }} ' class='relative'>
+        <div id='ckeditor_{{$uuid}}'  ></div>
+        <div id='loading_{{ $uuid }}' class='absolute bottom-0 z-50 hidden text-red-600 right-4'><i class="fas fa-circle-notch fa-spin"></i> Saving...</div>
     </div>
+    {{-- textarea:<textarea wire:model='content'></textarea> --}}
 </div>
 
 <script>
 
     // CKEditor4
-
+    let lastchange_{{$uuid}}=true;
     let editor=CKEDITOR.replace('ckeditor_{{$uuid}}', {
         height: 500,
         width: '100%',
@@ -40,8 +43,22 @@
 
     CKEDITOR.addCss(".cke_editable{cursor:text; font-size: 16px; font-family: Verdana, sans-serif;}");
 
-    editor.on('blur',function(){
-        Livewire.emit('richeditor-update','{{$modelid}}',editor.getData());
+    // editor.on('blur',function(){
+    //     Livewire.emit('richeditor-update','{{$modelid}}',editor.getData());
+    // });
+
+    editor.on('change',function(){
+        $("#loading_{{$uuid}}").show();
+        $("#btnCreate").hide();
+        if (lastchange_{{$uuid}})
+        {
+            lastchange_{{$uuid}}=false;
+            setTimeout(function() {
+                Livewire.emit('richeditor-update','{{$modelid}}',editor.getData());
+                // lastchange_{{$uuid}}=true;
+                // $("#btnCreate").show();
+            },{{ config('lopsoft.richeditor_timeout') }} ); // Update timeout
+        }
     });
 
     editor.addCommand("filemanagerLopsoft", { // create named command
@@ -63,6 +80,19 @@
             editor.insertHtml('<img src="' +  event.detail.file[0]['url'] + '"/>');
         }
 
+    });
+
+    window.addEventListener('richeditor-setdefault', event => {
+        if (event.detail.modelid=="{{$modelid}}")
+        {
+            editor.setData(event.detail.content);
+        }
+    })
+
+    window.addEventListener('richeditor-updated', event => {
+        $("#loading_{{$uuid}}").hide();
+        lastchange_{{$uuid}}=true;
+        $("#btnCreate").show();
     });
 
 </script>

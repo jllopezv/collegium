@@ -69,7 +69,7 @@ class WebsitePostComponent extends Component
         }
     }
 
-    
+
     /**
      * Rules to validate model
      *
@@ -99,8 +99,10 @@ class WebsitePostComponent extends Component
         $this->top=false;
         $this->fixed=false;
         $this->starred=false;
-        $this->website_post_cat_id=0;
+        //$this->emit('setvalue','website_post_cat_component',null);
+        // $this->website_post_cat_id=0;
         $this->body='';
+        $this->dispatchBrowserEvent('richeditor-setdefault',[ 'modelid' => 'body', 'content' => '']);
         $this->loadDefaults();
     }
 
@@ -168,13 +170,32 @@ class WebsitePostComponent extends Component
         //copy(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.$ret->basename), Storage::disk(config('lopsoft.filemanager_disk'))->path(config('lopsoft.filemanager_storage_folder').$this->root.basename($ret->basename)));
     }
 
-    public function eventSetBody($body)
+    public function eventSetBody($body, $command=false, $param=false)
     {
         $this->body=$body;
+        if ($command!=false)
+        {
+            if ($command=='store') $this->store();
+            if ($command=='update') $this->update($param);
+        }
     }
 
     public function eventSetCat($cat)
     {
         $this->website_post_cat_id=$cat;
+    }
+
+    public function initStore()
+    {
+        // Before save update values...
+        $this->emit('getvalue','body','store','');
+
+    }
+
+    public function initUpdate($exit)
+    {
+        // Before save update values...
+        $this->emit('getvalue','body','update',$exit);
+
     }
 }

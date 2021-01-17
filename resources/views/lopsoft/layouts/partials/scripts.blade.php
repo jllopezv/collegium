@@ -7,3 +7,9 @@
 <script src="{{ asset('js/lib/ckeditor4/ckeditor.js') }}"></script>
 <script src="{{ asset('js/lib/ckeditor4/styles.js') }}"></script>
 
+
+<script>
+
+    var working=false;
+
+</script>
