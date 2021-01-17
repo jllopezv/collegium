@@ -192,14 +192,16 @@ class WebsitePostComponent extends Component
     public function initStore()
     {
         // Before save update values...
-        $this->emit('getvalue','body','store','');
-
+        $this->custommessage="GUARDANDO DATOS";
+        $this->showcustommessage=true;
+        $this->dispatchBrowserEvent('richeditor-request-update',[ 'command' => 'store', 'param' => '' ]);
     }
 
     public function initUpdate($exit=false)
     {
         // Before save update values...
-        $this->emit('getvalue','body','update',$exit);
-
+        $this->custommessage="ACTUALIZANDO DATOS";
+        $this->showcustommessage=true;
+        $this->dispatchBrowserEvent('richeditor-request-update',[ 'command' => 'update', 'param' => $exit ]);
     }
 }

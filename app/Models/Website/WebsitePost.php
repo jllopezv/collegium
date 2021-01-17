@@ -61,8 +61,10 @@ class WebsitePost extends Model
      */
     public function getPostImageAttribute()
     {
+        $showthumb=config('lopsoft.posts_index_showthumb');
+
         if (is_null($this->image)) return Storage::disk('public')->url(config('lopsoft.posts_default_image'));
-        if ( !Storage::disk('public')->exists( 'thumbs/'.$this->image ) )
+        if ( !Storage::disk('public')->exists( 'thumbs/'.$this->image ) || $showthumb==false)
         {
             if ( !Storage::disk('public')->exists( $this->image ) )
             {

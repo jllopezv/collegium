@@ -22,7 +22,7 @@
         <div
             x-data='InitSidebar()'
             {{-- x-init='checkWidth()' --}}
-            class="flex flex-col h-screen ">
+            class="relative flex flex-col h-screen">
 
             {{-- NAVBAR --}}
             <div class="px-4 py-4 text-white bg-gray-700 shadow">
@@ -30,7 +30,7 @@
             </div>
 
             {{-- MAIN --}}
-             <div class='relative flex-1 h-full max-h-full overflow-y-hidden'>
+            <div class='relative flex-1 h-full max-h-full overflow-y-hidden'>
 
                 {{-- SIDEBAR --}}
                 @include('lopsoft.layouts.partials.sidebar')

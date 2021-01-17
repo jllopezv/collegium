@@ -132,6 +132,7 @@ return [
     'posts_default_width'           => 800,
     'posts_default_height'          => 600,
     'posts_default_image'           => 'defaults/default_image.png',
+    'posts_index_showthumb'         => false,
 
 
 ];

@@ -1,17 +1,16 @@
 <div
     class="py-4"
     x-data='{}'
-    x-init="editor.setData($wire.default);">
+    x-init="editor.setData($wire.default)">
     <label class="block mb-2 font-bold">
         {{ $label }}
         @if($sublabel!="")
             <div class='text-sm font-normal text-gray-400'>{{ $sublabel}}</div>
         @endif
     </label>
-
     <div wire:ignore wire:key='{{ $uuid }} ' class='relative'>
         @if($mode!='show')
-            <div id='ckeditor_{{$uuid}}'  ></div>
+            <div id='ckeditor_{{$uuid}}'></div>
         @else
             {!! $content !!}
         @endif
@@ -50,20 +49,20 @@
     //     Livewire.emit('richeditor-update','{{$modelid}}',editor.getData());
     // });
 
-    editor.on('change',function(){
-        $("#loading_{{$uuid}}").show();
-        $("#btnCreate").hide();
-        $("#btnUpdate").hide();
-        if (lastchange_{{$uuid}})
-        {
-            lastchange_{{$uuid}}=false;
-            setTimeout(function() {
-                Livewire.emit('richeditor-update','{{$modelid}}',editor.getData());
-                // lastchange_{{$uuid}}=true;
-                // $("#btnCreate").show();
-            },{{ config('lopsoft.richeditor_timeout') }} ); // Update timeout
-        }
-    });
+    // editor.on('blur',function(){
+    //     $("#loading_{{$uuid}}").show();
+    //     $("#btnCreate").hide();
+    //     $("#btnUpdate").hide();
+    //     if (lastchange_{{$uuid}})
+    //     {
+    //         lastchange_{{$uuid}}=false;
+    //         setTimeout(function() {
+    //             Livewire.emit('richeditor-update','{{$modelid}}',editor.getData());
+    //             // lastchange_{{$uuid}}=true;
+    //             // $("#btnCreate").show();
+    //         },{{ config('lopsoft.richeditor_timeout') }} ); // Update timeout
+    //     }
+    // });
 
     editor.addCommand("filemanagerLopsoft", { // create named command
         exec: function(edt) {
@@ -81,7 +80,12 @@
     window.addEventListener('filemanagerselect', event => {
         if (event.detail.uuid=='{{$uuid}}')
         {
-            editor.insertHtml('<img src="' +  event.detail.file[0]['url'] + '"/>');
+            img=new Image;
+            img.src=event.detail.file[0]['url'];
+            img.onload = function() {
+                editor.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '" style="width:'+this.width+'px;height:'+this.height+'px" />');
+            }
+
         }
 
     });
@@ -98,6 +102,13 @@
         lastchange_{{$uuid}}=true;
         $("#btnCreate").show();
         $("#btnUpdate").show();
+    });
+
+    window.addEventListener('richeditor-request-update', event => {
+        $("#loading_{{$uuid}}").show();
+        $("#btnCreate").hide();
+        $("#btnUpdate").hide();
+        Livewire.emit('richeditor-update','{{$modelid}}',editor.getData(), event.detail.command, event.detail.param );
     });
 
 </script>

@@ -61,6 +61,9 @@ Trait HasCommon
     public $paramscallback;
     public $disableloading=false;
     public $recordcount=0;
+    public $showcustommessage=false;
+    public $custommessage='';
+    public $saveandexit=true;
 
     private $data=null;
     private $newmodel=null;
@@ -363,7 +366,7 @@ Trait HasCommon
     public function updated()
     {
         // Request report from children
-        $this->emit("getvalue","*");
+        //$this->emit("getvalue","*");
         $this->updatedCore();
     }
 
@@ -1134,6 +1137,7 @@ Trait HasCommon
      */
     public function store()
     {
+        $this->showcustommessage=false;
         $this->resetValidation();
         if (!$this->canStore())
         {
@@ -1193,6 +1197,7 @@ Trait HasCommon
      */
     public function update($exit=false)
     {
+        $this->showcustommessage=false;
         $this->resetValidation();
         if (!$this->canUpdate())
         {
