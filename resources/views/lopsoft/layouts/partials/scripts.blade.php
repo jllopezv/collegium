@@ -4,4 +4,6 @@
 <script src="{{ asset('js/lib/toastr.min.js')}}"></script>
 <script src="{{ asset('js/lib/noty.min.js')}}"></script>
 <script src="{{ asset('js/lopsoft.js') }}"></script>
+<script src="{{ asset('js/lib/ckeditor4/ckeditor.js') }}"></script>
+<script src="{{ asset('js/lib/ckeditor4/styles.js') }}"></script>
 

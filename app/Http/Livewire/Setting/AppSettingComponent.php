@@ -51,7 +51,7 @@ class AppSettingComponent extends Component
         'eventsetpage'          => 'eventSetPage',
         'eventsettype'          => 'eventSetType',
         'filemanagerselect'     => 'filemanagerSelect',
-        'filemanager_uploadfile'=> 'filemanagerUploadFile',
+        'filemanager-upload-postprocess'=> 'filemanagerUploadFile',
         'disable_loading'       => 'disableLoading',
         'eventfilterpage'       => 'eventFilterPage',
     ];

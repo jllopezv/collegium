@@ -4,9 +4,9 @@
 
     @include('livewire.partials.states.commonheader', ['mode' => 'create'] )
 
-    <div class='inline-block items-top justify-center mt-4 p-2 w-full'>
+    <div class='justify-center inline-block w-full p-2 mt-4 items-top'>
 
-        <div class='mx-auto w-full'>
+        <div class='w-full mx-auto'>
             @livewire('auth.user-component', [
                 'table'         =>  '{{ $table }}',
                 'model'         =>  $model,
@@ -18,5 +18,7 @@
         </div>
 
     </div>
+
+    <div class='h-32'></div>
 
 @endsection

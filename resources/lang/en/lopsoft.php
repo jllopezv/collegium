@@ -18,6 +18,7 @@ return [
         'app_settings'      =>  'settings',
         'app'               =>  'application',
         'website_post_cats' =>  'post categories',
+        'website_posts'     =>  'posts',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -105,4 +106,13 @@ return [
     'website'               =>  'website',
     'categories'            =>  'categories',
     'category'              =>  'category',
+    'post'                  =>  'post',
+    'posts'                 =>  'posts',
+    'title'                 =>  'title',
+    'published'             =>  'published',
+    'top'                   =>  'top',
+    'fixed'                 =>  'fixed',
+    'starred'               =>  'starred',
+    'body'                  =>  'body',
+
 ];

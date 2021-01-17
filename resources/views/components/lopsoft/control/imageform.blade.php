@@ -17,9 +17,8 @@
     'params'        => '',  // Extra params array like 'types:png,jpg'
     'classcomponent'=>'',
     'searchpos'     =>'before',
+    'uuid'          =>  Str::randmon(20),
 ])
-
-
 
 <div class='py-4 {{$classcomponent}}'>
     <x-lopsoft.control.label
@@ -32,7 +31,7 @@
 
     <div class='inline-flex items-center justify-start w-full'>
         @if($searchpos=='before')
-            <div class='mt-2' wire:click="$emitTo('filemanager.filemanager','showFilemanager','*', '{{  $modelid }}', '{{ $params }}')">
+            <div class='mt-2' wire:click="$emitTo('filemanager.filemanager','showFilemanager','{{$uuid}}', '{{  $modelid }}', '{{ $params }}')">
                 <i class='text-blue-400 cursor-pointer hover:text-blue-500 fa fa-search fa-fw' ></i>
             </div>
         @endif
@@ -53,7 +52,7 @@
             />
         </div>
         @if($searchpos=='after')
-            <div class='mt-2' wire:click="$emitTo('filemanager.filemanager','showFilemanager','*', '{{  $modelid }}', '{{ $params }}')">
+            <div class='mt-2' wire:click="$emitTo('filemanager.filemanager','showFilemanager','{{$uuid}}', '{{  $modelid }}', '{{ $params }}')">
                 <i class='text-blue-400 cursor-pointer hover:text-blue-500 fa fa-search fa-fw' ></i>
             </div>
         @endif

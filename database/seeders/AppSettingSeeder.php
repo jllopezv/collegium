@@ -133,6 +133,24 @@ class AppSettingSeeder extends Seeder
         $record->page_id=AppSettingPage::where('settingpage','LOGIN')->first()->id;
         $record->save();
 
+        $record=new AppSetting();
+        $record->settingkey='POSTS_DEFAULT_WIDTH';
+        $record->settingdesc='POST WIDTH';
+        $record->settingvalue=config('lopsoft.posts_default_width');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','POSTS')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='POSTS_DEFAULT_HEIGHT';
+        $record->settingdesc='POST HEIGHT';
+        $record->settingvalue=config('lopsoft.posts_default_height');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','POSTS')->first()->id;
+        $record->save();
+
 
     }
 }

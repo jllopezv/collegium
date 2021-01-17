@@ -1,5 +1,4 @@
 <div>
-
     <div x-data='{}'>
         @if($isOpen)
         <div class="fixed top-0 left-0 z-40 flex items-center justify-center w-full h-full">
@@ -44,6 +43,7 @@
                    <div class='relative flex flex-wrap items-center justify-between h-full'>
                         <div class='absolute top-0 right-2'><i wire:click='close' class='text-red-300 fa fa-times'></i></div>
                         <div class=''>
+                            <div>UUID: {{ $uuid }}</div>
                             <div><i class='fa fa-user'></i> {{ Auth::user()->username }}</div>
                             <div><i class='fa fa-folder'></i> {{ $dir }}</div>
                             {{-- <div> Root: {{ $root }}</div>

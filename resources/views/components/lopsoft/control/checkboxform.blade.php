@@ -11,10 +11,10 @@
 <div class='py-3 {{ $classcomponent }}'>
     <div>
         <label class="inline-flex items-center">
-            <span class="{{ $classlabel }}">{{ $label }}</span>
+            <span class="{{ $classlabel }}">{!! $label !!}</span>
         </label>
         @if($sublabel)
-            <div class='text-sm text-gray-400'>{{ $sublabel}}</div>
+            <div class='text-sm text-gray-400'>{!! $sublabel !!}</div>
         @endif
     </div>
     <div class='pt-2'>

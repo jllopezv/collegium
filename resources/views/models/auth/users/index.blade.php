@@ -14,4 +14,6 @@
             'minwidth'  =>  '1000px'])
     </div>
 
+    <div class='h-32'></div>
+
 @endsection

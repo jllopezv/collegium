@@ -150,13 +150,13 @@ use App\Models\Setting\AppSetting;
 
     if (! function_exists('getImage')) {
 
-        function getImage($image)
+        function getImage($image,$getthumb=true)
         {
             // Example:   /2/folder/image.jpg
             if ($image!="")
             {
                 // THUMB?
-                if ( file_exists(Storage::disk(config('lopsoft.filemanager_disk'))->path('thumbs/'.$image)))
+                if ( $getthumb && file_exists(Storage::disk(config('lopsoft.filemanager_disk'))->path('thumbs/'.$image)))
                 {
                     return (Storage::disk(config('lopsoft.filemanager_disk'))->url('thumbs/'.$image));
                 }

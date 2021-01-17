@@ -95,12 +95,21 @@
         @endhasAbility
     </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
-    @hasAbilityOr(['website_post_cats.access'])
+    @hasAbilityOr(['website_post_cats.access', 'website_posts.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-globe'
             text="{{ transup('website') }}"
             menuid='menuwebsite'
             classmenu='hover:text-green-300'>
+            @hasAbility(['website_posts.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-sticky-note'
+                link="{{ route('website_posts.index') }}"
+                text="{{ transup('posts') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
             @hasAbility(['website_post_cats.access'])
             <x-lopsoft.control.sidebar-sublink
                 icon='fa fa-align-justify'

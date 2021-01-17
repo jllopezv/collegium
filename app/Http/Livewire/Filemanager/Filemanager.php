@@ -69,6 +69,7 @@ class Filemanager extends Component
             $this->modelid=$modelid;
             $this->params=$params;
             $this->parseParams();
+            $this->syncFiles();
         }
     }
 
@@ -365,6 +366,11 @@ class Filemanager extends Component
             }
         }
         $this->emit('filemanagerselect', $this->uuid,$this->path.$this->dir, $this->getSelectedFiles(), $this->modelid);
+        $this->dispatchBrowserEvent('filemanagerselect', [
+            'uuid'  =>  $this->uuid,
+            'dir'   =>  $this->path.$this->dir,
+            'file'  =>  $this->getSelectedFiles(),
+            'modelid'   =>  $this->modelid ]);
         $this->close();
     }
 
@@ -416,33 +422,36 @@ class Filemanager extends Component
     {
 
         $selected=$this->getSelectedFiles();
-        try{
-            if ($selected[0]['type']=='folder')
-            {
-                if (!is_readable($this->root . $this->path . $this->dir . $selected[0]['basename']))
-                {
-                    $this->showAlertError("NO SE PUEDE ACCEDER AL DIRECTORIO");
-                    return;
-                }
-                if ( count(scandir($this->root . $this->path . $this->dir . $selected[0]['basename']))>2 )
-                {
-                    $this->showAlertError("EL DIRECTORIO NO ESTÁ VACÍO. NO SE PUEDE BORRAR.");
-                    return;
-                }
-                rmdir($this->root . $this->path . $this->dir . $selected[0]['basename']);
-                rmdir($this->root . 'thumbs/' . $this->path . $this->dir . $selected[0]['basename']);
-            }
-            else
-            {
-                unlink($this->root . $this->path . $this->dir . $selected[0]['basename']);
-                unlink($this->root . 'thumbs/' . $this->path . $this->dir . $selected[0]['basename']);
-            }
-            $this->syncFiles();
-        }
-        catch(\Exception $e)
+        if (count($selected)>0)
         {
-            $this->showAlertError("NO SE PUDO REALIZAR LA OPERACIÓN<br/>".$e->getMessage());
-            $this->syncFiles();
+            try{
+                if ($selected[0]['type']=='folder')
+                {
+                    if (!is_readable($this->root . $this->path . $this->dir . $selected[0]['basename']))
+                    {
+                        $this->showAlertError("NO SE PUEDE ACCEDER AL DIRECTORIO");
+                        return;
+                    }
+                    if ( count(scandir($this->root . $this->path . $this->dir . $selected[0]['basename']))>2 )
+                    {
+                        $this->showAlertError("EL DIRECTORIO NO ESTÁ VACÍO. NO SE PUEDE BORRAR.");
+                        return;
+                    }
+                    rmdir($this->root . $this->path . $this->dir . $selected[0]['basename']);
+                    rmdir($this->root . 'thumbs/' . $this->path . $this->dir . $selected[0]['basename']);
+                }
+                else
+                {
+                    unlink($this->root . $this->path . $this->dir . $selected[0]['basename']);
+                    unlink($this->root . 'thumbs/' . $this->path . $this->dir . $selected[0]['basename']);
+                }
+                $this->syncFiles();
+            }
+            catch(\Exception $e)
+            {
+                $this->showAlertError("NO SE PUDO REALIZAR LA OPERACIÓN<br/>".$e->getMessage());
+                $this->syncFiles();
+            }
         }
     }
 
@@ -541,34 +550,38 @@ class Filemanager extends Component
         if ($this->fileupload)
         {
             $this->uploading=true;
-            $this->emit("filemanager-savefile");
+            $this->emit("filemanager-savefile",$this->uuid);
         }
     }
 
-    public function saveFile()
+    public function saveFile($uuid)
     {
-        $filename='file_'.getNowFile().'.'.$this->fileupload->getClientOriginalExtension();
-        $savedimage=$this->fileupload->getFileName();
-
-        try
+        if ($uuid==$this->uuid)
         {
-            copy(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage)) , $this->root.$this->path.$this->dir.$filename);
-            unlink(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage) ));
 
-            // Create thumbnail
-            $handlerimg=Image::make($this->root.$this->path.$this->dir.$filename)->fit(300);
-            $handlerimg->save($this->root.'thumbs/'.$this->path.$this->dir.$filename);
+            $filename='file_'.getNowFile().'.'.$this->fileupload->getClientOriginalExtension();
+            $savedimage=$this->fileupload->getFileName();
+
+            try
+            {
+                copy(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage)) , $this->root.$this->path.$this->dir.$filename);
+                unlink(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage) ));
+
+                // Create thumbnail
+                $handlerimg=Image::make($this->root.$this->path.$this->dir.$filename)->fit(300);
+                $handlerimg->save($this->root.'thumbs/'.$this->path.$this->dir.$filename);
 
 
+            }
+            catch(Exception $e)
+            {
+                $this->showException($e);
+            }
+            $this->uploading=false;
+            $this->emit('filemanager-upload-postprocess', $filename, $this->root.$this->path.$this->dir, $this->root.$this->path.$this->dir.$filename);
+            $this->syncFiles();
+            return $savedimage;
         }
-        catch(Exception $e)
-        {
-            $this->showException($e);
-        }
-        $this->uploading=false;
-        $this->emit('filemanager-upload-postprocess', $filename, $this->root.$this->path.$this->dir, $this->root.$this->path.$this->dir.$filename);
-        $this->syncFiles();
-        return $savedimage;
     }
 
     public function render()

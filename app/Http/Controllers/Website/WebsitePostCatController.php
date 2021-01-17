@@ -19,7 +19,7 @@ class WebsitePostCatController extends Controller
     public function __construct()
     {
         $this->title=transup('tables.'.$this->table);
-        $this->subtitle='Artículos que aparecerán en el website';
+        $this->subtitle='Categoría de Artículos';
     }
 
     /**

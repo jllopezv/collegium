@@ -5,8 +5,8 @@
 2. Add to the schema ( is not is applied in stub migration )
 
     $table->boolean('active')->default(1);
-    $table->foreignId('created_by')->nullable()->constrained('users');
-    $table->foreignId('modified_by')->nullable()->constrained('users');
+    $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
+    $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');
 
 3. Create Model
 
@@ -30,7 +30,7 @@ createmodel.sh Language Aux Countries Languages
 
 8. Create resources/views/models
 
-9. Create resources/views/livewire  change names  (Edit fields)
+9. Create resources/views/livewire/tables  change names  (Edit fields)
 
 10. Update sidebar ( if is necessary )
 

@@ -35,6 +35,16 @@ class AppSettingPageSeeder extends Seeder
                                         ]);
 
         $record=new AppSettingPage();
+        $record->settingpage='POSTS';
+        $record->onlysuperadmin=true;
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                                'allowEdit'     => false,
+                                                'allowDelete'   => false,
+                                                'allowLock'     => false
+                                        ]);
+
+        $record=new AppSettingPage();
         $record->settingpage='GENERAL';
         $record->save();
         $record->allowedActions()->create([  'allowShow'     => false,

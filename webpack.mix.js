@@ -29,4 +29,5 @@ mix.scripts([
 
 mix.styles([
     'resources/css/lopsoft/customnoty.css',
+    'resources/css/lopsoft/customckeditor.css',
 ], 'public/css/lopsoft.css');
