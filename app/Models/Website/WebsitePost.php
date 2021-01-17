@@ -9,6 +9,7 @@ use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
 use App\Models\Website\WebsitePostCat;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -46,14 +47,34 @@ class WebsitePost extends Model
      */
     public function category()
     {
-        return $this->belongsTo(WebsitePostCat::class);
+        return $this->belongsTo(WebsitePostCat::class,'website_post_cat_id','id');
     }
 
     /*******************************************/
     /* Accessors and mutators
     /*******************************************/
 
-
+    /**
+     * Get Image, if not exists return defaul image
+     *
+     * @return void
+     */
+    public function getPostImageAttribute()
+    {
+        if (is_null($this->image)) return Storage::disk('public')->url(config('lopsoft.posts_default_image'));
+        if ( !Storage::disk('public')->exists( 'thumbs/'.$this->image ) )
+        {
+            if ( !Storage::disk('public')->exists( $this->image ) )
+            {
+                return Storage::disk('public')->url(config('lopsoft.posts_default_image'));
+            }
+            else
+            {
+                return Storage::disk('public')->url( $this->image );
+            }
+        }
+        return Storage::disk('public')->url( 'thumbs/'.$this->image );
+    }
 
     /*******************************************/
     /* Methods

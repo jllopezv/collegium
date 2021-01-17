@@ -39,8 +39,11 @@
 
 
 <div class='flex'>
-    <div wire:click="$emitTo('filemanager.filemanager','showFilemanager','filemanager-{{$table}}', 'image', '')"
-         class='mx-auto cursor-pointer '><img class='rounded-md shadow-lg' src="{{getImage( $image, false )}}" style='max-width: auto; max-height: {{appsetting('posts_default_height')}}px' /></div>
+    <div
+        @if($mode!='show')
+            wire:click="$emitTo('filemanager.filemanager','showFilemanager','filemanager-{{$table}}', 'image', '')"
+        @endif
+        class="mx-auto {{ $mode!='show' ? 'cursor-pointer' : '' }} "><img class='rounded-md shadow-lg' src="{{getImage( $image, false )}}" style='max-width: auto; max-height: {{appsetting('posts_default_height')}}px' /></div>
 </div>
 
 <div class='flex flex-wrap items-center justify-start hidden md:flex-no-wrap'>
@@ -83,14 +86,14 @@
 
  @livewire('controls.drop-down-table-component', [
     'model'         => \App\Models\Website\WebsitePostCat::class,
-    'mode'          =>  'create',
+    'mode'          =>  $mode,
     'filterraw'     => '',
     'sortorder'     => 'priority',
     'label'         =>  mb_strtoupper(trans('lopsoft.category')),
     'classdropdown' => 'w-1/4',
     'key'           => 'id',
     'field'         => 'category',
-    'defaultvalue'  =>  null,
+    'defaultvalue'  =>  $record->website_post_cat_id??null,
     'eventname'     => 'eventsetcat',
     'uid'           => 'website_post_cat_component',
     'modelid'       => 'website_post_cat_id',
@@ -106,4 +109,5 @@
     'default'   => $record->body??'',
     'event'     => 'eventsetbody',
     'label'     => transup('body'),
+    'mode'      => $mode,
 ])

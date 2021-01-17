@@ -86,7 +86,7 @@ return [
     |
     */
 
-    'default_avatar'        => 'system/userdefault.png',
+    'default_avatar'        => 'defaults/userdefault.png',
     'avatar_max_size'       => 5120, // 5Mb
     'ucAccess'              => true,        // Uppercase Access Models (users,roles)
     'maxLevelAdmin'         => 10,          // Maximun level for admins ( between 1 and maxLevelAdmin both includes)
@@ -131,6 +131,7 @@ return [
 
     'posts_default_width'           => 800,
     'posts_default_height'          => 600,
+    'posts_default_image'           => 'defaults/default_image.png',
 
 
 ];

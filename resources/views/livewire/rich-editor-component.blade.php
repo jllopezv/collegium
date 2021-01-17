@@ -10,10 +10,13 @@
     </label>
 
     <div wire:ignore wire:key='{{ $uuid }} ' class='relative'>
-        <div id='ckeditor_{{$uuid}}'  ></div>
+        @if($mode!='show')
+            <div id='ckeditor_{{$uuid}}'  ></div>
+        @else
+            {!! $content !!}
+        @endif
         <div id='loading_{{ $uuid }}' class='absolute bottom-0 z-50 hidden text-red-600 right-4'><i class="fas fa-circle-notch fa-spin"></i> Saving...</div>
     </div>
-    {{-- textarea:<textarea wire:model='content'></textarea> --}}
 </div>
 
 <script>
@@ -50,6 +53,7 @@
     editor.on('change',function(){
         $("#loading_{{$uuid}}").show();
         $("#btnCreate").hide();
+        $("#btnUpdate").hide();
         if (lastchange_{{$uuid}})
         {
             lastchange_{{$uuid}}=false;
@@ -93,6 +97,7 @@
         $("#loading_{{$uuid}}").hide();
         lastchange_{{$uuid}}=true;
         $("#btnCreate").show();
+        $("#btnUpdate").show();
     });
 
 </script>

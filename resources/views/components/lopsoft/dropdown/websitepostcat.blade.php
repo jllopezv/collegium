@@ -1,8 +1,8 @@
 @php
-    $record=\App\Models\Website\WebsitePostCat::find($record['id']);
+    $item=\App\Models\Website\WebsitePostCat::find($record['id']);
 @endphp
 
 <div class=''>
-    {!! $record->categoryName !!}
+    {!! $item->categoryName !!}
 </div>
 

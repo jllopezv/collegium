@@ -90,6 +90,7 @@ class WebsitePostComponent extends Component
         $this->starred=false;
         $this->fixed=false;
         $this->body='';
+        $this->image=null;
     }
 
     public function resetForm()
@@ -99,6 +100,7 @@ class WebsitePostComponent extends Component
         $this->top=false;
         $this->fixed=false;
         $this->starred=false;
+        $this->image=null;
         //$this->emit('setvalue','website_post_cat_component',null);
         // $this->website_post_cat_id=0;
         $this->body='';
@@ -115,6 +117,7 @@ class WebsitePostComponent extends Component
         $this->starred=$this->record->starred;
         $this->website_post_cat_id=$this->record->website_post_cat_id;
         $this->body=$this->record->body;
+        $this->image=$this->record->image;
 
     }
 
@@ -132,6 +135,7 @@ class WebsitePostComponent extends Component
     {
         return [
             'title'                 =>  $this->posttitle,
+            'image'                 =>  $this->image,
             'published'             =>  $this->published,
             'top'                   =>  $this->top,
             'fixed'                 =>  $this->fixed,
@@ -192,7 +196,7 @@ class WebsitePostComponent extends Component
 
     }
 
-    public function initUpdate($exit)
+    public function initUpdate($exit=false)
     {
         // Before save update values...
         $this->emit('getvalue','body','update',$exit);

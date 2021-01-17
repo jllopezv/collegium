@@ -2,9 +2,23 @@
 
 @section('content')
 
-    @include('livewire.partials.states.commonshow', [
-        'module'    =>  'website',
-        'component' =>  'website-post'
-    ])
+    @include('livewire.partials.states.commonheader', ['mode' => 'show'] )
+
+    <div class='justify-center inline-block w-full p-2 mt-4 items-top'>
+
+        <div class='w-full mx-auto'>
+            @livewire('website.website-post-component', [
+                'table'         =>  '{{ $table }}',
+                'model'         =>  $model,
+                'mode'          =>  'show',
+                'title'         =>  $title,
+                'subtitle'      =>  $subtitle,
+                'recordid'      =>  $recordid,
+                ])
+        </div>
+
+    </div>
+
+    <div class='h-32'></div>
 
 @endsection

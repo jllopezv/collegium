@@ -29,6 +29,7 @@
     'model'         => \App\Models\Aux\Color::class,
     'mode'          =>  $mode,
     'filterraw'     => '',
+    'sortorder'     => 'id',
     'label'         => transup('color'),
     'key'           => 'id',
     'field'         => 'name',

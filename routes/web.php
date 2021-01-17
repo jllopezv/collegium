@@ -13,6 +13,7 @@ use App\Models\Auth\Permission;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
 use App\Models\Setting\AppSetting;
+use App\Models\Website\WebsitePost;
 use App\Models\Auth\PermissionGroup;
 use Illuminate\Support\Facades\Route;
 use App\Models\Setting\AppSettingPage;
@@ -149,7 +150,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
                 'namespace'     => '\App\Http\Controllers\Website' ], function() {
 
     LopHelp::generateCommonModelRoute('website_post_cats', WebsitePostCatController::class, WebsitePostCat::class);
-    LopHelp::generateCommonModelRoute('website_posts', WebsitePostController::class, WebsitePostCat::class);
+    LopHelp::generateCommonModelRoute('website_posts', WebsitePostController::class, WebsitePost::class);
 
 });
 

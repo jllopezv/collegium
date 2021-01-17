@@ -13,12 +13,18 @@ class RichEditorComponent extends Component
     public $label;
     public $sublabel;
     public $event;
+    public $mode;
 
     protected $listeners=[
         'richeditor-update' =>  'updateValue',
         'setvalue'  =>  'setValue',
         'getvalue'  =>  'getValue',
     ];
+
+    public function mount()
+    {
+        $this->content=$this->default;
+    }
 
     public function updateValue($modelid, $value)
     {
