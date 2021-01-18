@@ -49,6 +49,10 @@ class RoleSeeder extends Seeder
         $this->addPermissions($record, 'timezones');
         $this->addPermissions($record, 'languages');
 
+        $this->addPermissions($record, 'website_post_cats');
+        $this->addPermissions($record, 'website_posts');
+        $this->addPermissions($record, 'website_banners');
+
         $this->addPermissions($record, 'students');
         $this->addPermissions($record, 'school_levels');
         $this->addPermissions($record, 'school_grades');

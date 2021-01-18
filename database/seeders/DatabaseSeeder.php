@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
         $this->call(AppSettingPageSeeder::class);
         $this->call(AppSettingSeeder::class);
 
+        // Website
+        $this->call(WebsitePostCatSeeder::class);
+
         //Auth
         $this->call(PermissionGroupSeeder::class);
         $this->call(PermissionSeeder::class);

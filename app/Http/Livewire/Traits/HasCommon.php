@@ -64,6 +64,7 @@ Trait HasCommon
     public $showcustommessage=false;
     public $custommessage='';
     public $saveandexit=true;
+    public $redirectroute=null;
 
     private $data=null;
     private $newmodel=null;
@@ -1261,12 +1262,22 @@ Trait HasCommon
      *******************************************************************************/
 
     /**
+     * beforeRender
+     *
+     * @return void
+     */
+    public function beforeRender()
+    {
+    }
+
+    /**
      * Render function
      *
      * @return void
      */
     public function render()
     {
+        $this->beforeRender();
 
         if ($this->mode=='index')
         {

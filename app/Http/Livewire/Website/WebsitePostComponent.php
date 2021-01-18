@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Intervention\Image\Facades\Image;
+use App\Models\Website\WebsitePostCat;
 use App\Http\Livewire\Traits\HasCommon;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Traits\HasPriority;
@@ -68,7 +69,6 @@ class WebsitePostComponent extends Component
             $this->loadDefaults();
         }
     }
-
 
     /**
      * Rules to validate model
@@ -204,4 +204,5 @@ class WebsitePostComponent extends Component
         $this->showcustommessage=true;
         $this->dispatchBrowserEvent('richeditor-request-update',[ 'command' => 'update', 'param' => $exit ]);
     }
+
 }
