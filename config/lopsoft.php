@@ -134,5 +134,17 @@ return [
     'posts_default_image'           => 'defaults/default_image.png',
     'posts_index_showthumb'         => false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Banners
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'banners_default_width'           => 1500,
+    'banners_default_height'          => 500,
+    'banners_default_image'           => 'defaults/default_image.png',
+    'banners_index_showthumb'         => false,
+
 
 ];

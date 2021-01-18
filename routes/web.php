@@ -15,6 +15,7 @@ use App\Models\School\SchoolLevel;
 use App\Models\Setting\AppSetting;
 use App\Models\Website\WebsitePost;
 use App\Models\Auth\PermissionGroup;
+use App\Models\Website\WebsiteBanner;
 use Illuminate\Support\Facades\Route;
 use App\Models\Setting\AppSettingPage;
 use App\Models\Website\WebsitePostCat;
@@ -31,6 +32,7 @@ use App\Http\Controllers\School\SchoolLevelController;
 use App\Http\Controllers\Setting\AppSettingController;
 use App\Http\Controllers\Website\WebsitePostController;
 use App\Http\Controllers\Auth\PermissionGroupController;
+use App\Http\Controllers\Website\WebsiteBannerController;
 use App\Http\Controllers\Setting\AppSettingPageController;
 use App\Http\Controllers\Website\WebsitePostCatController;
 
@@ -151,6 +153,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
 
     LopHelp::generateCommonModelRoute('website_post_cats', WebsitePostCatController::class, WebsitePostCat::class);
     LopHelp::generateCommonModelRoute('website_posts', WebsitePostController::class, WebsitePost::class);
+    LopHelp::generateCommonModelRoute('website_banners', WebsiteBannerController::class, WebsiteBanner::class);
 
 });
 

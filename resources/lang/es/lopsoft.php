@@ -19,6 +19,7 @@ return [
         'app'               =>  'aplicación',
         'website_post_cats' =>  'categorías de artículos',
         'website_posts'     =>  'artículos',
+        'website_banners'   =>  'banners',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -114,4 +115,8 @@ return [
     'fixed'                 =>  'fijo',
     'starred'               =>  'destacado',
     'body'                  =>  'cuerpo',
+    'banner'                =>  'banner',
+    'banners'               =>  'banners',
+    'width'                 =>  'ancho',
+    'height'                =>  'alto',
 ];
