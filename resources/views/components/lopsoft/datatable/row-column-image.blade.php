@@ -1,6 +1,7 @@
 @props([
     'link'      =>  '',
     'image'     =>  config('lopsoft.posts_default_avatar'),
+    'imageclass'=> '',
     'justify'   =>  'center',
     'classcontainer'    =>  ''
 ])
@@ -10,7 +11,7 @@
         @if($link!='')
             <a class='text-blue-500 hover:text-blue-700' href='{{ $link }}'>
         @endif
-        <img class='w-full h-auto' src='{{ $image }}' />
+        <img class='w-full h-auto {{ $imageclass }}' src='{{ $image }}' />
         @if($link!='')
             </a>
         @endif

@@ -6,6 +6,7 @@
             color='text-green-400' classlabel='font-bold'
             wire:model='published'
             help='PUBLICADO'
+            mode="{{ $mode }}"
             />
     </div>
     <div class='mr-2'>
@@ -15,6 +16,7 @@
             color='text-blue-400' classlabel='font-bold'
             wire:model='top'
             help='TOP'
+            mode="{{ $mode }}"
             />
     </div>
     <div class='mr-2'>
@@ -24,6 +26,7 @@
             color='text-red-400' classlabel='font-bold'
             wire:model='fixed'
             help='FIJADO'
+            mode="{{ $mode }}"
             />
     </div>
     <div class=''>
@@ -33,6 +36,7 @@
             color='text-yellow-300' classlabel='font-bold'
             wire:model='starred'
             help='DESTACADO'
+            mode="{{ $mode }}"
             />
     </div>
 </div>
@@ -43,7 +47,7 @@
         @if($mode!='show')
             wire:click="$emitTo('filemanager.filemanager','showFilemanager','filemanager-{{$table}}', 'image', '')"
         @endif
-        class="mx-auto {{ $mode!='show' ? 'cursor-pointer' : '' }} "><img class='rounded-md shadow-lg' src="{{getImage( $image, false )}}" style='max-width: auto; max-height: {{appsetting('posts_default_height')}}px' /></div>
+        class="mx-auto {{ $mode!='show' ? 'cursor-pointer' : '' }} "><img class='rounded-lg shadow-lg' src="{{getImage( $image, false )}}" style='max-width: auto; max-height: {{appsetting('posts_default_height')}}px' /></div>
 </div>
 
 <div class='flex flex-wrap items-center justify-start hidden md:flex-no-wrap'>

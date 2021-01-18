@@ -99,8 +99,12 @@
                     @yield('headerxs')
                     <div class='ml-2'>
                         @if($canselect!=='false')
-                            <x-lopsoft.control.checkbox label='SELECCIONAR PAGINA' model='rowselectpage' color='text-green-400' classlabel='font-bold'/>
-                            <x-lopsoft.control.checkbox label='SELECCIONAR TODOS'  model='rowselectall'  color='text-green-600' classlabel='font-bold'/>
+                            <div class=''>
+                                <x-lopsoft.control.checkbox label='SELECCIONAR PAGINA' model='rowselectpage' color='text-green-400' classlabel='font-bold'/>
+                            </div>
+                            <div class=''>
+                                <x-lopsoft.control.checkbox label='SELECCIONAR TODOS'  model='rowselectall'  color='text-green-600' classlabel='font-bold'/>
+                            </div>
                         @endif
                         @if(!is_null($data) && method_exists($data->first(),'syncPriority'))
                             <i wire:click='syncPriority' class='font-bold cursor-pointer fa fa-sync fa-fw fa-sm text-cool-gray-400 hover:text-cool-gray-600'></i><span class='pl-3 text-sm font-bold'>SYNC PRIORIDAD</span>
