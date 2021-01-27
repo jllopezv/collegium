@@ -23,11 +23,6 @@ class Image extends Model
         'image', 'data', 'tag'
     ];
 
-    /**
-     * Get all of the owning translatable models.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function imageable()
     {
         return $this->morphTo();

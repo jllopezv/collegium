@@ -21,6 +21,7 @@ return [
         'website_posts'     =>  'artículos',
         'website_banners'   =>  'banners',
         'images'            =>  'imágenes',
+        'model_configs'     =>  'config. modelos',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -98,6 +99,7 @@ return [
     'end'                   =>  'final',
     'anno'                  =>  'año académico',
     'config'                =>  'configuración',
+    'configs'               =>  'configuraciones',
     'page'                  =>  'página',
     'key'                   =>  'clave',
     'desc'                  =>  'descripción',
@@ -125,4 +127,6 @@ return [
     'data'                  =>  'datos',
     'tag'                   =>  'etiqueta',
     'id'                    =>  'id',
+    'model'                 =>  'modelo',
+    'models'                =>  'modelos',
 ];

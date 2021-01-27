@@ -14,6 +14,7 @@ use App\Models\Auth\Permission;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
 use App\Models\Setting\AppSetting;
+use App\Models\Setting\ModelConfig;
 use App\Models\Website\WebsitePost;
 use App\Models\Auth\PermissionGroup;
 use App\Models\Website\WebsiteBanner;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Auth\PermissionController;
 use App\Http\Controllers\School\SchoolGradeController;
 use App\Http\Controllers\School\SchoolLevelController;
 use App\Http\Controllers\Setting\AppSettingController;
+use App\Http\Controllers\Setting\ModelConfigController;
 use App\Http\Controllers\Website\WebsitePostController;
 use App\Http\Controllers\Auth\PermissionGroupController;
 use App\Http\Controllers\Website\WebsiteBannerController;
@@ -124,6 +126,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
 
     LopHelp::generateCommonModelRoute('app_setting_pages', AppSettingPageController::class, AppSettingPage::class);
     LopHelp::generateCommonModelRoute('app_settings', AppSettingController::class, AppSetting::class);
+    LopHelp::generateCommonModelRoute('model_configs', ModelConfigController::class, ModelConfig::class);
 
     Route::get('settings', function () {
         return view('lopsoft.settings');

@@ -9,13 +9,14 @@ use App\Models\Aux\Timezone;
 use App\Models\Traits\HasOwner;
 use Laravel\Jetstream\HasTeams;
 use App\Models\Traits\HasActive;
+use App\Models\Traits\HasCommon;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Traits\HasModelConfig;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
-use App\Models\Traits\HasCommon;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,6 +35,7 @@ class User extends Authenticatable
     use HasAbilities;
     use HasAllowedActions;
     use HasCommon;
+    use HasModelConfig;
 
     /*******************************************/
     /* Properties

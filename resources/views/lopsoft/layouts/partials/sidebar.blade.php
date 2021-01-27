@@ -14,7 +14,7 @@
         help="{{ transup('home') }}"
         class='hover:text-green-300'>
     </x-lopsoft.control.sidebar-link>
-    @hasAbilityOr(['app.settings', 'app_settings.access', 'app_setting_pages.access'])
+    @hasAbilityOr(['app.settings', 'app_settings.access', 'app_setting_pages.access', 'model_config.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-cogs'
             text="{{ transup('config') }}"
@@ -43,6 +43,15 @@
                 icon='fa fa-tools'
                 link="{{ route('app_setting_pages.index') }}"
                 text="{{ transup('tables.app_setting_pages') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['model_configs.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-tools'
+                link="{{ route('model_configs.index') }}"
+                text="{{ transup('tables.model_configs') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

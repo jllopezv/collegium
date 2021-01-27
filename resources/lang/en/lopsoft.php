@@ -21,6 +21,7 @@ return [
         'website_posts'     =>  'posts',
         'website_banners'   =>  'banners',
         'images'            =>  'images',
+        'model_configs'     =>  'model configs',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -98,6 +99,7 @@ return [
     'end'                   =>  'end',
     'anno'                  =>  'anno',
     'config'                =>  'config',
+    'configs'               =>  'configs',
     'page'                  =>  'page',
     'key'                   =>  'key',
     'desc'                  =>  'description',
@@ -125,4 +127,6 @@ return [
     'data'                  =>  'data',
     'tag'                   =>  'tag',
     'id'                    =>  'id',
+    'model'                 =>  'model',
+    'models'                =>  'models',
 ];
