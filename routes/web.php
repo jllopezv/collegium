@@ -4,8 +4,9 @@ use App\Models\User;
 use App\Lopsoft\LopHelp;
 use App\Models\Auth\Role;
 use App\Models\Aux\Color;
-use App\Models\Aux\Country;
+use App\Models\Aux\Image;
 
+use App\Models\Aux\Country;
 use App\Models\School\Anno;
 use App\Models\Aux\Language;
 use App\Models\School\Student;
@@ -22,6 +23,7 @@ use App\Models\Website\WebsitePostCat;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Aux\ColorController;
+use App\Http\Controllers\Aux\ImageController;
 use App\Http\Controllers\Aux\CountryController;
 use App\Http\Controllers\School\AnnoController;
 use App\Http\Controllers\Aux\LanguageController;
@@ -140,6 +142,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('colors', ColorController::class, Color::class);
     LopHelp::generateCommonModelRoute('countries', CountryController::class, Country::class);
     LopHelp::generateCommonModelRoute('languages', LanguageController::class, Language::class);
+    LopHelp::generateCommonModelRoute('images', ImageController::class, Image::class);
 
 });
 

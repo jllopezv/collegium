@@ -1,4 +1,11 @@
-@props([ 'text' => null, 'icon' => null, 'link' => null, 'ref' => '', 'help' => '', 'helpclass' => 'tooltiptext-up-center', 'textxs' => false  ])
+@props([
+    'text'  => null,
+    'icon'  => null,
+    'link'  => null,
+    'ref'   => '',
+    'help'  => '',
+    'helpclass' => 'tooltiptext-up-center',
+    'textxs' => false  ])
 
 <a
     @if($ref)
@@ -10,7 +17,7 @@
                 rounded-md font-bold text-sm text-white uppercase
                 focus:outline-none  focus:shadow-none
                 cursor-pointer transition ease-in-out duration-150
-                bg-gray-500 hover:bg-gray-600 active:bg-gray-500 focus:border-gray-500'
+                bg-transparent hover:bg-transparent active:bg-gray-500 focus:border-gray-500'
     ]) }}
 
     @if($link)

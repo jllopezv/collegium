@@ -99,6 +99,7 @@ nextref='settingkey'
                         nextref='type'
                         mode="{{ $mode }}"
                         fileid="filetypeimage"
+                        uuid="{{ 'filemanager-'.$table }}"
                     />
                 </div>
                 <div class='h-full pb-2 mx-auto md:pb-0'>

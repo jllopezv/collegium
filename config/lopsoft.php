@@ -146,5 +146,15 @@ return [
     'banners_default_image'           => 'defaults/default_image.png',
     'banners_index_showthumb'         => false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Images
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'images_default_image'           => 'defaults/default_image.png',
+    'images_index_showthumb'         => false,
+
 
 ];

@@ -12,7 +12,8 @@
     nextref='width'
 />
 
-<div class='flex items-center justify-start'>
+
+<div class='flex flex-wrap items-center justify-start mb-4'>
 
     <x-lopsoft.control.inputform
         wire:model.lazy='width'
@@ -21,10 +22,11 @@
         label="{{ transup('width') }}"
         class='w-full'
         autofocus
-        classcontainer='w-40 mr-2'
+        classcontainer='w-full md:w-40'
+        classcomponent='mr-2'
         requiredfield
         help="{{ transup('mandatory') }}"
-        mode="{{ $mode }}"
+        mode="{{ $mode=='edit'?'show':$mode }}"
         nextref='height'
     />
 
@@ -35,10 +37,33 @@
         label="{{ transup('height') }}"
         class='w-full'
         autofocus
-        classcontainer='w-40'
+        classcontainer='w-full md:w-40'
         requiredfield
         help="{{ transup('mandatory') }}"
-        mode="{{ $mode }}"
+        mode="{{ $mode=='edit'?'show':$mode }}"
         nextref='btnCreate'
     />
 </div>
+
+@if ($mode=='create')
+    <div class='flex flex-wrap items-center justify-start mb-4 text-red-500'>
+        El ancho y el alto ya no se podrán modificar después.
+    </div>
+@endif
+
+{{-- <div class='h-4 mb-6 border-b-2 border-gray-200'></div> --}}
+
+@livewire('controls.image-list-component', [
+
+    'imageable_type'    =>  \App\Models\Website\WebsiteBanner::class,
+    'imageable_id'      =>  $record->id??null,
+    'mode'              =>  $mode,
+    'table'             =>  'images',
+    'uuid'              =>  'image-website-banner',
+    'record'            =>  $record,
+    'width'             =>  $record->width??null,
+    'height'            =>  $record->height??null,
+])
+
+
+

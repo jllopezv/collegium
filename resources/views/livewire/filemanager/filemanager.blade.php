@@ -8,6 +8,7 @@
                     <div class='absolute top-0 right-0 z-50 m-1' x-show='$wire.showoptions && !$wire.renamebox'>
                         <div class='w-auto p-2 bg-gray-600 rounded-md'>
                             <x-lopsoft.button.success wire:click='applySelect' class='m-1' buttonxs icon='fa fa-check fa-fw' />
+                            <x-lopsoft.button.purple wire:click='openSelect' class='m-1' buttonxs icon='fa fa-image fa-fw' />
                             <x-lopsoft.button.pink wire:click='copy' class='m-1' buttonxs icon='fa fa-copy fa-fw' />
                             <x-lopsoft.button.info wire:click='move' class='m-1' buttonxs icon='fa fa-cut fa-fw' />
                             <x-lopsoft.button.warning wire:click='rename' class='m-1' buttonxs icon='fa fa-i-cursor fa-fw' />
@@ -43,7 +44,7 @@
                    <div class='relative flex flex-wrap items-center justify-between h-full'>
                         <div class='absolute top-0 right-2'><i wire:click='close' class='text-red-300 fa fa-times'></i></div>
                         <div class=''>
-                            <div>UUID: {{ $uuid }}</div>
+                            {{-- <div>UUID: {{ $uuid }}</div> --}}
                             <div><i class='fa fa-user'></i> {{ Auth::user()->username }}</div>
                             <div><i class='fa fa-folder'></i> {{ $dir }}</div>
                             {{-- <div> Root: {{ $root }}</div>
@@ -86,4 +87,20 @@
         </div>
         @endif
     </div>
+    @if($openShowImage)
+    <div class="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full overflow-y-auto bg-gray-800">
+        <div class=''>
+            <div class=''>
+                <img src="{{ $previewImage }}" class="p-2 bg-white rounded-lg shadow-lg" />
+            </div>
+            <div class='text-center text-white'>
+                <div>{{ $previewImage }}</div>
+                <div>{{ $previewImageWidth }} x {{ $previewImageHeight }}</div>
+            </div>
+            <div class='mt-1 text-center text-white'>
+                <x-lopsoft.button.danger wire:click='closePreview' text='CERRAR'></x-lopsoft.button.danger>
+            </div>
+        </div>
+    </div>
+    @endif
 </div>

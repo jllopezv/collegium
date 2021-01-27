@@ -3,9 +3,10 @@
 namespace App\Http\Livewire\Website;
 
 use Livewire\Component;
+use App\Models\Aux\Image;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
@@ -24,6 +25,7 @@ class WebsiteBannerComponent extends Component
     public  $banner;
     public  $width;
     public  $height;
+    public  $imagelist=[];
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -32,8 +34,9 @@ class WebsiteBannerComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
-
-
+        'image-imageadded'      => 'imageAdded',
+        'image-imagedeleted'    => 'imageDeleted',
+        'image-refresh'         => 'imageRefresh',
     ];
 
     /**
@@ -73,6 +76,10 @@ class WebsiteBannerComponent extends Component
     public function loadDefaults()
     {
         $this->banner='';
+        $this->width=config('lopsoft.banners_default_width');
+        $this->height=config('lopsoft.banners_default_height');
+        $this->imagelist=[];
+        $this->emit('setvalue','image-website-banner',$this->imagelist);
     }
 
     public function resetForm()
@@ -105,6 +112,58 @@ class WebsiteBannerComponent extends Component
             'width'                 =>  $this->width,
             'height'                =>  $this->height,
         ];
+    }
+
+    public function imageAdded($imagedata)
+    {
+        if ($this->mode=='edit')
+        {
+            $newImage=new Image;
+            $newImage->image=$imagedata['image'];
+            $newImage->tag=$imagedata['tag'];
+            $newImage->data='';
+            $newImage->created_by=Auth::user()->id;
+            $this->record->images()->save($newImage);
+            $imagedata['id']=$newImage->id;
+        }
+
+        $this->imagelist[]=$imagedata;
+
+        if ($this->mode=='edit')
+        {
+            $this->emit("setvalue","image-website-banner", $this->imagelist);
+        }
+
+
+    }
+
+    public function postStore($record)
+    {
+        foreach($this->imagelist as $item)
+        {
+            $newImage=new Image;
+            $newImage->image=$item['image'];
+            $newImage->tag=$item['tag'];
+            $newImage->data='';
+            $newImage->created_by=Auth::user()->id;
+            $record->images()->save($newImage);
+        }
+    }
+
+    public function imageRefresh($uuid, $imagelist)
+    {
+        $this->imagelist=$imagelist;
+    }
+
+    public function imageDeleted($uuid, $id)
+    {
+        foreach($this->imagelist as $index => $img)
+        {
+            if ($img['id']==$id)
+            {
+                unset($this->imagelist[$index]);
+            }
+        }
     }
 
 }

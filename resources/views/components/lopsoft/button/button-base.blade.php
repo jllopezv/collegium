@@ -7,6 +7,7 @@
     'textxs'    => false,
     'buttonxs'  => false,
     'readonly'  => false,
+    'nopadding'   => false,
 ])
 
 <button
@@ -15,13 +16,13 @@
     @endif
     {{ $attributes->merge([
     'class' => 'inline-flex items-center tooltip '
-                .( $buttonxs ? 'px-2 py-1' : 'px-4 py-2' ).
+                .( $buttonxs ? 'px-2 py-1' : ( $nopadding===false?'px-4 py-2':'px-0 py-2')  ).
                 ' border border-transparent
                 rounded-md font-bold text-sm text-white uppercase
                 focus:outline-none  focus:shadow-none '
                 .( $readonly ? 'cursor-pointer' : '' ).
                 'transition ease-in-out duration-150
-                bg-gray-500 hover:bg-gray-600 active:bg-gray-500 focus:border-gray-500'
+                bg-transparent hover:bg-transparent'
     ]) }}
     >
 

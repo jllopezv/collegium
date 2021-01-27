@@ -8,6 +8,7 @@
     'help'          => '',
     'classcontainer'    => '',
     'mode'          => 'create',
+    'errormsg'         =>  '',
     ])
 
 
@@ -34,14 +35,20 @@
     @endif
 >
     </div>
-    @if($requiredfield && ( $mode!='show'))
-        <div class='cursor-pointer tooltip'>
-            <i class='text-red-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
-            @if($help!='')
-                <span class='tooltiptext tooltiptext-down-left'>
-                    {!! $help !!}
-                </span>
-            @endif
+    @if($errormsg=='')
+        @if($requiredfield && ( $mode!='show'))
+            <div class='cursor-pointer tooltip' onclick="ShowInfo('','','{!! $help !!}')">
+                <i class='text-blue-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
+                @if($help!='')
+                    <span class='tooltiptext tooltiptext-down-left'>
+                        {!! $help !!}
+                    </span>
+                @endif
+            </div>
+        @endif
+    @else
+        <div onclick="ShowError('','','{!! $errormsg !!}')">
+            <i class='text-red-400 cursor-pointer fa fa-exclamation-triangle fa-fw fa-xs'></i>
         </div>
     @endif
 </div>

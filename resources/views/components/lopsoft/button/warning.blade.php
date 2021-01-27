@@ -6,6 +6,7 @@
     'helpclass' => '' ,
     'textxs'    => false,
     'buttonxs'  => false,
+    'nopadding'   => false,
     ])
 
 <x-lopsoft.button.button-base
@@ -16,6 +17,7 @@
     :helpclass='$helpclass'
     :buttonxs='$buttonxs'
     :textxs='$textxs'
+    :nopadding='$nopadding'
     {{ $attributes ->merge([
         'class' => 'bg-orange-400 hover:bg-orange-500 active:bg-orange-400 focus:border-orange-400'
     ]) }}>

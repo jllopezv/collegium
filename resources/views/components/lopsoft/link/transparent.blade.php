@@ -17,7 +17,7 @@
     :textxs='$textxs'
     :helpclass='$helpclass'
     {{ $attributes ->merge([
-        'class' => 'bg-gray-500 hover:bg-gray-600 active:bg-gray-300 focus:border-gray-300'
+        'class' => 'bg-transparent hover:bg-transparent active:bg-gray-300 focus:border-gray-300'
     ]) }}>
     {{ $slot }}
 </x-lopsoft.link.link-base>

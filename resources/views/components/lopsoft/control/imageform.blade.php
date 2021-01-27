@@ -17,7 +17,7 @@
     'params'        => '',  // Extra params array like 'types:png,jpg'
     'classcomponent'=>'',
     'searchpos'     =>'before',
-    'uuid'          =>  Str::randmon(20),
+    'uuid'          =>  Str::random(20),
 ])
 
 <div class='py-4 {{$classcomponent}}'>

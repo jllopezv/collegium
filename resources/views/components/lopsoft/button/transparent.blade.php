@@ -19,7 +19,7 @@
     :textxs='$textxs'
     :nopadding='$nopadding'
     {{ $attributes ->merge([
-        'class' => 'bg-blue-500 hover:bg-blue-600 active:bg-blue-500 focus:border-blue-500'
+        'class' => 'active:bg-transparent focus:bg-transparent focus:border-0'
     ]) }}>
     {{ $slot }}
 </x-lopsoft.button.button-base>

@@ -173,9 +173,9 @@ use App\Models\Setting\AppSetting;
 
     if (! function_exists('getImageUrl')) {
 
-        function getImageUrl($image)
+        function getImageUrl($image,$getthumb=true)
         {
-           return getImage(Str::after($image,Storage::disk(config('lopsoft.filemanager_disk'))->url('')));
+           return getImage(Str::after($image,Storage::disk(config('lopsoft.filemanager_disk'))->url('')), $getthumb);
         }
 
     }
@@ -206,6 +206,9 @@ use App\Models\Setting\AppSetting;
             return mb_strtolower(__('lopsoft.'.$s));
         }
     }
+
+
+
 
 
 

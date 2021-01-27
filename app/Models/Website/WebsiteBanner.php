@@ -2,6 +2,7 @@
 
 namespace App\Models\Website;
 
+use App\Models\Aux\Image;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
@@ -36,6 +37,20 @@ class WebsiteBanner extends Model
     /*******************************************/
 
     /**
+     * Get all of the models's translations.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
+    /*******************************************/
+    /* Accessors and mutators
+    /*******************************************/
+
+    /**
      * Set Banner
      *
      * @param  String $value
@@ -57,10 +72,16 @@ class WebsiteBanner extends Model
         return mb_strtoupper($value);
     }
 
-
-    /*******************************************/
-    /* Accessors and mutators
-    /*******************************************/
+    /**
+     * Get Image
+     *
+     * @param  String $value
+     * @return String
+     */
+    public function getImageAttribute($value)
+    {
+        return $this->images->first();
+    }
 
     /*******************************************/
     /* Methods

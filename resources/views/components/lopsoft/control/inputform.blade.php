@@ -41,14 +41,15 @@
         help='{!! $help !!}'
         mode='{{ $mode }}'
         value='{!! $value !!}'
+        errormsg="{{ $errors->has($id)?($errors->get($id))[0]:'' }}"
     />
 
     @if($showerror)
-        @if( $errors->has($id) )
+        {{-- @if( $errors->has($id) )
             <div>
                 <span class='text-red-500'>{{ ($errors->get($id))[0] }}</span>
             </div>
-        @endif
+        @endif --}}
     @endif
 
     {{ $slot }}

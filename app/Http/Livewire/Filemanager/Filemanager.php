@@ -52,12 +52,16 @@ class Filemanager extends Component
     public $sourcethumb="";
     public $modelid;
     public $params;
+    public $openShowImage=false;
+    public $previewImage=null;
+    public $previewImageHeight='';
+    public $previewImageWidth='';
 
     protected $listeners = [
         'showFilemanager' => 'open',
         'closeFilemanager' => 'close',
         'deleteselectaction' => 'deleteSelectAction',
-        'filemanager_update' => 'filemanagerUpdate',
+        'filemanager-refresh' => 'filemanagerRefresh',
         'filemanager-savefile' => 'saveFile',
     ];
 
@@ -86,6 +90,11 @@ class Filemanager extends Component
             $this->movebox=false;
             $this->syncFiles();
         }
+    }
+
+    public function filemanagerRefresh()
+    {
+        $this->syncFiles();
     }
 
     public function mount()
@@ -195,6 +204,12 @@ class Filemanager extends Component
                     $info=array_merge( $info,['size' => filesize($this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value) ] );
                     $info=array_merge( $info, ['mime_type' => mime_content_type( $this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value) ]);
                     $info=array_merge( $info, ['url' => asset(Storage::disk(config('lopsoft.filemanager_disk'))->url($this->path . $this->dir .$value)) ]);
+                    if (in_array(mime_content_type( $this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value), ['image/jpeg', 'image/png']) )
+                    {
+                        $handlerimg=Image::make($this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $value);
+                        $info=array_merge( $info, ['width' => $handlerimg->width() ]);
+                        $info=array_merge( $info, ['height' => $handlerimg->height() ]);
+                    }
                     $info=array_merge( $info, ['type' => 'file']);
                     $info=array_merge( $info, [ 'selected' => false ]);
                     $result[] = $info;
@@ -344,6 +359,22 @@ class Filemanager extends Component
             $selected[]=$this->filesindir[$this->selectedfiles[$i]];
         }
         return $selected;
+    }
+
+    public function openSelect()
+    {
+        $getfile=$this->getSelectedFiles();
+        if ($getfile[0]['type']=='folder')
+        {
+            $this->clearSelected();
+            $this->syncFiles();
+            return;
+        }
+        //return redirect()->away( getImageUrl($this->path.$this->dir.$getfile[0]['basename'],false) );
+        $this->previewImage=getImageUrl($this->path.$this->dir.$getfile[0]['basename'],false);
+        $this->previewImageWidth=$getfile[0]['width'];
+        $this->previewImageHeight=$getfile[0]['height'];
+        $this->openShowImage=true;
     }
 
     public function applySelect()
@@ -541,12 +572,12 @@ class Filemanager extends Component
 
     public function updatedFileupload()
     {
-        $this->validate([
+        // $this->ShowAlertError("EL ARCHIVO NO ES VÁLIDO. FORMATOS ADMITIDOS: ".$this->allowedmimetypes);
+        $validatedata=$this->validate([
             'fileupload' => 'nullable'.( $this->onlyimages?'|image':'').($this->allowedmimetypes!='' ? '|mimes:'.$this->allowedmimetypes : '').'|file|max:'.config('lopsoft.filemanager_max_upload_size')
         ]);
 
         $this->uploading=false;
-
         if ($this->fileupload)
         {
             $this->uploading=true;
@@ -567,9 +598,16 @@ class Filemanager extends Component
                 copy(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage)) , $this->root.$this->path.$this->dir.$filename);
                 unlink(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.basename($savedimage) ));
 
-                // Create thumbnail
-                $handlerimg=Image::make($this->root.$this->path.$this->dir.$filename)->fit(300);
-                $handlerimg->save($this->root.'thumbs/'.$this->path.$this->dir.$filename);
+                try
+                {
+                    // Create thumbnail only for images
+                    $handlerimg=Image::make($this->root.$this->path.$this->dir.$filename)->fit(300);
+                    $handlerimg->save($this->root.'thumbs/'.$this->path.$this->dir.$filename);
+                }
+                catch(Exception $e)
+                {
+
+                }
 
 
             }
@@ -681,6 +719,11 @@ class Filemanager extends Component
         $this->movebox=false;
         $this->syncFiles();
 
+    }
+
+    public function closePreview()
+    {
+        $this->openShowImage=false;
     }
 
 }

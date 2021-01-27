@@ -39,6 +39,9 @@ class PermissionSeeder extends Seeder
         $table='languages';
         $this->createPermissions($table,'AUXILIARES');
 
+        $table='images';
+        $this->createPermissions($table,'AUXILIARES');
+
         $table='students';
         $this->createPermissions($table,'ACADÉMICA');
 

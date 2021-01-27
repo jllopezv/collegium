@@ -717,11 +717,11 @@ Trait HasCommon
 
         if ($this->canGoForward())
         {
-            if ($this->paramscallforward)
+            if ($this->paramscallforward==null)
             {
                 return redirect()->route($this->callforward);
             }
-            return redirect()->route($this->callforward, [ $this->paramscallforward ]);
+            return redirect()->route($this->callforward, json_decode($this->paramscallforward,true ));
         }
     }
 
@@ -740,11 +740,11 @@ Trait HasCommon
         {
             if (!$this->callback) return redirect()->back();
 
-            if ($this->paramscallback)
+            if ($this->paramscallback==null)
             {
                 return redirect()->route($this->callback);
             }
-            return redirect()->route($this->callback, [ $this->paramscallback ]);
+            return redirect()->route($this->callback, json_decode($this->paramscallback,true ));
 
         }
 
@@ -1175,6 +1175,7 @@ Trait HasCommon
             {
                 $this->postStore($storedrecord);
                 $this->showSuccess("REGISTRO ".$this->getKeyNotification($storedrecord)." CREADO CORRECTAMENTE");
+                $this->emit($this->table."-stored", $storedrecord->id);
             }
             if (!$this->multiple)
             {
@@ -1188,6 +1189,7 @@ Trait HasCommon
             $this->showException($e);
         }
         $this->emit('refreshDatatable');
+
 
     }
 
@@ -1240,6 +1242,7 @@ Trait HasCommon
             {
                 $this->postUpdate($record);
                 $this->showSuccess("REGISTRO ".$this->getKeyNotification($record)." ACTUALIZADO CORRECTAMENTE");
+                $this->emit($this->table."-updated", $updatedrecord->id);
             }
         }
         catch(\Exception $e)

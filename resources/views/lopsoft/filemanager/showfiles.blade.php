@@ -33,16 +33,28 @@
                     @endif
                 </div>
             </div>
+            @php
+                if ($fileindir['type']!='folder' && in_array($fileindir['mime_type'], ['image/jpeg', 'image/png']) )
+                {
+                    $widthimage=$fileindir['width'];
+                    $heightimage=$fileindir['height'];
+                }
+            @endphp
             <div class='w-full h-full overflow-x-hidden' wire:click='select({{ $index }})'>
                 @if(!$renamebox || $fileindir['selected']==false)
                     <div>{{ $fileindir['basename'] }}</div>
+                    <div class='md:hidden'>@if($fileindir['type']!='folder' && in_array($fileindir['mime_type'], ['image/jpeg', 'image/png']) ) {{ $widthimage.'x'.$heightimage }} @endif</div>
                     <div class='md:hidden'>@if($fileindir['type']!='folder'){{ humanFileSize($fileindir['size']) }}@endif</div>
                 @else
                     <input wire:model='temporaryfilename' type='text' class='w-full form-input' value="{{ $fileindir['basename'] }}" autofocus/>
                 @endif
             </div>
+            <div class='w-40'>
+                <div class='invisible md:visible'>@if($fileindir['type']!='folder' && in_array($fileindir['mime_type'], ['image/jpeg', 'image/png'])) {{ $widthimage.'x'.$heightimage }} @endif</div>
+            </div>
             <div class='w-40 text-right'>
                 <div class='invisible md:visible'>@if($fileindir['type']!='folder'){{ humanFileSize($fileindir['size']) }}@endif</div>
+
             </div>
         </div>
     @endforeach

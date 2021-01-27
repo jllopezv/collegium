@@ -20,6 +20,7 @@ return [
         'website_post_cats' =>  'post categories',
         'website_posts'     =>  'posts',
         'website_banners'   =>  'banners',
+        'images'            =>  'images',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -119,4 +120,9 @@ return [
     'banners'               =>  'banners',
     'width'                 =>  'width',
     'height'                =>  'height',
+    'images'                =>  'images',
+    'prefix'                =>  'prefix',
+    'data'                  =>  'data',
+    'tag'                   =>  'tag',
+    'id'                    =>  'id',
 ];

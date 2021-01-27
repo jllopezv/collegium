@@ -48,6 +48,8 @@ class LopHelp
         Route::get($table.'/create',          [ $controllerclass, 'create'    ])->middleware('permission:'.$table.'.create')->name($table.'.create');
         Route::get($table.'/edit/{id}',       [ $controllerclass, 'edit'      ])->middleware('permission:'.$table.'.edit')->middleware('allowaction:'.$model.',edit')->name($table.'.edit');
         Route::get($table.'/{id}',            [ $controllerclass, 'show'      ])->middleware('permission:'.$table.'.show')->middleware('allowaction:'.$model.',show')->name($table.'.show');
+        Route::post($table.'/edit/{id}',      [ $controllerclass, 'edit'      ])->middleware('permission:'.$table.'.edit')->middleware('allowaction:'.$model.',edit')->name($table.'.edit');
+
     }
 
 

@@ -3,10 +3,11 @@
     'image'     =>  config('lopsoft.posts_default_avatar'),
     'imageclass'=> '',
     'justify'   =>  'center',
-    'classcontainer'    =>  ''
+    'classcontainer'    =>  '',
+    'classtd'   =>  '',
 ])
 
-<td {{ $attributes->merge([ 'class' => 'px-2 text-gray-600 py-1' ]) }}>
+<td {{ $attributes->merge([ 'class' => "px-2 text-gray-600 py-1 $classtd" ]) }}>
     <div class='flex items-center justify-{{$justify}} {{$classcontainer}}'>
         @if($link!='')
             <a class='text-blue-500 hover:text-blue-700' href='{{ $link }}'>

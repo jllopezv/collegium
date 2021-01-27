@@ -177,7 +177,7 @@
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
 
-    @hasAbilityOr(['colors.access','countries.access'])
+    @hasAbilityOr(['colors.access', 'languages.access', 'countries.access', 'images.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user'
             link='linkeando'
@@ -207,6 +207,15 @@
                 icon='hover:text-red-500 fa fa-user'
                 link="{{ route('languages.index') }}"
                 text="{{ transup('tables.languages') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['images.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-image'
+                link="{{ route('images.index') }}"
+                text="{{ transup('tables.images') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
