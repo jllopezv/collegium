@@ -27,14 +27,14 @@
     placeholder='{!! $placeholder !!}'
     x-ref='{{$id}}'
     {{-- @keydown.enter='$refs.{{$nextref!=''?$nextref:$id}}.focus()' --}}
-    @if($value)
+    {{-- @if($value)
         value='{!! $value !!}'
-    @endif
+    @endif --}}
     @if($mode=='show')
         readonly
     @endif
     rows='10'
-></textarea>
+>{!! $value !!}</textarea>
     </div>
     @if($errormsg=='')
         @if($requiredfield && ( $mode!='show'))

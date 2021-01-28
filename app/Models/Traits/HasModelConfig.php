@@ -19,7 +19,7 @@ trait HasModelConfig
      */
     public function asJson($value)
     {
-        return json_encode($value, JSON_UNESCAPED_UNICODE);
+        return json_encode($value, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 
     /**
