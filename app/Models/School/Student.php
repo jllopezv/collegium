@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
 use App\Models\Traits\HasCommon;
+use App\Models\Traits\IsUserType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
@@ -18,6 +19,7 @@ class Student extends Model
     use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
+    use IsUserType;
 
     /**
      * The attributes that are mass assignable.

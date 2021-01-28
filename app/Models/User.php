@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Auth\Role;
 use App\Models\Aux\Country;
+use Illuminate\Support\Str;
 use App\Models\Aux\Language;
 use App\Models\Aux\Timezone;
 use App\Models\Traits\HasOwner;
@@ -116,6 +118,14 @@ class User extends Authenticatable
     public function language()
     {
         return $this->belongsTo(Language::class);
+    }
+
+    /**
+     * Get With profile is
+     */
+    public function profile()
+    {
+        return $this->morphTo();
     }
 
     /*******************************************/
@@ -254,6 +264,68 @@ class User extends Authenticatable
         $this->save();
     }
 
+    /**
+     * Assign role to user
+     *
+     * @param string|array $roles
+     * @return void
+     */
+    public function assignRole( $roles )
+    {
+        if (!is_array($roles))
+        {
+            $role=Role::where( 'role','=',$roles )->where('active',1)->first();
+            if ( $role!=null) $this->roles()->attach($role->id);
+        }
+        else
+        {
+            foreach($roles as $item)
+            {
+                $role=Role::where( 'role','=',$item )->where('active',1)->first();
+                if ( $role!=null) $this->roles()->attach($role->id);
+            }
+        }
+        $this->level=$this->getUserLevel();
+        $this->save();
+    }
+
+    /**
+     * Assign role to user
+     *
+     * @param string|array $roles
+     * @return void
+     */
+    public function removeRole( $roles )
+    {
+        if (!is_array($roles))
+        {
+            $role=Role::where( 'role','=',$roles )->where('active',1)->first();
+            if ( $role!=null) $this->roles()->detach($role->id);
+        }
+        else
+        {
+            foreach($roles as $item)
+            {
+                $role=Role::where( 'role','=',$item )->where('active',1)->first();
+                if ( $role!=null) $this->roles()->detach($role->id);
+            }
+        }
+        $this->level=$this->getUserLevel();
+        $this->save();
+    }
+
+    static public function getValidUsername($suggest)
+    {
+        $exists='false';
+        $suggest=mb_strtolower($suggest);
+        while($exists!=null)
+        {
+            $exists=mb_strtolower(User::where('username',$suggest)->first());
+            if ($exists!=null) $suggest.=strtolower(Str::random(1));
+        }
+        return($suggest);
+    }
+
     /*********************************************/
     /* Scopes
     /*********************************************/
@@ -292,5 +364,22 @@ class User extends Authenticatable
     {
         if ($this->id==Auth::user()->id) return false;  // Rule 1: Nobody can destroy itself
         if (Auth::user()->level==1) return true;        // Rule 2: Superuser can destroy everyone
+    }
+
+    /*******************************************/
+    /* Static Methods
+    /*******************************************/
+    static public function createProfileUser($name, $username, $email, $password, $role, $verified=true)
+    {
+        $user=new User;
+        $user->name=$name;
+        $user->username=User::getValidUsername($username);
+        $user->email=$email;
+        $user->password=bcrypt($password);
+        $user->api_token=Str::random(80);
+        if ($verified) $user->email_verified_at=Carbon::now();
+        $user->save();
+        $user->assignRole($role);
+        return $user;
     }
 }
