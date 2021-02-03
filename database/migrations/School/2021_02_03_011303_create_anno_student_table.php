@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnnosTable extends Migration
+class CreateAnnoStudentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateAnnosTable extends Migration
      */
     public function up()
     {
-        Schema::create('annos', function (Blueprint $table) {
+        Schema::create('anno_student', function (Blueprint $table) {
             $table->id();
             $table->boolean('active')->default(1);
-            $table->string('anno')->unique();
-            $table->boolean('current')->default(false);
-            $table->date('anno_start')->nullable();
-            $table->date('anno_end')->nullable();
+
+            $table->foreignId('anno_id')->constrained('annos')->cascadeOnDelete();
+            $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
+            $table->unsignedBigInteger('grade_id')->nullable();
+
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');
@@ -33,6 +34,6 @@ class CreateAnnosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('annos');
+        Schema::dropIfExists('anno_student');
     }
 }

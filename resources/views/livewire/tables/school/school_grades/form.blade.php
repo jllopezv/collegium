@@ -38,4 +38,6 @@
     'uid'           => 'levelcomponent',
     'modelid'       => 'level_id',
     'isTop'         =>  true,
+    'requiredfield' =>  true,
+    'help'          =>  transup('mandatory'),
 ])

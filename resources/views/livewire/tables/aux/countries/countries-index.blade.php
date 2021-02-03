@@ -1,7 +1,6 @@
 @extends('livewire.layouts.indexlayout')
 
 @section('header')
-    <x-lopsoft.datatable.header-th class='w-16' sortable sortorder='{{ $sortorder }}' columnname='id'>ID</x-lopsoft.datatable.header-th>
     <x-lopsoft.datatable.header-th class='w-24' sortable sortorder='{{ $sortorder }}' columnname='flag' >{{ transup('flag')  }}</x-lopsoft.datatable.header-th>
     <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}' columnname='country' >{{ transup('country')  }}</x-lopsoft.datatable.header-th>
     <x-lopsoft.datatable.header-th class='w-32' sortable sortorder='{{ $sortorder }}' columnname='iso' >{{ transup('code') }}</x-lopsoft.datatable.header-th>

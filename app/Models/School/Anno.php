@@ -5,6 +5,8 @@ namespace App\Models\School;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
+use App\Models\School\SchoolGrade;
+use App\Models\School\SchoolLevel;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
@@ -13,7 +15,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Anno extends Model
 {
     use HasActive;
-    use HasOwner;
     use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
@@ -38,6 +39,16 @@ class Anno extends Model
     /*******************************************/
     /* Relationships
     /*******************************************/
+
+    public function schoolLevels()
+    {
+        return $this->morphedByMany(SchoolLevel::class, 'annoable');
+    }
+
+    public function schoolGrades()
+    {
+        return $this->morphedByMany(SchoolGrade::class, 'annoable');
+    }
 
     /*******************************************/
     /* Accessors and mutators
@@ -84,6 +95,11 @@ class Anno extends Model
         }
         $this->current=true;
         $this->save();
+    }
+
+    public function current()
+    {
+        return Anno::where('current', true)->first();
     }
 
     /*******************************************/

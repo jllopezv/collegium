@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\School;
 
 use Livewire\Component;
+use App\Models\School\Anno;
 use Livewire\WithPagination;
 use App\Models\School\SchoolLevel;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\HasPriority;
@@ -45,6 +47,7 @@ class SchoolLevelComponent extends Component
         $this->table='school_levels';
         $this->module='school';
         $this->commonMount();
+        $this->multiple=true;
         // Default order for table
         $this->sortorder='priority';
         if ($this->mode=='create')
@@ -111,6 +114,5 @@ class SchoolLevelComponent extends Component
         $record->level=$this->level;
         $record->priority=$this->priority;
     }
-
 
 }

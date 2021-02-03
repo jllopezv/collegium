@@ -21,7 +21,6 @@ Trait HasAvatar
 
     public function saveAvatar()
     {
-
         // Save new avatar
         if (!is_null($this->tempavatar))
         {
@@ -47,6 +46,12 @@ Trait HasAvatar
         {
             return false;
         }
+    }
+
+    public function resetAvatar()
+    {
+        $this->emit('avatarreset');
+        $this->tempavatar=null;
     }
 
     /**

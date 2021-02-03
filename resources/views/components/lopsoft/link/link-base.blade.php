@@ -21,7 +21,7 @@
     ]) }}
 
     @if($link)
-        href='{{$link}}'
+        href='{!! $link !!}'
     @endif
 
     >

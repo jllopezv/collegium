@@ -2,12 +2,13 @@
 
 namespace App\Models\School;
 
+use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
+use App\Models\Traits\HasCommon;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
-use App\Models\Traits\HasCommon;
 
 class SchoolGrade extends Model
 {
@@ -16,6 +17,7 @@ class SchoolGrade extends Model
     use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
+    use HasAnno;
 
     /*******************************************/
     /* Properties

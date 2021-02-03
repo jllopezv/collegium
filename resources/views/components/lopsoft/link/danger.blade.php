@@ -14,6 +14,7 @@
     :icon='$icon'
     :link='$link'
     :help='$help'
+    :helpclass='$helpclass'
     :textxs='$textxs'
     {{ $attributes ->merge([
         'class' => 'bg-red-500 hover:bg-red-600 active:bg-red-500 focus:border-red-500'

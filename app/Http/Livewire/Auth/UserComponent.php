@@ -71,7 +71,7 @@ class UserComponent extends Component
         $this->commonMount();
         $this->multiple=true;
         // Default order for table
-        $this->sortorder='username';
+        $this->sortorder='-id';
         $this->flashmessageid='usersaved';
         $this->loadDefaults();
     }
@@ -121,7 +121,7 @@ class UserComponent extends Component
         $this->roles=[];
         $this->loadDefaults();
         $this->emit('setvalue', 'rolecomponent', null);
-        $this->emit('avatarreset');
+        $this->resetAvatar();
     }
 
 

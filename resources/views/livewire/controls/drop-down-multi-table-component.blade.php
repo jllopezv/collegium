@@ -3,7 +3,7 @@
    x-init='$wire.getValue($wire.uid)'
    class='py-4'
 >
-    <label class="block font-bold">
+    <label class="block font-bold {{ $validationerror?'text-red-600 ':''}}">
         {{ $label }}
         @if($sublabel!="")
             <div class='text-sm font-normal text-gray-400'>{{ $sublabel}}</div>
@@ -26,8 +26,8 @@
                 @endif
             </div>
             @if($requiredfield && $mode!='show')
-                <div class='cursor-pointer tooltip'>
-                    <i class='text-red-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
+                <div class='cursor-pointer tooltip' onclick="ShowInfo('{!! $help !!}')">
+                    <i class='text-blue-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
                     @if($help!='')
                         <span class='tooltiptext tooltiptext-down-left'>
                             {!! $help !!}
@@ -35,10 +35,15 @@
                     @endif
                 </div>
             @endif
+            @if($validationerror!="")
+                <div onclick="ShowError('{!! $validationerror !!}')">
+                    <i class='text-red-400 cursor-pointer fa fa-exclamation-triangle fa-fw fa-xs'></i>
+                </div>
+            @endif
         </div>
-        <div>
+        {{-- <div>
             <span class='text-red-500'>{{ $validationerror }}</span>
-        </div>
+        </div> --}}
 
         @if($showcontent)
             <div class='border border-gray-300  absolute list-group z-10 {{$isTop?'bottom-10':''}} right-0 left-0 shadow-lg p-1 bg-gray-100' >

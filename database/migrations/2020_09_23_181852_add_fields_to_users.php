@@ -23,6 +23,7 @@ class AddFieldsToUsers extends Migration
             $table->foreignId('timezone_id')->nullable()->references('id')->on('timezones')->onDelete('set null');
             $table->foreignId('country_id')->nullable()->references('id')->on('countries')->onDelete('set null');
             $table->foreignId('language_id')->nullable()->references('id')->on('languages')->onDelete('set null');
+            $table->foreignId('anno_id')->nullable()->references('id')->on('annos')->onDelete('set null');
             $table->nullableMorphs('profile');
             // Owner
             $table->unsignedBigInteger('created_by')->nullable()->default(null);

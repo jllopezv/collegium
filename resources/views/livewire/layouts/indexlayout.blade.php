@@ -15,6 +15,7 @@
             minwidth="{{ $minwidth??'700px' }}"
             cansearch='{{ $cansearch }}'
             slave='{{ $slave }}'
+            noFilterInGetDataQuery='{{ $noFilterInGetDataQuery }}'
             >
             {{-- BATCH COMMON --}}
                 <x-slot name='tableactions'>
@@ -36,6 +37,10 @@
                 <x-slot name="header">
                     <x-lopsoft.datatable.header-tr>
                         @if($canselect!=='false') <x-lopsoft.datatable.header-th-checkbox class='w-20' /> @endif
+                        <x-lopsoft.datatable.header-th class='w-16' justify='end' sortable sortorder='{{ $sortorder }}' columnname='id'>ID</x-lopsoft.datatable.header-th>
+                        @isSuperadmin
+                            {{-- <x-lopsoft.datatable.header-th class='w-32'>AÑO</x-lopsoft.datatable.header-th> --}}
+                        @endisSuperadmin
                         @yield('header')
                         @if($showactions!='false')
                             <x-lopsoft.datatable.header-th-space class='w-2/4' ></x-lopsoft.datatable.header-th-space>
@@ -73,6 +78,9 @@
                                         @endif
                                     @endif
                                     @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->id, 'classrow' => 'text-right'])
+                                    @isSuperadmin
+                                        {{-- @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->anno(getUserAnnoSession()->id)!=null?$item->anno(getUserAnnoSession()->id)->anno:'' ] ) --}}
+                                    @endisSuperadmin
                                     @include('livewire.tables.'.$module.".".$table.".indexbody")
                                     @if($showactions!='false')
                                         <x-lopsoft.datatable.row-column-space />

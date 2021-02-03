@@ -5,6 +5,7 @@ namespace App\Http\Controllers\School;
 use App\Models\School\Anno;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Traits\HasCommon;
 
 class AnnoController extends Controller
@@ -63,5 +64,12 @@ class AnnoController extends Controller
     public function edit($id)
     {
         return ($this->commonEdit($id, $options??[]));
+    }
+
+    public function changeAnnoSession($id)
+    {
+        // Change session anno for Auth user
+        Auth::user()->changeAnno($id);
+        return back();
     }
 }

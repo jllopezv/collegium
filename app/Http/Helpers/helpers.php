@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\School\Anno;
 use App\Models\Setting\AppSetting;
 
     use Illuminate\Support\Str;
@@ -204,6 +205,50 @@ use App\Models\Setting\AppSetting;
         function transdown( $s )
         {
             return mb_strtolower(__('lopsoft.'.$s));
+        }
+    }
+
+
+    // Generate Emails
+
+    if (! function_exists('generateAppEmail')) {
+
+        function generateAppEmail( $email )
+        {
+            return $email."@".config('lopsoft.emails_generate_domain');
+        }
+    }
+
+
+    // Strings
+
+    if (! function_exists('withoutAccents')) {
+
+        function withoutAccents( $str )
+        {
+            $str=str_replace('á','a', $str);
+            $str=str_replace('é','e', $str);
+            $str=str_replace('í','i', $str);
+            $str=str_replace('ó','o', $str);
+            $str=str_replace('ú','u', $str);
+            $str=str_replace('Á','A', $str);
+            $str=str_replace('É','E', $str);
+            $str=str_replace('Í','I', $str);
+            $str=str_replace('Ó','O', $str);
+            $str=str_replace('Ú','U', $str);
+            return $str;
+        }
+    }
+
+    // Anno
+
+    if (! function_exists('getUserAnnoSession')) {
+
+        function getUserAnnoSession()
+        {
+            $useranno=Auth::user()->anno;
+            if ($useranno==null) $useranno=(new Anno)->current();
+            return $useranno;
         }
     }
 

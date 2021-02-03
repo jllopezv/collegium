@@ -13,4 +13,9 @@ trait HasCommon
         return $this->created_at->diffForHumans()??'';
     }
 
+    public function postDelete()
+    {
+
+    }
+
 }

@@ -12,30 +12,60 @@ trait HasAbilities
 {
     public function canDeleteRecordCustom()
     {
+        return $this->canBeDeleted();
+    }
+
+    public function canBeDeleted()
+    {
         return true;
     }
 
     public function canEditRecordCustom()
+    {
+        return $this->canBeEdited();
+    }
+
+    public function canBeEdited()
     {
         return true;
     }
 
     public function canShowRecordCustom()
     {
+        return $this->canBeShowed();
+    }
+
+    public function canBeShowed()
+    {
         return true;
     }
 
     public function canPrintRecordCustom()
+    {
+        return $this->canBePrinted();
+    }
+
+    public function canBePrinted()
     {
         return true;
     }
 
     public function canLockRecordCustom()
     {
+        return $this->canBeLocked();
+    }
+
+    public function canBeLocked()
+    {
         return true;
     }
 
     public function canUnlockRecordCustom()
+    {
+        return $this->canBeUnlocked();
+    }
+
+    public function canBeUnlocked()
     {
         return true;
     }

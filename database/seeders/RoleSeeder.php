@@ -69,6 +69,20 @@ class RoleSeeder extends Seeder
                                              'allowLock'     => false
                                         ]);
 
+
+
+        $record=new Role;
+        $record->role="STUDENT";
+        $record->level=5000;
+        $record->dashboard='student';
+        $record->color_id=5;
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                             'allowEdit'     => false,
+                                             'allowDelete'   => false,
+                                             'allowLock'     => false
+                                        ]);
+
     }
 
 

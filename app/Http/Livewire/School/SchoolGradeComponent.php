@@ -62,7 +62,8 @@ class SchoolGradeComponent extends Component
     {
         return [
             'grade'             => 'required|string|max:255|unique:school_grades,grade,'.$this->recordid,
-            'priority'         => 'required|numeric',
+            'priority'          => 'required|numeric',
+            'level_id'          => 'required',
         ];
     }
 

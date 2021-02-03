@@ -28,7 +28,7 @@ window.addEventListener('alertmsg', event => {
 
 
 
-function ShowAlertError(noty_text,noty_subtext,noty_title="ERROR",showTitle=true, tout=3000)
+function ShowAlertError(noty_text,noty_subtext,noty_title="ERROR",showTitle=false, tout=3000)
 {
     message='<div class="noty-title"><i class="fas fa-exclamation-circle"></i> '+noty_title+'</div><div class="noty-body">'+noty_text+'</div>';
 
@@ -53,7 +53,7 @@ function ShowAlertError(noty_text,noty_subtext,noty_title="ERROR",showTitle=true
 }
 
 
-function ShowAlertInfo(noty_text,noty_subtext,noty_title="INFO",showTitle=true, tout=3000)
+function ShowAlertInfo(noty_text,noty_subtext,noty_title="INFO",showTitle=false, tout=3000)
 {
     message='<div class="noty-title"><i class="fas fa-info-circle"></i> '+noty_title+'</div><div class="noty-body">'+noty_text+'</div>';
 
@@ -78,7 +78,7 @@ function ShowAlertInfo(noty_text,noty_subtext,noty_title="INFO",showTitle=true, 
 }
 
 
-function ShowAlertSuccess(noty_text,noty_subtext,noty_title="EXITO", showTitle=true, tout=3000)
+function ShowAlertSuccess(noty_text,noty_subtext="",noty_title="EXITO", showTitle=false, tout=3000)
 {
     message='<div class="noty-title"><i class="fas fa-check-circle"></i> '+noty_title+'</div><div class="noty-body">'+noty_text+'</div>';
 
@@ -88,7 +88,7 @@ function ShowAlertSuccess(noty_text,noty_subtext,noty_title="EXITO", showTitle=t
 
     }
 
-    message+='<div class="noty-subtitle">'+noty_subtext+'</div>';
+    if (noty_subtext!="") message+='<div class="noty-subtitle">'+noty_subtext+'</div>';
 
     var n=new Noty({
         type: 'success',
@@ -104,7 +104,7 @@ function ShowAlertSuccess(noty_text,noty_subtext,noty_title="EXITO", showTitle=t
 
 
 
-function ShowAlertWarning(noty_text,noty_subtext,noty_title="ATENCION", showTitle=true, tout=3000 )
+function ShowAlertWarning(noty_text,noty_subtext,noty_title="ATENCION", showTitle=false, tout=3000 )
 {
     message='<div class="noty-title"><i class="fas fa-exclamation-triangle"></i> '+noty_title+'</div><div class="noty-body">'+noty_text+'</div>';
 
@@ -154,7 +154,7 @@ function ShowAlertDebug(noty_text, noty_subtext, noty_title="", error_code, tout
 
 
 
-function ShowInfo(noty_text,noty_subtext, noty_title="", showTitle=true, tout=3000)
+function ShowInfo(noty_text,noty_subtext="", noty_title="", showTitle=false, tout=3000)
 {
     var n=ShowAlertInfo(noty_text,noty_subtext,noty_title,showTitle, tout);
 
@@ -162,7 +162,7 @@ function ShowInfo(noty_text,noty_subtext, noty_title="", showTitle=true, tout=30
 }
 
 
-function ShowError(noty_text,noty_subtext, noty_title="", showTitle=true, tout=3000)
+function ShowError(noty_text,noty_subtext="", noty_title="", showTitle=false, tout=3000)
 {
     var n=ShowAlertError(noty_text,noty_subtext,noty_title,showTitle, tout);
 
@@ -170,7 +170,7 @@ function ShowError(noty_text,noty_subtext, noty_title="", showTitle=true, tout=3
 }
 
 
-function ShowWarning(noty_text,noty_subtext, noty_title="", showTitle=true, tout=3000)
+function ShowWarning(noty_text,noty_subtext="", noty_title="", showTitle=false, tout=3000)
 {
     var n=ShowAlertWarning(noty_text,noty_subtext,noty_title,showTitle, tout);
 
@@ -178,21 +178,21 @@ function ShowWarning(noty_text,noty_subtext, noty_title="", showTitle=true, tout
 }
 
 
-function ShowSuccess(noty_text,noty_subtext, noty_title="",showTitle=true, tout=3000)
+function ShowSuccess(noty_text,noty_subtext="", noty_title="",showTitle=false, tout=3000)
 {
     var n=ShowAlertSuccess(noty_text,noty_subtext,noty_title,showTitle, tout);
 
     return n;
 }
 
-function ShowDebug(noty_text,noty_subtext, noty_title, error_code, showTitle=true, tout=3000)
+function ShowDebug(noty_text,noty_subtext="", noty_title, error_code, showTitle=false, tout=3000)
 {
     var n=ShowAlertDebug(noty_text,noty_subtext,noty_title,showTitle, error_code, tout);
 
     return n;
 }
 
-function ShowInfoFixed(noty_text,noty_subtext, noty_title="", showTitle=true, tout=false)
+function ShowInfoFixed(noty_text,noty_subtext="", noty_title="", showTitle=false, tout=false)
 {
     var n=ShowAlertInfo(noty_text,noty_subtext,noty_title,showTitle, tout);
 
@@ -200,7 +200,7 @@ function ShowInfoFixed(noty_text,noty_subtext, noty_title="", showTitle=true, to
 }
 
 
-function ShowErrorFixed(noty_text,noty_subtext, noty_title="", showTitle=true, tout=false)
+function ShowErrorFixed(noty_text,noty_subtext="", noty_title="", showTitle=false, tout=false)
 {
     var n=ShowAlertError(noty_text,noty_subtext,noty_title,showTitle, tout);
 
@@ -208,7 +208,7 @@ function ShowErrorFixed(noty_text,noty_subtext, noty_title="", showTitle=true, t
 }
 
 
-function ShowWarningFixed(noty_text,noty_subtext, noty_title="", showTitle=true, tout=false)
+function ShowWarningFixed(noty_text,noty_subtext="", noty_title="", showTitle=false, tout=false)
 {
     var n=ShowAlertWarning(noty_text,noty_subtext,noty_title,showTitle, tout);
 
@@ -216,7 +216,7 @@ function ShowWarningFixed(noty_text,noty_subtext, noty_title="", showTitle=true,
 }
 
 
-function ShowSuccessFixed(noty_text,noty_subtext, noty_title="", showTitle=true, tout=false)
+function ShowSuccessFixed(noty_text,noty_subtext="", noty_title="", showTitle=false, tout=false)
 {
     var n=ShowAlertSuccess(noty_text,noty_subtext,noty_title,showTitle, tout);
 

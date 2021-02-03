@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Controls;
 
 use Livewire\Component;
+use App\Models\School\Anno;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class DropDownTableComponent extends Component
@@ -28,6 +30,7 @@ class DropDownTableComponent extends Component
     public $validationerror='';     // VAlidation errors
     public $classdropdown='w-full'; // Class for container
     public $table='';
+    public $onlyanno=true;          // Only session current
 
     /* table */
     private $data=null;             // data to show
@@ -240,20 +243,30 @@ class DropDownTableComponent extends Component
      */
     public function getData()
     {
+        $this->data=$this->model::query();
+
+        // Anno depend
+
+        if ($this->onlyanno)
+        {
+            if ( property_exists($this->model,'hasAnno') )
+            {
+                $useranno=Auth::user()->anno;
+                if ($useranno==null) $useranno=(new Anno)->current();
+
+                $this->data=$this->model::whereIn('id',
+                Anno::join('annoables','annos.id','=','annoables.annoable_id')
+                    ->where('anno_id',$useranno->id)->where('annoable_type',get_class(new $this->model))
+                    ->pluck('annoable_id'));
+            }
+        }
+
         if ($this->onlyactives)
         {
             if (property_exists($this->model,'hasactive'))
             {
-                $this->data=$this->model::active();
+                $this->data=$this->data->active();
             }
-            else
-            {
-                $this->data=$this->model::query();
-            }
-        }
-        else
-        {
-            $this->data=$this->model::query();
         }
 
         if($this->filterraw)

@@ -11,6 +11,7 @@
     'minheight' =>  '500px',
     'cansearch' => 'true',
     'slave'     => 'false',
+    'noFilterInGetDataQuery' => 'false',
 ])
 
 <div x-data='{ screen_width: getScreenWidth() }' @resize.window='screen_width=getScreenWidth()'>
@@ -20,7 +21,20 @@
     </div>
     <div class='flex flex-wrap items-center justify-between {{ ($slave!='true')?'mb-2':'bg-gray-700 px-2 py-2' }} '>
         <div class=''>
-
+            @isSuperadmin
+                @if($noFilterInGetDataQuery==true)
+                    <x-lopsoft.link.purple wire:click='changeFilterInGetDataQuery' icon='fa fa-filter' help='ACTIVAR FILTRO PRINCIPAL' helpclass='tooltiptext-up-right'></x-lopsoft.link.purple>
+                @else
+                    <x-lopsoft.link.danger wire:click='changeFilterInGetDataQuery' icon='fa fa-filter' help='DESACTIVAR FILTRO PRINCIPAL' helpclass='tooltiptext-up-right'></x-lopsoft.link.danger>
+                @endif
+            @endisSuperadmin
+            <x-lopsoft.link.gray
+                wire:click='refreshDatatable'>
+                <div class='flex items-center justify-center'>
+                    <div wire:loading><i class="fas fa-sync fa-spin"></i></div>
+                    <div wire:loading.remove><i class="fas fa-sync"></i></div>
+                </div>
+            </x-lopsoft.link.gray>
             @if($canadd!='false')
                 @if(Auth::user()->hasAbility($table.".create"))
                     <x-lopsoft.link.success link="{{route($table.'.create')}}" icon='fa fa-plus' text='NUEVO'></x-lopsoft.link.teal>

@@ -85,6 +85,8 @@ Route::get('/testfm', function () {
     return view('testfm');
 })->middleware('permission:filemanager')->name('filemanager.test');
 
+Route::post('/changeannosession/{id}', [ AnnoController::class, 'changeAnnoSession' ])->name('changeannosession')->middleware('auth');
+
 /*****************************************************/
 /* AUTENTICACIÓN                                     */
 /*****************************************************/

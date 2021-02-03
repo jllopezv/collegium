@@ -1,14 +1,14 @@
 {{-- AVATAR --}}
 <div class='w-full'>
     <div class='items-center '>
-        <div class='w-full mx-auto items-center  rounded-lg '>
+        <div class='items-center w-full mx-auto rounded-lg '>
             @livewire('auth.avatar-component', ['canmodify'=>$canmodify, 'preview' => $avatar, 'avatarpath' => $profile_photo_path])
-            <div class='text-center mt-4'>
+            <div class='mt-4 text-center'>
                 <div class=''>
-                    <span class='text-gray-500 font-bold'>{{ $exp }} </span>
+                    <span class='font-bold text-gray-500'>{{ $exp }} </span>
                 </div>
                 <div class=''>
-                    <span class='text-gray-400 text-sm'>{{ $name }} </span>
+                    <span class='text-sm text-gray-400'>{{ $studentname }} </span>
                 </div>
             </div>
         </div>

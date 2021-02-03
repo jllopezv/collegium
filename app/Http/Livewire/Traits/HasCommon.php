@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Traits;
 
+use App\Models\School\Anno;
 use Illuminate\Support\Str;
 use PhpParser\Node\Stmt\Else_;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -26,7 +28,7 @@ Trait HasCommon
         'actionUnLockBatch'     => 'actionUnLockBatch',
     ];*/
 
-
+    public $noFilterInGetDataQuery=false;   // if true, no filter apply in getDataQuery method. Only for superuser
     public $mode;       // Component Mode ( 'index', 'create', 'show', 'edit' )
     public $table;      // Table name
     public $module;     // Module Name
@@ -77,7 +79,7 @@ Trait HasCommon
     public function commonMount()
     {
         $this->newmodel=new $this->model;
-        $this->multiple=true;
+        $this->multiple=false;
         $this->record=null;
         $this->sortorder='id';
         $this->flashmessageid=$this->table.'saved';
@@ -157,6 +159,7 @@ Trait HasCommon
             'array_size'=>  'DEBE SER UN ARRAY',
             'numeric'   =>  'DEBE INTRODUCIR UN NÚMERO',
             'date'      =>  'LA FECHA NO ES CORRECTA',
+            'email'     =>  'EL CORREO ELECTRÓNICO NO ES VÁLIDO',
         ];
     }
 
@@ -489,7 +492,27 @@ Trait HasCommon
 
     public function getQueryData()
     {
-        return $this->model::query();
+        // It depends of Anno Session
+
+        if ($this->noFilterInGetDataQuery)
+        {
+            return $this->model::query();
+        }
+
+        if ( !property_exists($this->model,'hasAnno') )
+        {
+            return $this->model::query();
+        }
+        else
+        {
+            $useranno=Auth::user()->anno;
+            if ($useranno==null) $useranno=(new Anno)->current();
+
+            return $this->model::whereIn('id',
+                Anno::join('annoables','annos.id','=','annoables.annoable_id')
+                    ->where('anno_id',$useranno->id)->where('annoable_type',get_class(new $this->model))
+                    ->pluck('annoable_id'));
+        }
 
     }
 
@@ -662,6 +685,45 @@ Trait HasCommon
         $this->showAlertError('SE PRODUJO UN ERROR INESPERADO<br/><br/>'.$e->getMessage(),"ERROR INESPERADO");
     }
 
+    public function checkFlashErrors()
+    {
+        $sessionerror=Session::get('error');
+        $sessionexception=Session::get('exception');
+
+        if ($sessionerror!=null)
+        {
+            $this->showAlertError($sessionerror,"ERROR");
+            return true;
+        }
+
+        if ($sessionexception!=null)
+        {
+            $this->showAlertError('SE PRODUJO UN ERROR INESPERADO<br/><br/>'.$sessionexception,"ERROR INESPERADO");
+            return true;
+        }
+
+        return false;
+    }
+
+    /*******************************************************************************
+     * VARIOUS METHODS
+     *******************************************************************************/
+
+    public function getProfileName()
+    {
+        return 'UNKNOWN';
+    }
+
+    public function getProfileUsername()
+    {
+        return 'UNKNOWN';
+    }
+
+    public function changeFilterInGetDataQuery()
+    {
+        $this->noFilterInGetDataQuery=!$this->noFilterInGetDataQuery;
+    }
+
     /*******************************************************************************
      * REDIRECT FUNCTIONS
      *******************************************************************************/
@@ -821,21 +883,36 @@ Trait HasCommon
         }
         try
         {
-            if ($this->deletingRecord($record))
+            if ($record->canDeleteRecordCustom())
             {
-                if ( $record->delete() )
+                if ($this->deletingRecord($record))
                 {
-                    $this->emit("refreshForm");  // Broadcast to all components in form mode ( show or edit )
-                    if (!$batch)
+                    if ( $record->delete() )
                     {
-                        $this->showSuccess("REGISTRO BORRADO CON ÉXITO");
-                        $this->resetPage();
+                        $record->postDelete();
+                        $this->emit("refreshForm");  // Broadcast to all components in form mode ( show or edit )
+                        if (!$batch)
+                        {
+                            $this->showSuccess("REGISTRO BORRADO CON ÉXITO");
+                            $this->resetPage();
+                        }
+                        return true;
                     }
-                    return true;
+                    else
+                    {
+                        //$this->ShowError("NO SE PUDO BORRAR EL REGISTRO ".$this->getKeyNotification($record));
+                    }
                 }
-                else
+            }
+            else
+            {
+                if ($batch==false)
                 {
-                    //$this->ShowError("NO SE PUDO BORRAR EL REGISTRO ".$this->getKeyNotification($record));
+                    $errormsg=Session::get('error');
+                    if ($errormsg!='')
+                    {
+                        $this->ShowError($errormsg);
+                    }
                 }
             }
         }
@@ -1131,6 +1208,16 @@ Trait HasCommon
      * STORE FUNCTIONS
      *******************************************************************************/
 
+    public function postStoreAnnoSession($storedrecord)
+    {
+        if ( property_exists($this->model,'hasAnno') )
+        {
+            $useranno=Auth::user()->anno;
+            if ($useranno==null) $useranno=(new Anno)->current();
+            $storedrecord->annoables()->save($useranno);
+        }
+    }
+
     /**
      * Store Procedure
      *
@@ -1173,8 +1260,9 @@ Trait HasCommon
             $storedrecord=$this->model::create($this->saveRecord());
             if ($storedrecord)
             {
+                $this->postStoreAnnoSession($storedrecord);
                 $this->postStore($storedrecord);
-                $this->showSuccess("REGISTRO ".$this->getKeyNotification($storedrecord)." CREADO CORRECTAMENTE");
+                $this->ShowSuccess("REGISTRO ".$this->getKeyNotification($storedrecord)." CREADO CORRECTAMENTE");
                 $this->emit($this->table."-stored", $storedrecord->id);
             }
             if (!$this->multiple)

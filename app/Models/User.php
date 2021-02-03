@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\Auth\Role;
 use App\Models\Aux\Country;
+use App\Models\School\Anno;
 use Illuminate\Support\Str;
 use App\Models\Aux\Language;
 use App\Models\Aux\Timezone;
@@ -17,9 +18,11 @@ use App\Models\Traits\HasAbilities;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Traits\HasModelConfig;
 use Laravel\Jetstream\HasProfilePhoto;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
 use Illuminate\Notifications\Notifiable;
+use Facade\Ignition\Support\FakeComposer;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -120,6 +123,11 @@ class User extends Authenticatable
         return $this->belongsTo(Language::class);
     }
 
+    public function anno()
+    {
+        return $this->belongsTo(Anno::class);
+    }
+
     /**
      * Get With profile is
      */
@@ -168,6 +176,12 @@ class User extends Authenticatable
     /*********************************************/
     /* Methods
     /*********************************************/
+
+    public function changeAnno($id)
+    {
+        $this->anno_id=$id;
+        $this->save();
+    }
 
     public function getRolesTags()
     {
@@ -314,17 +328,44 @@ class User extends Authenticatable
         $this->save();
     }
 
-    static public function getValidUsername($suggest)
+
+    /**
+     * validate credentials to create profile
+     *
+     * @param  mixed $name
+     * @param  mixed $username
+     * @param  mixed $email
+     * @return void
+     */
+    public function validateCreateProfile()
     {
-        $exists='false';
-        $suggest=mb_strtolower($suggest);
-        while($exists!=null)
+        // Validation
+
+        $temp=User::active()->where('email',$this->email)->first();
+        if ($temp!=null)
         {
-            $exists=mb_strtolower(User::where('username',$suggest)->first());
-            if ($exists!=null) $suggest.=strtolower(Str::random(1));
+            // Email Exists
+            Session::flash("error", "EL EMAIL YA EXISTE");
+            return false;
         }
-        return($suggest);
+        $temp=User::active()->where('username',$this->username)->first();
+        if ($temp!=null)
+        {
+            // Username Exists
+            Session::flash("error", "EL USUARIO YA EXISTE");
+            return false;
+        }
+        // if ($this->password==null)
+        // {
+        //     // Password missing
+        //     Session::flash("error", "NO SE PROPORCIONÓ UNA CONTRASEÑA");
+        //     return false;
+        // }
+
+        return true;
+
     }
+
 
     /*********************************************/
     /* Scopes
@@ -350,11 +391,6 @@ class User extends Authenticatable
     /* Rules
     /*******************************************/
 
-    public function canDeleteRecordCustom()
-    {
-        return $this->canBeDeleted();
-    }
-
     /**
      * General rule for destroy record
      *
@@ -362,13 +398,36 @@ class User extends Authenticatable
      */
     public function canBeDeleted()
     {
-        if ($this->id==Auth::user()->id) return false;  // Rule 1: Nobody can destroy itself
+        Session::put('error','');
+        if ($this->id==Auth::user()->id)
+        {
+            Session::flash('error','NO PUEDE BORRAR SU PROPIO USUARIO');
+            return false;  // Rule 1: Nobody can destroy itself
+        }
+        if ($this->profile!=null)
+        {
+            Session::flash("error", "EL USUARIO TIENE UN PERFIL ASOCIADO");
+            return false;
+        }
         if (Auth::user()->level==1) return true;        // Rule 2: Superuser can destroy everyone
+        return false;
     }
 
     /*******************************************/
     /* Static Methods
     /*******************************************/
+    static public function getValidUsername($suggest)
+    {
+        $exists='false';
+        $suggest=mb_strtolower($suggest);
+        while($exists!=null)
+        {
+            $exists=mb_strtolower(User::where('username',$suggest)->first());
+            if ($exists!=null) $suggest.=strtolower(Str::random(1));
+        }
+        return($suggest);
+    }
+
     static public function createProfileUser($name, $username, $email, $password, $role, $verified=true)
     {
         $user=new User;
@@ -376,10 +435,22 @@ class User extends Authenticatable
         $user->username=User::getValidUsername($username);
         $user->email=$email;
         $user->password=bcrypt($password);
-        $user->api_token=Str::random(80);
-        if ($verified) $user->email_verified_at=Carbon::now();
-        $user->save();
-        $user->assignRole($role);
-        return $user;
+        if (!$user->validateCreateProfile()) return null;
+        try
+        {
+            $user->dateformat=config('lopsoft.date_format');
+            $user->timezone_id=(Timezone::where('name',config('lopsoft.timezone_default'))->first())->id??null;
+            $user->country_id=(Country::where('country',config('lopsoft.country_default'))->first())->id??null;
+            $user->language_id=(Language::where('code',config('lopsoft.locale_default'))->first())->id??null;
+            if ($verified) $user->email_verified_at=Carbon::now();
+            $user->save();
+            $user->assignRole($role);
+            return $user;
+        }
+        catch(\Exception $e)
+        {
+            Session::flash("exception", $e->getMessage());
+            return null;
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models\School;
 
+use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
@@ -19,6 +20,7 @@ class SchoolLevel extends Model
     use HasAbilities;
     use HasAllowedActions;
     use HasPriority;
+    use HasAnno;
 
 
     /*******************************************/

@@ -109,6 +109,8 @@ return [
 
     'default_paginate'      =>  15,
     'richeditor_timeout'    =>  2000, // 2s after change
+    'users_defaultpassword' =>  '123456',
+    'emails_generate_domain'=>  'tiasandraschool.com',
 
 
 

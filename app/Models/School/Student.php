@@ -2,14 +2,15 @@
 
 namespace App\Models\School;
 
+use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
+use App\Models\Traits\HasCommon;
+use App\Models\Traits\IsUserType;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
-use App\Models\Traits\HasCommon;
-use App\Models\Traits\IsUserType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
@@ -20,6 +21,7 @@ class Student extends Model
     use HasAbilities;
     use HasAllowedActions;
     use IsUserType;
+    use HasAnno;
 
     /**
      * The attributes that are mass assignable.
@@ -37,6 +39,11 @@ class Student extends Model
     /*******************************************/
     /* Relationships
     /*******************************************/
+
+    public function annos()
+    {
+        return $this->belongsToMany(Anno::class);
+    }
 
     /*******************************************/
     /* Accessors and mutators
@@ -153,6 +160,18 @@ class Student extends Model
     /* Methods
     /*******************************************/
 
+    public function enroll( $anno_id=null, $grade_id )
+    {
+        if ($anno_id==null)
+        {
+            $anno_id=(new Anno)->current()->id;
+        }
+        $this->annos()->attach($anno_id,
+            [   'grade_id'              => $grade_id,
+            ]);
+        return $this;
+    }
+
     public function scopeSearch($query, $search)
     {
         return $query->where('exp', 'like', '%'.$search.'%' )
@@ -161,4 +180,13 @@ class Student extends Model
             ->orWhere('second_surname', 'like', '%'.$search.'%' );
     }
 
+
+    /*******************************************/
+    /* Actions
+    /*******************************************/
+
+    public function postDelete()
+    {
+        $this->user->delete();  // Delete asocciated user
+    }
 }
