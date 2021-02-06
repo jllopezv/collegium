@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\School\Anno;
+use Illuminate\Support\Facades\DB;
 
 
 /**
@@ -12,19 +13,9 @@ trait HasAnno
 {
     protected $hasAnno=true;
 
-    public function annoables()
+    public function annos()
     {
-        return $this->morphToMany(Anno::class, 'annoable');
+        return $this->belongsToMany(Anno::class);
     }
 
-    public function anno($anno_id)
-    {
-        return $this->morphToMany(Anno::class, 'annoable')->where('anno_id',$anno_id)->first();
-    }
-
-    static public function sessionAnno($anno_id)
-    {
-        $anno=new Anno;
-        return $anno->getModel()::join('annoables',$anno->getTable().'.id','=','annoables.annoable_id')->where('anno_id',$anno_id);
-    }
 }

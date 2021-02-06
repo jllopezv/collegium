@@ -2,14 +2,14 @@
 
 <div {{ $attributes->merge([
 
-    'class' =>  'text-gray-600 mx-2 p-2  hover:bg-gray-700 hover:text-white rounded-md transition-all duration-300'
+    'class' =>  'text-gray-400 mx-2 p-2  hover:bg-gray-700 hover:text-white rounded-md transition-all duration-300'
 
 ])}} >
 
     @if($link)
         <a href='{{ $link }}'  >
     @endif
-    <div class='flex items-center cursor-pointer pl-2'>
+    <div class='flex items-center pl-2 cursor-pointer'>
         <div class="pr-1">
             <div class='tooltip'>
             <i class='{{ $icon }} fa-lg fa-fw'></i>

@@ -9,3 +9,5 @@
         {{ $item->name }}
     </div>
 </x-lopsoft.datatable.row-column>
+
+@include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->grade->grade ])

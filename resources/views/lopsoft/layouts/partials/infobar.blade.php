@@ -11,7 +11,7 @@
         class="absolute z-10 h-32 mt-1 overflow-y-scroll origin-top-right rounded-md shadow-lg right-3 w-80 bg-cool-gray-600 nosb">
         <div class='p-2 rounded-b-lg'>
             @php
-                $annos=\App\Models\School\Anno::active()->orderBy('id','asc')->get();
+                $annos=\App\Models\School\Anno::active()->orderBy('id','desc')->get();
             @endphp
             @foreach($annos as $anno)
                 <form x-ref='form{{$anno->id}}' method='POST' action='{{ route('changeannosession',['id' => $anno->id ]) }}'>

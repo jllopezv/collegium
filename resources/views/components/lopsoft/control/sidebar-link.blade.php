@@ -5,7 +5,7 @@
         <a href='{{ $link }}'  >
     @endif
     <div {{ $attributes->merge([
-        'class' =>  'text-gray-500 mx-2 p-2 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-300'
+        'class' =>  'text-gray-300 mx-2 p-2 hover:bg-gray-700 hover:text-white rounded-md transition-all duration-300'
         ])}} >
 
         <div class='flex items-center cursor-pointer'>

@@ -32,7 +32,7 @@ class Student extends Model
         'exp', 'names', 'profile_photo_path', 'first_surname', 'second_surname', 'birth', 'gender'
     ];
 
-    protected $appends= [ 'name', 'avatar' ];
+    protected $appends= [ 'name', 'avatar', 'grade' ];
 
     protected $dates=[ 'birth' ];
 
@@ -40,9 +40,45 @@ class Student extends Model
     /* Relationships
     /*******************************************/
 
-    public function annos()
+    public function enrolled()
     {
-        return $this->belongsToMany(Anno::class);
+        return $this->belongsToMany(Anno::class)->withPivot('grade_id');
+    }
+
+    public function gradeInAnno($anno_id=null)
+    {
+        if ($anno_id==null)
+        {
+            $anno=getUserAnnoSession();
+            if ($anno==null) return '';
+        }
+        else
+        {
+            $anno=Anno::find($anno_id);
+            if ($anno==null) return '';
+        }
+
+        $student=$anno->students()->withPivot('grade_id')->where('students.id', $this->id)->first();
+        if ($student==null) return '';
+        $grade=SchoolGrade::find($student->pivot->grade_id);
+        if ($grade==null) return '';
+        return $grade;
+    }
+
+    /**
+     * Get grade of student in the anno session
+     *
+     * @return SchoolGrade
+     */
+    public function getGradeAttribute()
+    {
+        $anno=getUserAnnoSession();
+        if ($anno==null) return '';
+        $student=$anno->students()->withPivot('grade_id')->where('students.id', $this->id)->first();
+        if ($student==null) return '';
+        $grade=SchoolGrade::find($student->pivot->grade_id);
+        if ($grade==null) return '';
+        return $grade;
     }
 
     /*******************************************/

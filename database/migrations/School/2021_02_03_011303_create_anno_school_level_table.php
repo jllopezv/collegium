@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnnoStudentTable extends Migration
+class CreateAnnoSchoolLevelTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAnnoStudentTable extends Migration
      */
     public function up()
     {
-        Schema::create('anno_student', function (Blueprint $table) {
+        Schema::create('anno_school_level', function (Blueprint $table) {
             $table->id();
             $table->foreignId('anno_id')->constrained('annos')->cascadeOnDelete();
-            $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
-            $table->unsignedBigInteger('grade_id')->nullable();
+            $table->foreignId('school_level_id')->constrained('school_levels')->cascadeOnDelete();
         });
     }
 

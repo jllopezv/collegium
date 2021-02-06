@@ -2,7 +2,7 @@
 <div class=''>
     <div
         x-on:click.prevent="menuEvent('{{$menuid}}')"
-        class='p-2 mx-2 text-gray-500 transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-700 {{ $classmenu!=''?$classmenu:'hover:text-gray-400' }} ' >
+        class='p-2 mx-2 text-gray-300 transition-all duration-300 rounded-md cursor-pointer hover:bg-gray-700 {{ $classmenu!=''?$classmenu:'hover:text-gray-400' }} ' >
 
         <div class='flex justify-between'>
             <div class='flex items-center'>

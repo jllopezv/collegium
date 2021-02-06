@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\School\Anno;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -209,7 +210,14 @@ class DropDownTableComponent extends Component
         }
         else
         {
-            $record=$this->data->where($this->key, $index)->first();
+            if ( property_exists($this->model,'hasAnno') )
+            {
+                $record=$this->data->get()->where($this->key, $index)->first();
+            }
+            else
+            {
+                $record=$this->data->where($this->key, $index)->first();
+            }
         }
 
         if (!is_null($record) )
@@ -251,13 +259,8 @@ class DropDownTableComponent extends Component
         {
             if ( property_exists($this->model,'hasAnno') )
             {
-                $useranno=Auth::user()->anno;
-                if ($useranno==null) $useranno=(new Anno)->current();
-
-                $this->data=$this->model::whereIn('id',
-                Anno::join('annoables','annos.id','=','annoables.annoable_id')
-                    ->where('anno_id',$useranno->id)->where('annoable_type',get_class(new $this->model))
-                    ->pluck('annoable_id'));
+                $anno=getUserAnnoSession();
+                $this->data=$anno->belongsToMany($this->model);
             }
         }
 
@@ -265,7 +268,7 @@ class DropDownTableComponent extends Component
         {
             if (property_exists($this->model,'hasactive'))
             {
-                $this->data=$this->data->active();
+                $this->data=$this->data->where('active',1);
             }
         }
 

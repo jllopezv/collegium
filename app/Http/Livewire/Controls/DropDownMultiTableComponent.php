@@ -220,7 +220,14 @@ class DropDownMultiTableComponent extends Component
         }
         else
         {
-            $record=$this->data->where($this->key, $index)->first();
+            if ( property_exists($this->model,'hasAnno') )
+            {
+                $record=$this->data->get()->where($this->key, $index)->first();
+            }
+            else
+            {
+                $record=$this->data->where($this->key, $index)->first();
+            }
             if (!is_null($record)) $this->addSelect($record[$this->key], $record[$this->field]);
         }
 
@@ -292,13 +299,8 @@ class DropDownMultiTableComponent extends Component
         {
             if ( property_exists($this->model,'hasAnno') )
             {
-                $useranno=Auth::user()->anno;
-                if ($useranno==null) $useranno=(new Anno)->current();
-
-                $this->data=$this->model::whereIn('id',
-                Anno::join('annoables','annos.id','=','annoables.annoable_id')
-                    ->where('anno_id',$useranno->id)->where('annoable_type',get_class(new $this->model))
-                    ->pluck('annoable_id'));
+                $anno=getUserAnnoSession();
+                $this->data=$anno->belongsToMany($this->model);
             }
         }
 

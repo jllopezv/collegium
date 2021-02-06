@@ -75,6 +75,7 @@ class StudentComponent extends Component
         $this->module='school';
         $this->avatar_prefix='student';
         $this->commonMount();
+        $this->commonSaveAnnoSession=false;
         // Default order for table
         $this->sortorder='exp';
         $this->flashmessageid='studentsaved';
@@ -281,7 +282,6 @@ class StudentComponent extends Component
         }
 
         // Enroll
-
         $recordStored->enroll(null,$this->grade_id);
     }
 
@@ -345,6 +345,4 @@ class StudentComponent extends Component
     {
         $this->showConfirm("error","¿SEGURO QUE DESEA BORRAR EL ESTUDIANTE? <br/><br/>¡¡ATENCIÓN!!<br/><b>BORRARÁ TAMBIÉN EL USUARIO ASOCIADO</b>","BORRAR ESTUDIANTE","deleteRecord","close","$id");
     }
-
-
 }

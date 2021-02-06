@@ -9,6 +9,7 @@ use App\Models\Traits\HasCommon;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
+use PhpParser\ErrorHandler\Collecting;
 
 class SchoolGrade extends Model
 {
@@ -39,6 +40,31 @@ class SchoolGrade extends Model
     public function level()
     {
         return $this->belongsTo(SchoolLevel::class);
+    }
+
+    public function students($anno_id=null)
+    {
+        if ($anno_id==null)
+        {
+            $anno=getUserAnnoSession();
+        }
+        else
+        {
+            $anno=Anno::find($anno_id);
+        }
+        $collect=collect();
+        if ($anno!=null)
+        {
+            foreach($anno->students()->orderBy('id','asc')->get() as $student)
+            {
+                $grade=$student->gradeInAnno($anno_id);
+                if ($grade!=null)
+                {
+                    if ($grade->id==$this->id) $collect->push($student);
+                }
+            }
+        }
+        return $collect;
     }
 
     /*******************************************/

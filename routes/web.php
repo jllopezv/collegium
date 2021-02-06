@@ -115,6 +115,15 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('school_levels', SchoolLevelController::class, SchoolLevel::class);
     LopHelp::generateCommonModelRoute('school_grades', SchoolGradeController::class, SchoolGrade::class);
     LopHelp::generateCommonModelRoute('annos', AnnoController::class, Anno::class);
+    Route::get('/showstudentslevel/{id}', function($id) {
+        return view('school.showstudentslevel', ['id' => $id]);
+    })->name('showstudentslevel');
+    Route::get('/showstudentsgrade/{id}', function($id) {
+        return view('school.showstudentsgrade', ['id' => $id]);
+    })->name('showstudentsgrade');
+    Route::get('/showstudentsanno/{id}', function($id) {
+        return view('school.showstudentsanno', ['id' => $id]);
+    })->name('showstudentsanno');
 });
 
 

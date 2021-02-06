@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnnoablesTable extends Migration
+class CreateAnnoSchoolGradeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAnnoablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('annoables', function (Blueprint $table) {
+        Schema::create('anno_school_grade', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('anno_id');
-            $table->nullableMorphs('annoable');
-            $table->timestamps();
+            $table->foreignId('anno_id')->constrained('annos')->cascadeOnDelete();
+            $table->foreignId('school_grade_id')->constrained('school_grades')->cascadeOnDelete();
         });
     }
 
@@ -28,6 +27,6 @@ class CreateAnnoablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('annoable');
+        Schema::dropIfExists('anno_student');
     }
 }

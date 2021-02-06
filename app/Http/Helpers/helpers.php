@@ -246,9 +246,30 @@ use App\Models\Setting\AppSetting;
 
         function getUserAnnoSession()
         {
-            $useranno=Auth::user()->anno;
-            if ($useranno==null) $useranno=(new Anno)->current();
+            $useranno=Auth::check()?Auth::user()->anno:null;
+            if ($useranno==null) $useranno=(new Anno)->current();   // By default the current Anno
             return $useranno;
+        }
+    }
+
+    if (! function_exists('getUserAnnoSessionId')) {
+
+        function getUserAnnoSessionId()
+        {
+            $anno=getUserAnnoSession();
+            if ($anno==null) return 0;
+            return $anno->id;
+        }
+    }
+
+    if (! function_exists('getAnnoSessionId')) {
+
+        function getAnnoSessionId($anno_id=null)
+        {
+            if (!$anno_id==null) return Anno::find($anno_id)->id;
+            $anno=getUserAnnoSession();
+            if ($anno==null) return 0;
+            return $anno->id;
         }
     }
 

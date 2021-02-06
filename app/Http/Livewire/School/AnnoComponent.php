@@ -156,5 +156,10 @@ class AnnoComponent extends Component
         return true;
     }
 
+    public function showStudentsAnno($id)
+    {
+        return redirect()->route('showstudentsanno', ['id' => $id]);
+    }
+
 
 }

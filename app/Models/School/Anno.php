@@ -42,12 +42,17 @@ class Anno extends Model
 
     public function schoolLevels()
     {
-        return $this->morphedByMany(SchoolLevel::class, 'annoable');
+        return $this->belongsToMany(SchoolLevel::class);
     }
 
     public function schoolGrades()
     {
-        return $this->morphedByMany(SchoolGrade::class, 'annoable');
+        return $this->belongsToMany(SchoolGrade::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
     }
 
     /*******************************************/

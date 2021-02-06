@@ -21,13 +21,13 @@
     </div>
     <div class='flex flex-wrap items-center justify-between {{ ($slave!='true')?'mb-2':'bg-gray-700 px-2 py-2' }} '>
         <div class=''>
-            @isSuperadmin
+            {{-- @isSuperadmin
                 @if($noFilterInGetDataQuery==true)
                     <x-lopsoft.link.purple wire:click='changeFilterInGetDataQuery' icon='fa fa-filter' help='ACTIVAR FILTRO PRINCIPAL' helpclass='tooltiptext-up-right'></x-lopsoft.link.purple>
                 @else
                     <x-lopsoft.link.danger wire:click='changeFilterInGetDataQuery' icon='fa fa-filter' help='DESACTIVAR FILTRO PRINCIPAL' helpclass='tooltiptext-up-right'></x-lopsoft.link.danger>
                 @endif
-            @endisSuperadmin
+            @endisSuperadmin --}}
             <x-lopsoft.link.gray
                 wire:click='refreshDatatable'>
                 <div class='flex items-center justify-center'>

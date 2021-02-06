@@ -82,6 +82,7 @@ return [
     'year'                  =>  'año',
     'years'                 =>  'años',
     'student'               =>  'estudiante',
+    'students'              =>  'estudiantes',
     'schoollevel'           =>  'nivel académico',
     'schoollevels'          =>  'niveles',
     'priority'             =>  'orden',

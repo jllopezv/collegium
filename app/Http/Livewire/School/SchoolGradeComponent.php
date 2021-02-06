@@ -61,7 +61,7 @@ class SchoolGradeComponent extends Component
     public function validateRules() : array
     {
         return [
-            'grade'             => 'required|string|max:255|unique:school_grades,grade,'.$this->recordid,
+            'grade'             => 'required|string|max:255', //|unique:school_grades,grade,'.$this->recordid,
             'priority'          => 'required|numeric',
             'level_id'          => 'required',
         ];
@@ -119,6 +119,11 @@ class SchoolGradeComponent extends Component
     public function eventSetLevel($level_id)
     {
         $this->level_id=$level_id;
+    }
+
+    public function showStudentsGrade($id)
+    {
+        return redirect()->route('showstudentsgrade', ['id' => $id]);
     }
 
 

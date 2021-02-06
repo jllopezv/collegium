@@ -213,7 +213,6 @@
                                     <span class='text-sm text-gray-700'>Total registros {{ (!$showlocks && property_exists($model,'hasactive') )?$recordcount.' de ':'' }} {{ $model::all()->count() }}.</span>
                                     @if(count($rowselected)) <span class='text-sm text-gray-700'>Registros seleccionados: {{ count($rowselected) }}</span>@endif
                                 </div>
-                                {{-- {{ $data->links('components.lopsoft.datatable.pagination') }} --}}
                                 {{ $data->links() }}
                             </div>
                         @endif

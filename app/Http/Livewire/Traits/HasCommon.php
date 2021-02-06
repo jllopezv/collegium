@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Traits;
 use App\Models\School\Anno;
 use Illuminate\Support\Str;
 use PhpParser\Node\Stmt\Else_;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -67,6 +68,7 @@ Trait HasCommon
     public $custommessage='';
     public $saveandexit=true;
     public $redirectroute=null;
+    public $commonSaveAnnoSession=true;
 
     private $data=null;
     private $newmodel=null;
@@ -430,8 +432,15 @@ Trait HasCommon
      */
     public function getData() : void
     {
-        $this->querySearch();
-        $this->data=$this->data->paginate(config('lopsoft.default_paginate'));
+        try
+        {
+            $this->querySearch();
+            $this->data=$this->data->paginate(config('lopsoft.default_paginate'));
+        }
+        catch(\Exception $e)
+        {
+            $this->showException($e);
+        }
     }
 
     /**
@@ -496,23 +505,16 @@ Trait HasCommon
 
         if ($this->noFilterInGetDataQuery)
         {
+
             return $this->model::query();
         }
 
-        if ( !property_exists($this->model,'hasAnno') )
+        if ( property_exists($this->model,'hasAnno') )
         {
-            return $this->model::query();
+            $anno=getUserAnnoSession();
+            return $anno->belongsToMany($this->model);
         }
-        else
-        {
-            $useranno=Auth::user()->anno;
-            if ($useranno==null) $useranno=(new Anno)->current();
-
-            return $this->model::whereIn('id',
-                Anno::join('annoables','annos.id','=','annoables.annoable_id')
-                    ->where('anno_id',$useranno->id)->where('annoable_type',get_class(new $this->model))
-                    ->pluck('annoable_id'));
-        }
+        return $this->model::query();
 
     }
 
@@ -528,7 +530,7 @@ Trait HasCommon
      */
     public function querySearch()
     {
-        $this->getQueryData();
+        // $this->getQueryData();
 
         if ($this->showlocks)
         {
@@ -568,7 +570,7 @@ Trait HasCommon
                 $dir='asc';
                 $field=$this->sortorder;
             }
-            $this->data->orderBy($field,$dir);
+            $this->data=$this->data->orderBy($field,$dir);
         }
 
         $this->setDataFilterOwner();
@@ -1203,18 +1205,15 @@ Trait HasCommon
 
     }
 
-
     /*******************************************************************************
      * STORE FUNCTIONS
      *******************************************************************************/
 
     public function postStoreAnnoSession($storedrecord)
     {
-        if ( property_exists($this->model,'hasAnno') )
+        if ( property_exists($this->model,'hasAnno') && $this->commonSaveAnnoSession)
         {
-            $useranno=Auth::user()->anno;
-            if ($useranno==null) $useranno=(new Anno)->current();
-            $storedrecord->annoables()->save($useranno);
+            $storedrecord->annos()->save(getUserAnnoSession());
         }
     }
 
@@ -1372,8 +1371,7 @@ Trait HasCommon
 
         if ($this->mode=='index')
         {
-            $this->querySearch();
-            $this->data=$this->data->paginate(config('lopsoft.default_paginate'));
+            $this->getData();
         }
         else
         {

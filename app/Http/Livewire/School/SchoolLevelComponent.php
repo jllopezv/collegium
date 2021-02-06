@@ -65,8 +65,8 @@ class SchoolLevelComponent extends Component
     public function validateRules() : array
     {
         return [
-            'level'             => 'required|string|max:255|unique:school_levels,level,'.$this->recordid,
-            'priority'         => 'required|numeric',
+            'level'             => 'required|string|max:255',//|unique:school_levels,level,'.$this->recordid,
+            'priority'          => 'required|numeric',
         ];
     }
 
@@ -113,6 +113,11 @@ class SchoolLevelComponent extends Component
         $record=new SchoolLevel;
         $record->level=$this->level;
         $record->priority=$this->priority;
+    }
+
+    public function showStudentsLevel($id)
+    {
+        return redirect()->route('showstudentslevel', ['id' => $id]);
     }
 
 }

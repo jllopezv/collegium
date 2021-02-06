@@ -2,11 +2,13 @@
 
 namespace App\Models\School;
 
+use Illuminate\Support\Str;
 use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use App\Models\Traits\HasPriority;
+use Illuminate\Support\Facades\DB;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
@@ -39,6 +41,12 @@ class SchoolLevel extends Model
     /*******************************************/
     /* Relationships
     /*******************************************/
+
+    public function inAnno($anno_id=null)
+    {
+        $record=DB::table('anno_school_level')->where('anno_id', getAnnoSessionId($anno_id))->pluck('school_level_id')->first();
+        return SchoolLevel::find($record);
+    }
 
     /*******************************************/
     /* Accessors and mutators
