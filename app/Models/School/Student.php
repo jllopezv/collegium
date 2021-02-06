@@ -196,15 +196,22 @@ class Student extends Model
     /* Methods
     /*******************************************/
 
-    public function enroll( $anno_id=null, $grade_id )
+    public function enroll( $grade_id, $anno_id=null )
     {
         if ($anno_id==null)
         {
-            $anno_id=(new Anno)->current()->id;
+            $anno_id=getUserAnnoSessionId();
         }
-        $this->annos()->attach($anno_id,
-            [   'grade_id'              => $grade_id,
-            ]);
+
+        $enroll=$this->enrolled->where('id',$anno_id)->first();
+        if ($enroll!=null && $enroll->pivot->grade_id!=$grade_id)
+        {
+            $this->annos()->detach($anno_id);
+        }
+        $this->annos()->attach($anno_id,[
+            'grade_id' => $grade_id,
+        ]);
+
         return $this;
     }
 

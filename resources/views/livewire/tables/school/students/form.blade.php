@@ -89,8 +89,6 @@
             </div>
         </div>
 
-
-        Grade: {{ $grade_id }}
         @livewire('controls.drop-down-table-component', [
             'model'         => \App\Models\School\SchoolGrade::class,
             'mode'          => $mode,
@@ -100,7 +98,7 @@
             'classdropdown' => 'w-full md:w-3/4 lg:w-full xl:w-3/4',
             'key'           => 'id',
             'field'         => 'grade',
-            'defaultvalue'  =>  $record->grade_id??null,
+            'defaultvalue'  =>  ($this->mode=='create')?null:($record->grade==null?null:$record->grade->id),
             'eventname'     => 'eventsetgrade',
             'uid'           => 'gradecomponent',
             'modelid'       => 'grade_id',

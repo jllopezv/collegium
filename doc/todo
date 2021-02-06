@@ -1,2 +1,9 @@
 // TODO: WebsitePost indexbodyxs
 // TODO: WebsiteBanner indexbodyxs
+
+// TODO: Process to create a new academic year
+         Dont copy SchoolLevels , SchoolGrades only --> create
+         anno_school_level
+         anno_school_grade
+
+         Promote Students

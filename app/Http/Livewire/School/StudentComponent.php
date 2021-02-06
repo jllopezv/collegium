@@ -240,6 +240,7 @@ class StudentComponent extends Component
     public function getProfileUsername()
     {
         $username=Str::of($this->names)->before(' ').(Str::of($this->names)->contains(' ')?Str::of($this->names)->after(' '):'').$this->first_surname;
+        $username=str_replace(' ','',$username);
         return mb_strtolower( withoutAccents($username) );
     }
 
@@ -282,7 +283,7 @@ class StudentComponent extends Component
         }
 
         // Enroll
-        $recordStored->enroll(null,$this->grade_id);
+        $recordStored->enroll($this->grade_id);
     }
 
     public function postUpdate($recordUpdated)
@@ -297,6 +298,9 @@ class StudentComponent extends Component
             $userprofile->save();
 
         }
+
+        // Enroll
+        $recordUpdated->enroll($this->grade_id);
     }
 
     public function generateEmail()
