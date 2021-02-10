@@ -95,6 +95,19 @@ class PermissionSeeder extends Seeder
                                             'allowDelete'   => false,
                                             'allowLock'     => false,
                                         ]);
+
+
+        $record=new Permission;
+        $record->name="CAMBIAR CONFIGURACIÓN";
+        $record->slug='users.changeannosession';
+        $record->description="PERMITE CAMBIAR DE SESIÓN";
+        $record->group=$this->getGroupID('ESPECIALES');
+        $record->save();
+        $record->allowedActions()->create([ 'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false,
+                                        ]);
     }
 
     public function createPermissions($table, $group)
@@ -211,6 +224,30 @@ class PermissionSeeder extends Seeder
         $record->name="EDITAR REGISTROS PROPIOS";
         $record->slug=$table.'.edit.owner';
         $record->description="EDITAR SOLO LOS REGISTROS CREADOS POR EL USUARIO";
+        $record->group=$this->getGroupID($group);
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
+
+        $record=new Permission;
+        $record->name="BLOQUEAR REGISTROS";
+        $record->slug=$table.'.lock';
+        $record->description="PUEDE BLOQUEAR REGISTROS";
+        $record->group=$this->getGroupID($group);
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
+
+        $record=new Permission;
+        $record->name="BLOQUEAR REGISTROS PROPIOS";
+        $record->slug=$table.'.lock.owner';
+        $record->description="BLOQUEAR SOLO LOS REGISTROS CREADOS POR EL USUARIO";
         $record->group=$this->getGroupID($group);
         $record->save();
         $record->allowedActions()->create([  'allowShow'     => false,

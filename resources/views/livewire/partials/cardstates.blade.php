@@ -1,4 +1,4 @@
-@if(property_exists($model,'hasactive') && !$record->active)
+@if ( (property_exists($model,'hasactive') && !$record->active) || (property_exists($model, 'hasAvailable') && !$record->available) )
     bg-red-100  hover:bg-red-200
 @else
     @if( Schema::hasColumn($table, 'current') && $record->current)

@@ -73,6 +73,13 @@
             //     console.log(event.detail);
             //     alert('ID: ' + event.detail.objectid+ " value: "+event.detail.objectvalue);
             // })
+
+            window.addEventListener('settimeout', event => {
+                alert("bien");
+                setTimeout(function() {
+                    Livewire.emit(event.detail.event)
+                }, event.detail.timeout);
+            })
         </script>
 
         @yield('scripts')

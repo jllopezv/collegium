@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\School;
 
+use App\Http\Livewire\Traits\HasAvailable;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\School\SchoolGrade;
 use App\Http\Livewire\Traits\HasCommon;
+use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
@@ -19,9 +21,10 @@ class SchoolGradeComponent extends Component
     use WithAlertMessage;
     use WithModalAlert;
     use WithModalConfirm;
+    use HasPriority;
+    use HasAvailable;
 
     public  $grade;
-    public  $priority;
     public  $level_id;
 
     protected $listeners=[
@@ -69,8 +72,9 @@ class SchoolGradeComponent extends Component
 
     public function loadDefaults()
     {
-        $grades=SchoolGrade::active()->count();
-        $this->priority=$grades+1;
+        $anno=getUserAnnoSession();
+        $grades=$anno->schoolGrades;
+        $this->priority=max(count($grades), $grades->max('pivot.priority'))+1;
     }
 
     public function resetForm()
@@ -94,6 +98,20 @@ class SchoolGradeComponent extends Component
     }
 
     /**
+     * Validate only some fields
+     *
+     * @return void
+     */
+    public function validateFields()
+    {
+        return [
+            'grade'                 =>  $this->grade,
+            'priority'             =>  $this->priority,
+            'level_id'              =>  $this->level_id,
+        ];
+    }
+
+    /**
      * Save or Update record data
      *
      * @return void
@@ -102,7 +120,6 @@ class SchoolGradeComponent extends Component
     {
         return [
             'grade'                 =>  $this->grade,
-            'priority'             =>  $this->priority,
             'level_id'              =>  $this->level_id,
         ];
     }
@@ -125,6 +142,17 @@ class SchoolGradeComponent extends Component
     {
         return redirect()->route('showstudentsgrade', ['id' => $id]);
     }
+
+    public function postStore($storedRecord)
+    {
+        $storedRecord->priority=$this->priority;    // Pivot value
+    }
+
+    public function postUpdate($updatedRecord)
+    {
+        $updatedRecord->priority=$this->priority;    // Pivot value
+    }
+
 
 
 }

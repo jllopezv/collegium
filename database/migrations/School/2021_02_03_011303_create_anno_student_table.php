@@ -18,6 +18,7 @@ class CreateAnnoStudentTable extends Migration
             $table->foreignId('anno_id')->constrained('annos')->cascadeOnDelete();
             $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
             $table->unsignedBigInteger('grade_id')->nullable();
+            $table->unsignedBigInteger('priority')->default(1);
         });
     }
 

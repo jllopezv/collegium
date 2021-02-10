@@ -89,14 +89,14 @@ Trait HasCommon
         if ($this->callback==null) $this->callback=$this->table.'.index';
         if ($this->mode=='index')
         {
-            if (property_exists($this->model,'hasactive'))
-            {
-                $this->data=$this->getQueryData()->active();
-            }
-            else
-            {
-                $this->data=$this->getQueryData();
-            }
+            // if (property_exists($this->model,'hasactive'))
+            // {
+            //     $this->data=$this->getQueryData()->active();
+            // }
+            // else
+            // {
+            //     $this->data=$this->getQueryData();
+            // }
         }
         if ($this->mode=='edit' || $this->mode=='show') $this->loadRecord();
     }
@@ -415,6 +415,16 @@ Trait HasCommon
     }
 
     /**
+     * Force refresh component and reset page after timeout
+     *
+     * @return void
+     */
+    public function callTimeout($event, $timeout) : void
+    {
+        $this->dispatchBrowserEvent('settimeout', ['event' => $event, 'timeout' => $timeout]);
+    }
+
+    /**
      * Force refresh component and reset page
      *
      * @return void
@@ -503,18 +513,25 @@ Trait HasCommon
     {
         // It depends of Anno Session
 
+        $ret=null;
+
         if ($this->noFilterInGetDataQuery)
         {
-
-            return $this->model::query();
+            $ret=$this->model::query();
         }
 
         if ( property_exists($this->model,'hasAnno') )
         {
             $anno=getUserAnnoSession();
-            return $anno->belongsToMany($this->model);
+            $ret=$anno->belongsToMany($this->model);
         }
-        return $this->model::query();
+
+        if ( property_exists($this->model,'hasActive') || !$this->showlocks)
+        {
+            $ret=$ret->active();
+        }
+
+        return $ret;
 
     }
 
@@ -530,23 +547,35 @@ Trait HasCommon
      */
     public function querySearch()
     {
-        // $this->getQueryData();
+        $this->data=$this->getQueryData();
 
-        if ($this->showlocks)
-        {
-            $this->data=$this->getQueryData();
-        }
-        else
-        {
-            if (property_exists($this->model,'hasactive'))
-            {
-                $this->data=$this->getQueryData()->active();
-            }
-            else
-            {
-                $this->data=$this->getQueryData();
-            }
-        }
+        // if ($this->showlocks)
+        // {
+        //     $this->data=$this->getQueryData();
+        // }
+        // else
+        // {
+        //     if (property_exists($this->model,'hasactive'))
+        //     {
+        //         $this->data=$this->getQueryData()->active();
+        //     }
+        //     else
+        //     {
+        //         $this->data=$this->getQueryData();
+        //     }
+        // }
+
+        // $this->data=$this->getQueryData();
+
+        // if (property_exists($this->model,'hasactive'))
+        // {
+        //     $this->data=$this->getQueryData()->active();
+        // }
+
+        // if (property_exists($this->model,'hasAvailable'))
+        // {
+        //     $this->data=$this->getQueryData()->available();
+        // }
 
         if ($this->search)
         {
@@ -1309,6 +1338,7 @@ Trait HasCommon
         );
         $this->emit('validationerror',$validator->messages());
         $validator->validate();
+
         if (!$this->validateCustomFields())
         {
             $this->emit('validationerror',$this->getErrorBag());

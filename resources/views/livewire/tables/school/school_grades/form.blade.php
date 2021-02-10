@@ -40,4 +40,5 @@
     'isTop'         =>  true,
     'requiredfield' =>  true,
     'help'          =>  transup('mandatory'),
+    'linknew'       =>  Auth::user()->hasAbility('school_levels.create')?route('school_levels.create'):'',
 ])

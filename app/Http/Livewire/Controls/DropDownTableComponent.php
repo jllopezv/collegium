@@ -272,6 +272,11 @@ class DropDownTableComponent extends Component
             }
         }
 
+        if (property_exists($this->model,'hasAvailable'))
+        {
+            $this->data=$this->data->where('available',1);
+        }
+
         if($this->filterraw)
         {
             $this->data->whereRaw($this->filterraw);

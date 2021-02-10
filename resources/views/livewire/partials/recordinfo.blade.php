@@ -13,6 +13,13 @@
             @else
                 <span class='bg-red-500 text-white py-0.5 px-1 text-xs rounded font-bold'>NO ACTIVO</span>
             @endif
+            @if (property_exists($record,'hasAvailable'))
+                @if ($record->available)
+                    <span class='bg-indigo-400 text-white py-0.5 px-1 text-xs rounded font-bold'>VISIBLE</span>
+                @else
+                    <span class='bg-red-500 text-white py-0.5 px-1 text-xs rounded font-bold'>INVISIBLE</span>
+                @endif
+            @endif
         </div>
     </div>
 @endif

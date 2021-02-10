@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\School;
 
+use App\Http\Livewire\Traits\HasAvailable;
 use Livewire\Component;
 use App\Models\School\Anno;
 use Livewire\WithPagination;
@@ -24,9 +25,9 @@ class SchoolLevelComponent extends Component
     use WithModalAlert;
     use WithModalConfirm;
     use HasPriority;
+    use HasAvailable;
 
     public  $level;
-    public  $priority;
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -72,8 +73,9 @@ class SchoolLevelComponent extends Component
 
     public function loadDefaults()
     {
-        $levels=SchoolLevel::active()->count();
-        $this->priority=$levels+1;
+        $anno=getUserAnnoSession();
+        $levels=$anno->schoolLevels;
+        $this->priority=max(count($levels), $levels->max('pivot.priority'))+1;
     }
 
     public function resetForm()
@@ -95,6 +97,19 @@ class SchoolLevelComponent extends Component
     }
 
     /**
+     * Validate only some fields
+     *
+     * @return void
+     */
+    public function validateFields()
+    {
+        return [
+            'level'                 =>  $this->level,
+            'priority'              =>  $this->priority,
+        ];
+    }
+
+    /**
      * Save or Update record data
      *
      * @return void
@@ -103,7 +118,6 @@ class SchoolLevelComponent extends Component
     {
         return [
             'level'                 =>  $this->level,
-            'priority'             =>  $this->priority,
         ];
     }
 
@@ -119,5 +133,16 @@ class SchoolLevelComponent extends Component
     {
         return redirect()->route('showstudentslevel', ['id' => $id]);
     }
+
+    public function postStore($storedRecord)
+    {
+        $storedRecord->priority=$this->priority;    // Pivot value
+    }
+
+    public function postUpdate($updatedRecord)
+    {
+        $updatedRecord->priority=$this->priority;    // Pivot value
+    }
+
 
 }

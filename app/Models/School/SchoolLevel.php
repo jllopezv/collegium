@@ -2,6 +2,7 @@
 
 namespace App\Models\School;
 
+use Exception;
 use Illuminate\Support\Str;
 use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
@@ -10,6 +11,8 @@ use App\Models\Traits\HasCommon;
 use App\Models\Traits\HasPriority;
 use Illuminate\Support\Facades\DB;
 use App\Models\Traits\HasAbilities;
+use App\Models\Traits\HasAvailable;
+use App\Http\Livewire\Traits\HasAvatar;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +26,7 @@ class SchoolLevel extends Model
     use HasAllowedActions;
     use HasPriority;
     use HasAnno;
+    use HasAvailable;
 
 
     /*******************************************/
@@ -35,8 +39,10 @@ class SchoolLevel extends Model
      * @var array
      */
     protected $fillable = [
-        'level', 'priority'
+        'level', 'priority', 'available'
     ];
+
+    protected $appends=[ 'priority', 'available' ];
 
     /*******************************************/
     /* Relationships
@@ -51,6 +57,36 @@ class SchoolLevel extends Model
     /*******************************************/
     /* Accessors and mutators
     /*******************************************/
+
+    public function getPriorityAttribute()
+    {
+        $anno=getUserAnnoSession();
+        $level=$anno->schoolLevels->where('id', $this->id)->first();
+        if ($level==null) return 0;
+        return $level->pivot->priority;
+    }
+
+    public function setPriorityAttribute($value)
+    {
+        $anno=getUserAnnoSession();
+        $anno->schoolLevels()->updateExistingPivot($this->id, ['priority' => $value]);
+    }
+
+    public function getAvailableAttribute()
+    {
+
+        $anno=getUserAnnoSession();
+        $level=$anno->schoolLevels->where('id', $this->id)->first();
+        if ($level==null) return null;
+        return $level->pivot->available;
+
+    }
+
+    public function setAvailableAttribute($value)
+    {
+        $anno=getUserAnnoSession();
+        $anno->schoolLevels()->updateExistingPivot($this->id, ['available' => $value]);
+    }
 
     /**
      * Set Level

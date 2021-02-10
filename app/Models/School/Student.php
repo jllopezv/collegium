@@ -11,7 +11,7 @@ use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Traits\HasPriority;
 
 class Student extends Model
 {
@@ -22,6 +22,7 @@ class Student extends Model
     use HasAllowedActions;
     use IsUserType;
     use HasAnno;
+    use HasPriority;
 
     /**
      * The attributes that are mass assignable.
@@ -29,10 +30,10 @@ class Student extends Model
      * @var array
      */
     protected $fillable = [
-        'exp', 'names', 'profile_photo_path', 'first_surname', 'second_surname', 'birth', 'gender'
+        'exp', 'names', 'profile_photo_path', 'first_surname', 'second_surname', 'birth', 'gender', 'priority'
     ];
 
-    protected $appends= [ 'name', 'avatar', 'grade' ];
+    protected $appends= [ 'name', 'avatar', 'grade' ,'priority'];
 
     protected $dates=[ 'birth' ];
 
@@ -65,6 +66,25 @@ class Student extends Model
         return $grade;
     }
 
+
+    /*******************************************/
+    /* Accessors and mutators
+    /*******************************************/
+
+    public function getPriorityAttribute()
+    {
+        $anno=getUserAnnoSession();
+        $student=$anno->students->where('id', $this->id)->first();
+        if ($student==null) return 0;
+        return $student->pivot->priority;
+    }
+
+    public function setPriorityAttribute($value)
+    {
+        $anno=getUserAnnoSession();
+        $anno->students()->updateExistingPivot($this->id, ['priority' => $value]);
+    }
+
     /**
      * Get grade of student in the anno session
      *
@@ -81,9 +101,6 @@ class Student extends Model
         return $grade;
     }
 
-    /*******************************************/
-    /* Accessors and mutators
-    /*******************************************/
 
     public function getNameAttribute()
     {
@@ -196,7 +213,7 @@ class Student extends Model
     /* Methods
     /*******************************************/
 
-    public function enroll( $grade_id, $anno_id=null )
+    public function enroll( $grade_id, $anno_id=null, $priority=1 )
     {
         if ($anno_id==null)
         {
@@ -210,6 +227,23 @@ class Student extends Model
         }
         $this->annos()->attach($anno_id,[
             'grade_id' => $grade_id,
+            'priority' => $priority
+        ]);
+
+        return $this;
+    }
+
+    public function updateEnroll( $grade_id, $anno_id=null, $priority=1 )
+    {
+        if ($anno_id==null)
+        {
+            $anno_id=getUserAnnoSessionId();
+        }
+
+        $enroll=$this->enrolled->where('id',$anno_id)->first();
+        $this->annos()->updateExistingPivot($anno_id,[
+            'grade_id' => $grade_id,
+            'priority' => $priority
         ]);
 
         return $this;

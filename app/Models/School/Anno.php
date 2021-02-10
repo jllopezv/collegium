@@ -42,17 +42,17 @@ class Anno extends Model
 
     public function schoolLevels()
     {
-        return $this->belongsToMany(SchoolLevel::class);
+        return $this->belongsToMany(SchoolLevel::class)->active()->available()->withPivot(['priority','available'])->orderBy('priority');
     }
 
     public function schoolGrades()
     {
-        return $this->belongsToMany(SchoolGrade::class);
+        return $this->belongsToMany(SchoolGrade::class)->active()->available()->withPivot(['priority','available'])->orderBy('priority');
     }
 
     public function students()
     {
-        return $this->belongsToMany(Student::class);
+        return $this->belongsToMany(Student::class)->withPivot('priority')->orderBy('priority');
     }
 
     /*******************************************/

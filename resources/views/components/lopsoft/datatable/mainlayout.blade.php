@@ -45,7 +45,7 @@
         <div class='flex items-center justify-center '>
             @if($cansearch!='false')
                 <x-lopsoft.datatable.searchbar textcolor="{{ $slave=='true'?'text-white':'' }}" />
-                @isAdmin
+                @hasAbilityOr([$table.'.lock', $table.'.lock.owner'])
                     <div class='ml-1'>
                         @if(property_exists($model,'hasactive'))
                             @if($showlocks!='1')
@@ -55,7 +55,7 @@
                             @endif
                         @endif
                     </div>
-                @endisAdmin
+                @endhasAbilityOr
             @endif
         </div>
     </div>

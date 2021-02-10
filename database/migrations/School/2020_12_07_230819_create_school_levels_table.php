@@ -16,7 +16,6 @@ class CreateSchoolLevelsTable extends Migration
         Schema::create('school_levels', function (Blueprint $table) {
             $table->id();
             $table->boolean('active')->default(1);
-            $table->unsignedBigInteger('priority')->default(1);
             $table->string('level')->default('');
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');

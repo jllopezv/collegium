@@ -37,24 +37,43 @@
                 @endif
             @endif
         @endif
+        {{-- Available --}}
+        @if (property_exists($record, 'hasAvailable'))
+            @if($record->available)
+                <div class='tooltip'>
+                    <i wire:click="unAvailable({{ $itemid }})" class='cursor-pointer far fa-eye-slash fa-lg fa-fw text-cool-gray-400 hover:text-red-600'></i>
+                    <span class='tooltiptext tooltiptext-center-left'>DESHABILITAR</span>
+                </div>
+            @else
+                <div class='tooltip'>
+                    <i wire:click="available({{ $itemid }})" class='cursor-pointer far fa-eye fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
+                    <span class='tooltiptext tooltiptext-center-left'>HABILITAR</span>
+                </div>
+            @endif
+        @endif
+        {{-- Lock/Unlock --}}
         @if($actioncanlock==='true')
             @if(property_exists($model,'hasactive'))
                 @if($record->allowLock())
                     @if($active!='1')
                         @if($record->canUnlockRecord())
+                            @hasAbilityOr([$table.'.lock', $table.'.lock.owner'])
                             {{-- Unlock --}}
                             <div class='tooltip'>
                                 <i wire:click="unlock({{ $itemid }})" class='cursor-pointer fa fa-unlock fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
                                 <span class='tooltiptext tooltiptext-center-left'>DESBLOQUEAR</span>
                             </div>
+                            @endhasAbilityOr
                         @endif
                     @else
                         @if($record->canLockRecord())
+                            @hasAbilityOr([$table.'.lock', $table.'.lock.owner'])
                             {{-- Lock --}}
                             <div class='tooltip'>
                                 <i wire:click="lock({{ $itemid }})" class='cursor-pointer fa fa-lock fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
                                 <span class='tooltiptext tooltiptext-center-left'>BLOQUEAR</span>
                             </div>
+                            @endhasAbilityOr
                         @endif
                     @endif
                 @endif

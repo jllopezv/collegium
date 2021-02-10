@@ -46,7 +46,7 @@ class LoginComponent extends Component
 
         if ( $success )
         {
-            if ( Auth::user()->roles->count()==0 )
+            if ( !Auth::user()->active || Auth::user()->roles->count()==0 )
             {
                 Auth::logout();
                 redirect(route('login'));

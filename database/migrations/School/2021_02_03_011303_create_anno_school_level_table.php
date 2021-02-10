@@ -17,6 +17,8 @@ class CreateAnnoSchoolLevelTable extends Migration
             $table->id();
             $table->foreignId('anno_id')->constrained('annos')->cascadeOnDelete();
             $table->foreignId('school_level_id')->constrained('school_levels')->cascadeOnDelete();
+            $table->unsignedBigInteger('priority')->default(1);
+            $table->boolean('available')->default(1);
         });
     }
 

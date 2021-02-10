@@ -40,6 +40,14 @@
                             <span class='tooltiptext tooltiptext-center-left'>BORRAR SOLO PROPIOS</span>
                         </div>
                         <div class='w-8 font-bold text-center border-b-2 border-gray-400 cursor-pointer tooltip'>
+                            <i class='fa fa-lock text-cool-gray-600'></i>
+                            <span class='tooltiptext tooltiptext-center-left'>BLOQUEAR</span>
+                        </div>
+                        <div class='w-8 font-bold text-center border-b-2 border-gray-400 cursor-pointer tooltip'>
+                            <i class='fa fa-lock text-cool-gray-400'></i>
+                            <span class='tooltiptext tooltiptext-center-left'>BLOQUEAR SOLO PROPIOS</span>
+                        </div>
+                        <div class='w-8 font-bold text-center border-b-2 border-gray-400 cursor-pointer tooltip'>
                             <i class='fa fa-print text-cool-gray-600'></i>
                             <span class='tooltiptext tooltiptext-center-left'>IMPRIMIR</span>
                         </div>
@@ -53,9 +61,14 @@
                             <span class='tooltiptext tooltiptext-center-left'>LOGIN</span>
                         </div>
                         <div class='w-8 font-bold text-center border-b-2 border-gray-400 cursor-pointer tooltip'>
+                            <i class='fa fa-calendar'></i>
+                            <span class='tooltiptext tooltiptext-center-left'>CAMBIAR SESIÓN</span>
+                        </div>
+                        <div class='w-8 font-bold text-center border-b-2 border-gray-400 cursor-pointer tooltip'>
                             <i class='fa fa-cogs'></i>
                             <span class='tooltiptext tooltiptext-center-left'>CONFIGURACIÓN</span>
                         </div>
+
                     @endif
                 </div>
             </div>
@@ -200,6 +213,36 @@
                                 </div>
                                 <div class='w-8 text-center'>
                                     @php
+                                        $permission=$permissions->where('slug',$table.'.lock')->first();
+                                    @endphp
+                                    @if( !is_null($permission) )
+                                        @hasAbility($permission->slug)
+                                            @if(!is_null($permission))
+                                                <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
+                                                    class="w-5 h-5 text-green-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
+                                            @endif
+                                        @else
+                                            <i class='text-red-500 fa fa-ban'></i>
+                                        @endhasAbility
+                                    @endif
+                                </div>
+                                <div class='w-8 text-center'>
+                                    @php
+                                        $permission=$permissions->where('slug',$table.'.lock.owner')->first();
+                                    @endphp
+                                    @if( !is_null($permission) )
+                                        @hasAbility($permission->slug)
+                                            @if(!is_null($permission))
+                                                <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
+                                                    class="w-5 h-5 text-green-300 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
+                                            @endif
+                                        @else
+                                            <i class='text-red-500 fa fa-ban'></i>
+                                        @endhasAbility
+                                    @endif
+                                </div>
+                                <div class='w-8 text-center'>
+                                    @php
                                         $permission=$permissions->where('slug',$table.'.print')->first();
                                     @endphp
                                     @if(!is_null($permission))
@@ -232,6 +275,21 @@
                                 <div class='w-8 text-center'>
                                     @php
                                         $permission=$permissions->where('slug',$table.'.login')->first();
+                                    @endphp
+                                    @if(!is_null($permission))
+                                        @hasAbility($permission->slug)
+                                            @if(!is_null($permission))
+                                                <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
+                                                    class="w-5 h-5 text-blue-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
+                                            @endif
+                                        @else
+                                            <i class='text-red-500 fa fa-ban'></i>
+                                        @endhasAbility
+                                    @endif
+                                </div>
+                                <div class='w-8 text-center'>
+                                    @php
+                                        $permission=$permissions->where('slug',$table.'.changeannosession')->first();
                                     @endphp
                                     @if(!is_null($permission))
                                         @hasAbility($permission->slug)

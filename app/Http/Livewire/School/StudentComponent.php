@@ -8,10 +8,12 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use App\Models\School\Student;
+use App\Models\School\SchoolGrade;
 use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
 use Illuminate\Support\Facades\Session;
 use App\Http\Livewire\Traits\IsUserType;
+use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
@@ -27,6 +29,7 @@ class StudentComponent extends Component
     use WithModalAlert;
     use WithModalConfirm;
     use IsUserType;
+    use HasPriority;
 
     public  $exp;
     public  $names;
@@ -39,8 +42,6 @@ class StudentComponent extends Component
     public  $avatar;
     public  $profile_photo_path;
     public  $grade_id;
-
-
 
     private $avatarfolder='students-photos';
 
@@ -77,7 +78,7 @@ class StudentComponent extends Component
         $this->commonMount();
         $this->commonSaveAnnoSession=false;
         // Default order for table
-        $this->sortorder='exp';
+        $this->sortorder='grade_id';
         $this->flashmessageid='studentsaved';
         if ($this->mode=='create')
         {
@@ -99,9 +100,31 @@ class StudentComponent extends Component
             'first_surname'     => 'required|string|max:255',
             'second_surname'    => 'required|string|max:255',
             'birth'             => 'required|date',
+            'priority'          => 'required|numeric',
             'email'             => 'required|email|max:255|unique:users,email'.($this->mode!='create'?','.$this->record->user->id:''),
             // 'gender'            => 'required'
 
+        ];
+    }
+
+    /**
+     * Validate only some fields
+     *
+     * @return void
+     */
+    public function validateFields()
+    {
+        // Its necessary because validated fields are not equal to saveRecord fields
+        return [
+            'exp'                   =>  $this->exp,
+            'profile_photo_path'    =>  $this->profile_photo_path,
+            'names'                 =>  $this->names,
+            'first_surname'         =>  $this->first_surname,
+            'second_surname'        =>  $this->second_surname,
+            'birth'                 =>  $this->birth,
+            'gender'                =>  $this->gender,
+            'email'                 =>  $this->email,
+            'priority'              =>  $this->priority,
         ];
     }
 
@@ -150,6 +173,7 @@ class StudentComponent extends Component
         $this->email=$this->record->user->email;
         $this->username=$this->record->user->username;
         $this->avatar=$this->record->avatar;
+        $this->priority=$this->record->priority;
 
         $this->emit('setvalue', 'gradecomponent', $this->grade_id);
 
@@ -209,6 +233,17 @@ class StudentComponent extends Component
     public function eventSetGrade($grade_id)
     {
         $this->grade_id=$grade_id;
+        if ($this->mode=='create')
+        {
+            $grade=SchoolGrade::find($this->grade_id);
+            if ($grade==null)
+            {
+                $this->priority=1;
+                return;
+            }
+            $this->priority=count($grade->students())+1;
+
+        }
     }
 
     public function canUpdate()
@@ -267,6 +302,18 @@ class StudentComponent extends Component
         return true;
     }
 
+    public function customUpdateValidation()
+    {
+        if ($this->grade_id==null)
+        {
+            $this->addError('grade_id', 'DEBE SELECCIONAR UN GRADO');
+            $this->emit('validationerror',$this->getErrorBag());
+            $this->showFlashError($this->flashmessageid,"ERROR EN LOS DATOS");
+            return false;
+        }
+        return true;
+    }
+
     public function postStore($recordStored)
     {
         $user=$this->getUserProfileCredentials();
@@ -283,7 +330,7 @@ class StudentComponent extends Component
         }
 
         // Enroll
-        $recordStored->enroll($this->grade_id);
+        $recordStored->enroll($this->grade_id,null,$this->priority);
     }
 
     public function postUpdate($recordUpdated)
@@ -299,8 +346,8 @@ class StudentComponent extends Component
 
         }
 
-        // Enroll
-        $recordUpdated->enroll($this->grade_id);
+        // Update Enroll
+        $recordUpdated->updateEnroll($this->grade_id,null,$this->priority);
     }
 
     public function generateEmail()
@@ -324,7 +371,14 @@ class StudentComponent extends Component
         }
         $user=User::where('email', $this->email)->first();
         $this->checkedEmail=true;
-        $this->validEmail=$user==null?true:false;
+        if ( $this->mode=='edit' && $user->profile->id==$this->record->id )
+        {
+            $this->validEmail=true;
+        }
+        else
+        {
+            $this->validEmail=$user==null?true:false;
+        }
 
         $this->email=mb_strtolower($this->email);
     }

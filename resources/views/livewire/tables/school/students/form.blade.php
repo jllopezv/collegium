@@ -47,7 +47,7 @@
             classcontainer='w-full'
             requiredfield
             help="{{ transup('mandatory') }}"
-            nextref='email'
+            nextref='priority'
             mode="{{ $mode }}"
         />
         <div class='flex flex-wrap items-center justify-start'>
@@ -89,6 +89,19 @@
             </div>
         </div>
 
+        <x-lopsoft.control.inputform
+            wire:model.lazy='priority'
+            id='priority'
+            x-ref='priority'
+            label="{{ transup('priority') }}"
+            sublabel='Orden dentro del grado en el que se mostrará cuando vaya a elegir el estudiante en otro formulario'
+            nextref='btnCreate'
+            classcontainer='w-24'
+            requiredfield
+            help="{{ transup('mandatory') }}"
+            mode="{{ $mode }}"
+        />
+
         @livewire('controls.drop-down-table-component', [
             'model'         => \App\Models\School\SchoolGrade::class,
             'mode'          => $mode,
@@ -105,6 +118,7 @@
             'isTop'         =>  true,
             'requiredfield' =>  true,
             'help'          =>  transup('mandatory'),
+            'linknew'       =>  Auth::user()->hasAbility('school_grades.create')?route('school_grades.create'):'',
         ])
 
 

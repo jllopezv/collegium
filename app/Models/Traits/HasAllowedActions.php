@@ -33,6 +33,7 @@ trait HasAllowedActions
     public function allowDelete()
     {
         if (Auth::user()->isSuperadmin()) return(true);
+        if ( property_exists($this, 'hasAnno') && !Auth::user()->isAdmin()) return false; // Only Available
         return($this->allowedActionsCached()->allowDelete ?? true);
     }
 

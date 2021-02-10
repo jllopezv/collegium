@@ -15,7 +15,16 @@ trait HasAnno
 
     public function annos()
     {
-        return $this->belongsToMany(Anno::class);
+        $relationship=$this->belongsToMany(Anno::class);
+        if ( property_exists($this, 'hasPriority'))
+        {
+            $relationship=$relationship->withPivot('priority');
+        }
+        if ( property_exists($this, 'hasAvailable'))
+        {
+            $relationship=$relationship->withPivot('available');
+        }
+        return $relationship;
     }
 
 }

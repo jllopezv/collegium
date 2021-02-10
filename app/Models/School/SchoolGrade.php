@@ -9,6 +9,8 @@ use App\Models\Traits\HasCommon;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
+use App\Models\Traits\HasAvailable;
+use App\Models\Traits\HasPriority;
 use PhpParser\ErrorHandler\Collecting;
 
 class SchoolGrade extends Model
@@ -19,6 +21,8 @@ class SchoolGrade extends Model
     use HasAbilities;
     use HasAllowedActions;
     use HasAnno;
+    use HasPriority;
+    use HasAvailable;
 
     /*******************************************/
     /* Properties
@@ -32,6 +36,8 @@ class SchoolGrade extends Model
     protected $fillable = [
         'grade', 'priority', 'level_id'
     ];
+
+    protected $appends=['priority'];
 
     /*******************************************/
     /* Relationships
@@ -70,6 +76,37 @@ class SchoolGrade extends Model
     /*******************************************/
     /* Accessors and mutators
     /*******************************************/
+
+    public function getPriorityAttribute()
+    {
+        $anno=getUserAnnoSession();
+        $grade=$anno->schoolGrades->where('id', $this->id)->first();
+        if ($grade==null) return 0;
+        return $grade->pivot->priority;
+    }
+
+    public function setPriorityAttribute($value)
+    {
+        $anno=getUserAnnoSession();
+        $anno->schoolGrades()->updateExistingPivot($this->id, ['priority' => $value]);
+    }
+
+    public function getAvailableAttribute()
+    {
+
+        $anno=getUserAnnoSession();
+        $grade=$anno->schoolGrades->where('id', $this->id)->first();
+        if ($grade==null) return null;
+        return $grade->pivot->available;
+
+    }
+
+    public function setAvailableAttribute($value)
+    {
+        $anno=getUserAnnoSession();
+        $anno->schoolGrades()->updateExistingPivot($this->id, ['available' => $value]);
+    }
+
 
     /**
      * Set Grade
