@@ -24,7 +24,6 @@ class AppSettingPageComponent extends Component
     use HasPriority;
 
     public $settingpage;
-    public $priority;
     public $description;
     public $onlysuperadmin;
 

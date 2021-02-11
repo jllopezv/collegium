@@ -513,12 +513,7 @@ Trait HasCommon
     {
         // It depends of Anno Session
 
-        $ret=null;
-
-        if ($this->noFilterInGetDataQuery)
-        {
-            $ret=$this->model::query();
-        }
+        $ret=$this->model::query();
 
         if ( property_exists($this->model,'hasAnno') )
         {

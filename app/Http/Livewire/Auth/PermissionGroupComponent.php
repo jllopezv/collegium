@@ -24,7 +24,6 @@ class PermissionGroupComponent extends Component
     use HasPriority;
 
     public  $group;
-    public  $priority;
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',

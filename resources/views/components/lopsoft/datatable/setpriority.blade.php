@@ -9,11 +9,7 @@
                 )
                 <div class=''>
                     <i wire:click='upPriority({{$item->id}})' class="fa fa-angle-up fa-fw fa-lg
-                        @if(!property_exists($item,'hasAnno'))
-                            {{ $item->pivot->priority<2?'text-cool-gray-300':'cursor-pointer ' }}
-                        @else
-                            {{ $item->priority<2?'text-cool-gray-300':'cursor-pointer ' }}
-                        @endif
+                        {{ $item->priority<2?'text-cool-gray-300':'cursor-pointer ' }}
                     "></i>
                 </div>
                 <div class=''>

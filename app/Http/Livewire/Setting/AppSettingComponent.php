@@ -31,7 +31,6 @@ class AppSettingComponent extends Component
     public $settingkey;
     public $settingdesc;
     public $settingvalue;
-    public $priority;
     public $type;
     public $level;
     public $typecheckbox;
