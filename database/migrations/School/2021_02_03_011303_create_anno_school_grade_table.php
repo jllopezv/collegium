@@ -29,6 +29,6 @@ class CreateAnnoSchoolGradeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('anno_student');
+        Schema::dropIfExists('anno_school_section');
     }
 }

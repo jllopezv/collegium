@@ -139,7 +139,8 @@
             @endhasAbility
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
-    @hasAbilityOr(['students.access', 'school_levels.access', 'school_grades.access'])
+    @hasAbilityOr([ 'students.access', 'school_levels.access', 'school_grades.access',
+                    'school_batches.access', 'school_modalities.access', 'school_sections.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user'
             link='linkeando'
@@ -151,7 +152,7 @@
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-user'
                 link="{{ route('school_levels.index') }}"
-                text="{{ transup('schoollevels') }}"
+                text="{{ transup('levels') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
@@ -160,7 +161,34 @@
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-user'
                 link="{{ route('school_grades.index') }}"
-                text="{{ transup('schoolgrades') }}"
+                text="{{ transup('grades') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['school_sections.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user'
+                link="{{ route('school_sections.index') }}"
+                text="{{ transup('sections') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['school_batches.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user'
+                link="{{ route('school_batches.index') }}"
+                text="{{ transup('batches') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['school_modalities.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user'
+                link="{{ route('school_modalities.index') }}"
+                text="{{ transup('modalities') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

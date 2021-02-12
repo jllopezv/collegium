@@ -27,11 +27,18 @@ class DatabaseSeeder extends Seeder
         // Website
         $this->call(WebsitePostCatSeeder::class);
 
+        // School
+        $this->call(SchoolLevelSeeder::class);
+        $this->call(SchoolGradeSeeder::class);
+        $this->call(SchoolBatchSeeder::class);
+
         //Auth
         $this->call(PermissionGroupSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+
+
 
     }
 }

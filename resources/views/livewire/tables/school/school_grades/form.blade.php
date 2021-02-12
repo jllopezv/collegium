@@ -29,7 +29,7 @@
     'mode'          => $mode,
     'filterraw'     => '',
     'sortorder'     => 'priority',
-    'label'         => transup('schoollevel'),
+    'label'         => transup('level'),
     'classdropdown' => 'w-full md:w-3/4 lg:w-full xl:w-3/4',
     'key'           => 'id',
     'field'         => 'level',

@@ -11,12 +11,15 @@ use App\Models\School\Anno;
 use App\Models\Aux\Language;
 use App\Models\School\Student;
 use App\Models\Auth\Permission;
+use App\Models\School\SchoolBatch;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
 use App\Models\Setting\AppSetting;
 use App\Models\Setting\ModelConfig;
 use App\Models\Website\WebsitePost;
 use App\Models\Auth\PermissionGroup;
+use App\Models\School\SchoolSection;
+use App\Models\School\SchoolModality;
 use App\Models\Website\WebsiteBanner;
 use Illuminate\Support\Facades\Route;
 use App\Models\Setting\AppSettingPage;
@@ -30,12 +33,15 @@ use App\Http\Controllers\School\AnnoController;
 use App\Http\Controllers\Aux\LanguageController;
 use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\Auth\PermissionController;
+use App\Http\Controllers\School\SchoolBatchController;
 use App\Http\Controllers\School\SchoolGradeController;
 use App\Http\Controllers\School\SchoolLevelController;
 use App\Http\Controllers\Setting\AppSettingController;
 use App\Http\Controllers\Setting\ModelConfigController;
 use App\Http\Controllers\Website\WebsitePostController;
 use App\Http\Controllers\Auth\PermissionGroupController;
+use App\Http\Controllers\School\SchoolSectionController;
+use App\Http\Controllers\School\SchoolModalityController;
 use App\Http\Controllers\Website\WebsiteBannerController;
 use App\Http\Controllers\Setting\AppSettingPageController;
 use App\Http\Controllers\Website\WebsitePostCatController;
@@ -115,6 +121,14 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('school_levels', SchoolLevelController::class, SchoolLevel::class);
     LopHelp::generateCommonModelRoute('school_grades', SchoolGradeController::class, SchoolGrade::class);
     LopHelp::generateCommonModelRoute('annos', AnnoController::class, Anno::class);
+    LopHelp::generateCommonModelRoute('school_sections', SchoolSectionController::class, SchoolSection::class);
+    LopHelp::generateCommonModelRoute('school_batches', SchoolBatchController::class, SchoolBatch::class);
+    LopHelp::generateCommonModelRoute('school_modalities', SchoolModalityController::class, SchoolModality::class);
+
+
+
+
+
     Route::get('/showstudentslevel/{id}', function($id) {
         return view('school.showstudentslevel', ['id' => $id]);
     })->name('showstudentslevel');

@@ -1,0 +1,7 @@
+Students no se copian de año en año. Se inscriben (enroll) en otro año. Afecta a anno_student.
+    Por lo tanto podré ver un histórico de los cursos por los que pasó el estudiante.
+SchoolLevel and SchoolGrade no se copian de año en año. Se añaden en anno_school_level y anno_school_grade.
+    Por lo tanto podré ver un histórico de los grados y niveles que niños tuvieron cada año.
+SchoolSection SI se copian año a año, porque realmente no me interesa tener un historico de cada seccion que niños tuvo.
+    Pero hay un anno_section para ver cada año que secciones tiene disponibles.
+SchoolBatch NO se copian año a año. Van a estar ligadas a cada año.

@@ -23,7 +23,6 @@ class WebsitePostCatComponent extends Component
     use HasPriority;
 
     public  $category;
-    public  $priority;
     public  $color_id;
 
     protected $listeners=[

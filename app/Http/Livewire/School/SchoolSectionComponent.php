@@ -3,11 +3,140 @@
 namespace App\Http\Livewire\School;
 
 use Livewire\Component;
+use Livewire\WithPagination;
+use App\Models\School\SchoolSection;
+use App\Http\Livewire\Traits\HasCommon;
+use App\Http\Livewire\Traits\HasPriority;
+use App\Http\Livewire\Traits\HasAvailable;
+use App\Http\Livewire\Traits\WithModalAlert;
+use App\Http\Livewire\Traits\WithAlertMessage;
+use App\Http\Livewire\Traits\WithFlashMessage;
+use App\Http\Livewire\Traits\WithModalConfirm;
 
 class SchoolSectionComponent extends Component
 {
-    public function render()
+    use WithPagination;
+    use HasCommon;
+    use WithFlashMessage;
+    use WithAlertMessage;
+    use WithModalAlert;
+    use WithModalConfirm;
+    use HasPriority;
+    use HasAvailable;
+
+    public  $section;
+    public  $grade_id;
+
+    protected $listeners=[
+        'refreshDatatable'      => 'refreshDatatable',
+        'refreshForm'           => 'refreshForm',           // Refresh all components in show or edit mode
+        'deleteRecord'          => 'deleteRecord',
+        'actionDestroyBatch'    => 'actionDestroyBatch',
+        'actionLockBatch'       => 'actionLockBatch',
+        'actionUnLockBatch'     => 'actionUnLockBatch',
+        'eventsetgrade'         => 'eventSetGrade',
+    ];
+
+    /**
+     * Mount function
+     *
+     * @return void
+     */
+    public function mount()
     {
-        return view('livewire.school.school-section-component');
+        $this->table='school_sections';
+        $this->module='school';
+        $this->commonMount();
+        // Default order for table
+        $this->sortorder='priority';
+        if ($this->mode=='create')
+        {
+            // default create options
+            $this->loadDefaults();
+        }
+    }
+
+    /**
+     * Rules to validate model
+     *
+     * @return array
+     */
+    public function validateRules() : array
+    {
+        return [
+            'section'           => 'required|string|max:255|unique:school_sections,section,'.$this->recordid,
+            'priority'          => 'required|numeric',
+            'grade_id'          => 'required',
+        ];
+    }
+
+    public function loadDefaults()
+    {
+        $anno=getUserAnnoSession();
+        $sections=$anno->schoolSections;
+        $this->priority=max(count($sections), $sections->max('pivot.priority'))+1;
+    }
+
+    public function resetForm()
+    {
+        $this->priority='';
+        $this->section='';
+        $this->loadDefaults();
+    }
+
+    public function loadRecordDef()
+    {
+        $this->section=$this->record->section;
+        $this->priority=$this->record->priority;
+        $this->grade_id=$this->record->grade_id;
+        $this->emit('setvalue', 'gradecomponent', $this->grade_id);
+    }
+
+    public function getKeyNotification($record)
+    {
+        return ($record->section);
+    }
+
+    /**
+     * Validate only some fields
+     *
+     * @return void
+     */
+    public function validateFields()
+    {
+        return [
+            'section'               =>  $this->section,
+            'priority'              =>  $this->priority,
+            'grade_id'              =>  $this->grade_id,
+        ];
+    }
+
+    /**
+     * Save or Update record data
+     *
+     * @return void
+     */
+    public function saveRecord()
+    {
+        return [
+            'section'                 =>  $this->section,
+            'grade_id'                =>  $this->grade_id,
+        ];
+    }
+
+
+    public function postStore($storedRecord)
+    {
+        $storedRecord->priority=$this->priority;    // Pivot value
+    }
+
+    public function postUpdate($updatedRecord)
+    {
+        $updatedRecord->priority=$this->priority;    // Pivot value
+    }
+
+    public function eventSetGrade($grade_id)
+    {
+        $this->grade_id=$grade_id;
     }
 }

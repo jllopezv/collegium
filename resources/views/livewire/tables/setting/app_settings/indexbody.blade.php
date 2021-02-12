@@ -1,4 +1,4 @@
-@include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->priority, 'classrow' => 'text-right'])
+@include('components.lopsoft.datatable.row-priority')
 @include('components.lopsoft.datatable.setpriority')
 <x-lopsoft.datatable.row-column
     canshow="{{ $item->canShowRecord() && $item->allowShow() }}"

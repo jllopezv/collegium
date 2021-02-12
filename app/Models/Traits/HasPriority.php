@@ -25,6 +25,7 @@ trait HasPriority
 
     static public function syncPriority($items)
     {
+
         if (count($items)==0) return;
         $priority=1;
         foreach($items as $item)

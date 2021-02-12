@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchoolBatchsTable extends Migration
+class CreateSchoolBatchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSchoolBatchsTable extends Migration
      */
     public function up()
     {
-        Schema::create('school_batchs', function (Blueprint $table) {
+        Schema::create('school_batches', function (Blueprint $table) {
             $table->id();
             $table->boolean('active')->default(1);
-
+            $table->string('batch')->unique();
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');
@@ -30,6 +30,6 @@ class CreateSchoolBatchsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('school_batchs');
+        Schema::dropIfExists('school_batches');
     }
 }

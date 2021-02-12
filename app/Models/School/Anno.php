@@ -5,6 +5,7 @@ namespace App\Models\School;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
+use App\Models\School\SchoolBatch;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
 use App\Models\Traits\HasAbilities;
@@ -48,6 +49,21 @@ class Anno extends Model
     public function schoolGrades()
     {
         return $this->belongsToMany(SchoolGrade::class)->active()->available()->withPivot(['priority','available'])->orderBy('priority');
+    }
+
+    public function schoolBatches()
+    {
+        return $this->belongsToMany(SchoolBatch::class)->active()->available()->withPivot(['priority','available'])->orderBy('priority');
+    }
+
+    public function schoolModalities()
+    {
+        return $this->belongsToMany(SchoolModality::class)->active()->available()->withPivot(['priority','available'])->orderBy('priority');
+    }
+
+    public function schoolSections()
+    {
+        return $this->belongsToMany(SchoolSection::class)->active()->available()->withPivot(['priority','available'])->orderBy('priority');
     }
 
     public function students()
