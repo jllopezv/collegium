@@ -42,6 +42,9 @@ class StudentComponent extends Component
     public  $avatar;
     public  $profile_photo_path;
     public  $grade_id;
+    public  $section_id;
+    public  $batch_id;
+    public  $modality_id;
 
     private $avatarfolder='students-photos';
 
@@ -63,6 +66,10 @@ class StudentComponent extends Component
         'eventsetbirth'         => 'eventSetBirth',
         'eventsetgender'        => 'eventSetGender',
         'eventsetgrade'         => 'eventSetGrade',
+        'eventsetsection'       => 'eventSetSection',
+        'eventsetbatch'         => 'eventSetBatch',
+        'eventsetmodality'      => 'eventSetModality',
+        'eventfiltergrade'      => 'eventFilterGrade',
     ];
 
     /**
@@ -102,7 +109,10 @@ class StudentComponent extends Component
             'birth'             => 'required|date',
             'priority'          => 'required|numeric',
             'email'             => 'required|email|max:255|unique:users,email'.($this->mode!='create'?','.$this->record->user->id:''),
-            // 'gender'            => 'required'
+            'grade_id'          => 'required',
+            'section_id'        => 'required',
+            'batch_id'          => 'required',
+            'modality_id'       => 'required',
 
         ];
     }
@@ -125,6 +135,10 @@ class StudentComponent extends Component
             'gender'                =>  $this->gender,
             'email'                 =>  $this->email,
             'priority'              =>  $this->priority,
+            'grade_id'              =>  $this->grade_id,
+            'section_id'            =>  $this->section_id,
+            'batch_id'              =>  $this->batch_id,
+            'modality_id'           =>  $this->modality_id,
         ];
     }
 
@@ -230,7 +244,7 @@ class StudentComponent extends Component
 
     }
 
-    public function eventSetGrade($grade_id)
+    public function eventSetGrade($grade_id, $change)
     {
         $this->grade_id=$grade_id;
         if ($this->mode=='create')
@@ -244,6 +258,28 @@ class StudentComponent extends Component
             $this->priority=count($grade->students())+1;
 
         }
+
+        if ($change==true)
+        {
+            // Set filterraw para section
+            $this->emit('setfilterraw','sectioncomponent','grade_id='.$grade_id);
+
+        }
+    }
+
+    public function eventSetSection($section_id)
+    {
+        $this->section_id=$section_id;
+    }
+
+    public function eventSetBatch($batch_id)
+    {
+        $this->batch_id=$batch_id;
+    }
+
+    public function eventSetModality($modality_id)
+    {
+        $this->modality_id=$modality_id;
     }
 
     public function canUpdate()
@@ -330,7 +366,13 @@ class StudentComponent extends Component
         }
 
         // Enroll
-        $recordStored->enroll($this->grade_id,null,$this->priority);
+        $recordStored->enroll([
+            'priority'      =>   $this->priority,
+            'grade_id'      =>   $this->grade_id,
+            'section_id'    =>  $this->section_id,
+            'batch_id'      =>  $this->batch_id,
+            'modality_id'   =>  $this->modality_id,
+        ]);
     }
 
     public function postUpdate($recordUpdated)
@@ -347,7 +389,13 @@ class StudentComponent extends Component
         }
 
         // Update Enroll
-        $recordUpdated->updateEnroll($this->grade_id,null,$this->priority);
+        $recordUpdated->updateEnroll([
+            'priority'      =>   $this->priority,
+            'grade_id'      =>   $this->grade_id,
+            'section_id'    =>  $this->section_id,
+            'batch_id'      =>  $this->batch_id,
+            'modality_id'   =>  $this->modality_id,
+        ]);
     }
 
     public function generateEmail()
@@ -403,4 +451,29 @@ class StudentComponent extends Component
     {
         $this->showConfirm("error","¿SEGURO QUE DESEA BORRAR EL ESTUDIANTE? <br/><br/>¡¡ATENCIÓN!!<br/><b>BORRARÁ TAMBIÉN EL USUARIO ASOCIADO</b>","BORRAR ESTUDIANTE","deleteRecord","close","$id");
     }
+
+    public function eventFilterGrade($grade_id)
+    {
+        if ($grade_id=='*')
+        {
+            $this->filterdata='';
+        }
+        else
+        {
+            $this->filterdata="anno_student.grade_id=".$grade_id;
+        }
+    }
+
+    public function setDataFilter()
+    {
+        if ($this->filterdata!='') $this->data->whereRaw($this->filterdata);
+    }
+
+    public function findRecordBuilder()
+    {
+        // Special find cause it has pivot fields like grade_id, section_id, batch_id, modality_id
+        $anno=getUserAnnoSession();
+        return $anno->students->where('id' , $this->recordid)->first();
+    }
+
 }

@@ -38,7 +38,7 @@ class AppSettingComponent extends Component
     public $filetypeimage;
     public $page_id;
     public $root='/';
-    public $filterdata="";
+
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',      // Refresh all components in index mode

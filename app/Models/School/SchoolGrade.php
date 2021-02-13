@@ -37,7 +37,7 @@ class SchoolGrade extends Model
         'grade', 'priority', 'level_id'
     ];
 
-    protected $appends=['priority'];
+    protected $appends=['priority', 'available'];
 
     /*******************************************/
     /* Relationships

@@ -102,24 +102,93 @@
             mode="{{ $mode }}"
         />
 
-        @livewire('controls.drop-down-table-component', [
-            'model'         => \App\Models\School\SchoolGrade::class,
-            'mode'          => $mode,
-            'filterraw'     => '',
-            'sortorder'     => 'priority',
-            'label'         => transup('schoolgrade'),
-            'classdropdown' => 'w-full md:w-3/4 lg:w-full xl:w-3/4',
-            'key'           => 'id',
-            'field'         => 'grade',
-            'defaultvalue'  =>  ($this->mode=='create')?null:($record->grade==null?null:$record->grade->id),
-            'eventname'     => 'eventsetgrade',
-            'uid'           => 'gradecomponent',
-            'modelid'       => 'grade_id',
-            'isTop'         =>  true,
-            'requiredfield' =>  true,
-            'help'          =>  transup('mandatory'),
-            'linknew'       =>  Auth::user()->hasAbility('school_grades.create')?route('school_grades.create'):'',
-        ])
+        <div class='flex items-center justify-start'>
+
+            <div class='w-full mr-2 md:w-1/4 lg:w-full xl:w-1/4'>
+                @livewire('controls.drop-down-table-component', [
+                    'model'         => \App\Models\School\SchoolGrade::class,
+                    'mode'          => $mode,
+                    'filterraw'     => '',
+                    'sortorder'     => 'priority',
+                    'label'         => transup('grade'),
+                    'classdropdown' => '',
+                    'key'           => 'id',
+                    'field'         => 'grade',
+                    'defaultvalue'  =>  ($this->mode=='create')?null:$record->pivot->grade_id,
+                    'eventname'     => 'eventsetgrade',
+                    'uid'           => 'gradecomponent',
+                    'modelid'       => 'grade_id',
+                    'isTop'         =>  true,
+                    'requiredfield' =>  true,
+                    'help'          =>  transup('mandatory'),
+                    'linknew'       =>  Auth::user()->hasAbility('school_grades.create')?route('school_grades.create'):'',
+                ])
+            </div>
+
+            <div class='w-full mr-2 md:w-1/4 lg:w-full xl:w-1/4'>
+                @livewire('controls.drop-down-table-component', [
+                    'model'         => \App\Models\School\SchoolSection::class,
+                    'mode'          => $mode,
+                    'filterraw'     => '',
+                    'sortorder'     => 'priority',
+                    'label'         => transup('section'),
+                    'classdropdown' => '',
+                    'key'           => 'id',
+                    'field'         => 'section',
+                    'defaultvalue'  => ($this->mode=='create')?null:$record->pivot->section_id,
+                    'eventname'     => 'eventsetsection',
+                    'uid'           => 'sectioncomponent',
+                    'modelid'       => 'section_id',
+                    'isTop'         =>  true,
+                    'requiredfield' =>  true,
+                    'help'          =>  transup('mandatory'),
+                    'linknew'       =>  Auth::user()->hasAbility('school_sections.create')?route('school_sections.create'):'',
+                ])
+            </div>
+
+            <div class='w-full mr-2 md:w-1/4 lg:w-full xl:w-1/4'>
+                @livewire('controls.drop-down-table-component', [
+                    'model'         => \App\Models\School\SchoolBatch::class,
+                    'mode'          => $mode,
+                    'filterraw'     => '',
+                    'sortorder'     => 'priority',
+                    'label'         => transup('batch'),
+                    'classdropdown' => '',
+                    'key'           => 'id',
+                    'field'         => 'batch',
+                    'defaultvalue'  => ($this->mode=='create')?null:$record->pivot->batch_id,
+                    'eventname'     => 'eventsetbatch',
+                    'uid'           => 'batchcomponent',
+                    'modelid'       => 'batch_id',
+                    'isTop'         =>  true,
+                    'requiredfield' =>  true,
+                    'help'          =>  transup('mandatory'),
+                    'linknew'       =>  Auth::user()->hasAbility('school_batches.create')?route('school_batches.create'):'',
+                ])
+            </div>
+
+            <div class='w-full md:w-1/4 lg:w-full xl:w-1/4'>
+                @livewire('controls.drop-down-table-component', [
+                    'model'         => \App\Models\School\SchoolModality::class,
+                    'mode'          => $mode,
+                    'filterraw'     => '',
+                    'sortorder'     => 'priority',
+                    'label'         => transup('modality'),
+                    'classdropdown' => '',
+                    'key'           => 'id',
+                    'field'         => 'modality',
+                    'defaultvalue'  =>  ($this->mode=='create')?null:$record->pivot->modality_id,
+                    'eventname'     => 'eventsetmodality',
+                    'uid'           => 'modalitycomponent',
+                    'modelid'       => 'modality_id',
+                    'isTop'         =>  true,
+                    'requiredfield' =>  true,
+                    'help'          =>  transup('mandatory'),
+                    'linknew'       =>  Auth::user()->hasAbility('school_modalities.create')?route('school_modalities.create'):'',
+                ])
+            </div>
+
+        </div>
 
 
 

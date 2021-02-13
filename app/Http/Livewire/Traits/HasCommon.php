@@ -69,6 +69,7 @@ Trait HasCommon
     public $saveandexit=true;
     public $redirectroute=null;
     public $commonSaveAnnoSession=true;
+    public $filterdata="";
 
     private $data=null;
     private $newmodel=null;
@@ -376,6 +377,11 @@ Trait HasCommon
         $this->updatedCore();
     }
 
+    public function findRecordBuilder()
+    {
+        return $this->model::find($this->recordid);
+    }
+
     /**
      * Find recordid record in the current model and store in $record
      *
@@ -383,8 +389,7 @@ Trait HasCommon
      */
     public function findRecord()
     {
-        $this->record=$this->model::find($this->recordid);
-        //if ( is_null($this->record) ) abort(404);
+        $this->record=$this->findRecordBuilder();
         if ( is_null($this->record) )
         {
             $this->ShowError("NO SE PUDIERON CARGAR LOS DATOS");
@@ -444,11 +449,13 @@ Trait HasCommon
     {
         try
         {
+
             $this->querySearch();
             $this->data=$this->data->paginate(config('lopsoft.default_paginate'));
         }
         catch(\Exception $e)
         {
+            dd($e);
             $this->showException($e);
         }
     }
@@ -509,6 +516,17 @@ Trait HasCommon
         }
     }
 
+    /**
+     * forceGetQueryData Overwrite getQueryData
+     *
+     * @param  mixed $ret
+     * @return void
+     */
+    public function forceGetQueryData($ret)
+    {
+        return $ret;
+    }
+
     public function getQueryData()
     {
         // It depends of Anno Session
@@ -525,6 +543,8 @@ Trait HasCommon
         {
             $ret=$ret->active();
         }
+
+        $ret=$this->forceGetQueryData($ret);
 
         return $ret;
 
@@ -544,37 +564,9 @@ Trait HasCommon
     {
         $this->data=$this->getQueryData();
 
-        // if ($this->showlocks)
-        // {
-        //     $this->data=$this->getQueryData();
-        // }
-        // else
-        // {
-        //     if (property_exists($this->model,'hasactive'))
-        //     {
-        //         $this->data=$this->getQueryData()->active();
-        //     }
-        //     else
-        //     {
-        //         $this->data=$this->getQueryData();
-        //     }
-        // }
-
-        // $this->data=$this->getQueryData();
-
-        // if (property_exists($this->model,'hasactive'))
-        // {
-        //     $this->data=$this->getQueryData()->active();
-        // }
-
-        // if (property_exists($this->model,'hasAvailable'))
-        // {
-        //     $this->data=$this->getQueryData()->available();
-        // }
-
         if ($this->search)
         {
-            $this->data=$this->data->search($this->search);
+            $this->data->search($this->search);
         }
 
         // Raw Order
@@ -594,7 +586,7 @@ Trait HasCommon
                 $dir='asc';
                 $field=$this->sortorder;
             }
-            $this->data=$this->data->orderBy($field,$dir);
+            $this->data->orderBy($field,$dir);
         }
 
         $this->setDataFilterOwner();

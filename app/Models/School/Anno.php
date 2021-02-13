@@ -68,7 +68,7 @@ class Anno extends Model
 
     public function students()
     {
-        return $this->belongsToMany(Student::class)->withPivot('priority')->orderBy('priority');
+        return $this->belongsToMany(Student::class)->withPivot(['grade_id','section_id','batch_id','modality_id','priority'])->orderBy('priority');
     }
 
     /*******************************************/

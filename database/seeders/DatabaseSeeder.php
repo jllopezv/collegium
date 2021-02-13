@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SchoolLevelSeeder::class);
         $this->call(SchoolGradeSeeder::class);
         $this->call(SchoolBatchSeeder::class);
+        $this->call(SchoolModalitySeeder::class);
 
         //Auth
         $this->call(PermissionGroupSeeder::class);

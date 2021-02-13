@@ -107,5 +107,22 @@ class LopHelp
         return $ret;
     }
 
+    static public function getFilterDropDownBuilder($query, $key, $value, $filterraw, $hasall,$orderraw)
+    {
+        $records=$query;
+        if ($filterraw!="") $records->whereRaw($filterraw);
+        if ($orderraw!="") $records->orderByRaw($orderraw);
+        $ret=[];
+        if ($hasall)
+        {
+            $ret[] = [ 'value' => '*', 'text' => 'TODOS' ];
+        }
+        foreach($records->get() as $record)
+        {
+            $ret[] = [ 'value' => $record->$key, 'text' => $record->$value ];
+        }
+        return $ret;
+    }
+
 
 }

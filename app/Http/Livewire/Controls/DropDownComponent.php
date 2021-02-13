@@ -13,8 +13,8 @@ use Illuminate\Support\Arr;
 class DropDownComponent extends Component
 {
     protected $listeners=[
-        'setvalue'  =>  'setValue',
-        'getvalue'  =>  'getValue',
+        'setvalue'          =>  'setValue',
+        'getvalue'          =>  'getValue',
         'validationerror'   =>  'validationError'
     ];
 

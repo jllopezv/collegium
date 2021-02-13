@@ -16,7 +16,7 @@ class DropDownTableComponent extends Component
     public $modelid;                // Bind model
     public $mode='';                // Mode
     public $showcontent=false;      // trigger fot show box content
-    public $text;                   // text input value
+    public $text='';                   // text input value
     public $contenttoshow;          // Content to show in select
     public $value;                  // key selected
     public $defaultvalue;           // default key. null to select first
@@ -49,8 +49,9 @@ class DropDownTableComponent extends Component
     public $linknew='';             // Link to create new
 
     protected $listeners=[
-        'setvalue'  =>  'setValue',
-        'getvalue'  =>  'getValue',
+        'setvalue'          =>  'setValue',
+        'getvalue'          =>  'getValue',
+        'setfilterraw'      =>  'setFilterraw',
         'validationerror'   =>  'validationError'
     ];
 
@@ -107,6 +108,15 @@ class DropDownTableComponent extends Component
         if ($uid==$this->uid || $uid=='*')
         {
             $this->emit( $this->eventname, $this->value, false );
+        }
+    }
+
+    public function setFilterraw($uid,$filter)
+    {
+        if ($uid==$this->uid || $uid=='*')
+        {
+            $this->filterraw=$filter;
+            $this->select(null,false); // Select first if change filterraw
         }
     }
 
@@ -197,13 +207,13 @@ class DropDownTableComponent extends Component
     {
         $this->getData();
 
-        if (is_null($index) && ($this->mode=='edit' || $this->mode=='show') )
-        {
-            $this->value=null;
-            $this->text='';
-            $this->contenttoshow='';
-            return;
-        }
+        // if (is_null($index) && ($this->mode=='edit' || $this->mode=='show') )
+        // {
+        //     $this->value=null;
+        //     $this->text='';
+        //     $this->contenttoshow='SIN SELECCIÓN';
+        //     return;
+        // }
         if (is_null($index))
         {
             $record=$this->data->first();
@@ -240,7 +250,7 @@ class DropDownTableComponent extends Component
         {
             $this->text="";
             $this->value=null;
-            $this->contenttoshow="";
+            $this->contenttoshow="SIN SELECCIÓN";
         }
     }
 
