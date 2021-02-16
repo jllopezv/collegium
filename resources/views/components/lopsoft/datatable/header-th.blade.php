@@ -3,7 +3,8 @@
     'columnname'    => 'columnname',
     'sortorder'         => '',
     'sortable'      => false,
-    'justify'       => 'start'
+    'justify'       => 'start',
+    'style'         =>  '',
 ])
 
 <th
@@ -14,6 +15,7 @@
         'class' =>  ( $sortable || ( $sortorder==$columnname || $sortorder=='-'.$columnname ) )?"text-green-300 cursor-pointer":"text-white",
         'width' =>  $width,
     ]) }}
+    style='{{$style}}'
     >
     <div class='flex items-center justify-{{ $justify }} mx-2 py-2'>
         <div class=''>

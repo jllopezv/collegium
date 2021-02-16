@@ -14,33 +14,38 @@
     'noFilterInGetDataQuery' => 'false',
 ])
 
-<div x-data='{ screen_width: getScreenWidth() }' @resize.window='screen_width=getScreenWidth()'>
+<div x-data='{ showFilters:false, showSorts:false, screen_width:getScreenWidth()  }' @resize.window='screen_width=getScreenWidth()'>
     <div
         {{-- x-show='screen_width>640'  --}}
         class='{{ ($slave=='true')?'pt-2 rounded-t-lg bg-gray-700':''}}' >
     </div>
     <div class='flex flex-wrap items-center justify-between {{ ($slave!='true')?'mb-2':'bg-gray-700 px-2 py-2' }} '>
-        <div class=''>
-            {{-- @isSuperadmin
-                @if($noFilterInGetDataQuery==true)
-                    <x-lopsoft.link.purple wire:click='changeFilterInGetDataQuery' icon='fa fa-filter' help='ACTIVAR FILTRO PRINCIPAL' helpclass='tooltiptext-up-right'></x-lopsoft.link.purple>
-                @else
-                    <x-lopsoft.link.danger wire:click='changeFilterInGetDataQuery' icon='fa fa-filter' help='DESACTIVAR FILTRO PRINCIPAL' helpclass='tooltiptext-up-right'></x-lopsoft.link.danger>
-                @endif
-            @endisSuperadmin --}}
-            <x-lopsoft.link.gray
-                wire:click='refreshDatatable'>
-                <div class='flex items-center justify-center'>
-                    <div wire:loading><i class="fas fa-sync fa-spin"></i></div>
-                    <div wire:loading.remove><i class="fas fa-sync"></i></div>
-                </div>
-            </x-lopsoft.link.gray>
+        <div class='flex items-center justify-start'>
+            <div class='mr-1'>
+                <x-lopsoft.link.gray
+                    wire:click='refreshDatatable'>
+                    <div class='flex items-center justify-center'>
+                        <div wire:loading><i class="fas fa-sync fa-spin"></i></div>
+                        <div wire:loading.remove><i class="fas fa-sync"></i></div>
+                    </div>
+                </x-lopsoft.link.gray>
+            </div>
+            {{-- FILTERS AND SORT --}}
+            <div class='mr-1'>
+                <x-lopsoft.link.gray @click="showFilters=!showFilters" icon='fa fa-filter' ></x-lopsoft.link.gray>
+            </div>
+            <div class='mr-1 md:hidden'>
+                <x-lopsoft.link.gray @click="showSorts=!showSorts" icon='fa fa-sort-alpha-down'></x-lopsoft.link.gray>
+            </div>
             @if($canadd!='false')
                 @if(Auth::user()->hasAbility($table.".create"))
+                <div class=''>
                     <x-lopsoft.link.success link="{{route($table.'.create')}}" icon='fa fa-plus' text='NUEVO'></x-lopsoft.link.teal>
+                </div>
                 @endif
             @endif
             {{ $tableactions }}
+
         </div>
         <div class='flex items-center justify-center '>
             @if($cansearch!='false')
@@ -59,7 +64,14 @@
             @endif
         </div>
     </div>
-    {{ $filters }}
+    <div  class='mb-2'>
+        <div class='mb-1'>
+            {{ $filters }}
+        </div>
+        <div class='mb-1'>
+            {{ $sorts }}
+        </div>
+    </div>
     <div x-show='!(screen_width>640)'>
         @if($slave=='true')
             <div class='w-full pb-2 bg-gray-700 rounded-b-lg'></div>

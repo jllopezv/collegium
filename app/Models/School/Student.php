@@ -134,9 +134,9 @@ class Student extends Model
 
         $section=SchoolSection::find($params->pivot->section_id)->section??'';
         $batch=SchoolBatch::find($params->pivot->batch_id)->batch??'';
-        $modality=SchoolModality::find($params->pivot->modality_id)->modality??'';
+        //$modality=SchoolModality::find($params->pivot->modality_id)->modality??'';
 
-        return $section.'-'.$batch.' ('.$modality.') ';
+        return $section.'-'.$batch;//.' ('.$modality.') ';
 
     }
 

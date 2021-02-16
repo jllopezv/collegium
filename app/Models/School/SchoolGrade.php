@@ -48,6 +48,15 @@ class SchoolGrade extends Model
         return $this->belongsTo(SchoolLevel::class);
     }
 
+    public function sections()
+    {
+
+        $anno=getUserAnnoSession();
+        $sections=$anno->schoolSections->pluck('id');
+        $allsections=$this->hasMany(SchoolSection::class,'grade_id','id')->whereIn('id', $sections);
+        return $allsections;
+    }
+
     public function students($anno_id=null)
     {
         if ($anno_id==null)

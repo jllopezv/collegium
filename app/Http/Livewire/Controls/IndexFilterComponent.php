@@ -11,6 +11,7 @@ class IndexFilterComponent extends Component
     protected $listeners=[
         'setvalue'  =>  'setValue',
         'getvalue'  =>  'getValue',
+        'setoptions'    =>  'setOptions',
         'validationerror'   =>  'validationError'
     ];
 
@@ -145,8 +146,18 @@ class IndexFilterComponent extends Component
 
     public function select($index, $change=false)
     {
-        $this->text=$this->options[$index]['text'];
-        $this->value=$this->options[$index]['value'];;
+        if (!count($this->options)) return;
+        if ($index==null)
+        {
+            // First Element
+            $this->text=$this->options[0]['text'];
+            $this->value=$this->options[0]['value'];
+        }
+        else
+        {
+            $this->text=$this->options[$index]['text'];
+            $this->value=$this->options[$index]['value'];
+        }
         $this->showcontent=false;
         if ($this->template!="")
         {
@@ -163,5 +174,15 @@ class IndexFilterComponent extends Component
     public function render()
     {
         return view('livewire.controls.index-filter-component');
+    }
+
+
+    public function setOptions($uid, $newoptions)
+    {
+        if ($uid==$this->uid || $uid=='*')
+        {
+            $this->options=$newoptions;
+            $this->select(null,false); // First Value available
+        }
     }
 }

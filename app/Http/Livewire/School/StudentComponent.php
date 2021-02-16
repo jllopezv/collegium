@@ -5,6 +5,7 @@ namespace App\Http\Livewire\School;
 use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
+use App\Lopsoft\LopHelp;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use App\Models\School\Student;
@@ -54,6 +55,12 @@ class StudentComponent extends Component
     public  $checkedEmail=false;
     public  $validEmail=false;
 
+    // Filters
+
+    public $filtergrade='';
+    public $filtersection='';
+    public $filterbatch='';
+    public $filtermodality='';
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -70,6 +77,10 @@ class StudentComponent extends Component
         'eventsetbatch'         => 'eventSetBatch',
         'eventsetmodality'      => 'eventSetModality',
         'eventfiltergrade'      => 'eventFilterGrade',
+        'eventfiltersection'    => 'eventFilterSection',
+        'eventfilterbatch'      => 'eventFilterBatch',
+        'eventfiltermodality'   => 'eventFilterModality',
+        'eventfilterorder'      => 'eventFilterOrder',
     ];
 
     /**
@@ -454,19 +465,101 @@ class StudentComponent extends Component
 
     public function eventFilterGrade($grade_id)
     {
+        $this->filterdata='';
         if ($grade_id=='*')
         {
-            $this->filterdata='';
+            $this->filtergrade='';
         }
         else
         {
-            $this->filterdata="anno_student.grade_id=".$grade_id;
+            $this->filtergrade="anno_student.grade_id=".$grade_id;
+        }
+        if ($grade_id=='*')
+        {
+            $newoptions=\App\Lopsoft\LopHelp::getFilterDropdownBuilder(getUserAnnoSession()->schoolSections(), 'id', 'section', '', true, '');
+        }
+        else
+        {
+            $newoptions=LopHelp::getFilterDropdownBuilder(SchoolGrade::find($grade_id)->sections(), 'id', 'section', '', true, '');
+        }
+        $this->emit('setoptions','filtersectioncomponent',$newoptions);
+    }
+
+    public function eventFilterSection($section_id)
+    {
+        $this->filterdata='';
+        if ($section_id=='*')
+        {
+            $this->filtersection='';
+        }
+        else
+        {
+            $this->filtersection="anno_student.section_id=".$section_id;
+        }
+    }
+
+    public function eventFilterBatch($batch_id)
+    {
+        $this->filterdata='';
+        if ($batch_id=='*')
+        {
+            $this->filterbatch='';
+        }
+        else
+        {
+            $this->filterbatch="anno_student.batch_id=".$batch_id;
+        }
+    }
+
+    public function eventFilterModality($modality_id)
+    {
+        $this->filterdata='';
+        if ($modality_id=='*')
+        {
+            $this->filtermodality='';
+        }
+        else
+        {
+            $this->filtermodality="anno_student.modality_id=".$modality_id;
         }
     }
 
     public function setDataFilter()
     {
-        if ($this->filterdata!='') $this->data->whereRaw($this->filterdata);
+        if ($this->filtergrade!='' || $this->filtersection!='' || $this->filterbatch!='' || $this->filtermodality!='')
+        {
+            if ($this->filtergrade!='')
+            {
+                $this->filterdata=$this->filtergrade;
+            }
+            if ($this->filtersection!='')
+            {
+                if ($this->filterdata!='')
+                {
+                    $this->filterdata.=' and ';
+                }
+                $this->filterdata.=$this->filtersection;
+            }
+            if ($this->filterbatch!='')
+            {
+                if ($this->filterdata!='')
+                {
+                    $this->filterdata.=' and ';
+                }
+                $this->filterdata.=$this->filterbatch;
+            }
+            if ($this->filtermodality!='')
+            {
+                if ($this->filterdata!='')
+                {
+                    $this->filterdata.=' and ';
+                }
+                $this->filterdata.=$this->filtermodality;
+            }
+
+            $this->data->whereRaw($this->filterdata);
+            //if ($this->filtergrade!='' && $this->filtersection!="") dd($this->data->get());
+        }
     }
 
     public function findRecordBuilder()
@@ -474,6 +567,24 @@ class StudentComponent extends Component
         // Special find cause it has pivot fields like grade_id, section_id, batch_id, modality_id
         $anno=getUserAnnoSession();
         return $anno->students->where('id' , $this->recordid)->first();
+    }
+
+    public function eventFilterOrder($field, $change)
+    {
+        if ($change)
+        {
+
+            if ($this->sortorder==$field)
+            {
+                $this->sortorder='-'.$field;
+            }
+            else
+            {
+                $this->sortorder=$field;
+            }
+
+            $this->refreshDatatable();
+        }
     }
 
 }

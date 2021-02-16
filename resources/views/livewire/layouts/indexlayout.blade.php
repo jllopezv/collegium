@@ -17,6 +17,7 @@
             slave='{{ $slave }}'
             noFilterInGetDataQuery='{{ $noFilterInGetDataQuery }}'
             >
+
             {{-- BATCH COMMON --}}
                 <x-slot name='tableactions'>
                     @if(count($rowselected))
@@ -28,11 +29,21 @@
                     @endif
                 </x-slot>
             {{-- /BATCH COMMON --}}
+
             {{-- FILTERS --}}
-                <x-slot name='filters'>
+            <x-slot name='filters'>
+                <div x-show.transition.opacity.1000ms='showFilters' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
                     @yield('filters')
-                </x-slot>
+                </div>
+            </x-slot>
             {{-- /FILTERS --}}
+            {{-- SORTS --}}
+            <x-slot name='sorts'>
+                <div x-show.transition.opacity.1000ms='showSorts' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
+                    @yield('sorts')
+                </div>
+            </x-slot>
+            {{-- /SORTS --}}
             {{-- HEADER --}}
                 <x-slot name="header">
                     <x-lopsoft.datatable.header-tr>
