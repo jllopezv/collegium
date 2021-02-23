@@ -339,6 +339,7 @@ class StudentComponent extends Component
 
     public function customStoreValidation()
     {
+        $this->updatedEmail();
         if ($this->grade_id==null)
         {
             $this->addError('grade_id', 'DEBE SELECCIONAR UN GRADO');
@@ -351,6 +352,7 @@ class StudentComponent extends Component
 
     public function customUpdateValidation()
     {
+        $this->updatedEmail();
         if ($this->grade_id==null)
         {
             $this->addError('grade_id', 'DEBE SELECCIONAR UN GRADO');
@@ -428,9 +430,15 @@ class StudentComponent extends Component
             $this->checkedEmail=false;
             return;
         }
+        $this->email=mb_strtolower($this->email);
         $user=User::where('email', $this->email)->first();
         $this->checkedEmail=true;
-        if ( $this->mode=='edit' && $user->profile->id==$this->record->id )
+        if ($user==null)
+        {
+            $this->validEmail=true;
+            return;
+        }
+        if ( $this->mode=='edit' && $user->profile!=null && $user->profile->id==$this->record->id)
         {
             $this->validEmail=true;
         }
@@ -438,8 +446,6 @@ class StudentComponent extends Component
         {
             $this->validEmail=$user==null?true:false;
         }
-
-        $this->email=mb_strtolower($this->email);
     }
 
     public function preStore()

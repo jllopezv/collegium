@@ -18,4 +18,14 @@ trait HasCommon
 
     }
 
+    public function postLock()
+    {
+
+    }
+
+    public function postUnlock()
+    {
+
+    }
+
 }

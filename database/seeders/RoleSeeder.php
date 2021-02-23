@@ -83,6 +83,18 @@ class RoleSeeder extends Seeder
                                              'allowLock'     => false
                                         ]);
 
+        $record=new Role;
+        $record->role="PARENT";
+        $record->level=5010;
+        $record->dashboard='parent';
+        $record->color_id=6;
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                             'allowEdit'     => false,
+                                             'allowDelete'   => false,
+                                             'allowLock'     => false
+                                        ]);
+
     }
 
 

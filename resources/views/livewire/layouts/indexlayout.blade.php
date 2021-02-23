@@ -1,4 +1,4 @@
-<div class='relative' >
+<div class='relative z-10' >
 
     @include('livewire.partials.loading-message')
 

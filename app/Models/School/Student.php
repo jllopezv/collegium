@@ -299,4 +299,14 @@ class Student extends Model
     {
         $this->user->delete();  // Delete asocciated user
     }
+
+    public function postLock()
+    {
+        $this->user->lock();  // Lock asocciated user
+    }
+
+    public function postUnlock()
+    {
+        $this->user->unlock(); // Unlock assocciated user
+    }
 }

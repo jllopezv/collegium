@@ -989,6 +989,7 @@ Trait HasCommon
             {
                 if ($record->lock())
                 {
+                    $record->postLock();
                     $this->emit("refreshForm");  // Broadcast to all components in form mode ( show or edit )
                     $this->updateDatatable();
                     return true;
@@ -1027,6 +1028,7 @@ Trait HasCommon
             {
                 if ($record->unlock())
                 {
+                    $record->postUnlock();
                     $this->emit("refreshForm");  // Broadcast to all components in form mode ( show or edit )
                     $this->updateDatatable();
                     return true;
@@ -1118,6 +1120,7 @@ Trait HasCommon
         {
             if ( $record->lock() )
             {
+                $record->postLock();
                 if (!$batch)
                 {
                     $this->showSuccess("REGISTRO BLOQUEADO CON ÉXITO");
@@ -1155,6 +1158,7 @@ Trait HasCommon
         {
             if ( $record->unlock() )
             {
+                $record->postLock();
                 if (!$batch)
                 {
                     $this->showSuccess("REGISTRO DESBLOQUEADO CON ÉXITO");

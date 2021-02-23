@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Traits;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 Trait HasCommon

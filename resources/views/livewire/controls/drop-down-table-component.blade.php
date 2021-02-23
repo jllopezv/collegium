@@ -64,7 +64,7 @@
                         @if($linknew)
                             @hasAbility($table.'.create')
                                 <div class='ml-1'>
-                                    <x-lopsoft.link.success target='_blank' :link="$linknew" icon='fa fa-plus' text="{{ transup('new') }}"  />
+                                    <x-lopsoft.link.success target='_blank' :link="$linknew" icon='fa fa-plus'   />
                                 </div>
                             @endhasAbility
                         @endif

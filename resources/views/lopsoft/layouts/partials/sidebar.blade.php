@@ -65,13 +65,13 @@
         text="{{ transup('access') }}"
         help="{{ transup('access') }}"
         menuid='menuacceso'
-        classmenu='hover:text-green-300'>
+        classmenu='hover:text-red-400'>
         @hasAbility("users.access")
         <x-lopsoft.control.sidebar-sublink
             icon='hover:text-red-500 fa fa-user'
             link="{{ route('users.index') }}"
             text="{{ transup('users') }}"
-            class='hover:text-green-300'
+            class='hover:text-red-400'
             help=''>
         </x-lopsoft.control.sidebar-sublink>
         @endhasAbility
@@ -80,7 +80,7 @@
             icon='hover:text-red-500 fa fa-user'
             link="{{ route('roles.index') }}"
             text="{{ transup('roles') }}"
-            class='hover:text-green-300'
+            class='hover:text-red-400'
             help=''>
         </x-lopsoft.control.sidebar-sublink>
         @endhasAbility
@@ -89,7 +89,7 @@
             icon='hover:text-red-500 fa fa-user'
             link="{{ route('permissions.index') }}"
             text="{{ transup('permissions') }}"
-            class='hover:text-green-300'
+            class='hover:text-red-400'
             help=''>
         </x-lopsoft.control.sidebar-sublink>
         @endhasAbility
@@ -98,7 +98,7 @@
                 icon='hover:text-red-500 fa fa-user'
                 link="{{ route('permission_groups.index') }}"
                 text="{{ transup('permission_grp') }}"
-                class='hover:text-green-300'
+                class='hover:text-red-400'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
         @endhasAbility
@@ -139,10 +139,37 @@
             @endhasAbility
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
-    @hasAbilityOr([ 'students.access', 'school_levels.access', 'school_grades.access',
+    @hasAbilityOr([ 'students.access' ])
+        <x-lopsoft.control.sidebar-menu
+            icon='fa fa-user-graduate'
+            text="{{ transup('students') }}"
+            help="{{ transup('students') }}"
+            menuid='menustudent'
+            classmenu='hover:text-green-300'>
+            @hasAbility(['students.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user-graduate'
+                link="{{ route('students.index') }}"
+                text="{{ transup('students') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['school_parents.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user-graduate'
+                link="{{ route('school_parents.index') }}"
+                text="{{ transup('tables.school_parents') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+        </x-lopsoft.control.sidebar-menu>
+    @endhasAbilityOr
+    @hasAbilityOr([ 'school_levels.access', 'school_grades.access',
                     'school_batches.access', 'school_modalities.access', 'school_sections.access'])
         <x-lopsoft.control.sidebar-menu
-            icon='fa fa-user'
+            icon='fa fa-graduation-cap'
             link='linkeando'
             text="{{ transup('academic') }}"
             help="{{ transup('academic') }}"
@@ -150,7 +177,7 @@
             classmenu='hover:text-green-300'>
             @hasAbility(['school_levels.access'])
             <x-lopsoft.control.sidebar-sublink
-                icon='hover:text-red-500 fa fa-user'
+                icon='hover:text-red-500 fa fa-graduation-cap'
                 link="{{ route('school_levels.index') }}"
                 text="{{ transup('levels') }}"
                 class='hover:text-green-300'
@@ -159,7 +186,7 @@
             @endhasAbility
             @hasAbility(['school_grades.access'])
             <x-lopsoft.control.sidebar-sublink
-                icon='hover:text-red-500 fa fa-user'
+                icon='hover:text-red-500 fa fa-graduation-cap'
                 link="{{ route('school_grades.index') }}"
                 text="{{ transup('grades') }}"
                 class='hover:text-green-300'
@@ -168,7 +195,7 @@
             @endhasAbility
             @hasAbility(['school_sections.access'])
             <x-lopsoft.control.sidebar-sublink
-                icon='hover:text-red-500 fa fa-user'
+                icon='hover:text-red-500 fa fa-graduation-cap'
                 link="{{ route('school_sections.index') }}"
                 text="{{ transup('sections') }}"
                 class='hover:text-green-300'
@@ -177,7 +204,7 @@
             @endhasAbility
             @hasAbility(['school_batches.access'])
             <x-lopsoft.control.sidebar-sublink
-                icon='hover:text-red-500 fa fa-user'
+                icon='hover:text-red-500 fa fa-graduation-cap'
                 link="{{ route('school_batches.index') }}"
                 text="{{ transup('batches') }}"
                 class='hover:text-green-300'
@@ -186,7 +213,7 @@
             @endhasAbility
             @hasAbility(['school_modalities.access'])
             <x-lopsoft.control.sidebar-sublink
-                icon='hover:text-red-500 fa fa-user'
+                icon='hover:text-red-500 fa fa-graduation-cap'
                 link="{{ route('school_modalities.index') }}"
                 text="{{ transup('modalities') }}"
                 class='hover:text-green-300'
@@ -195,7 +222,7 @@
             @endhasAbility
             @hasAbility(['annos.access'])
             <x-lopsoft.control.sidebar-sublink
-                icon='hover:text-red-500 fa fa-user'
+                icon='hover:text-red-500 fa fa-graduation-cap'
                 link="{{ route('annos.index') }}"
                 text="{{ transup('tables.annos') }}"
                 class='hover:text-green-300'
@@ -204,9 +231,18 @@
             @endhasAbility
             @hasAbility(['students.access'])
             <x-lopsoft.control.sidebar-sublink
-                icon='hover:text-red-500 fa fa-user'
+                icon='hover:text-red-500 fa fa-user-graduate'
                 link="{{ route('students.index') }}"
                 text="{{ transup('tables.students') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['school_parents.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user-graduate'
+                link="{{ route('school_parents.index') }}"
+                text="{{ transup('tables.school_parents') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

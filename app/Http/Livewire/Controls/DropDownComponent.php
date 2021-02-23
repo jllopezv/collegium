@@ -15,6 +15,7 @@ class DropDownComponent extends Component
     protected $listeners=[
         'setvalue'          =>  'setValue',
         'getvalue'          =>  'getValue',
+        'setoptions'        =>  'setOptions',
         'validationerror'   =>  'validationError'
     ];
 
@@ -94,6 +95,7 @@ class DropDownComponent extends Component
     public function togglebody()
     {
         if ($this->readonly) return;
+        if (count($this->options)==0) return;
         if (!$this->showcontent)
         {
             $this->showbody();
@@ -125,6 +127,27 @@ class DropDownComponent extends Component
         }
     }
 
+    /**
+     * Set options value
+     *
+     * @return void
+     */
+    public function setOptions($uid, $options, $default=0)
+    {
+        if ($uid==$this->uid || $uid=='*')
+        {
+            $this->options=$options;
+            if (count($this->options)>0)
+            {
+                $this->select($default);
+            }
+            else
+            {
+                $this->contenttoshow='';
+            }
+        }
+    }
+
     public function getValue($uid)
     {
         if ($uid==$this->uid || $uid=='*')
@@ -150,11 +173,10 @@ class DropDownComponent extends Component
     public function select($index, $change=false)
     {
         $this->text=$this->options[$index]['text'];
-        $this->value=$this->options[$index]['value'];;
+        $this->value=$this->options[$index]['value'];
         $this->showcontent=false;
         if ($this->template!="")
         {
-
             $this->contenttoshow=view($this->template, [ 'option' => $this->options[$index], 'index' => $index ])->render();
         }
         else

@@ -15,6 +15,7 @@ use App\Models\School\SchoolBatch;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
 use App\Models\Setting\AppSetting;
+use App\Models\School\SchoolParent;
 use App\Models\Setting\ModelConfig;
 use App\Models\Website\WebsitePost;
 use App\Models\Auth\PermissionGroup;
@@ -37,6 +38,7 @@ use App\Http\Controllers\School\SchoolBatchController;
 use App\Http\Controllers\School\SchoolGradeController;
 use App\Http\Controllers\School\SchoolLevelController;
 use App\Http\Controllers\Setting\AppSettingController;
+use App\Http\Controllers\School\SchoolParentController;
 use App\Http\Controllers\Setting\ModelConfigController;
 use App\Http\Controllers\Website\WebsitePostController;
 use App\Http\Controllers\Auth\PermissionGroupController;
@@ -124,7 +126,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('school_sections', SchoolSectionController::class, SchoolSection::class);
     LopHelp::generateCommonModelRoute('school_batches', SchoolBatchController::class, SchoolBatch::class);
     LopHelp::generateCommonModelRoute('school_modalities', SchoolModalityController::class, SchoolModality::class);
-
+    LopHelp::generateCommonModelRoute('school_parents', SchoolParentController::class, SchoolParent::class);
 
 
 

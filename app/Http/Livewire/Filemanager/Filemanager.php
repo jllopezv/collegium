@@ -26,6 +26,7 @@ class Filemanager extends Component
     public $uuid='filemanager';
     public $rootdirectory;      // dir where filemanager work
     public $root;               // dir base
+    public $forceroot;          // overwrite root
     public $currentdir;
     public $path;               // Current path
     public $dir;                // Current Dir
@@ -104,6 +105,8 @@ class Filemanager extends Component
         $this->userid=$this->getUserFolder();
         $this->currentdir=$this->dir.$this->userid;
         $this->path=config('lopsoft.filemanager_storage_folder').($this->userid!=''?$this->dir:'').$this->userid;
+        if (Auth::user()->level==1) $this->path=''; // Superadmin
+
         $this->readFiles();
     }
 
@@ -280,7 +283,6 @@ class Filemanager extends Component
 
     public function gotoFolder($folder)
     {
-
         try{
             chdir($this->root . $this->path . $this->dir . DIRECTORY_SEPARATOR . $folder);
             if ($folder=='..')
@@ -291,6 +293,7 @@ class Filemanager extends Component
             else
             {
                 $this->dir=Str::after(getcwd(), $this->root . $this->path ). DIRECTORY_SEPARATOR;
+                if (!Str::startsWith($this->dir,DIRECTORY_SEPARATOR)) $this->dir=DIRECTORY_SEPARATOR.$this->dir;
             }
         }
         catch(\Exception $e)

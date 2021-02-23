@@ -274,6 +274,42 @@ use App\Models\Setting\AppSetting;
     }
 
 
+    // Phones and emails
+
+    if (! function_exists('getPhones')) {
+
+        function getPhones($phones)
+        {
+            $retphones=[];
+            foreach($phones as $phone)
+            {
+                $retphones[]=[
+                    'phone'         =>  $phone->phone,
+                    'description'   =>  $phone->description,
+                ];
+            }
+            return $retphones;
+        }
+    }
+
+    if (! function_exists('getEmails')) {
+
+        function getEmails($emails)
+        {
+            $retemails=[];
+            foreach($emails as $email)
+            {
+                $retemails[]=[
+                    'email'         =>  $email->email,
+                    'description'   =>  $email->description,
+                    'notif'         =>  $email->notif,
+                ];
+            }
+            return $retemails;
+        }
+    }
+
+
 
 
 

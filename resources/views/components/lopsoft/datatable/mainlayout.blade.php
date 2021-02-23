@@ -39,7 +39,7 @@
             </div>
             @if($canadd!='false')
                 @if(Auth::user()->hasAbility($table.".create"))
-                <div class=''>
+                <div class='mr-1'>
                     <x-lopsoft.link.success link="{{route($table.'.create')}}" icon='fa fa-plus' text='NUEVO'></x-lopsoft.link.teal>
                 </div>
                 @endif

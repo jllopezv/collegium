@@ -51,8 +51,7 @@
                             <div> currentdir: {{ $currentdir }}</div>
                             <div> path: {{ $path }}</div>
                             <div> dir: {{ $dir }}</div>
-                            <div> getPath: {{ $root.$path.$dir }}</div>
-                            @dump($filesindir) --}}
+                            <div> getPath: {{ $root.$path.$dir }}</div> --}}
                         </div>
                         <div class='pt-1 text-right'>
                             <i @click='$refs.filemanager_selectfile.click()' class='mr-2 text-indigo-300 fas fa-cloud-upload-alt fa-lg fa-fw'></i>

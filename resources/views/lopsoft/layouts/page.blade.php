@@ -40,7 +40,7 @@
                     <div class='w-full h-full'>
                         {{-- INFOBAR --}}
                         @include('lopsoft.layouts.partials.infobar')
-                        <div class="w-full h-full overflow-x-hidden overflow-y-auto bg-gray-100 nosb">
+                        <div class="w-full h-full overflow-x-hidden overflow-y-auto bg-gray-100">
                             @yield('content')
                         </div>
                     </div>

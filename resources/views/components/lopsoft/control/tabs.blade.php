@@ -8,6 +8,6 @@
         {!! $tabs !!}
     </div>
     <div class='px-2'>
-        {!! $content !!}
+        {!! $tabscontent !!}
     </div>
 </div>
