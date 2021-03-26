@@ -3,7 +3,7 @@
 <div id='profilemenu'
     x-show='openProfile'
     x-cloak
-    class="absolute z-10 mt-1 origin-top-right rounded-md shadow-lg right-3 w-80">
+    class="absolute z-50 mt-1 origin-top-right rounded-md shadow-lg right-3 w-80">
     <div class="bg-gray-800 rounded-md shadow-xs">
       <div class="flex flex-col"  >
           <div class='px-4 py-3 bg-gray-900 rounded-t-lg'>
