@@ -66,6 +66,11 @@ class Student extends Model
         return $grade;
     }
 
+    public function parents()
+    {
+        return $this->belongsToMany(SchoolParent::class,'school_parent_student')->withPivot('relationship');
+    }
+
 
     /*******************************************/
     /* Accessors and mutators

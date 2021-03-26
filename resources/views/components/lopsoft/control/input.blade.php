@@ -2,7 +2,7 @@
     'disabled'      => false,
     'placeholder'   => '',
     'value'         => '',
-    'id'            => Str::random(20), '',
+    'id'            => Str::random(20),
     'nextref'       => '',
     'requiredfield' => false,
     'help'          => '',
@@ -22,7 +22,7 @@
                     hover:border-gray-500 hover:shadow-none
                     active:border-gray-500 active:shadow-none
                     focus:border-gray-500 focus:shadow-none
-                    transition-all duration-300 w-full'])
+                    transition-all duration-300 w-full bg-transparent'])
     }}
     placeholder='{!! $placeholder !!}'
     x-ref='{{$id}}'

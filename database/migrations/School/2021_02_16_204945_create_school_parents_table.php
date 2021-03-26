@@ -17,7 +17,6 @@ class CreateSchoolParentsTable extends Migration
             $table->id();
             $table->boolean('active')->default(1);
             $table->string('parent')->default('');
-            $table->string('relationship')->default('');
             $table->string('address1')->nullable()->default('');
             $table->string('address2')->nullable()->default('');
             $table->string('city')->nullable()->default('');

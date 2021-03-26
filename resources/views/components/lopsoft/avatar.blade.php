@@ -1,5 +1,4 @@
 <div>
-
     <div class='relative text-center'>
         <div wire:loading.delay class='absolute w-16 h-16' style='top: calc(50% - 1.5rem ); left: calc( 50% - 2rem )'>
             <i class='text-white opacity-75 fas fa-spinner fa-pulse fa-3x'></i>

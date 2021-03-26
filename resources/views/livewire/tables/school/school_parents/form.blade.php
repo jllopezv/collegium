@@ -10,20 +10,6 @@
         requiredfield
         help="{{ transup('mandatory_unique') }}"
         mode="{{ $mode }}"
-        nextref='relationship'
-    />
-
-    <x-lopsoft.control.inputform
-        wire:model.lazy='relationship'
-        id='relationship'
-        x-ref='relationship'
-        label="{{ transup('relationship') }}"
-        sublabel='Ej.: PADRE / MADRE / TIO'
-        autofocus
-        classcontainer='w-80'
-        requiredfield
-        help="{{ transup('mandatory_unique') }}"
-        mode="{{ $mode }}"
         nextref='address1'
     />
 

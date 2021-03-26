@@ -19,6 +19,7 @@ class AvatarComponent extends Component
     public  $currentavatar=null;       // Current loaded avatar
     public  $tempavatar=null;          // Avatar temporary file
     public  $tempfilename=null;        // temporary filename of avatar
+    public  $foldertemp;
 
     protected $listeners=[
 
@@ -32,6 +33,7 @@ class AvatarComponent extends Component
 
     public function mount()
     {
+        $this->foldertemp=uniqid()."-".now()->format('H-m-s');
         if ($this->preview==null) $this->preview=Storage::disk('public')->url(config('lopsoft.default_avatar'));
     }
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use App\Models\School\Student;
 use App\Models\School\SchoolGrade;
+use App\Models\School\SchoolParent;
 use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
 use Illuminate\Support\Facades\Session;
@@ -54,6 +55,7 @@ class StudentComponent extends Component
     public  $username;
     public  $checkedEmail=false;
     public  $validEmail=false;
+    public  $infoParent=null;
 
     // Filters
 
@@ -61,6 +63,14 @@ class StudentComponent extends Component
     public $filtersection='';
     public $filterbatch='';
     public $filtermodality='';
+
+    // others
+
+    public $showParents=false;
+    public $selectedParent=false;
+    public $relationship;
+    public $schoolparent=null;
+    public $infoParentArray=[];
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -81,6 +91,7 @@ class StudentComponent extends Component
         'eventfilterbatch'      => 'eventFilterBatch',
         'eventfiltermodality'   => 'eventFilterModality',
         'eventfilterorder'      => 'eventFilterOrder',
+        'parentselected'        => 'parentSelected',
     ];
 
     /**
@@ -199,10 +210,12 @@ class StudentComponent extends Component
         $this->username=$this->record->user->username;
         $this->avatar=$this->record->avatar;
         $this->priority=$this->record->priority;
-
         $this->emit('setvalue', 'gradecomponent', $this->grade_id);
 
-
+        if ($this->record!=null)
+        {
+            $this->selectInfoParent();
+        }
     }
 
     public function getKeyNotification($record)
@@ -590,6 +603,49 @@ class StudentComponent extends Component
             }
 
             $this->refreshDatatable();
+        }
+    }
+
+    public function showParentsDialog()
+    {
+        $this->showParents=true;
+    }
+    public function parentSelected($id)
+    {
+        $this->showParents=false;
+        $this->selectedParent=true;
+        $this->schoolparent=SchoolParent::find($id);
+    }
+
+    public function cancelAssign()
+    {
+        $this->emit('setvalue', 'searchschoolparentcomponent', '');
+        $this->showParents=false;
+        $this->selectedParent=false;
+        $this->schoolparent=null;
+        $this->relationship='';
+    }
+
+    public function assignParent()
+    {
+
+    }
+
+    public function selectInfoParent($id=null)
+    {
+        if ($id==null)
+        {
+            $this->infoParent=$this->record->parents()->withPivot('relationship')->first();
+        }
+        else
+        {
+            $this->infoParent=$this->record->parents()->withPivot('relationship')->where('school_parent_id',$id)->first();
+        }
+        if ($this->infoParent!=null)
+        {
+            $this->infoParentArray=$this->infoParent->toArray();
+            $this->emit('setphones','parentsphones', $this->infoParent->phones);
+            $this->emit('setemails','parentsemails', $this->infoParent->emails);
         }
     }
 

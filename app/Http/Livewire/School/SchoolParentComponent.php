@@ -29,7 +29,6 @@ class SchoolParentComponent extends Component
     use IsUserType;
 
     public $parent;
-    public $relationship;
     public $address1;
     public $address2;
     public $city;
@@ -101,7 +100,6 @@ class SchoolParentComponent extends Component
     {
         return [
             'parent'                => 'required|string|max:255',//|unique:school_levels,level,'.$this->recordid,
-            'relationship'          => 'required|string|max:255',
             'address1'              => 'nullable|string|max:255',
             'address2'              => 'nullable|string|max:255',
             'city'                  => 'nullable|string|max:255',
@@ -122,7 +120,6 @@ class SchoolParentComponent extends Component
     public function resetForm()
     {
         $this->parent='';
-        $this->relationship='';
         $this->address1='';
         $this->address2='';
         $this->city='';
@@ -147,7 +144,6 @@ class SchoolParentComponent extends Component
     public function loadRecordDef()
     {
         $this->parent=$this->record->parent;
-        $this->relationship=$this->record->relationship;
         $this->address1=$this->record->address1;
         $this->address2=$this->record->address2;
         $this->city=$this->record->city;
@@ -176,7 +172,6 @@ class SchoolParentComponent extends Component
     {
         return [
             'parent'                 =>  $this->parent,
-            'relationship'           => $this->relationship,
             'address1'               => $this->address1,
             'address2'               => $this->address2,
             'city'                   => $this->city,
@@ -197,7 +192,6 @@ class SchoolParentComponent extends Component
     {
         return [
             'parent'                 => $this->parent,
-            'relationship'           => $this->relationship,
             'address1'               => $this->address1,
             'address2'               => $this->address2,
             'city'                   => $this->city,

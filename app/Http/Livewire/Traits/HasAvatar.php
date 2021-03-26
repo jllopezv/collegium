@@ -29,7 +29,7 @@ Trait HasAvatar
 
 
             $avatarfilename=$this->avatar_prefix.'_'.Str::random(40).'.'.$this->tempavatarext;
-            Storage::disk('public')->move(config('lopsoft.temp_dir').'/'.$this->tempavatar,$this->avatarfolder.'/'.$avatarfilename);
+            Storage::disk('public')->copy(config('lopsoft.temp_dir').'/'.$this->tempavatar,$this->avatarfolder.'/'.$avatarfilename);
             $this->profile_photo_path=$this->avatarfolder.'/'.$avatarfilename;
         }
         return true;

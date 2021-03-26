@@ -249,19 +249,176 @@
         </x-lopsoft.control.tabs-content>
         <x-lopsoft.control.tabs-content index='2'>
             @if($this->mode=='edit')
-                <div x-data='{showParents: false}' class='mt-4'>
+                <div class='mt-4'>
                     <div class=''>
-                        <x-lopsoft.link.success target='_blank' link="{{ route('students.create') }}" icon='fa fa-plus' text='NUEVO' />
-                        <x-lopsoft.link.success @click='showParents=true' icon='fa fa-search' text='SELECCIONAR' />
+                        <x-lopsoft.link.success target='_blank' link="{{ route('school_parents.create') }}" icon='fa fa-plus' text='NUEVO' />
+                        @if(!$showParents && !$selectedParent)
+                            <x-lopsoft.link.success wire:click='showParentsDialog' icon='fa fa-search' text='SELECCIONAR' />
+                        @endif
                     </div>
-                    <div x-show.transition.opacity.1000ms='showParents' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
-                        SELECCION DE PADRES
+                    @if($showParents)
+                    <div class='px-2 mt-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
+                        @livewire('search.search-school-parents-component', [
+                            'uid'   =>  'searchschoolparentcomponent'
+                        ])
                     </div>
+                    @endif
+                    @if($selectedParent)
+                        <div class='p-2 mt-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
+                            <div class=''>
+                                <div class=''>
+                                    <x-lopsoft.control.inputform
+                                    label="{{ transup('parent') }}"
+                                    class='bg-transparent'
+                                    classcontainer='w-full'
+                                    mode='show'
+                                    value="{{ $schoolparent->parent??'' }}"
+                                    ></x-lopsoft.control.inputform>
+                                </div>
+                                <div class=''>
+                                    <x-lopsoft.control.inputform
+                                    wire:model.lazy='relationship'
+                                    id='relationship'
+                                    x-ref="relationship"
+                                    label="{{ transup('relationship') }}"
+                                    sublabel='Ej. PADRE / MADRE / TUTOR / TIO / TIA / ...'
+                                    class='bg-transparent'
+                                    classcontainer='w-80'
+                                    ></x-lopsoft.control.inputform>
+                                </div>
+                            </div>
+                            <div class='text-right'>
+                                <x-lopsoft.button.gray wire:click='assignParent' text='ASIGNAR' icon='fa fa-check'></x-lopsoft.button.gray>
+                                <x-lopsoft.button.danger wire:click='cancelAssign' text='CANCELAR' icon='fa fa-times'></x-lopsoft.button.danger>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             @else
                 @if ($this->mode=='create')
                     <div>
                         <span class='font-bold text-red-400'>DEBE CREAR PRIMERO EL ESTUDIANTE PARA PODER ASIGNAR A LOS PARIENTES</span>
+                    </div>
+                @else
+                    <div class='flex items-start justify-start mt-2 ' style='min-height:500px;'>
+                        <div class='w-1/2 pr-2'>
+                            @forelse($record->parents as $parent)
+                                <div
+                                wire:click='selectInfoParent({{$parent->id}})'
+                                class='flex items-center justify-start p-2 rounded-md cursor-pointer hover:bg-cool-gray-200'>
+                                    <div class='w-80'>
+                                        {{ $parent->parent }}
+                                    </div>
+                                    <div class=''>
+                                        <span class='text-gray-500'>{{ $parent->pivot->relationship }}</span>
+                                    </div>
+                                </div>
+                            @empty
+                                <span class='font-bold text-gray-500'>NO HAY PARENSTESCOS DEFINIDOS</span>
+                            @endforelse
+                        </div>
+                        @if(count($infoParentArray)>0)
+                            <div class='w-1/2 pl-2 border-l-2 border-gray-300' style='min-height: 500px'>
+                                <div class='p-2 bg-yellow-100'>
+                                    <div class='mt-2 text-xl font-bold'>
+                                        <div class='flex items-center justify-between '>
+                                            <div class=''>
+                                                {{  count($infoParentArray)>0?$infoParentArray['parent']:'' }}
+                                            </div>
+                                            <div class='bg-blue-500 text-white py-0.5 px-1 text-xs rounded font-bold'>
+                                                @isSuperadmin
+                                                    ID {{ $infoParent->id??'' }}
+                                                @endisSuperadmin
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='border-b border-cool-gray-300'>
+                                        {{ count($infoParentArray)>0?$infoParentArray['pivot']['relationship']:'' }}
+                                    </div>
+                                </div>
+                                <div class='mt-4'>
+                                    <x-lopsoft.control.inputform
+                                        wire:model.lazy='infoParentArray.address1'
+                                        id='address1'
+                                        x-ref='address1'
+                                        label="{{ transup('address') }}"
+                                        autofocus
+                                        classcontainer='w-full'
+                                        mode="show"
+                                    />
+                                    <x-lopsoft.control.inputform
+                                        wire:model.lazy='infoParentArray.address2'
+                                        id='address2'
+                                        x-ref='address2'
+                                        autofocus
+                                        classcontainer='w-full'
+                                        mode="show"
+                                    />
+                                </div>
+                                <div class='flex flex-wrap items-center justify-start w-full mt-2 md:flex-no-wrap'>
+                                    <div class='pr-2'>
+                                        <x-lopsoft.control.inputform
+                                            wire:model.lazy='infoParentArray.pbox'
+                                            id='pbox'
+                                            x-ref='pbox'
+                                            label="{{ transup('pbox') }}"
+                                            autofocus
+                                            classcontainer='w-32'
+                                            mode="show"
+                                        />
+                                    </div>
+                                    <div class='w-full'>
+                                        <x-lopsoft.control.inputform
+                                            wire:model.lazy='infoParentArray.city'
+                                            id='city'
+                                            x-ref='city'
+                                            label="{{ transup('city') }}"
+                                            autofocus
+                                            classcontainer='w-full'
+                                            mode="show"
+                                        />
+                                    </div>
+                                </div>
+                                <x-lopsoft.control.inputform
+                                    wire:model.lazy='infoParentArray.state'
+                                    id='state'
+                                    x-ref='state'
+                                    label="{{ transup('state') }}"
+                                    autofocus
+                                    classcontainer='w-full'
+                                    mode="show"
+                                    nextref='username'
+                                />
+                                @livewire('controls.drop-down-table-component', [
+                                    'model'         => \App\Models\Aux\Country::class,
+                                    'mode'          => 'show',
+                                    'filterraw'     => '',
+                                    'sortorder'     => 'country',
+                                    'label'         => transup('country'),
+                                    'classdropdown' => 'w-full md:w-3/4 lg:w-2/4 xl:w-1/3',
+                                    'key'           => 'id',
+                                    'field'         => 'country',
+                                    'defaultvalue'  =>  $record->country_id??( (\App\Models\Aux\Country::where('country',config('lopsoft.country_default'))->first())->id??null),
+                                    'eventname'     => 'eventsetcountry',
+                                    'uid'           => 'countrycomponent',
+                                    'modelid'       => 'countries',
+                                    'isTop'         =>  true,
+                                    'template' => 'components.lopsoft.dropdown.countries',
+                                ])
+
+                                @livewire('controls.phones-table-component',[
+                                    'mode'  =>  'show',
+                                    'uid'   =>  'parentsphones',
+                                    'phones'=>  $infoParent==null?null:getPhones($infoParent->phones),
+                                ])
+
+                                @livewire('controls.emails-table-component',[
+                                    'mode'  =>  'show',
+                                    'uid'   =>  'parentsemails',
+                                    'emails'=>  $infoParent==null?null:getEmails($infoParent->emails),
+                                ])
+                            </div>
+                        @endif
                     </div>
                 @endif
             @endif

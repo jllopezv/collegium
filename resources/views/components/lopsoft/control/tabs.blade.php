@@ -3,11 +3,11 @@
 ])
 
 <div x-data='{showOption: [], optionActive: 1}' x-init='showOption[1]=true'
-    class='h-full px-2 py-4 mt-4 border-gray-300' style="min-height: {{$minheight}}">
-    <div class='flex flex-wrap items-center justify-start border-b border-gray-200'>
+    class='pb-4 mt-4 border border-gray-300 rounded-lg bg-cool-gray-100' style="min-height: {{$minheight}}">
+    <div class='flex flex-wrap items-center justify-start p-2 border-gray-300 bg-cool-gray-200 rounded-tr-md rounded-tl-md'>
         {!! $tabs !!}
     </div>
-    <div class='px-2'>
+    <div class='h-full px-3'>
         {!! $tabscontent !!}
     </div>
 </div>

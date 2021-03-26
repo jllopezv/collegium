@@ -9,7 +9,7 @@
 
  .ck-editor__editable:focus
  {
-     border-width: 2px !important;
+    border-width: 2px !important;
     border-color: rgba(107, 114, 128, var(--border-opacity)) !important;
     transition: all ease 0.2s;
  }
@@ -20,4 +20,24 @@
 
 :host ::ng-deep .ck-editor__editable_inline {
    min-height: 500px !important;
+}
+
+
+.image2-align-left {
+    float:left;
+}
+
+.image2-align-right {
+    float:right;
+}
+
+
+.image2-align-center {
+    text-align: center;
+}
+
+
+p.image2-align-center img {
+    margin: auto;
+    display: inline-block;
 }

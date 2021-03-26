@@ -18,15 +18,18 @@
 
 
 
-<div class='py-4 {{ $classcomponent }}'>
-    <x-lopsoft.control.label
-        class="font-bold {{ $labelclass }} {{ $errors->has($id)?'text-red-600 ':''}}"
-        {{-- text="{!! $label .( $requiredfield ? '<span class=\'text-red-500\'> *</span>' : '' ) !!}" --}}
-        text="{!! $label !!}"
-        labelwidth="{{ $labelwidth }}"/>
-        @if($sublabel)
-            <div class='text-sm text-gray-400'>{{ $sublabel}}</div>
-        @endif
+<div class='{{ $label!=""?'py-4':''}} {{ $classcomponent }}'>
+    @if($label!='')
+        <x-lopsoft.control.label
+            class="font-bold {{ $labelclass }} {{ $errors->has($id)?'text-red-600 ':''}}"
+            {{-- text="{!! $label .( $requiredfield ? '<span class=\'text-red-500\'> *</span>' : '' ) !!}" --}}
+            text="{!! $label !!}"
+            labelwidth="{{ $labelwidth }}">
+            @if($sublabel)
+                <div class='text-sm text-gray-400'>{{ $sublabel}}</div>
+            @endif
+        </x-lopsoft.control.label>
+    @endif
     <x-lopsoft.control.input
         id="{{$id}}"
         name="{{$id}}"
@@ -42,16 +45,9 @@
         mode='{{ $mode }}'
         value='{!! $value !!}'
         errormsg="{{ $errors->has($id)?($errors->get($id))[0]:'' }}"
-    />
-
-    @if($showerror)
-        {{-- @if( $errors->has($id) )
-            <div>
-                <span class='text-red-500'>{{ ($errors->get($id))[0] }}</span>
-            </div>
-        @endif --}}
-    @endif
+    >
 
     {{ $slot }}
 
+    </x-lopsoft.control.input>
 </div>

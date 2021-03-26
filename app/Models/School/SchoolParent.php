@@ -31,7 +31,7 @@ class SchoolParent extends Model
      * @var array
      */
     protected $fillable = [
-        'parent', 'relationship','address1','address2','city','state','country_id','pbox','notes'
+        'parent', 'address1','address2','city','state','country_id','pbox','notes'
     ];
 
     /*******************************************/

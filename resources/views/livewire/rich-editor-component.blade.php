@@ -8,108 +8,133 @@
             <div class='text-sm font-normal text-gray-400'>{{ $sublabel}}</div>
         @endif
     </label>
-    <div wire:ignore wire:key='{{ $uuid }} ' class='relative'>
+    <div wire:ignore wire:key='{{ $uuid }} ' >
         @if($mode!='show')
             <div id='ckeditor_{{$uuid}}'></div>
         @else
             {!! $content !!}
         @endif
-        <div id='loading_{{ $uuid }}' class='absolute bottom-0 z-50 hidden text-red-600 right-4'><i class="fas fa-circle-notch fa-spin"></i> Saving...</div>
+        {{--<div id='loading_{{ $uuid }}' class='absolute bottom-0 z-50 hidden text-red-600 right-4'><i class="fas fa-circle-notch fa-spin"></i> Saving...</div>--}}
     </div>
 </div>
 
+
+
 <script>
 
-    // CKEditor4
-    let lastchange_{{$uuid}}=true;
-    let editor=CKEDITOR.replace('ckeditor_{{$uuid}}', {
-        height: 500,
-        width: '100%',
-        language: 'es',
-        toolbar:[
-            { name: 'document', items: [ "{{ Auth::user()->isAdmin()?'Source':'' }}", 'Preview', 'Print', '-', 'Templates' ] },
-            { name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-            { name: 'editing', items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
-            '/',
-            { name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
-            { name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
-            { name: 'links', items: [ 'Link', 'Unlink' ] },
-            { name: 'insert', items: [ 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'Image', 'Youtube', 'filemanagerLopsoftButton', 'Mathjax'  ] },
-            '/',
-            { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-            { name: 'colors', items: [ 'TextColor', 'BGColor'] },
-            { name: 'tools', items: [ 'Maximize', "{{ Auth::user()->isAdmin()?'ShowBlocks':'' }}"] },
-        ]
 
-    });
 
-    CKEDITOR.addCss(".cke_editable{cursor:text; font-size: 16px; font-family: Verdana, sans-serif;}");
+        // CKEditor4
+        let lastchange_{{$uuid}}=true;
+        let editor=CKEDITOR.replace('ckeditor_{{$uuid}}', {
+            height: 500,
+            width: '100%',
+            language: 'es',
+            removePlugins: 'iframe,elementspath',
+            extraPlugins: 'image2,mathjax,youtube',
+            allowedContent: true,
+            resize_enabled: false,
+            fontawesome : {
+                'path': '/css/fontawesome/all.min.css',
+                'version': '5.13.0',
+                'edition': 'free',
+                'element': 'i'
+            },
+            toolbar:[
+                { name: 'toolbar', items:  [
+                                            @isAdmin
+                                            'Source','-',
+                                            'ShowBlocks','-',
+                                            @endisAdmin
+                                            'Format', 'FontSize',
+                                            '-','TextColor', 'BGColor','Bold', 'Italic', 'Underline',
+                                            '-', 'CopyFormatting', 'RemoveFormat','NumberedList', 'BulletedList',
+                                            '-', 'Blockquote',
+                                            '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock',
+                                            '-', 'Link', 'Unlink',
+                                            '-', 'Table', '-', 'Iframe', 'Image', 'Youtube', 'filemanagerLopsoftButton', 'fontawesome5','Mathjax',
+                                            '-', 'Maximize',],
+                },
+            ],
+            removeDialogTabs: 'image:advanced;link:advanced',
 
-    // editor.on('blur',function(){
-    //     Livewire.emit('richeditor-update','{{$modelid}}',editor.getData());
-    // });
+        });
 
-    // editor.on('blur',function(){
-    //     $("#loading_{{$uuid}}").show();
-    //     $("#btnCreate").hide();
-    //     $("#btnUpdate").hide();
-    //     if (lastchange_{{$uuid}})
-    //     {
-    //         lastchange_{{$uuid}}=false;
-    //         setTimeout(function() {
-    //             Livewire.emit('richeditor-update','{{$modelid}}',editor.getData());
-    //             // lastchange_{{$uuid}}=true;
-    //             // $("#btnCreate").show();
-    //         },{{ config('lopsoft.richeditor_timeout') }} ); // Update timeout
-    //     }
-    // });
+        CKEDITOR.addCss(".image2-align-right{float:right;}");
+        CKEDITOR.addCss(".image2-align-left{float:left;}  p.image2-align-center {text-align: center;} p.image2-align-center img { margin: auto;display: inline-block;}");
+        CKEDITOR.addCss(".cke_editable{cursor:text;font-size: 16px; font-family: Verdana, sans-serif; } .cke_editable p { margin: 0 !important; }");
 
-    editor.addCommand("filemanagerLopsoft", { // create named command
-        exec: function(edt) {
-            Livewire.emit('showFilemanager',"{{$uuid}}", "{{$modelid}}", 'types:jpg,png,jpeg');
-        }
-    });
+        CKEDITOR.dtd.$removeEmpty['i'] = false;
+        CKEDITOR.dtd.$removeEmpty['span'] = false;
 
-    editor.ui.addButton('filemanagerLopsoftButton', { // add new button and bind our command
-        label: "Filemanager",
-        command: 'filemanagerLopsoft',
-        toolbar: 'insert',
-        icon: "{{ asset('storage/fileicons/image.png') }}"
-    });
 
-    window.addEventListener('filemanagerselect', event => {
-        if (event.detail.uuid=='{{$uuid}}')
-        {
-            img=new Image;
-            img.src=event.detail.file[0]['url'];
-            img.onload = function() {
-                editor.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '" style="width:'+this.width+'px;height:'+this.height+'px" />');
+        // editor.on('blur',function(){
+        //     Livewire.emit('richeditor-update','{{$modelid}}',editor.getData());
+        // });
+
+        // editor.on('blur',function(){
+        //     $("#loading_{{$uuid}}").show();
+        //     $("#btnCreate").hide();
+        //     $("#btnUpdate").hide();
+        //     if (lastchange_{{$uuid}})
+        //     {
+        //         lastchange_{{$uuid}}=false;
+        //         setTimeout(function() {
+        //             Livewire.emit('richeditor-update','{{$modelid}}',editor.getData());
+        //             // lastchange_{{$uuid}}=true;
+        //             // $("#btnCreate").show();
+        //         },{{ config('lopsoft.richeditor_timeout') }} ); // Update timeout
+        //     }
+        // });
+
+        editor.addCommand("filemanagerLopsoft", { // create named command
+            exec: function(edt) {
+                Livewire.emit('showFilemanager',"{{$uuid}}", "{{$modelid}}", 'types:jpg,png,jpeg');
+            }
+        });
+
+        editor.ui.addButton('filemanagerLopsoftButton', { // add new button and bind our command
+            label: "Filemanager",
+            command: 'filemanagerLopsoft',
+            toolbar: 'insert',
+            icon: "{{ asset('storage/fileicons/image.png') }}"
+        });
+
+        window.addEventListener('filemanagerselect', event => {
+            if (event.detail.uuid=='{{$uuid}}')
+            {
+                img=new Image;
+                img.src=event.detail.file[0]['url'];
+                img.onload = function() {
+                    editor.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '" style="width:'+this.width+'px;height:'+this.height+'px" />');
+                }
+
             }
 
-        }
+        });
 
-    });
+        window.addEventListener('richeditor-setdefault', event => {
+            if (event.detail.modelid=="{{$modelid}}")
+            {
+                editor.setData(event.detail.content);
+            }
+        })
 
-    window.addEventListener('richeditor-setdefault', event => {
-        if (event.detail.modelid=="{{$modelid}}")
-        {
-            editor.setData(event.detail.content);
-        }
-    })
+        window.addEventListener('richeditor-updated', event => {
+            $("#loading_{{$uuid}}").hide();
+            lastchange_{{$uuid}}=true;
+            $("#btnCreate").show();
+            $("#btnUpdate").show();
+        });
 
-    window.addEventListener('richeditor-updated', event => {
-        $("#loading_{{$uuid}}").hide();
-        lastchange_{{$uuid}}=true;
-        $("#btnCreate").show();
-        $("#btnUpdate").show();
-    });
+        window.addEventListener('richeditor-request-update', event => {
+            $("#loading_{{$uuid}}").show();
+            $("#btnCreate").hide();
+            $("#btnUpdate").hide();
+            Livewire.emit('richeditor-update','{{$modelid}}',editor.getData(), event.detail.command, event.detail.param );
+        });
 
-    window.addEventListener('richeditor-request-update', event => {
-        $("#loading_{{$uuid}}").show();
-        $("#btnCreate").hide();
-        $("#btnUpdate").hide();
-        Livewire.emit('richeditor-update','{{$modelid}}',editor.getData(), event.detail.command, event.detail.param );
-    });
+
 
 </script>
 
