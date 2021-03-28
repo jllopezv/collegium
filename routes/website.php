@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/website', function() {
+    return view('website.welcome');
+})->name('website');
 
 Route::get('/aboutus', function() {
     return "About us";

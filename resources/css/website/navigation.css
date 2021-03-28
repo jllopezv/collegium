@@ -1,0 +1,119 @@
+body
+{
+    color: #646464;
+}
+
+.navigation
+{
+
+    height: 100px;
+    background: white;
+    z-index: 1000;
+    width: 100%;
+
+}
+
+.banner-module
+{
+
+    height: 200px;
+}
+
+
+.navigation-block
+{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.navigation-logo
+{
+    width: auto;
+    height: auto;
+}
+
+
+.navigation-text-container
+{
+    background-color: #00000080;
+}
+.navigation-title
+{
+    font-size: 40px;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+
+.website_name
+{
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 0.75em;
+}
+
+.website_subname
+{
+    font-size: 18px;
+    font-style: italic;
+}
+
+
+
+
+@media (min-width: 576px) and (max-width: 767px)
+{
+
+    .navigation
+    {
+        height: 100px;
+    }
+
+    .navigation-title
+    {
+        font-size: 30px;
+    }
+
+
+}
+
+
+@media (max-width: 576px)
+{
+
+
+    .navigation
+    {
+        height: 60px;
+    }
+
+    .navigation-title
+    {
+        font-size: 10px;
+        padding: 4px;
+    }
+
+
+    .website_name
+    {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .website_subname
+    {
+        font-size: 10px;
+        font-style: italic;
+    }
+
+    img.navigation-logo
+    {
+        width: 50px;
+        height: auto;
+    }
+
+
+
+}
+

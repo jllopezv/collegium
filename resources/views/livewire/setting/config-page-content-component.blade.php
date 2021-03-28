@@ -51,6 +51,7 @@
                                         params='types:jpg,png,jpeg'
                                         classcomponent="{{ true?'bg-cool-gray-100 px-2':''}}"
                                         class="{{ true?'bg-cool-gray-100':''}}"
+                                        uuid="filemanager-settings"
                                     >
 
                                     </x-lopsoft.control.imageform>

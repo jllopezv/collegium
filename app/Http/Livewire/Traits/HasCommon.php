@@ -455,7 +455,6 @@ Trait HasCommon
         }
         catch(\Exception $e)
         {
-            dd($e);
             $this->showException($e);
         }
     }

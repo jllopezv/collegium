@@ -151,6 +151,26 @@ class AppSettingSeeder extends Seeder
         $record->page_id=AppSettingPage::where('settingpage','POSTS')->first()->id;
         $record->save();
 
+        /* WEBSITE */
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_LOGO_SMALL';
+        $record->settingdesc='WEBSITE LOGO IN SMALL SIZE';
+        $record->settingvalue='';
+        $record->type='image';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_LOGO';
+        $record->settingdesc='WEBSITE LOGO';
+        $record->settingvalue='';
+        $record->type='image';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
 
     }
 }

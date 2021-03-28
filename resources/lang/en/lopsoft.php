@@ -26,6 +26,7 @@ return [
         'school_sections'   =>  'sections',
         'school_modalities' =>  'modalities',
         'school_parents'    =>  'school parents',
+        'website_pages'     =>  'website pages',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -116,6 +117,7 @@ return [
     'category'              =>  'category',
     'post'                  =>  'post',
     'posts'                 =>  'posts',
+    'post_categories'       =>  'post categories',
     'title'                 =>  'title',
     'published'             =>  'published',
     'top'                   =>  'top',
@@ -152,4 +154,5 @@ return [
     'email'                 =>  'email',
     'emails'                =>  'emails',
     'user_email'            =>  'user email',
+    'website_pages'         =>  'website pages',
 ];

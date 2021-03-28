@@ -31,3 +31,11 @@ mix.styles([
     'resources/css/lopsoft/customnoty.css',
     'resources/css/lopsoft/customckeditor.css',
 ], 'public/css/lopsoft.css');
+
+
+
+/* Website */
+
+mix.styles([
+    'resources/css/website/navigation.css',
+], 'public/css/website.css');

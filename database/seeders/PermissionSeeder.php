@@ -81,6 +81,9 @@ class PermissionSeeder extends Seeder
         $table='website_banners';
         $this->createPermissions($table,'WEBSITE');
 
+        $table='website_pages';
+        $this->createPermissions($table,'WEBSITE');
+
         $record=new Permission;
         $record->name="HACER LOGIN DE USUARIOS";
         $record->slug='users.login';

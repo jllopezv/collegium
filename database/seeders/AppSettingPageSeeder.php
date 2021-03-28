@@ -44,6 +44,17 @@ class AppSettingPageSeeder extends Seeder
                                                 'allowLock'     => false
                                         ]);
 
+
+        $record=new AppSettingPage();
+        $record->settingpage='WEBSITE';
+        $record->onlysuperadmin=true;
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                                'allowEdit'     => false,
+                                                'allowDelete'   => false,
+                                                'allowLock'     => false
+                                        ]);
+
         $record=new AppSettingPage();
         $record->settingpage='GENERAL';
         $record->save();

@@ -17,6 +17,7 @@ use App\Models\School\SchoolLevel;
 use App\Models\Setting\AppSetting;
 use App\Models\School\SchoolParent;
 use App\Models\Setting\ModelConfig;
+use App\Models\Website\WebsitePage;
 use App\Models\Website\WebsitePost;
 use App\Models\Auth\PermissionGroup;
 use App\Models\School\SchoolSection;
@@ -40,6 +41,7 @@ use App\Http\Controllers\School\SchoolLevelController;
 use App\Http\Controllers\Setting\AppSettingController;
 use App\Http\Controllers\School\SchoolParentController;
 use App\Http\Controllers\Setting\ModelConfigController;
+use App\Http\Controllers\Website\WebsitePageController;
 use App\Http\Controllers\Website\WebsitePostController;
 use App\Http\Controllers\Auth\PermissionGroupController;
 use App\Http\Controllers\School\SchoolSectionController;
@@ -59,6 +61,10 @@ use App\Http\Controllers\Website\WebsitePostCatController;
 |
 */
 
+Route::get('/', function () {
+    return view('website.welcome');
+});
+
 Route::get('/checkcache',  function () {
     return view('checkcache');
 });
@@ -67,9 +73,7 @@ Route::get('/testpaths', function () {
     return view('testpaths');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
@@ -187,6 +191,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('website_post_cats', WebsitePostCatController::class, WebsitePostCat::class);
     LopHelp::generateCommonModelRoute('website_posts', WebsitePostController::class, WebsitePost::class);
     LopHelp::generateCommonModelRoute('website_banners', WebsiteBannerController::class, WebsiteBanner::class);
+    LopHelp::generateCommonModelRoute('website_pages', WebsitePageController::class, WebsitePage::class);
 
 });
 

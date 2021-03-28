@@ -28,6 +28,7 @@ return [
         'school_sections'   =>  'secciones académicas',
         'school_modalities' =>  'modalidades académicas',
         'school_parents'    =>  'parientes',
+        'website_pages'     =>  'páginas del website',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -116,6 +117,7 @@ return [
     'category'              =>  'categoría',
     'post'                  =>  'artículo',
     'posts'                 =>  'artículos',
+    'post_categories'       =>  'categorías de artículos',
     'title'                 =>  'título',
     'published'             =>  'publicado',
     'top'                   =>  'arriba',
@@ -152,4 +154,5 @@ return [
     'email'                 =>  'email',
     'emails'                =>  'emails',
     'user_email'            =>  'email de usuario',
+    'website_pages'         =>  'páginas',
 ];
