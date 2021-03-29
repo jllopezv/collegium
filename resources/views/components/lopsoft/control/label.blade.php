@@ -3,5 +3,5 @@
 <label {{ $attributes->merge([
     'class' => 'block '.$labelwidth])
     }}>
-    {!! $text ?? $slot !!}
+    {!! $text==''?$slot:$text !!}
 </label>

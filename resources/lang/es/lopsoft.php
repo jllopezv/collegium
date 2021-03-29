@@ -29,6 +29,7 @@ return [
         'school_modalities' =>  'modalidades académicas',
         'school_parents'    =>  'parientes',
         'website_pages'     =>  'páginas del website',
+        'website_menus'     =>  'menús del website',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -155,4 +156,10 @@ return [
     'emails'                =>  'emails',
     'user_email'            =>  'email de usuario',
     'website_pages'         =>  'páginas',
+    'website_menus'         =>  'menús',
+    'menu'                  =>  'menu',
+    'father'                =>  'padre',
+    'label'                 =>  'etiqueta',
+    'link'                  =>  'enlace',
+    'destination'           =>  'destino',
 ];

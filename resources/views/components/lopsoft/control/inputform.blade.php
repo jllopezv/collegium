@@ -16,17 +16,15 @@
     'classcomponent' => '',
 ])
 
-
-
 <div class='{{ $label!=""?'py-4':''}} {{ $classcomponent }}'>
     @if($label!='')
         <x-lopsoft.control.label
             class="font-bold {{ $labelclass }} {{ $errors->has($id)?'text-red-600 ':''}}"
             {{-- text="{!! $label .( $requiredfield ? '<span class=\'text-red-500\'> *</span>' : '' ) !!}" --}}
-            text="{!! $label !!}"
             labelwidth="{{ $labelwidth }}">
-            @if($sublabel)
-                <div class='text-sm text-gray-400'>{{ $sublabel}}</div>
+            {!! $label !!}
+            @if($sublabel!="")
+                <div class='text-sm text-gray-400 font-normal'>{!! $sublabel !!}</div>
             @endif
         </x-lopsoft.control.label>
     @endif

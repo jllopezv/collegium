@@ -25,6 +25,7 @@ class AddFieldsToUsers extends Migration
             $table->foreignId('language_id')->nullable()->references('id')->on('languages')->onDelete('set null');
             $table->foreignId('anno_id')->nullable()->references('id')->on('annos')->onDelete('set null');
             $table->nullableMorphs('profile');
+
             // Owner
             $table->unsignedBigInteger('created_by')->nullable()->default(null);
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');

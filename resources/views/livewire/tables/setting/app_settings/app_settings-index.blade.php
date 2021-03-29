@@ -14,15 +14,15 @@
 
 
 @section('filters')
-@livewire('controls.index-filter-component', [
-    'mode'          => $mode,
-    'label'         => transup('page'),
-    'classdropdown' => 'md:w-60',
-    'options'       => \App\Lopsoft\LopHelp::getFilterDropdown(\App\Models\Setting\AppSettingPage::class, 'id', 'settingpage', Auth::user()->level!=1?'onlysuperadmin=0':'', true, 'priority asc'),
-    'defaultvalue'  => '*',
-    'eventname'     => 'eventfilterpage',
-    'uid'           => 'filterpagecomponent',
-    'modelid'       => 'pageid',
-    'isTop'         =>  false,
-])
+    @livewire('controls.index-filter-component', [
+        'mode'          => $mode,
+        'label'         => transup('page'),
+        'classdropdown' => 'md:w-60',
+        'options'       => \App\Lopsoft\LopHelp::getFilterDropdown(\App\Models\Setting\AppSettingPage::class, 'id', 'settingpage', Auth::user()->level!=1?'onlysuperadmin=0':'', true, 'priority asc'),
+        'defaultvalue'  => '*',
+        'eventname'     => 'eventfilterpage',
+        'uid'           => 'filterpagecomponent',
+        'modelid'       => 'pageid',
+        'isTop'         =>  false,
+    ])
 @endsection

@@ -70,6 +70,8 @@ Trait HasCommon
     public $redirectroute=null;
     public $commonSaveAnnoSession=true;
     public $filterdata="";
+    public $canShowFilterButton=false;
+    public $canShowSortButton=false;
 
     private $data=null;
     private $newmodel=null;

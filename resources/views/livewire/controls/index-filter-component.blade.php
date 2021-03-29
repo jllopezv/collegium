@@ -3,6 +3,7 @@
    x-init='$wire.getValue($wire.uid)'
    class='py-4'
 >
+
     <div class='items-center justify-start ml-2 md:ml-0 md:flex'>
         <div class='pt-1 mr-2'>
             <label class="block font-bold">

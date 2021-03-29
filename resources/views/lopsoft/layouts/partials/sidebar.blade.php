@@ -107,7 +107,9 @@
     @hasAbilityOr([ 'website_post_cats.access',
                     'website_banners.access',
                     'website_posts.access',
-                    'website_pages.access'])
+                    'website_pages.access',
+                    'website_menus.access',
+                    ])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-globe'
             text="{{ transup('website') }}"
@@ -145,6 +147,15 @@
                 icon='fa fa-file-alt'
                 link="{{ route('website_pages.index') }}"
                 text="{{ transup('website_pages') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['website_menus.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-bars'
+                link="{{ route('website_menus.index') }}"
+                text="{{ transup('website_menus') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

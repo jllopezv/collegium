@@ -11,10 +11,12 @@
     'minheight' =>  '500px',
     'cansearch' => 'true',
     'slave'     => 'false',
-    'noFilterInGetDataQuery' => 'false',
+    'noFilterInGetDataQuery'    => 'false',
+    'canShowFilterButton'       => 'false',
+    'canShowSortButton'         => 'false',
 ])
 
-<div x-data='{ showFilters:false, showSorts:false, screen_width:getScreenWidth()  }' @resize.window='screen_width=getScreenWidth()'>
+<div x-data='{ showFilters:true, showSorts:false, screen_width:getScreenWidth()  }' @resize.window='screen_width=getScreenWidth()'>
     <div
         {{-- x-show='screen_width>640'  --}}
         class='{{ ($slave=='true')?'pt-2 rounded-t-lg bg-gray-700':''}}' >
@@ -31,12 +33,16 @@
                 </x-lopsoft.link.gray>
             </div>
             {{-- FILTERS AND SORT --}}
-            <div class='mr-1'>
-                <x-lopsoft.link.gray @click="showFilters=!showFilters" icon='fa fa-filter' ></x-lopsoft.link.gray>
-            </div>
-            <div class='mr-1 md:hidden'>
-                <x-lopsoft.link.gray @click="showSorts=!showSorts" icon='fa fa-sort-alpha-down'></x-lopsoft.link.gray>
-            </div>
+            @if($canShowFilterButton)
+                <div class='mr-1'>
+                    <x-lopsoft.link.gray @click="showFilters=!showFilters" icon='fa fa-filter' ></x-lopsoft.link.gray>
+                </div>
+            @endif
+            @if($canShowFilterButton)
+                <div class='mr-1 md:hidden'>
+                    <x-lopsoft.link.gray @click="showSorts=!showSorts" icon='fa fa-sort-alpha-down'></x-lopsoft.link.gray>
+                </div>
+            @endif
             @if($canadd!='false')
                 @if(Auth::user()->hasAbility($table.".create"))
                 <div class='mr-1'>

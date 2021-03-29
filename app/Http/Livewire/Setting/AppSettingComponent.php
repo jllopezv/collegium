@@ -72,6 +72,9 @@ class AppSettingComponent extends Component
             $this->priority=AppSetting::count()+1;   // Default falue
             $this->level=Auth::user()->level;
         }
+
+        // Filter and sorts
+        $this->canShowFilterButton=true;
     }
 
     /**

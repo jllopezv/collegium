@@ -10,13 +10,15 @@ use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
 
-class WebsitePage extends Model
+class WebsiteMenu extends Model
 {
     use HasActive;
     use HasOwner;
     use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
+    use HasPriority;
+
 
     /*******************************************/
     /* Properties
@@ -28,16 +30,38 @@ class WebsitePage extends Model
      * @var array
      */
     protected $fillable = [
-        'page', 'body'
+        'menu', 'label', 'priority', 'parent_id', 'link', 'website_page_id'
     ];
 
     /*******************************************/
     /* Relationships
     /*******************************************/
 
+    /**
+     * Get Page
+     *
+     * @return void
+     */
+    public function page()
+    {
+        return $this->belongsTo(WebsitePage::class,'website_page_id','id');
+    }
+
+
+
     /*******************************************/
     /* Accessors and mutators
     /*******************************************/
+
+    public function setMenuAttribute($value)
+    {
+        $this->attributes['menu']=mb_strtoupper($value);
+    }
+
+    public function getMenuAttribute($value)
+    {
+        return mb_strtoupper($value);
+    }
 
     /*******************************************/
     /* Methods
@@ -45,7 +69,8 @@ class WebsitePage extends Model
 
     public function scopeSearch($query, $search)
     {
-        return $query->where('page', 'like', '%'.$search.'%' )
-            ->orWhere('body','like', '%'.$search.'%');
+        return $query->where('menu', 'like', '%'.$search.'%' )
+            ->orWhere('label', 'like', '%'.$search.'%' );
     }
+
 }

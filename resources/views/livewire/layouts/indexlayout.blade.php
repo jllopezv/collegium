@@ -16,6 +16,8 @@
             cansearch='{{ $cansearch }}'
             slave='{{ $slave }}'
             noFilterInGetDataQuery='{{ $noFilterInGetDataQuery }}'
+            canShowFilterButton="{{ $canShowFilterButton }}"
+            canShowSortButton="{{ $canShowSortButton }}"
             >
 
             {{-- BATCH COMMON --}}
@@ -32,16 +34,20 @@
 
             {{-- FILTERS --}}
             <x-slot name='filters'>
+                @if($canShowFilterButton)
                 <div x-show.transition.opacity.1000ms='showFilters' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
                     @yield('filters')
                 </div>
+                @endif
             </x-slot>
             {{-- /FILTERS --}}
             {{-- SORTS --}}
             <x-slot name='sorts'>
-                <div x-show.transition.opacity.1000ms='showSorts' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
-                    @yield('sorts')
-                </div>
+                @if($canShowSortButton)
+                    <div x-show.transition.opacity.1000ms='showSorts' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
+                        @yield('sorts')
+                    </div>
+                @endif
             </x-slot>
             {{-- /SORTS --}}
             {{-- HEADER --}}
