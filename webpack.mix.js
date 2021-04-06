@@ -38,4 +38,5 @@ mix.styles([
 
 mix.styles([
     'resources/css/website/navigation.css',
+    'resources/css/website/menu.css',
 ], 'public/css/website.css');

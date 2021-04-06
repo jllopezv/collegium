@@ -47,8 +47,6 @@ class WebsiteMenu extends Model
         return $this->belongsTo(WebsitePage::class,'website_page_id','id');
     }
 
-
-
     /*******************************************/
     /* Accessors and mutators
     /*******************************************/
@@ -66,6 +64,11 @@ class WebsiteMenu extends Model
     /*******************************************/
     /* Methods
     /*******************************************/
+
+    public function childrens()
+    {
+        return WebsiteMenu::where('parent_id',$this->id)->get();
+    }
 
     public function scopeSearch($query, $search)
     {

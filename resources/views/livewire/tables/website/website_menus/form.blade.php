@@ -48,7 +48,7 @@
     'label'         => transup('father'),
     'sublabel'      => 'Menú padre',
     'key'           => 'id',
-    'field'         => 'menu',
+    'field'         => 'label',
     'defaultvalue'  => $record->parent_id??null,
     'eventname'     => 'eventsetparent',
     'linknew'       => route('website_menus.create'),

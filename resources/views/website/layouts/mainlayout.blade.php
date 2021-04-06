@@ -21,13 +21,15 @@
 
         <div>
 
-            <div class='gnosyscontrol-container'>
+            <div class='gnosyscontrol-container relative md:h-40 w-full bg-white'>
 
                 @include('website.html.navigation')
 
             </div>
 
             <div class='gnosyscontrol-container banner-module p-0 m-0'>
+
+                @include('website.html.mainbanner')
 
                 <div class='websitecontent' style='min-height: 500px; '>
 

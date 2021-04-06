@@ -93,4 +93,9 @@ class WebsiteBanner extends Model
             ->orWhere('width','like', '%'.$search.'%')
             ->orWhere('height','like', '%'.$search.'%');
     }
+
+    static public function getBanner($banner)
+    {
+        return WebsiteBanner::where('banner',$banner)->first();
+    }
 }

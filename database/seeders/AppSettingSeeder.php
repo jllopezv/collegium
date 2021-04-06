@@ -171,6 +171,42 @@ class AppSettingSeeder extends Seeder
         $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
         $record->save();
 
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_BANNER_MAIN';
+        $record->settingdesc='WEBSITE MAIN BANNER';
+        $record->settingvalue='MAINBANNER';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_PHONE_MAIN';
+        $record->settingdesc='WEBSITE MAIN PHONE';
+        $record->settingvalue='XXX-XXX-XXXX';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_EMAIL_MAIN';
+        $record->settingdesc='WEBSITE MAIN EMAIL';
+        $record->settingvalue='email@domain.com';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_WHATSAPP_MAIN';
+        $record->settingdesc='WEBSITE MAIN WHATSAPP NUMBER';
+        $record->settingvalue='XXX-XXX-XXXX';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
 
     }
 }

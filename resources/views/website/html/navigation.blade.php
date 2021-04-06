@@ -1,42 +1,63 @@
-<div class='navigation p-4 mt-2 d-flex justify-content-between vertical-center'>
+<div x-data="{}"
+    x-init="$('#barmenu').slideUp()"
+    @resize.window="$('#barmenu').slideUp()"
+    class='p-2'>
 
-    <div class='flex items-center justify-start'>
-        <div>
-            <a href="{{ route('website') }}">
-                <img class='navigation-logo' src='{{ getImage(appsetting('WEBSITE_LOGO_SMALL')) }}' >
-            </a>
+    <div class='flex items-center justify-between'>
+        <div class='flex items-center justify-start'>
+            <div>
+                <a href="{{ route('website') }}">
+                    <img class='navigation-logo' src='{{ getImage(appsetting('WEBSITE_LOGO_SMALL')) }}' >
+                </a>
+            </div>
+            <div class='text-left ml-2'>
+                <div class='website_name'>TIA SANDRA SCHOOL</div>
+                <div class='website_subname'>20 años de experiencia nos avalan</div>
+            </div>
         </div>
-        <div class='text-left'>
-            <div class='website_name'>TIA SANDRA SCHOOL</div>
-            <div class='website_subname'>20 años de experiencia nos avalan</div>
+        <div  class=''>
+            <div class='flex items-center justify-end pr-2'>
+                <div class='hidden md:block'>
+                    @if(appsetting('WEBSITE_EMAIL_MAIN')!='')
+                        <div class='text-right'><a href="mailto: {{ appsetting('WEBSITE_EMAIL_MAIN') }}"><i class='fa fa-envelope text-red-400'></i> <span class=' hover:text-cool-gray-800'>{{ appsetting('WEBSITE_EMAIL_MAIN') }}</span></a></div>
+                    @endif
+                    <div class='text-right'>
+                        @if(appsetting('WEBSITE_PHONE_MAIN')!='')
+                            <a href="tel: {{ appsetting('WEBSITE_PHONE_MAIN') }}"><i class='fa fa-phone-alt text-red-400'></i> <span class=' hover:text-cool-gray-800'>{{ appsetting('WEBSITE_PHONE_MAIN') }}</span></a>
+                        @endif
+                        @if(appsetting('WEBSITE_WHATSAPP_MAIN')!='')
+                            <a href="tel: {{ appsetting('WEBSITE_WHATSAPP_MAIN') }}"><i class='fab fa-whatsapp text-green-400'></i> <span class=' hover:text-cool-gray-800'>{{ appsetting('WEBSITE_WHATSAPP_MAIN') }}</span></a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class='md:hidden pr-2 text-red-400 text-right'>
+                <i
+                    @click.prevent="$('#barmenu').slideToggle();"
+                    class='fas fa-bars cursor-pointer'></i>
+            </div>
+
         </div>
     </div>
-
-
-    <div>
-        <div class='text-right hide-in-sm'>
-            <div>{!! appsetting('BUSINESS_PHONE')!='' ? '<a class="nolink bold color-gray" href="tel: '.getConfig('BUSINESS_PHONE').'"><i class="fas fa-phone-alt"></i> '.getConfig('BUSINESS_PHONE').'</a>' :'' !!}</div>
-            <div class='nowhitespace'>{!! appsetting('BUSINESS_EMAIL')!='' ? '<a class="nolink color-gray bold" href="mailto: '.getConfig('BUSINESS_EMAIL').'"><i class="far fa-envelope"></i> '.getConfig('BUSINESS_EMAIL').'</a>' :'' !!}</div>
-            <div><a class='nolink color-red bold' href="{{ route('website') }}">SECRETARIA VIRTUAL</a></div>
-        </div>
-        <div class='text-right p-0 m-0 hide-in-large'>
-            <a href='route("website.secreatry") '>
-                <i class='fas fa-headset color-red'></i>
-            </a>
-        </div>
-        <div class='navbar-menu-toggler text-right'>
-            <a class="navbar-toggler ml-auto no-border p-0" data-toggle="collapse" data-target="#navbarCollapse">
-                <i class='fas fa-bars color-red'></i>
-            </a>
-        </div>
-
-
+    {{-- BARMENU --}}
+    <div {{--x-show.transition.opacity='showbarmenu'--}}
+        id='barmenu'
+        class='hidden'>
+        @include('website.html.menubuildervertical', [
+            'root' => 'ROOT',
+            'home' => route('website'),
+            'login' => '', //route('login')
+        ])
     </div>
-
 </div>
-
-<div>
-
-    AQUI VA EL MENU
+{{-- MENU --}}
+<div class='invisible md:visible'>
+    <div class='flex items-start justify-center absolute w-full'>
+        @include('website.html.menubuilderhorizontal', [
+            'root' => 'ROOT',
+            'home' => route('website'),
+            'login' => '', //route('login')
+        ])
+    </div>
 
 </div>

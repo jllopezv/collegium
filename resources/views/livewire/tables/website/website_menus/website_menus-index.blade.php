@@ -16,7 +16,7 @@
         'mode'          => $mode,
         'label'         => transup('father'),
         'classdropdown' => 'md:w-60',
-        'options'       => \App\Lopsoft\LopHelp::getFilterDropdown(\App\Models\Website\WebsiteMenu::class, 'menu', 'label', '', true, 'priority asc'),
+        'options'       => \App\Lopsoft\LopHelp::getFilterDropdown(\App\Models\Website\WebsiteMenu::class, 'menu', 'label', '', false, 'priority asc'),
         'defaultvalue'  => 'ROOT',
         'eventname'     => 'eventfiltermenu',
         'uid'           => 'filtermenucomponent',
