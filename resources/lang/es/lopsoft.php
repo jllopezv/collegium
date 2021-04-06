@@ -30,6 +30,8 @@ return [
         'school_parents'    =>  'parientes',
         'website_pages'     =>  'páginas del website',
         'website_menus'     =>  'menús del website',
+        'website_advertisement_cats'    => 'categorías de avisos',
+        'website_advertisements'        => 'avisos',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -162,4 +164,6 @@ return [
     'label'                 =>  'etiqueta',
     'link'                  =>  'enlace',
     'destination'           =>  'destino',
+    'advertisement'         =>  'aviso',
+    'advertisements'        =>  'avisos',
 ];

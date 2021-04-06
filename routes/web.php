@@ -33,6 +33,7 @@ use App\Http\Controllers\Aux\ColorController;
 use App\Http\Controllers\Aux\ImageController;
 use App\Http\Controllers\Aux\CountryController;
 use App\Http\Controllers\School\AnnoController;
+use App\Models\Website\WebsiteAdvertisementCat;
 use App\Http\Controllers\Aux\LanguageController;
 use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\Auth\PermissionController;
@@ -51,6 +52,7 @@ use App\Http\Controllers\School\SchoolModalityController;
 use App\Http\Controllers\Website\WebsiteBannerController;
 use App\Http\Controllers\Setting\AppSettingPageController;
 use App\Http\Controllers\Website\WebsitePostCatController;
+use App\Http\Controllers\Website\WebsiteAdvertisementCatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -195,6 +197,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('website_banners', WebsiteBannerController::class, WebsiteBanner::class);
     LopHelp::generateCommonModelRoute('website_pages', WebsitePageController::class, WebsitePage::class);
     LopHelp::generateCommonModelRoute('website_menus', WebsiteMenuController::class, WebsiteMenu::class);
+    LopHelp::generateCommonModelRoute('website_advertisement_cats', WebsiteAdvertisementCatController::class, WebsiteAdvertisementCat::class);
 
 });
 

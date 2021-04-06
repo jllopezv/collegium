@@ -109,6 +109,7 @@
                     'website_posts.access',
                     'website_pages.access',
                     'website_menus.access',
+                    'website_advertisement_cats.access',
                     ])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-globe'
@@ -156,6 +157,15 @@
                 icon='fa fa-bars'
                 link="{{ route('website_menus.index') }}"
                 text="{{ transup('website_menus') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['website_advertisement_cats.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa-align-justify'
+                link="{{ route('website_advertisement_cats.index') }}"
+                text="{{ transup('website_advertisement_cats') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

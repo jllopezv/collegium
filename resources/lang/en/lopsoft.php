@@ -28,6 +28,8 @@ return [
         'school_parents'    =>  'school parents',
         'website_pages'     =>  'website pages',
         'website_menus'     =>  'website menus',
+        'website_advertisement_cats'    => 'website advertisement categories',
+        'website_advertisements'        => 'website advertisements',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -162,4 +164,6 @@ return [
     'label'                 =>  'label',
     'link'                  =>  'link',
     'destination'           =>  'destination',
+    'advertisement'         =>  'advertisement',
+    'advertisements'        =>  'advertisements',
 ];
