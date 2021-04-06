@@ -163,7 +163,7 @@
             @endhasAbility
             @hasAbility(['website_advertisement_cats.access'])
             <x-lopsoft.control.sidebar-sublink
-                icon='fa-align-justify'
+                icon='fa fa-align-justify'
                 link="{{ route('website_advertisement_cats.index') }}"
                 text="{{ transup('website_advertisement_cats') }}"
                 class='hover:text-green-300'

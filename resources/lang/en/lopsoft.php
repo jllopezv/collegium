@@ -166,4 +166,6 @@ return [
     'destination'           =>  'destination',
     'advertisement'         =>  'advertisement',
     'advertisements'        =>  'advertisements',
+    'website_advertisement_cats'    => 'website advertisement categories',
+    'website_advertisements'        => 'website advertisements',
 ];

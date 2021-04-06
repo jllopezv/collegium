@@ -166,4 +166,6 @@ return [
     'destination'           =>  'destino',
     'advertisement'         =>  'aviso',
     'advertisements'        =>  'avisos',
+    'website_advertisement_cats'    => 'categorías de avisos',
+    'website_advertisements'        => 'avisos',
 ];
