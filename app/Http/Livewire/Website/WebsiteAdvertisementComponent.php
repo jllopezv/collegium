@@ -171,7 +171,7 @@ class WebsiteAdvertisementComponent extends Component
             $constraint->upsize();
         });
         $ret=$handlerimg->save();
-        //copy(Storage::disk(config('lopsoft.temp_disk'))->path(config('lopsoft.temp_dir').DIRECTORY_SEPARATOR.$ret->basename), Storage::disk(config('lopsoft.filemanager_disk'))->path(config('lopsoft.filemanager_storage_folder').$this->root.basename($ret->basename)));
+        $this->emit('filemanager-refresh');
     }
 
     public function eventSetBody($body, $command=false, $param=false)
