@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Intervention\Image\Facades\Image;
-use App\Models\Website\WebsitePostCat;
+use App\Models\Website\WebsiteAdvertisementCat;
 use App\Http\Livewire\Traits\HasCommon;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Traits\HasPriority;
@@ -15,7 +15,7 @@ use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
 use App\Http\Livewire\Traits\WithModalConfirm;
 
-class WebsitePostComponent extends Component
+class WebsiteAdvertisementComponent extends Component
 {
     use WithPagination;
     use HasCommon;
@@ -34,7 +34,7 @@ class WebsitePostComponent extends Component
     public  $fixed;
     public  $body;
     public  $fileimage;
-    public  $website_post_cat_id;
+    public  $website_advertisement_cat_id;
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -58,7 +58,7 @@ class WebsitePostComponent extends Component
      */
     public function mount()
     {
-        $this->table='website_posts';
+        $this->table='website_advertisements';
         $this->module='website';
         $this->commonMount();
         // Default order for table
@@ -78,8 +78,8 @@ class WebsitePostComponent extends Component
     public function validateRules() : array
     {
         return [
-            'title'                     => 'required|string|max:255',
-            'website_post_cat_id'       => 'exists:website_post_cats,id'              // Validte foreignid
+            'title'                              => 'required|string|max:255',
+            'website_advertisement_cat_id'       => 'exists:website_advertisement_cats,id'              // Validte foreignid
         ];
     }
 
@@ -102,7 +102,7 @@ class WebsitePostComponent extends Component
         $this->starred=false;
         $this->image=null;
         //$this->emit('setvalue','website_post_cat_component',null);
-        // $this->website_post_cat_id=0;
+        // $this->website_advertisement_cat_id=0;
         $this->body='';
         $this->dispatchBrowserEvent('richeditor-setdefault',[ 'modelid' => 'body', 'content' => '']);
         $this->loadDefaults();
@@ -115,7 +115,7 @@ class WebsitePostComponent extends Component
         $this->top=$this->record->top;
         $this->fixed=$this->record->fixed;
         $this->starred=$this->record->starred;
-        $this->website_post_cat_id=$this->record->website_post_cat_id;
+        $this->website_advertisement_cat_id=$this->record->website_advertisement_cat_id;
         $this->body=$this->record->body;
         $this->image=$this->record->image;
 
@@ -140,7 +140,7 @@ class WebsitePostComponent extends Component
             'top'                   =>  $this->top,
             'fixed'                 =>  $this->fixed,
             'starred'               =>  $this->starred,
-            'website_post_cat_id'   =>  $this->website_post_cat_id,
+            'website_advertisement_cat_id'   =>  $this->website_advertisement_cat_id,
             'body'                  =>  $this->body,
         ];
     }
@@ -153,7 +153,7 @@ class WebsitePostComponent extends Component
      */
     public function eventSetPage($key)
     {
-        $this->website_post_cat_id=$key;
+        $this->website_advertisement_cat_id=$key;
     }
 
     public function filemanagerSelect($uuid, $currendir, $file)
@@ -166,7 +166,7 @@ class WebsitePostComponent extends Component
 
     public function filemanagerUploadFile($file, $dir, $path)
     {
-        $handlerimg=Image::make($path)->resize(config('lopsoft.posts_default_width'), config('lopsoft.posts_default_height'), function ($constraint) {
+        $handlerimg=Image::make($path)->resize(config('lopsoft.advertisements_default_width'), config('lopsoft.advertisements_default_height'), function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
@@ -186,7 +186,7 @@ class WebsitePostComponent extends Component
 
     public function eventSetCat($cat)
     {
-        $this->website_post_cat_id=$cat;
+        $this->website_advertisement_cat_id=$cat;
     }
 
     public function initStore()

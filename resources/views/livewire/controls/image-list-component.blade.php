@@ -49,7 +49,7 @@
                         </div>
                     @endif
                     <div class='w-16 mx-2 ml-4'>
-                        <img src="{{ getImage($item['image']) }}" class='w-16 rounded-lg shadow-lg' />
+                        <img src="{{ getImage($item['image']) }}" class='w-16 rounded-lg' />
                     </div>
                     <div class='w-1/2 mx-2'>
                         {{ $item['image'] }}

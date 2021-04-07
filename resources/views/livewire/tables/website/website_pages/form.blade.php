@@ -4,12 +4,10 @@
     x-ref='page'
     label="{{ transup('page') }}"
     class='w-full'
-    autofocus
     classcontainer='w-full'
     requiredfield
     help="{{ transup('mandatory') }}"
     mode="{{ $mode }}"
-    nextref='btnCreate'
 />
 
 @livewire('controls.rich-editor-component', [

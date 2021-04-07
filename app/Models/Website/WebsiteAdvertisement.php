@@ -7,13 +7,12 @@ use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
-use App\Models\Website\WebsitePostCat;
+use App\Models\Website\WebsiteAdvertisementCat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class WebsitePost extends Model
+class WebsiteAdvertisement extends Model
 {
     use HasActive;
     use HasOwner;
@@ -32,7 +31,7 @@ class WebsitePost extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'published', 'top', 'fixed', 'starred', 'body', 'image', 'website_post_cat_id'
+        'title', 'published', 'top', 'fixed', 'starred', 'body', 'image', 'website_advertisement_cat_id'
     ];
 
     /*******************************************/
@@ -46,7 +45,7 @@ class WebsitePost extends Model
      */
     public function category()
     {
-        return $this->belongsTo(WebsitePostCat::class,'website_post_cat_id','id');
+        return $this->belongsTo(WebsiteAdvertisementCat::class,'website_advertisement_cat_id','id');
     }
 
     /*******************************************/
@@ -58,16 +57,16 @@ class WebsitePost extends Model
      *
      * @return void
      */
-    public function getPostImageAttribute()
+    public function getAdvertisementImageAttribute()
     {
-        $showthumb=config('lopsoft.posts_index_showthumb');
+        $showthumb=config('lopsoft.advertisements_index_showthumb');
 
-        if (is_null($this->image)) return Storage::disk('public')->url(config('lopsoft.posts_default_image'));
+        if (is_null($this->image)) return Storage::disk('public')->url(config('lopsoft.advertisements_default_image'));
         if ( !Storage::disk('public')->exists( 'thumbs/'.$this->image ) || $showthumb==false)
         {
             if ( !Storage::disk('public')->exists( $this->image ) )
             {
-                return Storage::disk('public')->url(config('lopsoft.posts_default_image'));
+                return Storage::disk('public')->url(config('lopsoft.advertisements_default_image'));
             }
             else
             {

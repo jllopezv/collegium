@@ -27,6 +27,7 @@ use App\Models\Website\WebsiteBanner;
 use Illuminate\Support\Facades\Route;
 use App\Models\Setting\AppSettingPage;
 use App\Models\Website\WebsitePostCat;
+use App\Models\Website\WebsiteAdvertisement;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Aux\ColorController;
@@ -52,6 +53,7 @@ use App\Http\Controllers\School\SchoolModalityController;
 use App\Http\Controllers\Website\WebsiteBannerController;
 use App\Http\Controllers\Setting\AppSettingPageController;
 use App\Http\Controllers\Website\WebsitePostCatController;
+use App\Http\Controllers\Website\WebsiteAdvertisementController;
 use App\Http\Controllers\Website\WebsiteAdvertisementCatController;
 
 /*
@@ -198,6 +200,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('website_pages', WebsitePageController::class, WebsitePage::class);
     LopHelp::generateCommonModelRoute('website_menus', WebsiteMenuController::class, WebsiteMenu::class);
     LopHelp::generateCommonModelRoute('website_advertisement_cats', WebsiteAdvertisementCatController::class, WebsiteAdvertisementCat::class);
+    LopHelp::generateCommonModelRoute('website_advertisements', WebsiteAdvertisementController::class, WebsiteAdvertisement::class);
 
 });
 

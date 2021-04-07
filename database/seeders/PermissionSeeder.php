@@ -87,6 +87,9 @@ class PermissionSeeder extends Seeder
         $table='website_menus';
         $this->createPermissions($table,'WEBSITE');
 
+        $table='website_advertisements';
+        $this->createPermissions($table,'WEBSITE');
+
         $table='website_advertisement_cats';
         $this->createPermissions($table,'WEBSITE');
 

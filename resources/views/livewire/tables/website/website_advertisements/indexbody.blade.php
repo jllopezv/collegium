@@ -3,9 +3,9 @@
     class="{{ $classrow??'' }} "
     link="{{ route($table.'.show',$item->id) }}"
     justify='center'
-    image='{{ $item->postImage }}'
+    image='{{ $item->advertisementImage }}'
     imageclass='rounded-lg'
-    classcontainer="{{ config('lopsoft.posts_index_showthumb')?'h-26':'h-28' }}"
+    classcontainer="{{ config('lopsoft.advertisements_index_showthumb')?'h-26':'h-28' }}"
 />
 <x-lopsoft.datatable.row-column
     canshow="{{ $item->canShowRecord() && $item->allowShow() }}"

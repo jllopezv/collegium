@@ -7,7 +7,7 @@
     <div class='justify-center inline-block w-full p-2 mt-4 items-top'>
 
         <div class='w-full mx-auto'>
-            @livewire('website.website-page-component', [
+            @livewire('website.website-advertisement-component', [
                 'table'         =>  '{{ $table }}',
                 'model'         =>  $model,
                 'mode'          =>  'edit',

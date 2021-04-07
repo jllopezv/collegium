@@ -5,9 +5,14 @@
 <script src="{{ asset('js/lib/noty.min.js')}}"></script>
 <script src="{{ asset('js/lopsoft.js') }}"></script>
 
+
+@stack('scripts')
+
+{{-- SOLO LOS FORMULARIOS QUE LO USEN
 <script src="{{ asset('js/lib/ckeditor4/ckeditor.js') }}"></script>
 <script src="{{ asset('js/lib/ckeditor4/styles.js') }}"></script>
-<!--<script src="{{ asset('js/lib/ckeditor5/ckeditor.js') }}"></script>-->
+--}}
+
 
 <script>
 

@@ -79,10 +79,10 @@
                 setTimeout(function() {
                     Livewire.emit(event.detail.event)
                 }, event.detail.timeout);
-            })
-        </script>
+            });
 
-        @yield('scripts')
+
+        </script>
 
     </body>
 </html>

@@ -22,3 +22,8 @@
     <div class='h-32'></div>
 
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/lib/ckeditor4/ckeditor.js') }}"></script>
+    <script src="{{ asset('js/lib/ckeditor4/styles.js') }}"></script>
+@endpush

@@ -2,18 +2,18 @@
 
 @section('content')
 
-    @include('livewire.partials.states.commonheader', ['mode' => 'edit'] )
+    @include('livewire.partials.states.commonheader', ['mode' => 'create'] )
 
     <div class='justify-center inline-block w-full p-2 mt-4 items-top'>
 
         <div class='w-full mx-auto'>
-            @livewire('website.website-page-component', [
+            @livewire('website.website-advertisement-component', [
                 'table'         =>  '{{ $table }}',
                 'model'         =>  $model,
-                'mode'          =>  'edit',
+                'mode'          =>  'create',
                 'title'         =>  $title,
                 'subtitle'      =>  $subtitle,
-                'recordid'      =>  $recordid,
+
                 ])
         </div>
 

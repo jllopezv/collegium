@@ -2,15 +2,15 @@
 
 @section('content')
 
-    @include('livewire.partials.states.commonheader', ['mode' => 'edit'] )
+    @include('livewire.partials.states.commonheader', ['mode' => 'show'] )
 
     <div class='justify-center inline-block w-full p-2 mt-4 items-top'>
 
         <div class='w-full mx-auto'>
-            @livewire('website.website-page-component', [
+            @livewire('website.website-advertisement-component', [
                 'table'         =>  '{{ $table }}',
                 'model'         =>  $model,
-                'mode'          =>  'edit',
+                'mode'          =>  'show',
                 'title'         =>  $title,
                 'subtitle'      =>  $subtitle,
                 'recordid'      =>  $recordid,
@@ -22,8 +22,3 @@
     <div class='h-32'></div>
 
 @endsection
-
-@push('scripts')
-    <script src="{{ asset('js/lib/ckeditor4/ckeditor.js') }}"></script>
-    <script src="{{ asset('js/lib/ckeditor4/styles.js') }}"></script>
-@endpush
