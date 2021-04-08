@@ -232,6 +232,15 @@ class AppSettingSeeder extends Seeder
         $record->page_id=AppSettingPage::where('settingpage',transup('advertisements'))->first()->id;
         $record->save();
 
+        $record=new AppSetting();
+        $record->settingkey='ADVERTISEMENTS_TO_SHOW';
+        $record->settingdesc='ADVERTISEMENTS TO SHOW IN WEBSITE';
+        $record->settingvalue=config('lopsoft.advertisements_to_show');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('advertisements'))->first()->id;
+        $record->save();
+
 
     }
 }

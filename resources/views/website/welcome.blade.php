@@ -1,7 +1,7 @@
 @extends('website.layouts.mainlayout')
 
 @php
-    $ads=\App\Models\Website\WebsiteAdvertisement::orderBy('fixed','desc')->orderBy('top','desc')->orderBy('created_at','asc')->get();
+    $ads=\App\Models\Website\WebsiteAdvertisement::orderBy('fixed','desc')->orderBy('top','desc')->orderBy('created_at','desc')->take(appsetting('advertisements_to_show'))->get();
 @endphp
 
 @section('content')

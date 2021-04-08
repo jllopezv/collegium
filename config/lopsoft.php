@@ -147,6 +147,7 @@ return [
     'advertisements_default_height'          => 500,
     'advertisements_default_image'           => 'defaults/default_image.png',
     'advertisements_index_showthumb'         => false,
+    'advertisements_to_show'                 => 8,
 
     /*
     |--------------------------------------------------------------------------

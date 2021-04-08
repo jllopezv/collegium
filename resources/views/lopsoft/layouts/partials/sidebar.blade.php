@@ -117,29 +117,11 @@
             text="{{ transup('website') }}"
             menuid='menuwebsite'
             classmenu='hover:text-green-300'>
-            @hasAbility(['website_posts.access'])
+            @hasAbility(['website_menus.access'])
             <x-lopsoft.control.sidebar-sublink
-                icon='fa fa-sticky-note'
-                link="{{ route('website_posts.index') }}"
-                text="{{ transup('posts') }}"
-                class='hover:text-green-300'
-                help=''>
-            </x-lopsoft.control.sidebar-sublink>
-            @endhasAbility
-            @hasAbility(['website_post_cats.access'])
-            <x-lopsoft.control.sidebar-sublink
-                icon='fa fa-align-justify'
-                link="{{ route('website_post_cats.index') }}"
-                text="{{ transup('post_categories') }}"
-                class='hover:text-green-300'
-                help=''>
-            </x-lopsoft.control.sidebar-sublink>
-            @endhasAbility
-            @hasAbility(['website_banners.access'])
-            <x-lopsoft.control.sidebar-sublink
-                icon='fa fa-object-group'
-                link="{{ route('website_banners.index') }}"
-                text="{{ transup('banners') }}"
+                icon='fa fa-bars'
+                link="{{ route('website_menus.index') }}"
+                text="{{ transup('website_menus') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
@@ -153,15 +135,16 @@
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
             @endhasAbility
-            @hasAbility(['website_menus.access'])
+            @hasAbility(['website_banners.access'])
             <x-lopsoft.control.sidebar-sublink
-                icon='fa fa-bars'
-                link="{{ route('website_menus.index') }}"
-                text="{{ transup('website_menus') }}"
+                icon='fa fa-object-group'
+                link="{{ route('website_banners.index') }}"
+                text="{{ transup('banners') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
             @endhasAbility
+            <x-lopsoft.control.sidebar-separator />
             @hasAbility(['website_advertisements.access'])
             <x-lopsoft.control.sidebar-sublink
                 icon='fa fa-ad'
@@ -176,6 +159,25 @@
                 icon='fa fa-align-justify'
                 link="{{ route('website_advertisement_cats.index') }}"
                 text="{{ transup('website_advertisement_cats') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            <x-lopsoft.control.sidebar-separator />
+            @hasAbility(['website_posts.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-sticky-note'
+                link="{{ route('website_posts.index') }}"
+                text="{{ transup('posts') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['website_post_cats.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-align-justify'
+                link="{{ route('website_post_cats.index') }}"
+                text="{{ transup('post_categories') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
