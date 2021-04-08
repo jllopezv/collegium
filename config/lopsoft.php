@@ -143,8 +143,8 @@ return [
     |
     */
 
-    'advertisements_default_width'           => 300,
-    'advertisements_default_height'          => 300,
+    'advertisements_default_width'           => 1500,
+    'advertisements_default_height'          => 500,
     'advertisements_default_image'           => 'defaults/default_image.png',
     'advertisements_index_showthumb'         => false,
 

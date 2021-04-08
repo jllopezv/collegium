@@ -6,7 +6,6 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Intervention\Image\Facades\Image;
-use App\Models\Website\WebsiteAdvertisementCat;
 use App\Http\Livewire\Traits\HasCommon;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Traits\HasPriority;
@@ -14,6 +13,7 @@ use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
 use App\Http\Livewire\Traits\WithModalConfirm;
+use App\Models\Website\WebsiteAdvertisementCat;
 
 class WebsiteAdvertisementComponent extends Component
 {
@@ -166,7 +166,7 @@ class WebsiteAdvertisementComponent extends Component
 
     public function filemanagerUploadFile($file, $dir, $path)
     {
-        $handlerimg=Image::make($path)->resize(config('lopsoft.advertisements_default_width'), config('lopsoft.advertisements_default_height'), function ($constraint) {
+        $handlerimg=Image::make($path)->resize(appsetting('advertisements_default_width'), appsetting('advertisements_default_height'), function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });

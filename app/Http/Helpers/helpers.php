@@ -131,6 +131,20 @@ use App\Models\Setting\AppSetting;
         }
     }
 
+    if (! function_exists('getAgo')) {
+
+        /**
+         * getDate
+         *
+         * @param  Carbon $carbondate
+         * @return void
+         */
+        function getAgo( $carbondate )
+        {
+            return $carbondate->diffForHumans();
+        }
+    }
+
 
     // Files
     if (! function_exists('humanFileSize')) {

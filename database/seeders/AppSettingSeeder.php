@@ -133,23 +133,8 @@ class AppSettingSeeder extends Seeder
         $record->page_id=AppSettingPage::where('settingpage','LOGIN')->first()->id;
         $record->save();
 
-        $record=new AppSetting();
-        $record->settingkey='POSTS_DEFAULT_WIDTH';
-        $record->settingdesc='POST WIDTH';
-        $record->settingvalue=config('lopsoft.posts_default_width');
-        $record->type='number';
-        $record->level=1;
-        $record->page_id=AppSettingPage::where('settingpage','POSTS')->first()->id;
-        $record->save();
 
-        $record=new AppSetting();
-        $record->settingkey='POSTS_DEFAULT_HEIGHT';
-        $record->settingdesc='POST HEIGHT';
-        $record->settingvalue=config('lopsoft.posts_default_height');
-        $record->type='number';
-        $record->level=1;
-        $record->page_id=AppSettingPage::where('settingpage','POSTS')->first()->id;
-        $record->save();
+
 
         /* WEBSITE */
 
@@ -205,6 +190,46 @@ class AppSettingSeeder extends Seeder
         $record->type='text';
         $record->level=1;
         $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        /* POSTS */
+
+        $record=new AppSetting();
+        $record->settingkey='POSTS_DEFAULT_WIDTH';
+        $record->settingdesc='POST WIDTH';
+        $record->settingvalue=config('lopsoft.posts_default_width');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('posts'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='POSTS_DEFAULT_HEIGHT';
+        $record->settingdesc='POST HEIGHT';
+        $record->settingvalue=config('lopsoft.posts_default_height');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('posts'))->first()->id;
+        $record->save();
+
+        /* ADVERTISEMENTS */
+
+        $record=new AppSetting();
+        $record->settingkey='ADVERTISEMENTS_DEFAULT_WIDTH';
+        $record->settingdesc='ADVERTISEMENT WIDTH';
+        $record->settingvalue=config('lopsoft.advertisements_default_width');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('advertisements'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='ADVERTISEMENTS_DEFAULT_HEIGHT';
+        $record->settingdesc='ADVERTISEMENT HEIGHT';
+        $record->settingvalue=config('lopsoft.advertisements_default_height');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('advertisements'))->first()->id;
         $record->save();
 
 

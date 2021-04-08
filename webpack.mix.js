@@ -39,4 +39,5 @@ mix.styles([
 mix.styles([
     'resources/css/website/navigation.css',
     'resources/css/website/menu.css',
+    'resources/css/website/website.css',
 ], 'public/css/website.css');

@@ -185,3 +185,22 @@ body
     transition: all 0.3s ease;
     border-radius: 4px;
 }
+
+.advertisementimage
+{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-size: 100%;
+    transition: all 500ms ease;
+    cursor: pointer;
+    height: 20rem;
+}
+
+.advertisementimage:hover
+{
+    background-size: 150%;
+    transition: all 500ms ease;
+}
+
+

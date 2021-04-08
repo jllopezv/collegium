@@ -43,7 +43,7 @@
     <div {{--x-show.transition.opacity='showbarmenu'--}}
         id='barmenu'
         class='hidden'>
-        @include('website.html.menubuildervertical', [
+        @include('website.html.menus.menubuildervertical', [
             'root' => 'ROOT',
             'home' => route('website'),
             'login' => '', //route('login')
@@ -53,7 +53,7 @@
 {{-- MENU --}}
 <div class='invisible md:visible'>
     <div class='flex items-start justify-center absolute w-full'>
-        @include('website.html.menubuilderhorizontal', [
+        @include('website.html.menus.menubuilderhorizontal', [
             'root' => 'ROOT',
             'home' => route('website'),
             'login' => '', //route('login')

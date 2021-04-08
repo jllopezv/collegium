@@ -13,30 +13,32 @@
 @endif
 
 @forelse($menu as $menuitem)
-    <div x-data='{ showmenu{{$menuitem->id}}:false, activemenu: false}' class='z-50'>
+    <div x-data='{ showmenu{{$menuitem->id}}:false, activemenu: false}' class=''>
         <div class="menu-root relative"
             x-bind:class="{ 'active': (activemenu==true) }"
-            @mouseenter="showmenu{{$menuitem->id}}=true"
-            @mouseleave="showmenu{{$menuitem->id}}=false"
+            @click.away="showmenu{{$menuitem->id}}=false;activemenu=false "
+            @if (count($menuitem->childrens()))
+                @click.prevent="showmenu{{$menuitem->id}}=true;activemenu=true;showbarmenu=true"
+            @else
+                @click="showmenu{{$menuitem->id}}=true;activemenu=true"
+            @endif
             >
             @if (count($menuitem->childrens()))
-                {{ $menuitem->label }}
+                {{ $menuitem->label }} <i class='fa fa-caret-down'></i>
             @else
                 @if($menuitem->link!='')
                     <a href='{{$menuitem->link}}'>{{ $menuitem->label }}</a>
                 @else
-                <a href='{{$menuitem->website_page_id}}'>{{ $menuitem->label }}</a>
+                    <a href='{{$menuitem->website_page_id}}'>{{ $menuitem->label }}</a>
                 @endif
             @endif
 
         </div>
         <div
-            @mouseenter="showmenu{{$menuitem->id}}=true;activemenu=true"
-            @mouseleave="showmenu{{$menuitem->id}}=false;activemenu=false"
             x-cloak
-            x-show.transition.opacity.duration.750ms='showmenu{{$menuitem->id}}' class='absolute bg-white rounded' style='min-width: 200px;'>
+            x-show.transition.opacity.duration.750ms='showmenu{{$menuitem->id}}' class='bg-white' style='min-width: 200px;'>
             @foreach($menuitem->childrens() as $child)
-                @include('website.html.menubuilderitemsvertical', ['root' => $child->menu])
+                @include('website.html.menus.menubuilderitemsvertical', ['root' => $child->menu])
             @endforeach
         </div>
     </div>

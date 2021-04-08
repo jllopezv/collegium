@@ -13,3 +13,12 @@ Route::get('/aboutus', function() {
 Route::get('/contactus', function() {
     return "Contact us";
 })->name('contactus');
+
+
+Route::get('/showpost/{id}', function($id) {
+    return view('website.html.showpost', ['id' => $id ]);
+})->name('website.showpost');
+
+Route::get('/showadvertisement/{id}', function($id) {
+    return view('website.html.showadvertisement', ['id' => $id ]);
+})->name('website.showadvertisement');

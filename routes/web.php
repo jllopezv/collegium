@@ -67,10 +67,14 @@ use App\Http\Controllers\Website\WebsiteAdvertisementCatController;
 |
 */
 
+
+/* ENTRY POINT */
 Route::get('/', function () {
     return view('website.welcome');
 });
 
+
+/* TEST ROUTES */
 Route::get('/checkcache',  function () {
     return view('checkcache');
 });
@@ -79,21 +83,9 @@ Route::get('/testpaths', function () {
     return view('testpaths');
 });
 
-
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-
 Route::get('/testpage', function() {
     return view('testpage');
 })->name('testpage');
-
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/profile', function() {
-    return view('lopsoft.auth.profile');
-})->name('profile');
 
 Route::get('/fm', function () {
     return view('lopsoft.filemanager.browser');
@@ -102,6 +94,22 @@ Route::get('/fm', function () {
 Route::get('/testfm', function () {
     return view('testfm');
 })->middleware('permission:filemanager')->name('filemanager.test');
+
+Route::get('/phpinfo', function () {
+    return phpinfo();
+})->middleware('auth')->name('php.info');
+
+/*****************************************************/
+/* ADMIN                                             */
+/*****************************************************/
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/profile', function() {
+    return view('lopsoft.auth.profile');
+})->name('profile');
 
 Route::post('/changeannosession/{id}', [ AnnoController::class, 'changeAnnoSession' ])->name('changeannosession')->middleware('auth');
 

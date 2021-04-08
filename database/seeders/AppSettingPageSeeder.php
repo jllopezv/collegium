@@ -17,6 +17,7 @@ class AppSettingPageSeeder extends Seeder
         $record=new AppSettingPage();
         $record->settingpage='SISTEMA';
         $record->onlysuperadmin=true;
+        $record->priority=1;
         $record->save();
         $record->allowedActions()->create([  'allowShow'     => false,
                                              'allowEdit'     => false,
@@ -27,27 +28,41 @@ class AppSettingPageSeeder extends Seeder
         $record=new AppSettingPage();
         $record->settingpage='LOGIN';
         $record->onlysuperadmin=true;
+        $record->priority=2;
         $record->save();
         $record->allowedActions()->create([  'allowShow'     => false,
                                                 'allowEdit'     => false,
                                                 'allowDelete'   => false,
                                                 'allowLock'     => false
                                         ]);
+
 
         $record=new AppSettingPage();
-        $record->settingpage='POSTS';
-        $record->onlysuperadmin=true;
+        $record->settingpage='GENERAL';
+        $record->priority=3;
         $record->save();
         $record->allowedActions()->create([  'allowShow'     => false,
                                                 'allowEdit'     => false,
                                                 'allowDelete'   => false,
                                                 'allowLock'     => false
                                         ]);
-
 
         $record=new AppSettingPage();
         $record->settingpage='WEBSITE';
         $record->onlysuperadmin=true;
+        $record->priority=4;
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                                'allowEdit'     => false,
+                                                'allowDelete'   => false,
+                                                'allowLock'     => false
+                                        ]);
+
+
+        $record=new AppSettingPage();
+        $record->settingpage=transup('posts');
+        $record->onlysuperadmin=true;
+        $record->priority=5;
         $record->save();
         $record->allowedActions()->create([  'allowShow'     => false,
                                                 'allowEdit'     => false,
@@ -56,7 +71,9 @@ class AppSettingPageSeeder extends Seeder
                                         ]);
 
         $record=new AppSettingPage();
-        $record->settingpage='GENERAL';
+        $record->settingpage=transup('advertisements');
+        $record->onlysuperadmin=true;
+        $record->priority=6;
         $record->save();
         $record->allowedActions()->create([  'allowShow'     => false,
                                                 'allowEdit'     => false,
