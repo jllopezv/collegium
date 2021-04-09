@@ -21,22 +21,22 @@
 
         <div>
 
-            <div class='gnosyscontrol-container relative md:h-40 w-full bg-white'>
+            <div class='relative md:h-48 w-full bg-white'>
 
                 @include('website.html.navigation')
 
             </div>
 
-            <div class='gnosyscontrol-container banner-module p-0 m-0'>
+            <div class='p-0 m-0'>
 
-                <div class='websitecontent' style='min-height: 500px; '>
+                <div class='' style='min-height: 500px; '>
 
                     @yield('content')
 
                 </div>
 
 
-                <div class='websitefooter'>
+                <div class=''>
 
                     @include('website.html.footer')
 

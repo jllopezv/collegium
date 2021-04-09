@@ -86,7 +86,7 @@ use App\Models\Setting\AppSetting;
         }
     }
 
-    if (! function_exists('getDate')) {
+    if (! function_exists('getDateCarbon')) {
 
         /**
          * getDate
@@ -94,7 +94,7 @@ use App\Models\Setting\AppSetting;
          * @param  Carbon $carbondate
          * @return void
          */
-        function getDate( $carbondate )
+        function getDateCarbon( $carbondate )
         {
             return $carbondate->setTimezone( Auth::user()->timezone->name??config('lopsoft.timezone_default') )
                         ->locale( Auth::user()->language->code??config('lopsoft.locale_default') )

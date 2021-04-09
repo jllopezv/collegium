@@ -29,9 +29,7 @@
 
             <div class='p-0 m-0'>
 
-                @include('website.html.mainbanner')
-
-                <div class='' style='min-height: 500px; '>
+                <div class='websitecontent' style='min-height: 500px; '>
 
                     @yield('content')
 

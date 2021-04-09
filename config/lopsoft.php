@@ -149,6 +149,20 @@ return [
     'advertisements_index_showthumb'         => false,
     'advertisements_to_show'                 => 8,
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | News
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'news_default_width'           => 1500,
+    'news_default_height'          => 500,
+    'news_default_image'           => 'defaults/default_image.png',
+    'news_index_showthumb'         => false,
+    'news_to_show'                 => 1,
+
     /*
     |--------------------------------------------------------------------------
     | Banners

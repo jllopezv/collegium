@@ -22,3 +22,7 @@ Route::get('/showpost/{id}', function($id) {
 Route::get('/showadvertisement/{id}', function($id) {
     return view('website.html.showadvertisement', ['id' => $id ]);
 })->name('website.showadvertisement');
+
+Route::get('/shownews/{id}', function($id) {
+    return view('website.html.shownews', ['id' => $id ]);
+})->name('website.shownews');

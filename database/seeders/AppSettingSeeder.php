@@ -157,6 +157,33 @@ class AppSettingSeeder extends Seeder
         $record->save();
 
         $record=new AppSetting();
+        $record->settingkey='WEBSITE_BUSINESS_NAME';
+        $record->settingdesc='WEBSITE BUSINESS NAME';
+        $record->settingvalue='TIA SANDRA SCHOOL';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_BUSINESS_ADDRESS1';
+        $record->settingdesc='WEBSITE BUSINESS ADDRESS1';
+        $record->settingvalue='LAS MARGARITAS, ESQ. LAS VIOLETAS';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_BUSINESS_ADDRESS2';
+        $record->settingdesc='WEBSITE BUSINESS ADDRESS2';
+        $record->settingvalue='BAVARO - LA ALTAGRACIA - REP. DOMINICANA';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
         $record->settingkey='WEBSITE_BANNER_MAIN';
         $record->settingdesc='WEBSITE MAIN BANNER';
         $record->settingvalue='MAINBANNER';
@@ -187,6 +214,42 @@ class AppSettingSeeder extends Seeder
         $record->settingkey='WEBSITE_WHATSAPP_MAIN';
         $record->settingdesc='WEBSITE MAIN WHATSAPP NUMBER';
         $record->settingvalue='XXX-XXX-XXXX';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_SOCIAL_FACEBOOK';
+        $record->settingdesc='WEBSITE SOCIAL FACEBOOK';
+        $record->settingvalue='FACEBOOK';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_SOCIAL_INSTAGRAM';
+        $record->settingdesc='WEBSITE SOCIAL INSTAGRAM';
+        $record->settingvalue='INSTAGRAM';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_SOCIAL_TWITTER';
+        $record->settingdesc='WEBSITE SOCIAL TWITTER';
+        $record->settingvalue='TWITTER';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_SOCIAL_YOUTUBE';
+        $record->settingdesc='WEBSITE SOCIAL YOUTUBE';
+        $record->settingvalue='YOUTUBE';
         $record->type='text';
         $record->level=1;
         $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
@@ -239,6 +302,35 @@ class AppSettingSeeder extends Seeder
         $record->type='number';
         $record->level=1;
         $record->page_id=AppSettingPage::where('settingpage',transup('advertisements'))->first()->id;
+        $record->save();
+
+        /* NEWS */
+
+        $record=new AppSetting();
+        $record->settingkey='NEWS_DEFAULT_WIDTH';
+        $record->settingdesc='NEWS WIDTH';
+        $record->settingvalue=config('lopsoft.news_default_width');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('news'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='NEWS_DEFAULT_HEIGHT';
+        $record->settingdesc='NEWS HEIGHT';
+        $record->settingvalue=config('lopsoft.news_default_height');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('news'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='NEWS_TO_SHOW';
+        $record->settingdesc='NEWS TO SHOW IN WEBSITE';
+        $record->settingvalue=config('lopsoft.news_to_show');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('news'))->first()->id;
         $record->save();
 
 

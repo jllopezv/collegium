@@ -87,6 +87,17 @@ class WebsitePost extends Model
             ->orWhere('body','like', '%'.$search.'%');
     }
 
+    /**
+     * Scope a query to only include published records.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('published', 1);
+    }
+
     public function getStatusFormatted()
     {
         return  "<span class=''>".

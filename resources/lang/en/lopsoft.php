@@ -30,6 +30,8 @@ return [
         'website_menus'     =>  'website menus',
         'website_advertisement_cats'    => 'website advertisement categories',
         'website_advertisements'        => 'website advertisements',
+        'website_news_cats'    => 'website news categories',
+        'website_news'        => 'website news',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -168,4 +170,7 @@ return [
     'advertisements'        =>  'advertisements',
     'website_advertisement_cats'    => 'website advertisement categories',
     'website_advertisements'        => 'website advertisements',
+    'website_news_cats'    => 'website news categories',
+    'website_news'        => 'website news',
+    'news'                  => 'news',
 ];

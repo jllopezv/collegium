@@ -1,4 +1,5 @@
 <div class='p-2 w-full md:w-1/2 lg:w-1/3 xl:w-1/4'>
+{{--<div class='p-2 w-full md:w-1/2 xl:w-1/2'>--}}
     <a class='cursor-pointer' href="{{ route('website.showadvertisement', ['id' => $ad->id]) }}">
         <div class='m-2 p-2 rounded-lg shadow-lg bg-white h-full'>
             <div class='relative'>

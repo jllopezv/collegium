@@ -11,8 +11,29 @@
 
 .advertisementimage:hover
 {
-    background-size: 150%;
+    background-size: 120%;
     transition: all 500ms ease;
 }
+
+.newsimage
+{
+    width: 150px;
+    min-width: 150px;
+    height: 150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-size: 100%;
+    transition: all 500ms ease;
+    cursor: pointer;
+}
+
+
+.newsimage:hover
+{
+    background-size: 120%;
+    transition: all 500ms ease;
+}
+
 
 

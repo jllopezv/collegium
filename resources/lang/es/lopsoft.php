@@ -32,6 +32,8 @@ return [
         'website_menus'     =>  'menús del website',
         'website_advertisement_cats'    => 'categorías de avisos',
         'website_advertisements'        => 'avisos',
+        'website_news_cats' => 'categorías de nonticias',
+        'website_news'      => 'noticias',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -168,4 +170,7 @@ return [
     'advertisements'        =>  'avisos',
     'website_advertisement_cats'    => 'categorías de avisos',
     'website_advertisements'        => 'avisos',
+    'website_news_cats'     => 'categorías de noticias',
+    'website_news'          => 'noticias',
+    'news'                  => 'noticias',
 ];

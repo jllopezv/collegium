@@ -25,6 +25,8 @@
                         @if(appsetting('WEBSITE_PHONE_MAIN')!='')
                             <a href="tel: {{ appsetting('WEBSITE_PHONE_MAIN') }}"><i class='fa fa-phone-alt text-red-400'></i> <span class=' hover:text-cool-gray-800'>{{ appsetting('WEBSITE_PHONE_MAIN') }}</span></a>
                         @endif
+                    </div>
+                    <div class='text-right'>
                         @if(appsetting('WEBSITE_WHATSAPP_MAIN')!='')
                             <a href="tel: {{ appsetting('WEBSITE_WHATSAPP_MAIN') }}"><i class='fab fa-whatsapp text-green-400'></i> <span class=' hover:text-cool-gray-800'>{{ appsetting('WEBSITE_WHATSAPP_MAIN') }}</span></a>
                         @endif

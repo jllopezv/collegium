@@ -1,21 +1,41 @@
 @extends('website.layouts.mainlayout')
 
 @php
-    $ads=\App\Models\Website\WebsiteAdvertisement::orderBy('fixed','desc')->orderBy('top','desc')->orderBy('created_at','desc')->take(appsetting('advertisements_to_show'))->get();
+    $ads=\App\Models\Website\WebsiteAdvertisement::query()->published()->orderBy('fixed','desc')->orderBy('top','desc')->orderBy('created_at','desc')->take(appsetting('advertisements_to_show'))->get();
+    $news=\App\Models\Website\WebsiteNews::query()->published()->orderBy('fixed','desc')->orderBy('top','desc')->orderBy('created_at','desc')->take(appsetting('news_to_show'))->get();
 @endphp
 
 @section('content')
 
-    <div class='flex flex-wrap items-center justify-center p-2'>
-        @foreach($ads as $ad)
 
-            @if($ad->published)
+    {{--<div class='flex flex-wrap items-start justify-start w-full bg-red-100'>--}}
 
-                @include('website.html.ads.ads', [ 'ad' => $ad])
+        @if($ads->count()>0)
+        {{--<div class='w-full xl:w-2/3 bg-gray-200'>--}}
+            <div class='flex flex-wrap items-center justify-center p-2 bg-gray-200'>
+                @foreach($ads as $ad)
+                    @include('website.html.ads.ads', [ 'ad' => $ad])
+                @endforeach
+            </div>
+        {{--</div>--}}
+        </div>
+        @endif
 
-            @endif
 
-        @endforeach
-    </div>
+        @if($news->count()>0)
+            {{--<div class='w-full xl:w-1/3  h-full'>--}}
+            <div class='text-center font-bold text-4xl text-red-500 mt-8'>
+                ÚLTIMAS NOTICIAS
+            </div>
+            <div class='flex flex-wrap items-center justify-center p-2'>
+                @foreach($news as $newsitem)
+                    @include('website.html.news.news', [ 'newsitem' => $newsitem])
+                @endforeach
+            </div>
+            {{--</div>--}}
+        @endif
+
+
+    {{--</div>--}}
 
 @endsection

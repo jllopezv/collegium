@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         // Website
         $this->call(WebsitePostCatSeeder::class);
         $this->call(WebsiteAdvertisementCatSeeder::class);
+        $this->call(WebsiteNewsCatSeeder::class);
         $this->call(WebsiteMenuSeeder::class);
 
         // School
