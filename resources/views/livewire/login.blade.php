@@ -8,10 +8,16 @@
                 <div class='mt-40 mb-10 sm:mt-0' >
                     <img class='mx-auto w-80' src="{{ Illuminate\Support\Facades\Storage::disk('public')->url(appsetting('vendorlogo_overblack')) }}" />
                 </div>
-                <div class='flex items-center justify-center '>
 
+                <div class='flex items-center justify-center '>
                     <div class='py-4 mx-2 bg-white rounded-lg shadow-md lg:w-2/3 lg:mx-0 xl:w-1/2'>
+                        @if(appsetting('maintenance_mode'))
+                            <div class='w-full bg-red-500 text-white p-2 text-center text-xl font-bold'>
+                                {{ transup('maintenance_mode') }}
+                            </div>
+                        @endif
                         <div class='w-full h-full py-0 sm:inline-flex lg:py-10'>
+
                             <div class='self-center px-3 py-10 border-b border-gray-200 sm:py-20 sm:w-2/4 sm:border-b-0 sm:border-r'>
                                 <img class='mx-auto' src='{{ Illuminate\Support\Facades\Storage::disk('public')->url(appsetting('loginlogo')) }}' />
                                 <div class='pt-4 text-xl text-center'>

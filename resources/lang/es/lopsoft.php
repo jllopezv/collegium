@@ -173,4 +173,6 @@ return [
     'website_news_cats'     => 'categorías de noticias',
     'website_news'          => 'noticias',
     'news'                  => 'noticias',
+    'maintenance_mode'      =>  'modo de mantenimiento',
+    'filemanager'           =>  'gestión de archivos',
 ];

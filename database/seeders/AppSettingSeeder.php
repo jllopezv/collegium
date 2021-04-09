@@ -79,6 +79,15 @@ class AppSettingSeeder extends Seeder
         $record->save();
 
         $record=new AppSetting();
+        $record->settingkey='MAINTENANCE MODE';
+        $record->settingdesc='MAINTENANCE MODE';
+        $record->settingvalue=config('lopsoft.maintenance_mode');
+        $record->type='boolean';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','LOGIN')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
         $record->settingkey='TITLE_LINE1';
         $record->settingdesc='LOGIN LINE1 TEXT';
         $record->settingvalue=config('lopsoft.title_line1');
@@ -137,6 +146,24 @@ class AppSettingSeeder extends Seeder
 
 
         /* WEBSITE */
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_MAINTENANCE_MODE';
+        $record->settingdesc='WEBSITE MAINTENANCE MODE';
+        $record->settingvalue=config('lopsoft.website_maintenance_mode');
+        $record->type='boolean';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_MAINTENANCE_MODE_PAGE_NAME';
+        $record->settingdesc='WEBSITE MAINTENANCE MODE PAGE NAME';
+        $record->settingvalue=config('lopsoft.website_maintenance_mode_page_name');
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
 
         $record=new AppSetting();
         $record->settingkey='WEBSITE_LOGO_SMALL';

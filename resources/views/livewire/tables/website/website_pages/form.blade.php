@@ -19,3 +19,7 @@
     'mode'      => $mode,
 ])
 
+
+@livewire('filemanager.filemanager', ['uuid' => 'filemanagerbody', 'multiselect' => false, 'root' => '/', 'allowedmimetypes' => '' ])
+
+

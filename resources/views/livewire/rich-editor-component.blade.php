@@ -106,7 +106,8 @@
                 img=new Image;
                 img.src=event.detail.file[0]['url'];
                 img.onload = function() {
-                    editor.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '" style="width:'+this.width+'px;height:'+this.height+'px" />');
+                    //editor.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '" style="width:'+this.width+'px;height:'+this.height+'px" />');
+                    editor.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '" style="width:'+this.width+'px;height: auto" />');
                 }
 
             }

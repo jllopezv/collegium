@@ -51,6 +51,14 @@ class LoginComponent extends Component
                 Auth::logout();
                 redirect(route('login'));
             }
+            if (appsetting('maintenance_mode'))
+            {
+                if (!Auth::user()->isSuperadmin())
+                {
+                    session()->flash('error', 'MODO MANTENIMIENTO');
+                    return;
+                }
+            }
             return redirect(route('dashboard'));
         }
         else

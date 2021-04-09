@@ -29,7 +29,7 @@
                 @if($menuitem->link!='')
                     <a href='{{$menuitem->link}}'>{{ $menuitem->label }}</a>
                 @else
-                    <a href='{{$menuitem->website_page_id}}'>{{ $menuitem->label }}</a>
+                    <a href='{{ route('website.showpage', [ 'id' => $menuitem->website_page_id ] ) }}'>{{ $menuitem->label }}</a>
                 @endif
             @endif
 

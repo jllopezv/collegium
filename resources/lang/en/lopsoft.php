@@ -173,4 +173,6 @@ return [
     'website_news_cats'    => 'website news categories',
     'website_news'        => 'website news',
     'news'                  => 'news',
+    'maintenance_mode'      =>  'maintenance mode',
+    'filemanager'           =>  'filemanager',
 ];

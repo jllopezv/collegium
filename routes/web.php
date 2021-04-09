@@ -74,8 +74,12 @@ use App\Http\Controllers\Website\WebsiteAdvertisementCatController;
 
 /* ENTRY POINT */
 Route::get('/', function () {
+    if(appsetting('website_maintenance_mode'))
+    {
+        return view('website.maintenance');
+    }
     return view('website.welcome');
-});
+})->name('website.welcome');
 
 
 /* TEST ROUTES */

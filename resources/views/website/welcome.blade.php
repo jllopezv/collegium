@@ -7,6 +7,7 @@
 
 @section('content')
 
+    @include('website.html.showpagebyname', ['pagename' => 'INTRODUCE_PAGE'])
 
     {{--<div class='flex flex-wrap items-start justify-start w-full bg-red-100'>--}}
 

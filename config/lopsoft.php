@@ -18,6 +18,7 @@ return [
     'vendorlogo'            =>  'system/vendorlogo.png',
     'prefix_admin'          =>  'admin',
 
+
     /*
     |--------------------------------------------------------------------------
     | Date
@@ -53,6 +54,7 @@ return [
     'title_line2_class'     =>  'font-bold text-red-500 text-2xl',
     'loginlogo'             =>  'system/logo.png',
     'showavatar'            =>  true,
+    'maintenance_mode'      =>  false,
 
 
      /*
@@ -112,8 +114,6 @@ return [
     'users_defaultpassword' =>  '123456',
     'emails_generate_domain'=>  'tiasandraschool.com',
 
-
-
     /*
     |--------------------------------------------------------------------------
     | Students
@@ -123,6 +123,16 @@ return [
 
     'studentsname_uppercase'      =>  true,
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Website
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'website_maintenance_mode'              =>   false,
+    'website_maintenance_mode_page_name'    =>  'WEBSITE_MAINTENANCE_MODE_PAGE',
 
     /*
     |--------------------------------------------------------------------------

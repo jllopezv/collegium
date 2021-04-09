@@ -363,8 +363,8 @@
     @endhasAbilityOr
 
     <x-lopsoft.control.sidebar-link
-        icon='hover:text-red-500 fa fa-file'
-        text="{{ transup('filemanger') }}"
+        icon='hover:text-red-500 fa fa-image'
+        text="{{ transup('filemanager') }}"
         help="{{ transup('filemanager') }}"
         class='hover:text-blue-500'
         link="{{ route('filemanager.test') }}">

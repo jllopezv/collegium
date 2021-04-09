@@ -6,7 +6,7 @@
     <div class='flex items-center justify-between'>
         <div class='flex items-center justify-start'>
             <div>
-                <a href="{{ route('website') }}">
+                <a href="{{ route('website.welcome') }}">
                     <img class='navigation-logo' src='{{ getImage(appsetting('WEBSITE_LOGO_SMALL')) }}' >
                 </a>
             </div>
@@ -42,24 +42,28 @@
         </div>
     </div>
     {{-- BARMENU --}}
-    <div {{--x-show.transition.opacity='showbarmenu'--}}
-        id='barmenu'
-        class='hidden'>
-        @include('website.html.menus.menubuildervertical', [
-            'root' => 'ROOT',
-            'home' => route('website'),
-            'login' => '', //route('login')
-        ])
-    </div>
+    @if(!appsetting('website_maintenance_mode'))
+        <div {{--x-show.transition.opacity='showbarmenu'--}}
+            id='barmenu'
+            class='hidden'>
+            @include('website.html.menus.menubuildervertical', [
+                'root' => 'ROOT',
+                'home' => route('website.welcome'),
+                'login' => '', //route('login')
+            ])
+        </div>
+    @endif
 </div>
 {{-- MENU --}}
-<div class='invisible md:visible'>
-    <div class='flex items-start justify-center absolute w-full'>
-        @include('website.html.menus.menubuilderhorizontal', [
-            'root' => 'ROOT',
-            'home' => route('website'),
-            'login' => '', //route('login')
-        ])
-    </div>
+@if(!appsetting('website_maintenance_mode'))
+    <div class='invisible md:visible'>
+        <div class='flex items-start justify-center absolute w-full'>
+            @include('website.html.menus.menubuilderhorizontal', [
+                'root' => 'ROOT',
+                'home' => route('website.welcome'),
+                'login' => '', //route('login')
+            ])
+        </div>
 
-</div>
+    </div>
+@endif
