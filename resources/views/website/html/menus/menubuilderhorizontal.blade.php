@@ -20,12 +20,12 @@
             @mouseleave="showmenu{{$menuitem->id}}=false"
             >
             @if (count($menuitem->childrens()))
-                {{ $menuitem->label }}
+                {!! $menuitem->label !!}
             @else
                 @if($menuitem->link!='')
-                    <a href='{{$menuitem->link}}'>{{ $menuitem->label }}</a>
+                    <a href='{{$menuitem->link}}'>{!! $menuitem->label !!}</a>
                 @else
-                    <a href='{{ route('website.showpage', [ 'id' => $menuitem->website_page_id ] ) }}'>{{ $menuitem->label }}</a>
+                    <a href='{{ route('website.showpage', [ 'id' => $menuitem->website_page_id ] ) }}'>{!! $menuitem->label !!}</a>
                 @endif
             @endif
 

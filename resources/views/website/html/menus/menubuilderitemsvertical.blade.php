@@ -6,9 +6,9 @@
 <div class='menu-vertical'>
 
     @if($menu->link!='')
-        <a href='{{$menu->link}}'>{{ $menu->label }}</a>
+        <a href='{{$menu->link}}'>{!! $menu->label !!}</a>
     @else
-        <a href='{{ route('website.showpage', [ 'id' => $menu->website_page_id ] ) }}'>{{ $menu->label }}</a>
+        <a href='{{ route('website.showpage', [ 'id' => $menu->website_page_id ] ) }}'>{!! $menu->label !!}</a>
     @endif
 
 </div>

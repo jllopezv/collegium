@@ -1,7 +1,7 @@
 <div class=' bg-gray-800 text-white p-4'>
 
     <div class='flex flex-wrap items-start justify-between'>
-        <div class='w-full md:w-1/2'>
+        <div class='w-full md:w-1/2 border-r-0  md:border-r border-dashed border-gray-400 text-center md:text-left'>
             <div class='text-2xl font-bold'>
                 {!! appsetting('WEBSITE_BUSINESS_NAME') !!}
             </div>
@@ -33,9 +33,9 @@
                 @endif
             </div>
         </div>
-        <div class='w-full md:w-1/2 text-right'>
+        <div class='w-full md:w-1/2 md:text-right border-t border-dashed border-gray-400 mt-4 mb-4 md:mt-0 md:border-t-0 text-center'>
             @if(appsetting('WEBSITE_SOCIAL_FACEBOOK')!='' || appsetting('WEBSITE_SOCIAL_TWITTER')!='' || appsetting('WEBSITE_SOCIAL_INSTAGRAM')!='' || appsetting('WEBSITE_SOCIAL_YOUTUBE')!='')
-                <div class=''>
+                <div class='mt-4 md:mt-0'>
                     SIGUENOS EN
                 </div>
                 @if(appsetting('WEBSITE_SOCIAL_FACEBOOK')!='')

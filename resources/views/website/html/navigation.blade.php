@@ -17,7 +17,7 @@
         </div>
         <div  class=''>
             <div class='flex items-center justify-end pr-2'>
-                <div class='hidden md:block'>
+                <div class='hidden md:block text-right'>
                     @if(appsetting('WEBSITE_EMAIL_MAIN')!='')
                         <div class='text-right'><a href="mailto: {{ appsetting('WEBSITE_EMAIL_MAIN') }}"><i class='fa fa-envelope text-red-400'></i> <span class=' hover:text-cool-gray-800'>{{ appsetting('WEBSITE_EMAIL_MAIN') }}</span></a></div>
                     @endif
@@ -42,7 +42,7 @@
         </div>
     </div>
     {{-- BARMENU --}}
-    @if(!appsetting('website_maintenance_mode'))
+    @if(appsetting('website_maintenance_mode')=='false')
         <div {{--x-show.transition.opacity='showbarmenu'--}}
             id='barmenu'
             class='hidden'>
@@ -55,7 +55,7 @@
     @endif
 </div>
 {{-- MENU --}}
-@if(!appsetting('website_maintenance_mode'))
+@if(appsetting('website_maintenance_mode')=='false')
     <div class='invisible md:visible'>
         <div class='flex items-start justify-center absolute w-full'>
             @include('website.html.menus.menubuilderhorizontal', [
