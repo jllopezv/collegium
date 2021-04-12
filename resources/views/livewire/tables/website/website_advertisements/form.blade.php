@@ -89,7 +89,7 @@
 
 
  @livewire('controls.drop-down-table-component', [
-    'model'         => \App\Models\Website\WebsitePostCat::class,
+    'model'         => \App\Models\Website\WebsiteAdvertisementCat::class,
     'mode'          =>  $mode,
     'filterraw'     => '',
     'sortorder'     => 'priority',
@@ -97,12 +97,12 @@
     'classdropdown' => 'w-1/4',
     'key'           => 'id',
     'field'         => 'category',
-    'defaultvalue'  =>  $record->website_post_cat_id??null,
+    'defaultvalue'  =>  $record->website_advertisement_cat_id??null,
     'eventname'     => 'eventsetcat',
-    'uid'           => 'website_post_cat_component',
-    'modelid'       => 'website_post_cat_id',
+    'uid'           => 'website_advertisement_cat_component',
+    'modelid'       => 'website_advertisement_cat_id',
     'isTop'         =>  false,
-    'template'      => 'components.lopsoft.dropdown.websitepostcat',
+    'template'      => 'components.lopsoft.dropdown.websiteadvertisementcat',
 ])
 
 @livewire('filemanager.filemanager', ['uuid' => 'filemanagerbody', 'multiselect' => false, 'root' => '/', 'allowedmimetypes' => '' ])

@@ -42,7 +42,7 @@
         </div>
     </div>
     {{-- BARMENU --}}
-    @if(appsetting('website_maintenance_mode')=='false')
+    @if(!appsetting('website_maintenance_mode'))
         <div {{--x-show.transition.opacity='showbarmenu'--}}
             id='barmenu'
             class='hidden'>
@@ -55,7 +55,7 @@
     @endif
 </div>
 {{-- MENU --}}
-@if(appsetting('website_maintenance_mode')=='false')
+@if(!appsetting('website_maintenance_mode'))
     <div class='invisible md:visible'>
         <div class='flex items-start justify-center absolute w-full'>
             @include('website.html.menus.menubuilderhorizontal', [

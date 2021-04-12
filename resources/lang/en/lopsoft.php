@@ -32,6 +32,8 @@ return [
         'website_advertisements'        => 'website advertisements',
         'website_news_cats'    => 'website news categories',
         'website_news'        => 'website news',
+        'website_section_cats'    => 'website section categories',
+        'website_sections'        => 'website sections',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -175,4 +177,6 @@ return [
     'news'                  => 'news',
     'maintenance_mode'      =>  'maintenance mode',
     'filemanager'           =>  'filemanager',
+    'section'               =>  'section',
+    'sections'              =>  'sections',
 ];

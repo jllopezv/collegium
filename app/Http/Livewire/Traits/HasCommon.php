@@ -72,7 +72,6 @@ Trait HasCommon
     public $filterdata="";
     public $canShowFilterButton=false;
     public $canShowSortButton=false;
-
     private $data=null;
     private $newmodel=null;
 

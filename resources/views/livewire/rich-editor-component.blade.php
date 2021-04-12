@@ -1,7 +1,7 @@
 <div
     class="py-4"
     x-data='{}'
-    x-init="editor.setData($wire.default)">
+    x-init="editor_{{$uuid}}.setData($wire.default)">
     <label class="block mb-2 font-bold">
         {{ $label }}
         @if($sublabel!="")
@@ -22,11 +22,9 @@
 
 <script>
 
-
-
         // CKEditor4
         let lastchange_{{$uuid}}=true;
-        let editor=CKEDITOR.replace('ckeditor_{{$uuid}}', {
+        let editor_{{$uuid}}=CKEDITOR.replace('ckeditor_{{$uuid}}', {
             height: 500,
             width: '100%',
             language: 'es',
@@ -87,13 +85,13 @@
         //     }
         // });
 
-        editor.addCommand("filemanagerLopsoft", { // create named command
+        editor_{{$uuid}}.addCommand("filemanagerLopsoft", { // create named command
             exec: function(edt) {
                 Livewire.emit('showFilemanager',"{{$uuid}}", "{{$modelid}}", 'types:jpg,png,jpeg');
             }
         });
 
-        editor.ui.addButton('filemanagerLopsoftButton', { // add new button and bind our command
+        editor_{{$uuid}}.ui.addButton('filemanagerLopsoftButton', { // add new button and bind our command
             label: "Filemanager",
             command: 'filemanagerLopsoft',
             toolbar: 'insert',
@@ -106,8 +104,9 @@
                 img=new Image;
                 img.src=event.detail.file[0]['url'];
                 img.onload = function() {
-                    //editor.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '" style="width:'+this.width+'px;height:'+this.height+'px" />');
-                    editor.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '" style="width:'+this.width+'px;height: auto" />');
+                    editor_{{$uuid}}.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '"  />');
+                    //editor_{{$uuid}}.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '" style="width:'+this.width+'px;height:'+this.height+'px" />');
+                    //editor_{{$uuid}}.insertHtml('<img alt="" src="' +  event.detail.file[0]['url'] + '" style="width:'+this.width+'px;height: auto" />');
                 }
 
             }
@@ -117,22 +116,28 @@
         window.addEventListener('richeditor-setdefault', event => {
             if (event.detail.modelid=="{{$modelid}}")
             {
-                editor.setData(event.detail.content);
+                editor_{{$uuid}}.setData(event.detail.content);
             }
         })
 
         window.addEventListener('richeditor-updated', event => {
-            $("#loading_{{$uuid}}").hide();
-            lastchange_{{$uuid}}=true;
-            $("#btnCreate").show();
-            $("#btnUpdate").show();
+            if (event.detail.modelid=="{{$modelid}}")
+            {
+                $("#loading_{{$uuid}}").hide();
+                lastchange_{{$uuid}}=true;
+                $("#btnCreate").show();
+                $("#btnUpdate").show();
+            }
         });
 
         window.addEventListener('richeditor-request-update', event => {
-            $("#loading_{{$uuid}}").show();
-            $("#btnCreate").hide();
-            $("#btnUpdate").hide();
-            Livewire.emit('richeditor-update','{{$modelid}}',editor.getData(), event.detail.command, event.detail.param );
+            if (event.detail.modelid=="{{$modelid}}")
+            {
+                $("#loading_{{$uuid}}").show();
+                $("#btnCreate").hide();
+                $("#btnUpdate").hide();
+                Livewire.emit('richeditor-update','{{$modelid}}',editor_{{$uuid}}.getData(), event.detail.command, event.detail.param );
+            }
         });
 
 

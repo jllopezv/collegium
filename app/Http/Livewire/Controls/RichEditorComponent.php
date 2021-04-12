@@ -31,9 +31,10 @@ class RichEditorComponent extends Component
         // NO run on "*"
         if ($modelid==$this->modelid)
         {
+
             $this->content=$value;
             $this->emit($this->event,$value,$command, $param);
-            $this->dispatchBrowserEvent('richeditor-updated');
+            //$this->dispatchBrowserEvent('richeditor-updated', ['modelid' => $modelid]);
         }
     }
 

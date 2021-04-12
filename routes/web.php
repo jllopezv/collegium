@@ -29,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Setting\AppSettingPage;
 use App\Models\Website\WebsiteNewsCat;
 use App\Models\Website\WebsitePostCat;
+use App\Models\Website\WebsiteSection;
+use App\Models\Website\WebsiteSectionCat;
 use App\Models\Website\WebsiteAdvertisement;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\UserController;
@@ -57,6 +59,8 @@ use App\Http\Controllers\Website\WebsiteBannerController;
 use App\Http\Controllers\Setting\AppSettingPageController;
 use App\Http\Controllers\Website\WebsiteNewsCatController;
 use App\Http\Controllers\Website\WebsitePostCatController;
+use App\Http\Controllers\Website\WebsiteSectionController;
+use App\Http\Controllers\Website\WebsiteSectionCatController;
 use App\Http\Controllers\Website\WebsiteAdvertisementController;
 use App\Http\Controllers\Website\WebsiteAdvertisementCatController;
 
@@ -219,6 +223,8 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('website_advertisements', WebsiteAdvertisementController::class, WebsiteAdvertisement::class);
     LopHelp::generateCommonModelRoute('website_news_cats', WebsiteNewsCatController::class, WebsiteNewsCat::class);
     LopHelp::generateCommonModelRoute('website_news', WebsiteNewsController::class, WebsiteNews::class);
+    LopHelp::generateCommonModelRoute('website_section_cats', WebsiteSectionCatController::class, WebsiteSectionCat::class);
+    LopHelp::generateCommonModelRoute('website_sections', WebsiteSectionController::class, WebsiteSection::class);
 
 });
 

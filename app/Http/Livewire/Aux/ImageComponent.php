@@ -148,7 +148,7 @@ class ImageComponent extends Component
         // Before save update values...
         $this->custommessage="GUARDANDO DATOS";
         $this->showcustommessage=true;
-        $this->dispatchBrowserEvent('richeditor-request-update',[ 'command' => 'store', 'param' => '' ]);
+        $this->dispatchBrowserEvent('richeditor-request-update',[ 'modelid' => 'body', 'command' => 'store', 'param' => '' ]);
     }
 
     public function initUpdate($exit=false)
@@ -156,7 +156,7 @@ class ImageComponent extends Component
         // Before save update values...
         $this->custommessage="ACTUALIZANDO DATOS";
         $this->showcustommessage=true;
-        $this->dispatchBrowserEvent('richeditor-request-update',[ 'command' => 'update', 'param' => $exit ]);
+        $this->dispatchBrowserEvent('richeditor-request-update',[ 'modelid' => 'body', 'command' => 'update', 'param' => $exit ]);
     }
 
 }

@@ -7,7 +7,7 @@ Route::get('/aboutus', function() {
 })->name('aboutus');
 
 Route::get('/contactus', function() {
-    return "Contact us";
+    return view('website.contactus');
 })->name('contactus');
 
 Route::get('/websiteshowpage/{id}', function($id) {
@@ -21,6 +21,10 @@ Route::get('/websiteshowpost/{id}', function($id) {
 Route::get('/websiteshowadvertisement/{id}', function($id) {
     return view('website.html.showadvertisement', ['id' => $id ]);
 })->name('website.showadvertisement');
+
+Route::get('/websiteshowsection/{id}', function($id) {
+    return view('website.html.showsection', ['id' => $id ]);
+})->name('website.showsection');
 
 Route::get('/websiteshownews/{id}', function($id) {
     return view('website.html.shownews', ['id' => $id ]);

@@ -224,4 +224,11 @@ body
 }
 
 
+.sectionimage
+{
+    max-width: 700px;
+    height: auto;
+    cursor: pointer;
+}
+
 

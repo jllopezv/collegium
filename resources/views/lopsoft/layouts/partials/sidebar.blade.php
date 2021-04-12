@@ -113,6 +113,8 @@
                     'website_news_cats.access',
                     'website_news.access',
                     'website_news_cats.access',
+                    'website_sections.access',
+                    'website_section_cats.access',
                     ])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-globe'
@@ -142,6 +144,25 @@
                 icon='fa fa-object-group'
                 link="{{ route('website_banners.index') }}"
                 text="{{ transup('banners') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            <x-lopsoft.control.sidebar-separator />
+            @hasAbility(['website_sections.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-cubes'
+                link="{{ route('website_sections.index') }}"
+                text="{{ transup('tables.website_sections') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['website_section_cats.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='fa fa-align-justify'
+                link="{{ route('website_section_cats.index') }}"
+                text="{{ transup('tables.website_section_cats') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

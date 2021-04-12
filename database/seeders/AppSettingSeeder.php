@@ -360,6 +360,26 @@ class AppSettingSeeder extends Seeder
         $record->page_id=AppSettingPage::where('settingpage',transup('news'))->first()->id;
         $record->save();
 
+        /* SECTIONS */
+
+        $record=new AppSetting();
+        $record->settingkey='SECTIONS_DEFAULT_WIDTH';
+        $record->settingdesc='SECTIONS WIDTH';
+        $record->settingvalue=config('lopsoft.sections_default_width');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('sections'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='SECTIONS_DEFAULT_HEIGHT';
+        $record->settingdesc='SECTIONS HEIGHT';
+        $record->settingvalue=config('lopsoft.sections_default_height');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('sections'))->first()->id;
+        $record->save();
+
 
     }
 }
