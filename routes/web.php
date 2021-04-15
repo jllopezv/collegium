@@ -31,6 +31,7 @@ use App\Models\Website\WebsiteNewsCat;
 use App\Models\Website\WebsitePostCat;
 use App\Models\Website\WebsiteSection;
 use App\Models\Website\WebsiteSectionCat;
+use App\Http\Controllers\SendMailController;
 use App\Models\Website\WebsiteAdvertisement;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\UserController;
@@ -110,6 +111,8 @@ Route::get('/testfm', function () {
 Route::get('/phpinfo', function () {
     return phpinfo();
 })->middleware('auth')->name('php.info');
+
+Route::get('/sendcontact', [ SendMailController::class, 'mail' ] );
 
 /*****************************************************/
 /* ADMIN                                             */

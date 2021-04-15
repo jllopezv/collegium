@@ -14,21 +14,21 @@
             <div class='text-md mt-4'>
                 @if(appsetting('WEBSITE_PHONE_MAIN')!='')
                     <a href='tel:{!! appsetting('WEBSITE_PHONE_MAIN') !!}'>
-                        <i class='fa fa-phone-alt text-red-400'></i> {!! appsetting('WEBSITE_PHONE_MAIN') !!}
+                        <i class='fa fa-phone-alt'></i> {!! appsetting('WEBSITE_PHONE_MAIN') !!}
                     </a>
                 @endif
             </div>
             <div class='text-md'>
                 @if(appsetting('WEBSITE_WHATSAPP_MAIN')!='')
                     <a href='tel:{!! appsetting('WEBSITE_WHATSAPP_MAIN') !!}'>
-                        <i class='fab fa-whatsapp text-green-400'></i> {!! appsetting('WEBSITE_WHATSAPP_MAIN') !!}
+                        <i class='fab fa-whatsapp '></i> {!! appsetting('WEBSITE_WHATSAPP_MAIN') !!}
                     </a>
                 @endif
             </div>
             <div class='text-md'>
                 @if(appsetting('WEBSITE_EMAIL_MAIN')!='')
                     <a href='mailto:{!! appsetting('WEBSITE_EMAIL_MAIN') !!}'>
-                        <i class='fa fa-envelope text-red-400'></i> {!! appsetting('WEBSITE_EMAIL_MAIN') !!}
+                        <i class='fa fa-envelope '></i> {!! appsetting('WEBSITE_EMAIL_MAIN') !!}
                     </a>
                 @endif
             </div>

@@ -238,6 +238,24 @@ class AppSettingSeeder extends Seeder
         $record->save();
 
         $record=new AppSetting();
+        $record->settingkey='WEBSITE_EMAIL2';
+        $record->settingdesc='WEBSITE SECOND EMAIL';
+        $record->settingvalue='email@domain.com';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='WEBSITE_EMAIL3';
+        $record->settingdesc='WEBSITE THIRD EMAIL';
+        $record->settingvalue='email@domain.com';
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','WEBSITE')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
         $record->settingkey='WEBSITE_WHATSAPP_MAIN';
         $record->settingdesc='WEBSITE MAIN WHATSAPP NUMBER';
         $record->settingvalue='XXX-XXX-XXXX';

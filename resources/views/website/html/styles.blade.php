@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 <link href="{{ asset('css/fontawesome/all.min.css') }}" rel="stylesheet">
 <link href="{{ asset('js/lib/freakflags/freakflags.css') }}" rel="stylesheet">
+<link href="{{ asset('css/lib/toastr.css') }}" rel="stylesheet">
+<link href="{{ asset('css/lib/noty.css') }}" rel="stylesheet">
 <link href="{{ asset('css/lopsoft.css') }}" rel="stylesheet">
 <link href="{{ asset('css/website.css') }}" rel="stylesheet">
 <link href="{{ asset('js/lib/fotorama/fotorama.css') }}" rel="stylesheet">

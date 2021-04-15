@@ -179,4 +179,7 @@ return [
     'filemanager'           =>  'gestión de archivos',
     'section'               =>  'sección',
     'sections'              =>  'secciones',
+    'subject'               =>  'asunto',
+    'message'               =>  'mensaje',
+    'write_text'            =>  'escriba el siguiente texto',
 ];

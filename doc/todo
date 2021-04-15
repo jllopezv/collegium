@@ -1,9 +1,23 @@
-// TODO: WebsitePost indexbodyxs
-// TODO: WebsiteBanner indexbodyxs
-
 // TODO: Process to create a new academic year
          Dont copy SchoolLevels , SchoolGrades only --> create
          anno_school_level
          anno_school_grade
 
          Promote Students
+
+
+
+// TODO: Website
+
+    bloques con prioridad
+    predefinidos --> banner   (data extra: nombre del banner )
+                     showpost ( data extra: id del post )
+                     shownews ( data extra: id del news )
+                     showads  ( data extra: id del ads )
+                     showsection ( data extra: id del section )
+                     showimage ( data extra: url de la image, width, height )
+                     showrichtext ( data extra: body )
+                     listads
+                     listposts
+                     listnews
+                     listsections

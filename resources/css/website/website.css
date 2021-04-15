@@ -44,3 +44,13 @@
 }
 
 
+.googlemap
+{
+    width: 600px;
+    height: 600px;
+    padding: 0px;
+    border: 1px solid #e76c6c;
+    border-radius: 10px;
+}
+
+

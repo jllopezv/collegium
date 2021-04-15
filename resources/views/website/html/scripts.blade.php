@@ -3,3 +3,5 @@
 <script src="{{ asset('js/lib/jquery.min.js')}}"></script>
 <script src="{{ asset('js/lopsoft.js') }}"></script>
 <script src="{{ asset('js/lib/fotorama/fotorama.js') }}"></script>
+<script src="{{ asset('js/lib/toastr.min.js')}}"></script>
+<script src="{{ asset('js/lib/noty.min.js')}}"></script>

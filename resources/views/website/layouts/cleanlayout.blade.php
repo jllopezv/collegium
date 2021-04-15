@@ -42,6 +42,22 @@
 
         </div>
 
+        @livewire('messages.modal-alert')
+        @livewire('messages.modal-confirm')
+
+        @if(session()->has('status_success'))
+            <script> ShowSuccess("{{ session('status_success') }}"); </script>
+        @endif
+        @if(session()->has('status_error'))
+            <script> ShowError("{{ session('status_error') }}"); </script>
+        @endif
+        @if(session()->has('status_info'))
+            <script> ShowInfo("{{ session('status_info') }}"); </script>
+        @endif
+        @if(session()->has('status_warning'))
+            <script> ShowWarning("{{ session('status_warning') }}"); </script>
+        @endif
+
 
         @livewireScripts
 

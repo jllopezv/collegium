@@ -18,6 +18,17 @@ return [
     'vendorlogo'            =>  'system/vendorlogo.png',
     'prefix_admin'          =>  'admin',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Emails
+    |--------------------------------------------------------------------------
+    |
+    */
+    'email_from'              =>  'collegium@lopsoft.com',
+    'email_from_name'         =>  'COLLEGIUM',
+    'email_to'                =>  'jllopezvicente@gmail.com',
+
+
 
     /*
     |--------------------------------------------------------------------------
