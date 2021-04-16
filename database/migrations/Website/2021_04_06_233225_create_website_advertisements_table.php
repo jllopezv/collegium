@@ -22,6 +22,7 @@ class CreateWebsiteAdvertisementsTable extends Migration
             $table->boolean('top')->default(false);
             $table->boolean('fixed')->default(false);
             $table->boolean('starred')->default(false);
+            $table->bigInteger('showed')->default(0);
             $table->longText('body');
             $table->foreignId('website_advertisement_cat_id')->references('id')->on('website_advertisement_cats');
             $table->timestamps();

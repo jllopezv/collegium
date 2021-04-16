@@ -11,6 +11,7 @@ use App\Models\Website\WebsiteAdvertisementCat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
+use App\Models\Traits\HasShowed;
 
 class WebsiteAdvertisement extends Model
 {
@@ -19,6 +20,7 @@ class WebsiteAdvertisement extends Model
     use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
+    use HasShowed;
 
 
     /*******************************************/
@@ -31,7 +33,7 @@ class WebsiteAdvertisement extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'published', 'top', 'fixed', 'starred', 'body', 'image', 'website_advertisement_cat_id'
+        'title', 'published', 'top', 'fixed', 'starred', 'body', 'image', 'website_advertisement_cat_id', 'showed'
     ];
 
     /*******************************************/

@@ -5,6 +5,7 @@ namespace App\Models\Website;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
+use App\Models\Traits\HasShowed;
 use App\Models\Traits\HasAbilities;
 use App\Models\Website\WebsiteNewsCat;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ class WebsiteNews extends Model
     use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
+    use HasShowed;
 
 
     /*******************************************/
@@ -30,7 +32,7 @@ class WebsiteNews extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'published', 'top', 'fixed', 'starred', 'body', 'image', 'website_news_cat_id'
+        'title', 'published', 'top', 'fixed', 'starred', 'body', 'image', 'website_news_cat_id', 'showed'
     ];
 
     /*******************************************/

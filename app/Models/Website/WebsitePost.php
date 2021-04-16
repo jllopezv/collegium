@@ -5,6 +5,7 @@ namespace App\Models\Website;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
+use App\Models\Traits\HasShowed;
 use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
 use App\Models\Website\WebsitePostCat;
@@ -20,6 +21,7 @@ class WebsitePost extends Model
     use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
+    use HasShowed;
 
 
     /*******************************************/
@@ -32,7 +34,7 @@ class WebsitePost extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'published', 'top', 'fixed', 'starred', 'body', 'image', 'website_post_cat_id'
+        'title', 'published', 'top', 'fixed', 'starred', 'body', 'image', 'website_post_cat_id', 'showed'
     ];
 
     /*******************************************/
