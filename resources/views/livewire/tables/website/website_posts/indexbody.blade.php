@@ -14,3 +14,5 @@
 </x-lopsoft.datatable.row-column>
 @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->title ])
 @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->category->categoryName ])
+@include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->showed, 'classrow' => 'text-right' ])
+

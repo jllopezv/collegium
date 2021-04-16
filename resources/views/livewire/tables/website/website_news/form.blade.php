@@ -41,8 +41,9 @@
     </div>
 </div>
 
+@include('livewire.partials.showed')
 
-<div class='flex'>
+<div class='flex mt-8'>
     <div
         @if($mode!='show')
             wire:click="$emitTo('filemanager.filemanager','showFilemanager','filemanager-{{$table}}', 'image', '')"

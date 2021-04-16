@@ -742,6 +742,11 @@ Trait HasCommon
         $this->noFilterInGetDataQuery=!$this->noFilterInGetDataQuery;
     }
 
+    public function resetShowed()
+    {
+        $this->showed=0;
+    }
+
     /*******************************************************************************
      * REDIRECT FUNCTIONS
      *******************************************************************************/

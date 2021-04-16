@@ -34,6 +34,7 @@ class WebsiteNewsComponent extends Component
     public  $body;
     public  $fileimage;
     public  $website_news_cat_id;
+    public  $showed;
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -78,6 +79,7 @@ class WebsiteNewsComponent extends Component
     {
         return [
             'title'                              => 'required|string|max:255',
+            'showed'                             => 'numeric',
             'website_news_cat_id'                => 'exists:website_news_cats,id'              // Validte foreignid
         ];
     }
@@ -89,6 +91,7 @@ class WebsiteNewsComponent extends Component
         $this->starred=false;
         $this->fixed=false;
         $this->body='';
+        $this->showed=0;
         $this->image=null;
     }
 
@@ -103,6 +106,7 @@ class WebsiteNewsComponent extends Component
         //$this->emit('setvalue','website_post_cat_component',null);
         // $this->website_news_cat_id=0;
         $this->body='';
+        $this->showed=0;
         $this->dispatchBrowserEvent('richeditor-setdefault',[ 'modelid' => 'body', 'content' => '']);
         $this->loadDefaults();
     }
@@ -116,6 +120,7 @@ class WebsiteNewsComponent extends Component
         $this->starred=$this->record->starred;
         $this->website_news_cat_id=$this->record->website_news_cat_id;
         $this->body=$this->record->body;
+        $this->showed=$this->record->showed;
         $this->image=$this->record->image;
 
     }
@@ -140,6 +145,7 @@ class WebsiteNewsComponent extends Component
             'fixed'                 =>  $this->fixed,
             'starred'               =>  $this->starred,
             'website_news_cat_id'   =>  $this->website_news_cat_id,
+            'showed'                =>  $this->showed,
             'body'                  =>  $this->body,
         ];
     }

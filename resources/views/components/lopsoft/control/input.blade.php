@@ -8,7 +8,7 @@
     'help'          => '',
     'classcontainer'    => '',
     'mode'          => 'create',
-    'errormsg'         =>  '',
+    'errormsg'      =>  $errors->has('showed')?($errors->get('showed'))[0]:'',
     ])
 
 
@@ -18,8 +18,9 @@
     id="{{$id}}"
     {{ $disabled ? 'disabled' : '' }}
     {{ $attributes->merge([
-        'class' => 'form-input px-1 pb-1 rounded-none border-b-2 border-t-0 border-l-0 border-r-0 border-gray-300
-                    hover:border-gray-500 hover:shadow-none
+        'class' => 'form-input px-1 pb-1 rounded-none border-b-2 border-t-0 border-l-0 border-r-0'
+                    .( $errormsg!='' ?' border-red-500 ':' border-gray-300 ' ).
+                    'hover:border-gray-500 hover:shadow-none
                     active:border-gray-500 active:shadow-none
                     focus:border-gray-500 focus:shadow-none
                     transition-all duration-300 w-full bg-transparent'])

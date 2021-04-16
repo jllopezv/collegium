@@ -6,9 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Intervention\Image\Facades\Image;
-use App\Models\Website\WebsitePostCat;
 use App\Http\Livewire\Traits\HasCommon;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
@@ -35,6 +33,7 @@ class WebsitePostComponent extends Component
     public  $body;
     public  $fileimage;
     public  $website_post_cat_id;
+    public  $showed;
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -79,6 +78,7 @@ class WebsitePostComponent extends Component
     {
         return [
             'title'                     => 'required|string|max:255',
+            'showed'                    => 'numeric',
             'website_post_cat_id'       => 'exists:website_post_cats,id'              // Validte foreignid
         ];
     }
@@ -90,7 +90,9 @@ class WebsitePostComponent extends Component
         $this->starred=false;
         $this->fixed=false;
         $this->body='';
+        $this->showed=0;
         $this->image=null;
+
     }
 
     public function resetForm()
@@ -104,6 +106,7 @@ class WebsitePostComponent extends Component
         //$this->emit('setvalue','website_post_cat_component',null);
         // $this->website_post_cat_id=0;
         $this->body='';
+        $this->showed=0;
         $this->dispatchBrowserEvent('richeditor-setdefault',[ 'modelid' => 'body', 'content' => '']);
         $this->loadDefaults();
     }
@@ -117,6 +120,7 @@ class WebsitePostComponent extends Component
         $this->starred=$this->record->starred;
         $this->website_post_cat_id=$this->record->website_post_cat_id;
         $this->body=$this->record->body;
+        $this->showed=$this->record->showed;
         $this->image=$this->record->image;
 
     }
@@ -141,6 +145,7 @@ class WebsitePostComponent extends Component
             'fixed'                 =>  $this->fixed,
             'starred'               =>  $this->starred,
             'website_post_cat_id'   =>  $this->website_post_cat_id,
+            'showed'                =>  $this->showed,
             'body'                  =>  $this->body,
         ];
     }
