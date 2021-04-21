@@ -26,12 +26,12 @@
                     <a href='mailto: {{ appsetting('website_email_main')}}'><i class='text-red-400 fa fa-envelope'></i> {{ appsetting('website_email_main')}}</a>
                 </div>
                 @if(appsetting('website_email2')!="")
-                    <div class='mt-4 text-center text-gray-400 text-lg hover:text-gray-600'>
+                    <div class='text-center text-gray-400 text-lg hover:text-gray-600'>
                         <a href='mailto: {{ appsetting('website_email2')}}'><i class='text-red-400 fa fa-envelope'></i> {{ appsetting('website_email2')}}</a>
                     </div>
                 @endif
                 @if(appsetting('website_email3')!="")
-                    <div class='mt-4 text-center text-gray-400 text-lg hover:text-gray-600'>
+                    <div class='text-center text-gray-400 text-lg hover:text-gray-600'>
                         <a href='mailto: {{ appsetting('website_email3')}}'><i class='text-red-400 fa fa-envelope'></i> {{ appsetting('website_email3')}}</a>
                     </div>
                 @endif

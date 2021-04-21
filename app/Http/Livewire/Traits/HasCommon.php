@@ -700,6 +700,7 @@ Trait HasCommon
      */
     public function showException(\Exception $e)
     {
+
         $this->showAlertError('SE PRODUJO UN ERROR INESPERADO<br/><br/>'.$e->getMessage(),"ERROR INESPERADO");
     }
 
@@ -1355,7 +1356,7 @@ Trait HasCommon
             {
                 $this->postUpdate($record);
                 $this->showSuccess("REGISTRO ".$this->getKeyNotification($record)." ACTUALIZADO CORRECTAMENTE");
-                $this->emit($this->table."-updated", $updatedrecord->id);
+                $this->emit($this->table."-updated", $record->id);
             }
         }
         catch(\Exception $e)

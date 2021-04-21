@@ -45,7 +45,7 @@
     @if(!appsetting('website_maintenance_mode'))
         <div {{--x-show.transition.opacity='showbarmenu'--}}
             id='barmenu'
-            class='hidden'>
+            class='hidden z-50'>
             @include('website.html.menus.menubuildervertical', [
                 'root' => 'ROOT',
                 'home' => route('website.welcome'),
@@ -56,8 +56,8 @@
 </div>
 {{-- MENU --}}
 @if(!appsetting('website_maintenance_mode'))
-    <div class='invisible md:visible'>
-        <div class='flex items-start justify-center absolute w-full'>
+    <div class='md:block hidden overflow-x-hidden'>
+        <div class='flex items-start justify-center w-full z-50'>
             @include('website.html.menus.menubuilderhorizontal', [
                 'root' => 'ROOT',
                 'home' => route('website.welcome'),

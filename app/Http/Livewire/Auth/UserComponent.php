@@ -214,7 +214,7 @@ class UserComponent extends Component
 
     public function getKeyNotification($record)
     {
-        return ($record->usename);
+        return ($record->username);
     }
 
     public function delete($id)

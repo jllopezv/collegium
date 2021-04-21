@@ -21,7 +21,7 @@
 
         <div>
 
-            <div class='relative md:h-48 w-full bg-white'>
+            <div class='relative md:h-40 w-full bg-white'>
 
                 @include('website.html.navigation')
 

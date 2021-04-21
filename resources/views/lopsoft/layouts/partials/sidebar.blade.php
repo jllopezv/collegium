@@ -148,8 +148,8 @@
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
             @endhasAbility
-            <x-lopsoft.control.sidebar-separator />
             @hasAbility(['website_sections.access'])
+            <x-lopsoft.control.sidebar-separator />
             <x-lopsoft.control.sidebar-sublink
                 icon='fa fa-cubes'
                 link="{{ route('website_sections.index') }}"
@@ -167,8 +167,8 @@
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
             @endhasAbility
-            <x-lopsoft.control.sidebar-separator />
             @hasAbility(['website_advertisements.access'])
+            <x-lopsoft.control.sidebar-separator />
             <x-lopsoft.control.sidebar-sublink
                 icon='fa fa-ad'
                 link="{{ route('website_advertisements.index') }}"
@@ -205,8 +205,8 @@
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
             @endhasAbility
-            <x-lopsoft.control.sidebar-separator />
             @hasAbility(['website_news.access'])
+            <x-lopsoft.control.sidebar-separator />
             <x-lopsoft.control.sidebar-sublink
                 icon='fa fa-newspaper'
                 link="{{ route('website_news.index') }}"

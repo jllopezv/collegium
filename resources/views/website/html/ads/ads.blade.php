@@ -4,7 +4,7 @@
         <div class='m-2 p-2 rounded-lg shadow-lg bg-white h-full'>
             <div class='relative'>
                 <div class='advertisementimage' style="background-image: url('{!! getImage($ad->image) !!}')"></div>
-                <div class='absolute top-2 right-2 bg-blue-400 p-1 text-white font-bold rounded'>
+                <div class='absolute top-2 right-2  p-1 text-white font-bold rounded'>
                     {!! $ad->category->categoryName !!}
                 </div>
             </div>

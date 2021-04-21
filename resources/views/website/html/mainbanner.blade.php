@@ -8,7 +8,7 @@
     <div class="fotorama"
         data-width="100%"
         data-height="auto"
-        data-transition="slide"
+        data-transition="crossfade"
         data-autoplay="8000"
         data-loop="true"
         data-autoplay="true"

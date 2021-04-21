@@ -3,11 +3,11 @@
         <div class=' h-full'>
             <div class='flex flex-wrap sm:flex-no-wrap items-start justify-start mt-4 mb-4 bg-white'>
                 @if($section->image!='')
-                    <div class='w-full md:w-1/2'>
-                        <img class='' src='{!! getImage($section->image, false) !!}' />
+                    <div class='w-full md:w-1/2 p-2'>
+                        <img class='rounded-lg shadow-lg' src='{!! getImage($section->image, false) !!}' />
                     </div>
                 @endif
-                <div class='pl-2 w-full'>
+                <div class='w-full'>
                         @if($section->title!='')
                             <div class='text-2xl text-center font-bold '>
                                 {!! $section->title !!}
