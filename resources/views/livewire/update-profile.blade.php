@@ -1,4 +1,4 @@
-<div x-data='{}' x-init='$wire.loadDefaults()'>
+<div x-data="{showimagebuttons: false}" x-init='$wire.loadDefaults()'>
 
     <div class='px-4 py-5 text-xl bg-white shadow'>
         <div class="">DATOS DEL PERFIL</div>

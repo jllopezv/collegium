@@ -454,7 +454,7 @@ class Filemanager extends Component
 
     public function deleteSelectAction()
     {
-
+        $deletethumb=false;
         $selected=$this->getSelectedFiles();
         if (count($selected)>0)
         {
@@ -477,13 +477,17 @@ class Filemanager extends Component
                 else
                 {
                     unlink($this->root . $this->path . $this->dir . $selected[0]['basename']);
+                    $deletethumb=true;
                     unlink($this->root . 'thumbs/' . $this->path . $this->dir . $selected[0]['basename']);
                 }
                 $this->syncFiles();
             }
             catch(\Exception $e)
             {
-                $this->showAlertError("NO SE PUDO REALIZAR LA OPERACIÓN<br/>".$e->getMessage());
+                if ($deletethumb==false)
+                {
+                    $this->showAlertError("NO SE PUDO REALIZAR LA OPERACIÓN<br/>".$e->getMessage());
+                }
                 $this->syncFiles();
             }
         }

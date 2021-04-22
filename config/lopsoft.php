@@ -194,7 +194,7 @@ return [
     'sections_default_width'           => 1500,
     'sections_default_height'          => 500,
     'sections_default_image'           => 'defaults/default_image.png',
-    'sections_index_showthumb'         => false,
+    'sections_index_showthumb'         => true,
 
     /*
     |--------------------------------------------------------------------------

@@ -218,4 +218,15 @@ class UpdateProfile extends Component
         $this->emit("getvalue","*");
     }
 
+
+    public function resetImage()
+    {
+        $this->emit('resetavatar');
+    }
+
+    public function imageRotate()
+    {
+        $this->emit('rotateavatar');
+    }
+
 }

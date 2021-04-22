@@ -20,11 +20,12 @@ class AvatarComponent extends Component
     public  $tempavatar=null;          // Avatar temporary file
     public  $tempfilename=null;        // temporary filename of avatar
     public  $foldertemp;
+    public  $mode;
 
     protected $listeners=[
 
         'storeavatar'           =>  'storeavatar',
-        'updateavatar'          =>  'updateavatar',
+        'updateavatar'          =>  'updateAvatar',
         'avatarrefresh'         =>  'avatarrefresh',
         'avatarreset'           =>  'avatarreset',
         'avatarcleartemporary'  =>  'avatarcleartemporary',
@@ -48,7 +49,7 @@ class AvatarComponent extends Component
         if ($this->image)
         {
             $this->savetemporary();
-            $this->emit('avatar_updated', $this->tempfilename, $this->ext);
+            $this->emit('avatarupdated', $this->tempfilename, $this->ext);
         }
 
     }
@@ -69,6 +70,24 @@ class AvatarComponent extends Component
     {
         $this->preview=Storage::disk('public')->url(config('lopsoft.default_avatar'));
         $this->avatarpath=null;
+    }
+
+    public function resetAvatar()
+    {
+        if ($this->tempavatar!=null)
+        {
+            // Delete temp avatar
+            Storage::disk(config('lopsoft.temp_disk'))->delete($this->tempavatar);
+        }
+        $this->avatarreset();
+        $this->tempavatar=null;
+        $this->emit('useravatarreset');
+    }
+
+    public function updateAvatar($img)
+    {
+        $this->tempavatar=$img;
+        $this->preview=$img;
     }
 
     public function render()

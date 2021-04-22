@@ -182,4 +182,5 @@ return [
     'subject'               =>  'asunto',
     'message'               =>  'mensaje',
     'write_text'            =>  'escriba el siguiente texto',
+    'logout'                =>  'cerrar sesión',
 ];

@@ -28,13 +28,13 @@
           </div>
           <div class='p-2 rounded-b-lg'>
                 <x-lopsoft.control.profilemenu-link link="{{ route('profile') }}" class='hover:text-green-300'>{{ mb_strtoupper(__('lopsoft.profile')) }}</x-lopsoft.control.profilemenu-link>
-                <x-lopsoft.control.profilemenu-link link='faf' class='hover:text-green-500'>OPCION 2</x-lopsoft.control.profilemenu-link>
-                <x-lopsoft.control.profilemenu-link link='faf' class='hover:text-blue-500'>OPCION 3</x-lopsoft.control.profilemenu-link>
+                {{--<x-lopsoft.control.profilemenu-link link='faf' class='hover:text-green-500'>OPCION 2</x-lopsoft.control.profilemenu-link>
+                <x-lopsoft.control.profilemenu-link link='faf' class='hover:text-blue-500'>OPCION 3</x-lopsoft.control.profilemenu-link>--}}
                 <x-lopsoft.control.profilemenu-separator />
                 <x-lopsoft.control.profilemenu-link onclick="document.getElementById('formlogout').submit();" class='hover:text-red-500'>
                     <form id='formlogout' method="POST" action="{{route('logout')}}">
                     @csrf
-                        <i class='fa fa-sign-out fa-fw '></i> {{ mb_strtoupper(__('lopsoft.exit')) }}
+                        <i class='fa fa-sign-out fa-fw '></i> {{ mb_strtoupper(__('lopsoft.logout')) }}
                     </form>
                 </x-lopsoft.control.profilemenu-link>
             </div>

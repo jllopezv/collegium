@@ -182,4 +182,5 @@ return [
     'subject'               =>  'subject',
     'message'               =>  'message',
     'write_text'            =>  'write text',
+    'logout'                =>  'logout',
 ];

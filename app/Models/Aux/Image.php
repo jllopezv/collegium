@@ -42,7 +42,7 @@ class Image extends Model
     {
         $showthumb=config('lopsoft.images_index_showthumb');
 
-        if (is_null($this->image)) return Storage::disk('public')->url(config('lopsoft.images_default_image'));
+        if (is_null($this->image)  || $this->image=='') return Storage::disk('public')->url(config('lopsoft.images_default_image'));
         if ( !Storage::disk('public')->exists( 'thumbs/'.$this->image ) || $showthumb==false)
         {
             if ( !Storage::disk('public')->exists( $this->image ) )

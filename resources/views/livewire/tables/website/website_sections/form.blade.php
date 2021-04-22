@@ -41,14 +41,14 @@
     </div>
 </div>
 
+@include('livewire.partials.image', [
+    'mode'       => $mode,
+    'table'      => $table,
+    'image'      => $image,
+    'max_height' => appsetting('sections_default_height'),
 
-<div class='flex'>
-    <div
-        @if($mode!='show')
-            wire:click="$emitTo('filemanager.filemanager','showFilemanager','filemanager-{{$table}}', 'image', '')"
-        @endif
-        class="mx-auto {{ $mode!='show' ? 'cursor-pointer' : '' }} "><img class='rounded-lg shadow-lg' src="{{getImage( $image, false )}}" style='max-width: auto; max-height: {{appsetting('posts_default_height')}}px' /></div>
-</div>
+])
+
 
 <div class='flex flex-wrap items-center justify-start hidden md:flex-no-wrap'>
     <div class='w-full'>
@@ -56,7 +56,7 @@
             wire:model.lazy='image'
             id='image'
             x-ref='image'
-            label="{{ transup('image').' ('.appsetting('posts_default_width').'x'.appsetting('posts_default_height').')' }}"
+            label="{{ transup('image').' ('.appsetting('sections_default_width').'x'.appsetting('sections_default_height').')' }}"
             autofocus
             classcontainer='w-full'
             requiredfield

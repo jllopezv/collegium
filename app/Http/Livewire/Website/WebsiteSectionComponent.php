@@ -3,11 +3,14 @@
 namespace App\Http\Livewire\Website;
 
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Intervention\Image\Facades\Image;
+use App\Http\Livewire\Traits\HasImage;
 use App\Models\Website\WebsiteSection;
 use App\Http\Livewire\Traits\HasCommon;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
@@ -24,6 +27,7 @@ class WebsiteSectionComponent extends Component
     use WithModalConfirm;
     use HasPriority;
     use WithFileUploads;
+    use HasImage;
 
     public  $sectiontitle;
     public  $image;
@@ -252,5 +256,7 @@ class WebsiteSectionComponent extends Component
     {
         if ($this->filterdata!='') $this->data->whereRaw( $this->filterdata );
     }
+
+
 
 }

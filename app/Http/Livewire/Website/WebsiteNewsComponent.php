@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Intervention\Image\Facades\Image;
+use App\Http\Livewire\Traits\HasImage;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\WithModalAlert;
@@ -23,6 +24,7 @@ class WebsiteNewsComponent extends Component
     use WithModalAlert;
     use WithModalConfirm;
     use HasPriority;
+    use HasImage;
     use WithFileUploads;
 
     public  $posttitle;

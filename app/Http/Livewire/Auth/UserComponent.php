@@ -51,7 +51,8 @@ class UserComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
-        'avatar_updated'        => 'avatarUpdated',
+        'avatarupdated'        => 'avatarUpdated',
+        'useravatarreset'       => 'clearAvatar',
         'eventsetrole'          => 'eventSetRole',
         'eventsettimezone'      => 'eventSetTimezone',
         'eventsetcountry'       => 'eventSetCountry',
@@ -121,6 +122,13 @@ class UserComponent extends Component
         $this->roles=[];
         $this->loadDefaults();
         $this->emit('setvalue', 'rolecomponent', null);
+        $this->resetAvatar();
+    }
+
+    public function clearAvatar()
+    {
+        Storage::disk('public')->delete($this->profile_photo_path);
+        $this->profile_photo_path=null;
         $this->resetAvatar();
     }
 
@@ -286,6 +294,7 @@ class UserComponent extends Component
 
         return redirect()->route('dashboard');
     }
+
 
 
 

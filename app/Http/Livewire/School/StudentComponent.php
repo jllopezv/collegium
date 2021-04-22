@@ -79,7 +79,7 @@ class StudentComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
-        'avatar_updated'        => 'avatarUpdated',
+        'avatarupdated'         => 'avatarUpdated',
         'eventsetbirth'         => 'eventSetBirth',
         'eventsetgender'        => 'eventSetGender',
         'eventsetgrade'         => 'eventSetGrade',
