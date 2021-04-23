@@ -19,7 +19,9 @@ class RichEditorComponent extends Component
         'richeditor-update' =>  'updateValue',
         'setvalue'  =>  'setValue',
         'getvalue'  =>  'getValue',
+        'setdefault' => 'setDefault',
     ];
+
 
     public function mount()
     {
@@ -35,6 +37,23 @@ class RichEditorComponent extends Component
             $this->content=$value;
             $this->emit($this->event,$value,$command, $param);
             //$this->dispatchBrowserEvent('richeditor-updated', ['modelid' => $modelid]);
+        }
+    }
+
+    /**
+     * Set value
+     *
+     * @param  mixed $date
+     * @return void
+     */
+    public function setDefault($modelid)
+    {
+        // NO run on "*"
+        if ($modelid==$this->modelid)
+        {
+            $this->content=$this->default;
+            //$this->emit($this->event,$this->default);
+            $this->dispatchBrowserEvent('richeditor-setdefault', [ 'modelid' => $modelid, 'content' => $this->default ]);
         }
     }
 

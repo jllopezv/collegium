@@ -106,7 +106,7 @@ class WebsiteSectionComponent extends Component
         $levels=WebsiteSection::active()->count();
         $this->priority=$levels+1;
 
-        $totaleditorstosave=2;
+        $this->totaleditorstosave=2;
     }
 
     public function resetForm()

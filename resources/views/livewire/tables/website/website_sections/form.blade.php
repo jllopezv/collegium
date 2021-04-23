@@ -123,7 +123,6 @@
 
 @livewire('filemanager.filemanager', ['uuid' => 'filemanagerdescription', 'multiselect' => false, 'root' => '/', 'allowedmimetypes' => '' ])
 
-
 @livewire('controls.rich-editor-component', [
     'uuid'      => 'filemanagerdescription',  // filemanager uuid
     'modelid'   => 'description',

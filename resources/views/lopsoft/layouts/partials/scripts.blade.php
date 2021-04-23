@@ -6,6 +6,12 @@
 <script src="{{ asset('js/lopsoft.js') }}"></script>
 
 
+<script>
+
+    var working=false;
+
+</script>
+
 @stack('scripts')
 
 {{-- SOLO LOS FORMULARIOS QUE LO USEN
@@ -14,8 +20,3 @@
 --}}
 
 
-<script>
-
-    var working=false;
-
-</script>

@@ -17,6 +17,7 @@ return [
     'vendorlogo_overblack'  =>  'system/vendorlogo_bgblack.png',
     'vendorlogo'            =>  'system/vendorlogo.png',
     'prefix_admin'          =>  'admin',
+    'timeout_ckeditor'      =>  2000,           //  It dependes of webserver
 
     /*
     |--------------------------------------------------------------------------
