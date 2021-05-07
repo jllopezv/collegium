@@ -61,7 +61,7 @@ class SchoolModalityComponent extends Component
     public function validateRules() : array
     {
         return [
-            'modality'          => 'required|string|max:255|unique:school_modalities,modality,'.$this->recordid,
+            'modality'          => 'required|string|max:255',
             'priority'          => 'required|numeric',
         ];
     }

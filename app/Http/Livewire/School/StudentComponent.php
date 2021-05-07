@@ -20,6 +20,7 @@ use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
 use App\Http\Livewire\Traits\WithModalConfirm;
+use App\Http\Livewire\Traits\WithUserProfile;
 
 class StudentComponent extends Component
 {
@@ -32,12 +33,12 @@ class StudentComponent extends Component
     use WithModalConfirm;
     use IsUserType;
     use HasPriority;
+    use WithUserProfile;
 
     public  $exp;
     public  $names;
     public  $first_surname;
     public  $second_surname;
-    public  $email;
     public  $birth;
     public  $age;
     public  $gender;
@@ -47,6 +48,7 @@ class StudentComponent extends Component
     public  $section_id;
     public  $batch_id;
     public  $modality_id;
+    public  $recordparents=[];
 
     private $avatarfolder='students-photos';
 
@@ -71,6 +73,11 @@ class StudentComponent extends Component
     public $relationship;
     public $schoolparent=null;
     public $infoParentArray=[];
+    public $searchparent='';
+    public $infoParentId=0;
+    public $oldusername='';
+    public $olduseremail='';
+    public $canAssignParent=true;
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -92,6 +99,9 @@ class StudentComponent extends Component
         'eventfiltermodality'   => 'eventFilterModality',
         'eventfilterorder'      => 'eventFilterOrder',
         'parentselected'        => 'parentSelected',
+        'hidesearchdialog'      => 'hideParentsDialog',
+        'parentsearchupdated'   => 'parentSearchUpdated',
+        'parentdialogclosed'    => 'parentDialogClosed',
     ];
 
     /**
@@ -114,6 +124,11 @@ class StudentComponent extends Component
             // default create options
             $this->loadDefaults();
         }
+
+        // Filter and sorts
+        $this->canShowFilterButton=true;
+        $this->canShowSortButton=true;
+
     }
 
     /**
@@ -130,7 +145,6 @@ class StudentComponent extends Component
             'second_surname'    => 'required|string|max:255',
             'birth'             => 'required|date',
             'priority'          => 'required|numeric',
-            'email'             => 'required|email|max:255|unique:users,email'.($this->mode!='create'?','.$this->record->user->id:''),
             'grade_id'          => 'required',
             'section_id'        => 'required',
             'batch_id'          => 'required',
@@ -155,7 +169,6 @@ class StudentComponent extends Component
             'second_surname'        =>  $this->second_surname,
             'birth'                 =>  $this->birth,
             'gender'                =>  $this->gender,
-            'email'                 =>  $this->email,
             'priority'              =>  $this->priority,
             'grade_id'              =>  $this->grade_id,
             'section_id'            =>  $this->section_id,
@@ -172,6 +185,9 @@ class StudentComponent extends Component
         $this->emit('setvalue', 'birthcomponent', getDateString($this->birth));
         $this->grade_id=null;
         $this->emit('setvalue', 'gradecomponent', $this->grade_id);
+
+        // User profile
+        $this->userProfileClear();
     }
 
     public function resetForm()
@@ -184,7 +200,6 @@ class StudentComponent extends Component
         $this->gender='';
         $this->profile_photo_path=null;
         $this->avatar=null;
-        $this->email='';
         $this->checkedEmail=false;
         $this->validEmail=false;
         $this->username='';
@@ -192,7 +207,9 @@ class StudentComponent extends Component
         $this->loadDefaults();
         $this->resetAvatar();
         $this->grade_id=null;
+        $this->recordparents=[];
         $this->emit('setvalue', 'gradecomponent', $this->grade_id);
+
 
     }
 
@@ -206,8 +223,6 @@ class StudentComponent extends Component
         $this->birth=$this->record->birth;
         $this->gender=$this->record->gender;
         $this->studentname=$this->getStudentName();
-        $this->email=$this->record->user->email;
-        $this->username=$this->record->user->username;
         $this->avatar=$this->record->avatar;
         $this->priority=$this->record->priority;
         $this->emit('setvalue', 'gradecomponent', $this->grade_id);
@@ -216,6 +231,9 @@ class StudentComponent extends Component
         {
             $this->selectInfoParent();
         }
+
+        // User Profile
+        $this->userProfileLoadRecord($this->record);
     }
 
     public function getKeyNotification($record)
@@ -238,7 +256,6 @@ class StudentComponent extends Component
             'second_surname'        =>  $this->second_surname,
             'birth'                 =>  $this->birth,
             'gender'                =>  $this->gender,
-            'email'                 =>  $this->email,
         ];
     }
 
@@ -352,7 +369,13 @@ class StudentComponent extends Component
 
     public function customStoreValidation()
     {
-        $this->updatedEmail();
+        // UserProfile
+        if ($this->userProfileValidation())
+        {
+            $this->showFlashError($this->flashmessageid,"ERROR EN LOS DATOS");
+            $this->emit('validationerror', $this->getErrorBag());
+            return false;
+        }
         if ($this->grade_id==null)
         {
             $this->addError('grade_id', 'DEBE SELECCIONAR UN GRADO');
@@ -365,7 +388,13 @@ class StudentComponent extends Component
 
     public function customUpdateValidation()
     {
-        $this->updatedEmail();
+        // UserProfile
+        if ($this->userProfileValidation())
+        {
+            $this->showFlashError($this->flashmessageid,"ERROR EN LOS DATOS");
+            $this->emit('validationerror', $this->getErrorBag());
+            return false;
+        }
         if ($this->grade_id==null)
         {
             $this->addError('grade_id', 'DEBE SELECCIONAR UN GRADO');
@@ -379,17 +408,7 @@ class StudentComponent extends Component
     public function postStore($recordStored)
     {
         $user=$this->getUserProfileCredentials();
-        $userprofile=User::createProfileUser($user->name, $user->username, $user->email, config('lopsoft.users_defaultpassword'), 'student' );
-        if ($userprofile==null)
-        {
-            $this->checkFlashErrors();
-            return;
-        }
-        else
-        {
-            $userprofile->profile_photo_path=$this->profile_photo_path;
-            $recordStored->user()->save($userprofile);
-        }
+        $this->userProfileSaveUser($recordStored, $user->name, 'student');
 
         // Enroll
         $recordStored->enroll([
@@ -403,16 +422,8 @@ class StudentComponent extends Component
 
     public function postUpdate($recordUpdated)
     {
-        $userprofile=$this->record->user;
-        if ($userprofile!=null)
-        {
-            $userprofile->username=$this->username;
-            $userprofile->name=$this->getProfileName();
-            $userprofile->email=$this->email;
-            if ($userprofile->profile_photo_path==null) $userprofile->profile_photo_path=$this->profile_photo_path;
-            $userprofile->save();
-
-        }
+        // Update user
+        $this->userProfileUpdateUser($recordUpdated);
 
         // Update Enroll
         $recordUpdated->updateEnroll([
@@ -424,6 +435,7 @@ class StudentComponent extends Component
         ]);
     }
 
+    /*
     public function generateEmail()
     {
 
@@ -436,6 +448,7 @@ class StudentComponent extends Component
         $this->email=generateAppEmail($suggest);
     }
 
+    /*
     public function updatedEmail()
     {
         if (!Str::of($this->email)->contains('@') || $this->email=='' || ( Str::of($this->email)->contains('@') && Str::of($this->email)->after('@')=='') )
@@ -469,7 +482,7 @@ class StudentComponent extends Component
     public function preUpdate()
     {
         $this->updatedEmail();
-    }
+    }*/
 
     /**
      * Entry point to delete action
@@ -585,7 +598,8 @@ class StudentComponent extends Component
     {
         // Special find cause it has pivot fields like grade_id, section_id, batch_id, modality_id
         $anno=getUserAnnoSession();
-        return $anno->students->where('id' , $this->recordid)->first();
+        $rec=$anno->students->where('id' , $this->recordid)->first();
+        return $rec!=null?$rec:Student::where('id' , $this->recordid)->first();
     }
 
     public function eventFilterOrder($field, $change)
@@ -608,19 +622,31 @@ class StudentComponent extends Component
 
     public function showParentsDialog()
     {
+        $this->emit('showparentdialog');
         $this->showParents=true;
     }
+    public function hideParentsDialog()
+    {
+        $this->emit('hideparentdialog');
+    }
+
     public function parentSelected($id)
     {
-        $this->showParents=false;
         $this->selectedParent=true;
         $this->schoolparent=SchoolParent::find($id);
+        $collection=$this->record->parents;
+        foreach($collection as $itemofcollection)
+        {
+            if ($id==$itemofcollection->id) $this->canAssignParent=false;
+        }
     }
 
     public function cancelAssign()
     {
-        $this->emit('setvalue', 'searchschoolparentcomponent', '');
-        $this->showParents=false;
+        $this->resetErrorBag();
+        $this->canAssignParent=true;
+        $this->emit('setvalue', 'searchschoolparentcomponent', $this->searchparent);
+        $this->emit('showparentdialog');
         $this->selectedParent=false;
         $this->schoolparent=null;
         $this->relationship='';
@@ -628,11 +654,34 @@ class StudentComponent extends Component
 
     public function assignParent()
     {
+        $this->resetErrorBag();
+        if ($this->relationship=='')
+        {
 
+            $this->addError('relationship', 'SELECCIONE UN PARENTESCO');
+            $this->showFlashError('parentInfo',"ERROR EN LOS DATOS");
+            return;
+        }
+        $this->resetErrorBag();
+        $this->record->parents()->attach([$this->schoolparent->id => ['relationship' => mb_strtoupper($this->relationship)] ]);
+        $this->emit('setvalue', 'searchschoolparentcomponent', '');
+        //$this->showParents=false;
+        $this->selectedParent=false;
+        $this->schoolparent=null;
+        $this->relationship='';
+        $this->selectInfoParent();
+    }
+
+    public function unassignParent($id)
+    {
+
+        $this->record->parents()->detach($id);
+        $this->selectInfoParent();
     }
 
     public function selectInfoParent($id=null)
     {
+
         if ($id==null)
         {
             $this->infoParent=$this->record->parents()->withPivot('relationship')->first();
@@ -641,12 +690,30 @@ class StudentComponent extends Component
         {
             $this->infoParent=$this->record->parents()->withPivot('relationship')->where('school_parent_id',$id)->first();
         }
+
         if ($this->infoParent!=null)
         {
             $this->infoParentArray=$this->infoParent->toArray();
             $this->emit('setphones','parentsphones', $this->infoParent->phones);
             $this->emit('setemails','parentsemails', $this->infoParent->emails);
+            $this->infoParentId=$this->infoParent->id;
         }
+        else
+        {
+            $this->infoParentArray=[];
+            $this->infoParentId=0;
+        }
+
+    }
+
+    public function parentSearchUpdated($search)
+    {
+        $this->searchparent=$search;
+    }
+
+    public function parentDialogClosed()
+    {
+        $this->showParents=false;
     }
 
 }

@@ -36,6 +36,7 @@ class SchoolLevelComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
+        'eventfilterorder'      => 'eventFilterOrder',
     ];
 
     /**
@@ -56,6 +57,9 @@ class SchoolLevelComponent extends Component
             // default create options
             $this->loadDefaults();
         }
+
+        // Sorts
+        $this->canShowSortButton=true;
     }
 
     /**
@@ -142,6 +146,28 @@ class SchoolLevelComponent extends Component
     public function postUpdate($updatedRecord)
     {
         $updatedRecord->priority=$this->priority;    // Pivot value
+    }
+
+    /*********************************
+     * Sorts
+     */
+
+    public function eventFilterOrder($field, $change)
+    {
+        if ($change)
+        {
+
+            if ($this->sortorder==$field)
+            {
+                $this->sortorder='-'.$field;
+            }
+            else
+            {
+                $this->sortorder=$field;
+            }
+
+            $this->refreshDatatable();
+        }
     }
 
 

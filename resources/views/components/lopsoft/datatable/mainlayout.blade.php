@@ -15,7 +15,6 @@
     'canShowFilterButton'       => 'false',
     'canShowSortButton'         => 'false',
 ])
-
 <div x-data='{ showFilters:true, showSorts:false, screen_width:getScreenWidth()  }' @resize.window='screen_width=getScreenWidth()'>
     <div
         {{-- x-show='screen_width>640'  --}}
@@ -38,8 +37,8 @@
                     <x-lopsoft.link.gray @click="showFilters=!showFilters" icon='fa fa-filter' ></x-lopsoft.link.gray>
                 </div>
             @endif
-            @if($canShowFilterButton)
-                <div class='mr-1 md:hidden'>
+            @if($canShowSortButton)
+                <div class='mr-1 sm:hidden'>
                     <x-lopsoft.link.gray @click="showSorts=!showSorts" icon='fa fa-sort-alpha-down'></x-lopsoft.link.gray>
                 </div>
             @endif

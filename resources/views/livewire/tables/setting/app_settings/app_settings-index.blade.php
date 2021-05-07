@@ -9,10 +9,6 @@
     <x-lopsoft.datatable.header-th class='w-16' justify='center' sortable sortorder='{{ $sortorder }}' columnname='type'>{{ transup('type') }}</x-lopsoft.datatable.header-th>
 @endsection
 
-@section('headerxs')
-@endsection
-
-
 @section('filters')
     @livewire('controls.index-filter-component', [
         'mode'          => $mode,

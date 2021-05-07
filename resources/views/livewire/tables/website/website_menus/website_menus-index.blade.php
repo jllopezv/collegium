@@ -7,10 +7,6 @@
 <x-lopsoft.datatable.header-th width='w-full' >{{ transup('destination')}}</x-lopsoft.datatable.header-th>
 @endsection
 
-@section('headerxs')
-@endsection
-
-
 @section('filters')
     @livewire('controls.index-filter-component', [
         'mode'          => $mode,

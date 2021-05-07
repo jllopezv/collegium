@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire\School;
 
-use App\Http\Livewire\Traits\HasAvailable;
 use Livewire\Component;
+use App\Lopsoft\LopHelp;
 use Livewire\WithPagination;
 use App\Models\School\SchoolGrade;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\HasPriority;
+use App\Http\Livewire\Traits\HasAvailable;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
@@ -35,6 +36,8 @@ class SchoolGradeComponent extends Component
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
         'eventsetlevel'         => 'eventSetLevel',
+        'eventfilterlevel'      => 'eventFilterLevel',
+        'eventfilterorder'      => 'eventFilterOrder',
     ];
 
     /**
@@ -54,6 +57,10 @@ class SchoolGradeComponent extends Component
             // default create options
             $this->loadDefaults();
         }
+
+        // Filter and sorts
+        $this->canShowFilterButton=true;
+        $this->canShowSortButton=true;
     }
 
     /**
@@ -153,6 +160,51 @@ class SchoolGradeComponent extends Component
         $updatedRecord->priority=$this->priority;    // Pivot value
     }
 
+
+    /*************************************
+     * FILTERS
+     */
+
+    public function eventFilterLevel($level_id)
+    {
+
+        $this->filterdata='';
+        if ($level_id=='*')
+        {
+            $this->filterdata='';
+        }
+        else
+        {
+            $this->filterdata="level_id=".$level_id;
+        }
+    }
+
+    public function setDataFilter()
+    {
+        if ($this->filterdata!='') $this->data->whereRaw( $this->filterdata );
+    }
+
+    /*********************************
+     * SORTS
+     */
+
+    public function eventFilterOrder($field, $change=false)
+    {
+        if ($change)
+        {
+            if ($this->sortorder==$field)
+            {
+                $this->sortorder='-'.$field;
+            }
+            else
+            {
+                $this->sortorder=$field;
+            }
+
+            $this->refreshDatatable();
+        }
+
+    }
 
 
 }

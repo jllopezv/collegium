@@ -8,6 +8,3 @@
     <x-lopsoft.datatable.header-th class='w-3/4' columnname='roles'>{{ transup('roles') }}</x-lopsoft.datatable.header-th>
     <x-lopsoft.datatable.header-th class='w-3/4' >{{ transup('country') }}</x-lopsoft.datatable.header-th>
 @endsection
-
-@section('headerxs')
-@endsection

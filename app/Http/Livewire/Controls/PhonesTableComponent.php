@@ -10,6 +10,7 @@ class PhonesTableComponent extends Component
     public $phones=[];
     public $mode;
     public $uid;
+    public $model;
 
     protected $listeners=[
         'setphones' => 'setPhones',
@@ -18,6 +19,7 @@ class PhonesTableComponent extends Component
     public function mount()
     {
         if ($this->mode=='create') $this->PhoneAdd();
+        if ($this->mode=='edit' && count($this->phones)==0) $this->PhoneAdd();
     }
 
     public function setPhones($uid, $phones)
@@ -32,14 +34,17 @@ class PhonesTableComponent extends Component
     public function PhoneAdd()
     {
         $newphone=[
-            'phone' =>  '',
-            'description'  =>  '',
+            'id'            =>  0,
+            'phone'         =>  '',
+            'description'   =>  '',
         ];
         $this->phones[]=$newphone;
     }
 
     public function PhoneDelete($index)
     {
+        $this->model::where('id', $this->phones[$index]['id'])->delete();
+        $this->updatedPhones();
         array_splice($this->phones,$index,1);
     }
 

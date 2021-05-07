@@ -298,6 +298,7 @@ use App\Models\Setting\AppSetting;
             foreach($phones as $phone)
             {
                 $retphones[]=[
+                    'id'            =>  $phone->id,
                     'phone'         =>  $phone->phone,
                     'description'   =>  $phone->description,
                 ];
@@ -314,6 +315,7 @@ use App\Models\Setting\AppSetting;
             foreach($emails as $email)
             {
                 $retemails[]=[
+                    'id'            =>  $email->id,
                     'email'         =>  $email->email,
                     'description'   =>  $email->description,
                     'notif'         =>  $email->notif,

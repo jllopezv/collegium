@@ -15,6 +15,8 @@
 
     <body class="subpixel-antialiased bg-gray-100">
 
+
+
         @php
             App::setLocale(Auth::user()->language->code??config('lopsoft.locale_default'));
         @endphp
@@ -40,7 +42,9 @@
                     <div class='w-full h-full'>
                         {{-- INFOBAR --}}
                         @include('lopsoft.layouts.partials.infobar')
+
                         <div class="w-full h-full overflow-x-hidden overflow-y-auto bg-gray-100">
+                            <div id='tophtml'></div>
                             @yield('content')
                         </div>
                     </div>
@@ -79,6 +83,10 @@
                 setTimeout(function() {
                     Livewire.emit(event.detail.event)
                 }, event.detail.timeout);
+            });
+
+            window.addEventListener('scrolltop', event => {
+                window.scrollTo(0,0);
             });
 
 

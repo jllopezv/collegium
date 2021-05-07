@@ -48,6 +48,11 @@ class SchoolParent extends Model
         return $this->hasMany(ParentEmail::class,'school_parent_id');
     }
 
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
+    }
+
     /*******************************************/
     /* Accessors and mutators
     /*******************************************/

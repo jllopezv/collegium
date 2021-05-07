@@ -8,6 +8,3 @@
         <x-lopsoft.datatable.header-th class='w-16' justify='center' sortable sortorder='{{ $sortorder }}' columnname='onlysuperadmin'><i class='fa fa-user-shield fa-fw'></i></x-lopsoft.datatable.header-th>
     @endisSuperadmin
 @endsection
-
-@section('headerxs')
-@endsection

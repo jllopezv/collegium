@@ -19,5 +19,5 @@
     {{ $attributes ->merge([
         'class' => 'bg-gray-500 hover:bg-gray-600 active:bg-gray-300 focus:border-gray-300'
     ]) }}>
-    {{ $slot }}
+    {!! $slot !!}
 </x-lopsoft.link.link-base>

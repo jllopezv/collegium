@@ -22,24 +22,25 @@
                 "
             src='{{ $preview }}' />
         </div>
+        @if($canmodify)
         <div x-cloak x-show.transition.opaque.1s='showimagebuttons'
                 @mouseenter='showimagebuttons=true'
                 class='absolute flex items-center justify-center' style='left: calc(50% - 2.75rem); bottom: -1.25rem'>
-                <div
-                    wire:click="resetAvatar()"
-                    @click='showimagebuttons=false'
-                    class='w-10 bg-red-400 hover:bg-red-500 h-10 rounded-full text-center pt-2 opacity-75 cursor-pointer mr-1'>
-                    <div class=''><i class='text-white fa fa-trash-alt'></i></div>
-                </div>
-
-                <div
-                    wire:click='rotateAvatar()'
-                    @click='showimagebuttons=false'
-                    class='w-10 bg-blue-400 {{$mode!='create'?'hover:bg-blue-500':'' }} h-10 rounded-full text-center pt-2 opacity-75 cursor-pointer ml-1'>
-                    <div class=''><i class='text-white fa fa-redo-alt'></i></div>
-                </div>
-
+            <div
+                wire:click="resetAvatar()"
+                @click='showimagebuttons=false'
+                class='w-10 bg-red-400 hover:bg-red-500 h-10 rounded-full text-center pt-2 opacity-75 cursor-pointer mr-1'>
+                <div class=''><i class='text-white fa fa-trash-alt'></i></div>
             </div>
+
+            <div
+                wire:click='rotateAvatar()'
+                @click='showimagebuttons=false'
+                class='w-10 bg-blue-400 {{$mode!='create'?'hover:bg-blue-500':'' }} h-10 rounded-full text-center pt-2 opacity-75 cursor-pointer ml-1'>
+                <div class=''><i class='text-white fa fa-redo-alt'></i></div>
+            </div>
+        </div>
+        @endif
         <input type="file" class="hidden"
             wire:model="image"
             x-ref="fileavatar"

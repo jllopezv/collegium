@@ -183,4 +183,6 @@ return [
     'message'               =>  'mensaje',
     'write_text'            =>  'escriba el siguiente texto',
     'logout'                =>  'cerrar sesión',
+    'schoollevel'           =>  'nivel académico',
+    'schoollevels'          =>  'niveles académicos',
 ];

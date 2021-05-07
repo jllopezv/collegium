@@ -5,6 +5,3 @@
 @include('components.lopsoft.datatable.header-setpriority')
 <x-lopsoft.datatable.header-th width='w-full' sortable sortorder='{{ $sortorder }}' columnname='batch'>{{ transup('batch')}}</x-lopsoft.datatable.header-th>
 @endsection
-
-@section('headerxs')
-@endsection

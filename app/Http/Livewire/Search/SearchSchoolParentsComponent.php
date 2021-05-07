@@ -13,16 +13,31 @@ class SearchSchoolParentsComponent extends Component
     public $search;
     private $data=[];
     public $uid;
+    public $showdialog=false;
 
     protected $listeners=[
         'setvalue'  =>  'setValue',
+        'showparentdialog'  =>  'open',
+        'hideparentdialog'  =>  'close',
     ];
+
+    public function open()
+    {
+        $this->showdialog=true;
+    }
+
+    public function close()
+    {
+        $this->showdialog=false;
+        $this->emit('parentdialogclosed');
+    }
 
     public function setValue($uid, $value)
     {
         if ($this->uid==$uid)
         {
             $this->search=$value;
+            $this->searchParent();
         }
     }
 
@@ -34,6 +49,8 @@ class SearchSchoolParentsComponent extends Component
             return;
         }
         $this->data=SchoolParent::search($this->search)->get();
+        $this->emit('parentsearchupdated', $this->search);
+
     }
 
     public function updatedSearch()
@@ -43,9 +60,18 @@ class SearchSchoolParentsComponent extends Component
 
     public function selectParent($id)
     {
-        $this->search='';
+        //$this->search='';
         $this->emit('parentselected',$id);
+        $this->close();
     }
+
+    public function resetDialog()
+    {
+        $this->close();
+        $this->search="";
+        $this->emit('parentsearchupdated', $this->search);
+    }
+
 
     public function render()
     {

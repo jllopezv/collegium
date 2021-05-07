@@ -16,7 +16,7 @@ class CreateSchoolBatchesTable extends Migration
         Schema::create('school_batches', function (Blueprint $table) {
             $table->id();
             $table->boolean('active')->default(1);
-            $table->string('batch')->unique();
+            $table->string('batch');
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');

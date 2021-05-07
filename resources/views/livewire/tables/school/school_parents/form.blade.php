@@ -91,12 +91,14 @@
         'mode'  =>  $mode,
         'uid'   =>  'parentsphones',
         'phones'=>  $record==null?null:getPhones($record->phones),
+        'model' =>  App\Models\School\ParentPhone::class,
     ])
 
     @livewire('controls.emails-table-component',[
         'mode'  =>  $mode,
         'uid'   =>  'parentsemails',
         'emails'=>  $record==null?null:getEmails($record->emails),
+        'model' =>  App\Models\School\ParentEmail::class,
     ])
 
     <x-lopsoft.control.tabs minheight='600px'>
@@ -106,60 +108,60 @@
         </x-slot>
         <x-slot name='tabscontent'>
             <x-lopsoft.control.tabs-content index='1'>
-                {{-- USER --}}
-                <div class=''>
-                    <div class='flex items-baseline justify-start'>
-                        <div class='w-full md:w-3/4 lg:w-3/4 xl:w-1/2'>
-                            @livewire('controls.drop-down-component', [
-                                'mode'          => $mode,
-                                'label'         => transup('user_email'),
-                                'sublabel'      => 'Email para crear el usuario. Debe ser único.',
-                                'classdropdown' => '',
-                                'options'       => $emailsdropdown,
-                                'defaultvalue'  => $record->user->email??null,
-                                'eventname'     => 'eventsetuseremail',
-                                'uid'           => 'emailsdropdowncomponent',
-                                'modelid'       => 'useremail',
-                                'requiredfield' => true,
-                                'help'          => transup('mandatory_unique'),
-                            ])
-                        </div>
-                    </div>
-                    @if($checkedEmail && $mode!='show')
-                        <div class='ml-2 text-xs'>
-                            @if($validEmail)
-                                <div class='font-bold text-green-500'>EL EMAIL NO EXISTE. PUEDE UTILIZARSE PARA CREAR UN USUARIO.</div>
-                            @else
-                                <div class='font-bold text-red-500'>EL EMAIL YA EXISTE. NO PUEDE USARSE PARA CREAR UN USUARIO.</div>
-                            @endif
-                        </div>
-                    @endif
-                </div>
 
-                <x-lopsoft.control.inputform
-                    wire:model.lazy='username'
-                    id='username'
-                    x-ref='username'
-                    label="{{ transup('username') }}"
-                    sublabel="Nombre de usuario para que el pariente acceda a la plataforma. Se generará automáticamente al cambiar el nombre del pariente."
-                    classcontainer='w-60'
-                    requiredfield
-                    help="{{ transup('mandatory') }}"
-                    mode="{{ $mode }}"
-                />
-                @if($checkedUsername)
-                    <div class='ml-2 text-xs'>
-                        @if($validUsername)
-                            <div class='font-bold text-green-500'>EL USUARIO NO EXISTE. PUEDE UTILIZARSE PARA CREAR UN USUARIO.</div>
-                        @else
-                            <div class='font-bold text-red-500'>EL USUARIO YA EXISTE. NO PUEDE USARSE PARA CREAR UN USUARIO.</div>
-                        @endif
-                    </div>
-                @endif
+                @include('components.lopsoft.auth.userprofile')
 
             </x-lopsoft.control.tabs-content>
             <x-lopsoft.control.tabs-content index='2'>
-                ESTUDIANTES INFO
+                @if(count($students)==0 || count($studentsnotenrolled)==0)
+                    <span class='text-red-500 font-bold'>NO TIENE ASIGNADO A NINGÚN ESTUDIANTE</span>
+                @endif
+                @foreach($students as $student)
+                    <a href="{{ route('students.show', ['id' => $student->id ]) }}" target='_blank'>
+                        <div class='flex flex-wrap md:flex-no-wrap items-center justify-start mt-2 w-full hover:bg-cool-gray-200 cursor-pointer p-2 rounded-lg'>
+                            <div class='flex items-center justify-center w-full md:w-16 '>
+                                <div class='text-center'>
+                                    <img class='rounded-full w-16' src='{{ $student->avatar }}' />
+                                </div>
+                            </div>
+
+                            <div class='overflow-x-hidden md:ml-2 flex flex-wrap items-center justify-center md:justify-start  w-full'>
+                                <div class='w-80 text-center md:text-left'>
+                                    <span class='font-bold'>{{ $student->name }}</span>
+                                </div>
+                                <div class='w-full text-center md:w-40 md:text-left'>
+                                    <span class='font-bold text-gray-500'>{{ $student->grade->grade }}</span>
+                                </div>
+                                <div class='w-full text-center md:w-40 md:text-left'>
+                                    <span class='font-bold text-gray-500'>{{ $student->section }}</span>
+                                </div>
+                                <div class='w-full text-center md:w-40 md:text-left'>
+                                    <span class='font-bold text-gray-500'>{{ $student->modality->modality }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+                @foreach($studentsnotenrolled as $student)
+                    <a href="{{ route('students.show', ['id' => $student->id ]) }}" target='_blank'>
+                        <div class='flex flex-wrap md:flex-no-wrap items-center justify-start mt-2 w-full hover:bg-cool-gray-200 cursor-pointer p-2 rounded-lg'>
+                            <div class='flex items-center justify-center w-full md:w-16 '>
+                                <div class='text-center'>
+                                    <img class='rounded-full w-16' src='{{ $student->avatar }}' />
+                                </div>
+                            </div>
+
+                            <div class='overflow-x-hidden md:ml-2 flex flex-wrap items-center justify-center md:justify-start  w-full'>
+                                <div class='w-80 text-center md:text-left'>
+                                    <span class='font-bold'>{{ $student->name }}</span>
+                                </div>
+                                <div class='text-center  md:text-left'>
+                                    <span class='font-bold text-red-500'>NO INSCRITO EN ESTE AÑO ACADÉMICO</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
             </x-lopsoft.control.tabs-content>
         </x-slot>
     </x-lopsoft.control.tabs>

@@ -35,6 +35,8 @@ class SchoolSectionComponent extends Component
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
         'eventsetgrade'         => 'eventSetGrade',
+        'eventfiltergrade'      => 'eventFilterGrade',
+        'eventfilterorder'      => 'eventFilterOrder',
     ];
 
     /**
@@ -54,6 +56,10 @@ class SchoolSectionComponent extends Component
             // default create options
             $this->loadDefaults();
         }
+
+        // Filter and sorts
+        $this->canShowFilterButton=true;
+        $this->canShowSortButton=true;
     }
 
     /**
@@ -138,5 +144,49 @@ class SchoolSectionComponent extends Component
     public function eventSetGrade($grade_id)
     {
         $this->grade_id=$grade_id;
+    }
+
+    /*************************************
+     * FILTERS
+     */
+
+    public function eventFilterGrade($grade_id)
+    {
+        $this->filterdata='';
+        if ($grade_id=='*')
+        {
+            $this->filterdata='';
+        }
+        else
+        {
+            $this->filterdata="grade_id=".$grade_id;
+        }
+    }
+
+    public function setDataFilter()
+    {
+        if ($this->filterdata!='') $this->data->whereRaw( $this->filterdata );
+    }
+
+    /*********************************
+     * SORTS
+     */
+
+    public function eventFilterOrder($field, $change=false)
+    {
+        if ($change)
+        {
+            if ($this->sortorder==$field)
+            {
+                $this->sortorder='-'.$field;
+            }
+            else
+            {
+                $this->sortorder=$field;
+            }
+
+            $this->refreshDatatable();
+        }
+
     }
 }

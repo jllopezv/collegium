@@ -4,9 +4,6 @@
             <x-lopsoft.control.label class="mt-4 font-bold {{ $errors->has('email')?'text-red-600':'' }}" text='EMAILS'></x-lopsoft.control.label>
         </div>
         @if($mode!='show')
-            <div wire:loading.delay class=''>
-                <i class='text-blue-500 cursor-pointer fa fa-spin fa-sync'></i>
-            </div>
             <div wire:loading.remove wire:click='EmailAdd()' class=''>
                 <i class='text-green-400 cursor-pointer hover:text-green-600 fa fa-plus-circle'></i>
             </div>
@@ -15,22 +12,29 @@
     @if($emails!=null &&  count($emails)>0)
         @foreach($emails as $email)
             <div class="p-2 mb-2 rounded-lg bg-cool-gray-50">
-                <div class='flex items-center justify-start w-full'>
-                    <div class='w-full md:w-1/2 lg:w-3/4'>
-                        <div class='flex items-center justify-start'>
-                            <div class='w-6 pt-2 cursor-pointer'>
-                                @if($mode=='show')
-                                    <a href="mailto:{{ $emails[$loop->index]['email'] }}" ><i class='text-green-400 far fa-envelope'></i></a>
-                                @endif
+                <div class='flex items-center justify-start w-full '>
+                    <div class='w-full '>
+                        <div class='flex items-center justify-between w-full'>
+                            <div class='w-full md:w-1/2 lg:w-3/4 flex items-center justify-start'>
+                                <div class='w-6 pt-2 cursor-pointer'>
+                                    @if($mode=='show')
+                                        <a href="mailto:{{ $emails[$loop->index]['email'] }}" ><i class='text-green-400 far fa-envelope'></i></a>
+                                    @endif
+                                </div>
+                                <div class='w-full'>
+                                    <x-lopsoft.control.input
+                                        wire:model.lazy='emails.{{$loop->index}}.email'
+                                        class="bg-transparent {{ $errors->has('email_'.$emails[$loop->index]['email'])?'text-red-600':'' }}"
+                                        classcontainer="w-full"
+                                        placeholder='email@email.com'
+                                        mode='{{ $mode }}'
+                                    />
+                                </div>
                             </div>
-                            <div class='w-full'>
-                                <x-lopsoft.control.input
-                                    wire:model.lazy='emails.{{$loop->index}}.email'
-                                    class="bg-transparent {{ $errors->has('email_'.$emails[$loop->index]['email'])?'text-red-600':'' }}"
-                                    classcontainer="w-full"
-                                    placeholder='email@email.com'
-                                    mode='{{ $mode }}'
-                                />
+                            <div class='flex items-center justify-end'>
+                                <div wire:loading.delay wire:target="emails.{{$loop->index}}.email, emails.{{$loop->index}}.description">
+                                    <i class='fas fa-circle-notch fa-spin text-blue-500'></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -48,7 +52,7 @@
                                     </div>
                                 @else
                                     <div class='tooltip'>
-                                        <i class='text-gray-200 cursor-pointer hover:text-gray-600 fas fa-paper-plane'></i>
+                                        <i class='text-gray-400 cursor-pointer hover:text-gray-600 fas fa-paper-plane'></i>
                                         <span class='tooltiptext tooltiptext-down-left'>NO NOTIFICAR EN ESTE EMAIL</span>
                                     </div>
                                 @endif

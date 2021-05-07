@@ -13,6 +13,7 @@ class EmailsTableComponent extends Component
 
     protected $listeners=[
         'setemails' => 'setEmails',
+        'addemail'=> 'addEmail',
     ];
 
     public function setEmails($uid, $emails)
@@ -24,6 +25,22 @@ class EmailsTableComponent extends Component
 
     }
 
+    public function addEmail($uid, $email, $description, $notif=true)
+    {
+        if ($this->uid==$uid)
+        {
+            $newemail=[
+                'id'            =>  0,
+                'email'         =>  $email,
+                'description'   =>  $description,
+                'notif'         =>  $notif,
+            ];
+            $this->emails[]=$newemail;
+            $this->checkEmails();
+            $this->emit('eventEmailsTableUpdatedEmails',$this->emails);
+        }
+    }
+
     public function mount()
     {
         if ($this->mode=='create') $this->EmailAdd();
@@ -32,9 +49,10 @@ class EmailsTableComponent extends Component
     public function EmailAdd()
     {
         $newemail=[
-            'email' =>  '',
-            'description'  =>  '',
-            'notif' =>  true,
+            'id'            =>  0,
+            'email'         =>  '',
+            'description'   =>  '',
+            'notif'         =>  true,
         ];
         $this->emails[]=$newemail;
         $this->checkEmails();
@@ -43,6 +61,7 @@ class EmailsTableComponent extends Component
     public function EmailDelete($index)
     {
         array_splice($this->emails,$index,1);
+        $this->updatedEmails();
         $this->checkEmails();
     }
     public function EmailChangeNotif($index)
@@ -54,7 +73,7 @@ class EmailsTableComponent extends Component
 
     public function updatedEmails()
     {
-        $this->emit('eventsetemails',$this->emails);
+        $this->emit('eventEmailsTableUpdatedEmails',$this->emails);
         $this->checkEmails();
     }
 

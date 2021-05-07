@@ -6,6 +6,3 @@
 <x-lopsoft.datatable.header-th class='w-32' justify='end'><i class='fa fa-arrows-alt-h'></i> x <i class='fa fa-arrows-alt-v'></i></x-lopsoft.datatable.header-th>
 <x-lopsoft.datatable.header-th class='w-24' justify='end'><i class='fa fa-image'></i></x-lopsoft.datatable.header-th>
 @endsection
-
-@section('headerxs')
-@endsection

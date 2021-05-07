@@ -1,6 +1,6 @@
 <div x-data="{}"
    @click.away='$wire.hidebody()'
-   x-init='$wire.getValue($wire.uid)'
+   {{--x-init='$wire.getValue($wire.uid)'--}}
    class='py-4'
 >
 
@@ -47,8 +47,7 @@
                         @if($cansearch)
                             <input type='text' class='w-full p-2 border border-gray-400 rounded-lg shadow' placeholder='buscar...' />
                         @endif
-                        <div class='w-full overflow-y-scroll max-h-40 nosb'
-                            >
+                        <div class='w-full overflow-y-scroll max-h-40 '>
                             @foreach($options as $index => $option)
 
                                     <div class='w-full p-2 cursor-pointer hover:bg-gray-600 hover:text-white hover:rounded-lg'

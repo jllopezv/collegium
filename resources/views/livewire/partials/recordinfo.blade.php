@@ -1,4 +1,4 @@
-@if($mode!='create')
+@if($mode!='create' && $record!=null)
     @includeIf('livewire.tables.'.$module.'.'.$table.'.recordinfocustom')
     <div class='flex items-center justify-between px-4 py-2 m-0 text-right bg-gray-600'>
         <div class=''>

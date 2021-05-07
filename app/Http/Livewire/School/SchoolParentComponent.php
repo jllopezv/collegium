@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Aux\Country;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use App\Models\School\Student;
 use App\Models\School\ParentEmail;
 use App\Models\School\ParentPhone;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,7 @@ use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\IsUserType;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Livewire\Traits\WithModalAlert;
+use App\Http\Livewire\Traits\WithUserProfile;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
 use App\Http\Livewire\Traits\WithModalConfirm;
@@ -27,6 +29,7 @@ class SchoolParentComponent extends Component
     use WithModalAlert;
     use WithModalConfirm;
     use IsUserType;
+    use WithUserProfile;
 
     public $parent;
     public $address1;
@@ -36,23 +39,23 @@ class SchoolParentComponent extends Component
     public $country_id;
     public $pbox;
     public $notes;
-    public $useremail;
-    public $username;
-    public $validEmail=false;
-    public $checkedEmail=false;
-    public $checkedUsername=false;
-    public $validUsername=false;
     public $phones=[];
     public $emails=[];
-    public $emailsdropdown=[];
+    public $students=[];
+    public $studentsnotenrolled=[];
+
+    public $emailcomponent='parentsemails'; // Emails component name
+
     public $phone=[
-        'phone'  =>  '',
-        'description'  =>  '',
+        'id'            =>  0,
+        'phone'         =>  '',
+        'description'   =>  '',
     ];
     public $email=[
-        'email'  =>  '',
-        'description'  =>  '',
-        'notif'  =>  1,
+        'id'            =>  0,
+        'email'         =>  '',
+        'description'   =>  '',
+        'notif'         =>  1,
     ];
 
 
@@ -64,9 +67,19 @@ class SchoolParentComponent extends Component
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
         'eventsetcountry'       => 'eventSetCountry',
-        'eventsetuseremail'     => 'eventSetUserEmail',
         'eventsetphones'        => 'eventSetPhones',
-        'eventsetemails'        => 'eventSetEmails',
+        'eventsetuserprofileemail' => 'eventSetUserProfileEmail',
+
+        // UserProfile
+        'eventEmailsTableUpdatedEmails'     => 'eventSetEmails',
+
+        /*// UserProfile
+        'eventEmailsTableUpdatedEmails'     => 'eventSetEmails',
+        'userprofileupdatedvalidation'      =>  'userProfileUpdatedValidation',
+        'userprofileupdateddata'            =>  'userProfileUpdatedData',
+        'userprofileusernamerequired'       => 'userProfileSetUsername',
+        'userprofileemailrequired'          => 'userProfileSetEmail',
+        'eventsetuserprofileemail'          => 'eventSetUserProfileEmail',*/
     ];
 
     /**
@@ -89,7 +102,9 @@ class SchoolParentComponent extends Component
             $this->phones[]=$this->phone;
             $this->emails[]=$this->email;
         }
-    }
+
+
+   }
 
     /**
      * Rules to validate model
@@ -106,8 +121,6 @@ class SchoolParentComponent extends Component
             'state'                 => 'nullable|string|max:255',
             'pbox'                  => 'nullable|string|max:255',
             'notes'                 => 'nullable|string|max:1024',
-            'useremail'             => 'required',
-            'username'              => 'required',
         ];
     }
 
@@ -115,6 +128,9 @@ class SchoolParentComponent extends Component
     {
         $this->country_id=Auth::user()->country_id??(Country::where('country',config('lopsoft.country_default'))->first())->id??null;
         $this->emit('setvalue', 'countrycomponent', $this->country_id );
+
+        // Userprofile
+        $this->userProfileClear();
     }
 
     public function resetForm()
@@ -130,15 +146,9 @@ class SchoolParentComponent extends Component
         $this->phones[]=$this->phone;
         $this->emails=[];
         $this->emails[]=$this->email;
-        $this->username='';
-        $this->useremail='';
-        $this->emailsdropdown=[];
-        $this->checkedEmail=false;
-        $this->checkedUsername=false;
         $this->loadDefaults();
         $this->emit('setphones','parentsphones' , $this->phones);
         $this->emit('setemails','parentsemails' , $this->emails);
-        // $this->emit('setoptions','emailsdropdowncomponent',$this->emailsdropdown);
     }
 
     public function loadRecordDef()
@@ -150,13 +160,21 @@ class SchoolParentComponent extends Component
         $this->state=$this->record->state;
         $this->pbox=$this->record->pbox;
         $this->notes=$this->record->notes;
-        $this->useremail=$this->record->user->email;
-        $this->username=$this->record->user->username;
         $this->phones=getPhones($this->record->phones);
         $this->emails=getEmails($this->record->emails);
-        $this->getEmailsDropDown();
-        $this->emit('setoptions','emailsdropdowncomponent',$this->emails);
+
+        /* Only for the current academic year */
+        $anno=getUserAnnoSession();
+        $this->students=$anno->belongsToMany(Student::class)->orderBy('anno_student.grade_id','asc')->whereIn('students.id',$this->record->students->pluck('id'))->get();
+        $this->studentsnotenrolled=$this->record->students()->whereNotIn('students.id',$this->students->pluck('id'))->get();
+
+
+        // User Profile
+        $this->userProfileLoadRecord($this->record, $this->emails);
+
+
     }
+
 
     public function getKeyNotification($record)
     {
@@ -178,8 +196,6 @@ class SchoolParentComponent extends Component
             'state'                  => $this->state,
             'pbox'                   => $this->pbox,
             'notes'                  => $this->notes,
-            'useremail'              => $this->useremail,
-            'username'               => $this->username,
         ];
     }
 
@@ -209,7 +225,7 @@ class SchoolParentComponent extends Component
     }
 
 
-    public function customStoreValidation()
+    public function customValidation()
     {
         $haserrorsemails=false;
         $haserrorsphones=false;
@@ -235,8 +251,8 @@ class SchoolParentComponent extends Component
             if ($phone['phone']!='')
             {
                 $validator=Validator::make(
-                    ['phone' =>  $phone['phone'] ],
-                    ['phone'   =>  'required|string|max:255' ],
+                    ['phone'    =>  $phone['phone'] ],
+                    ['phone'    =>  'required|string|max:255' ],
                 );
                 if ($validator->fails())
                 {
@@ -255,17 +271,7 @@ class SchoolParentComponent extends Component
             $this->ShowError('HAY TELÉFONOS QUE NO SON VÁLIDOS');
         }
 
-        if ($this->checkedEmail && !$this->validEmail)
-        {
-            $this->addError('useremail', 'EMAIL NO VÁLIDO');
-            $haserrors=true;
-        }
-
-        if ($this->checkedUsername && !$this->validUsername)
-        {
-            $this->addError('username', 'USUARIO NO VÁLIDO');
-            $haserrors=true;
-        }
+        $haserrors=$this->userProfileValidation();
 
         if ($haserrorsemails || $haserrorsphones || $haserrors)
         {
@@ -274,6 +280,17 @@ class SchoolParentComponent extends Component
             return false;
         }
         return true;
+    }
+
+
+    public function customStoreValidation()
+    {
+        return $this->customValidation();
+    }
+
+    public function customUpdateValidation()
+    {
+        return $this->customValidation();
     }
 
     public function postStore($recordStored)
@@ -304,67 +321,68 @@ class SchoolParentComponent extends Component
             }
         }
 
-        $userprofile=User::createProfileUser($this->parent, $this->username, $this->useremail, config('lopsoft.users_defaultpassword'), 'parent' );
-        if ($userprofile==null)
-        {
-            $this->checkFlashErrors();
-            return;
-        }
-        else
-        {
-            $userprofile->profile_photo_path=null;
-            $recordStored->user()->save($userprofile);
-        }
+        $this->userProfileSaveUser($recordStored, $this->parent, 'parent');
 
     }
 
-    public function getEmailsDropDown()
+    public function postUpdate($recordUpdated)
     {
-        $this->emailsdropdown=[];
-        if (count($this->emails)==0) return;
+        // Update Phones
+        foreach($this->phones as $phone)
+        {
+            if ($phone['phone']!='')
+            {
+                if ($phone['id']!=0)
+                {
+                   ParentPhone::where('id',$phone['id'])->update([
+                        'phone'             => $phone['phone'],
+                        'description'       => $phone['description'],
+                        'school_parent_id'  => $recordUpdated->id,
+                    ]);
+                }
+                else
+                {
+                    ParentPhone::create([
+                        'phone'             => $phone['phone'],
+                        'description'       => $phone['description'],
+                        'school_parent_id'  => $recordUpdated->id,
+                    ]);
+                }
+
+            }
+        }
+        // Update Emails
         foreach($this->emails as $email)
         {
-            if ( $email['email']!='' )
+            if ($email['email']!='')
             {
-                $this->emailsdropdown[]=[
-                    'text'  =>  $email['email'],
-                    'value' =>  $email['email'],
-                ];
+                if ($email['id']!=0)
+                {
+                    ParentEmail::where('id',$email['id'])->update([
+                        'email'             => $email['email'],
+                        'description'       => $email['description'],
+                        'notif'             => $email['notif'],
+                        'school_parent_id'  => $recordUpdated->id,
+                    ]);
+                }
+                else
+                {
+                    ParentEmail::create([
+                        'email'             => $email['email'],
+                        'description'       => $email['description'],
+                        'notif'             => $email['notif'],
+                        'school_parent_id'  => $recordUpdated->id,
+                    ]);
+                }
+
             }
         }
-        $this->emit('setoptions','emailsdropdowncomponent', $this->emailsdropdown);
-        $this->checkEmail();
+
+        // Update user
+        $this->userProfileUpdateUser($recordUpdated);
+
     }
 
-    public function eventSetUserEmail($email)
-    {
-        $this->useremail=$email;
-        $this->checkEmail();
-    }
-
-    public function checkEmail()
-    {
-        $this->checkedEmail=false;
-        if ($this->useremail=='' || $this->useremail==null) return;
-        $user=User::where('email', $this->useremail)->first();
-        if ($user==null)
-        {
-            $this->validEmail=true;
-            return;
-        }
-        if ($user->profile!=null)
-        {
-            if ( $this->mode=='edit' && $user->profile->id==$this->record->id )
-            {
-                $this->validEmail=true;
-            }
-            else
-            {
-                $this->validEmail=$user==null?true:false;
-            }
-        }
-        $this->checkedEmail=true;
-    }
 
     public function eventSetPhones($phones)
     {
@@ -374,7 +392,7 @@ class SchoolParentComponent extends Component
     public function eventSetEmails($emails)
     {
         $this->emails=$emails;
-        $this->getEmailsDropDown();
+        $this->userProfileSetEmails($emails);
     }
 
     public function getProfileUsername()
@@ -396,33 +414,13 @@ class SchoolParentComponent extends Component
         return $username;
     }
 
-    public function updatedParent()
-    {
-        $this->username=$this->getProfileUsername();
-        $this->checkUsername();
-    }
 
-    public function updatedUsername()
-    {
-        $this->checkUsername();
-    }
 
-    public function checkUsername()
-    {
-        $this->checkedUsername=false;
-        if ($this->username=='' || $this->username==null) return;
-        $user=User::where('username', $this->username)->first();
 
-        if ( $this->mode=='edit' && $user->profile->id==$this->record->id )
-        {
-            $this->validUsername=true;
-        }
-        else
-        {
-            $this->validUsername=$user==null?true:false;
-        }
-        $this->checkedUsername=true;
-    }
+
+
+
+
 
 
 

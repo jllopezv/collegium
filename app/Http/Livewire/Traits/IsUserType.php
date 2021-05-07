@@ -14,7 +14,7 @@ Trait IsUserType
         $user=new User;
         $user->name=$this->getProfileName();
         $user->username=$this->getProfileUsername();
-        $user->email=$this->email;
+        $user->email=$this->profileuseremail;
         return $user;
     }
 

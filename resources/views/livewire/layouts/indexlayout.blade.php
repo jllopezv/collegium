@@ -1,5 +1,4 @@
 <div class='relative z-10' >
-
     @include('livewire.partials.loading-message')
 
     <div @if(!$disableloading) wire:loading.delay.class='opacity-25' @endif>
@@ -17,7 +16,7 @@
             slave='{{ $slave }}'
             noFilterInGetDataQuery='{{ $noFilterInGetDataQuery }}'
             canShowFilterButton="{{ $canShowFilterButton }}"
-            canShowSortButton="{{ $canShowSortButton }}"
+            canShowSortButton={{ $canShowSortButton }}
             >
 
             {{-- BATCH COMMON --}}
@@ -35,16 +34,16 @@
             {{-- FILTERS --}}
             <x-slot name='filters'>
                 @if($canShowFilterButton)
-                <div x-show.transition.opacity.1000ms='showFilters' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
-                    @yield('filters')
-                </div>
+                    <div x-show.transition.opacity.1000ms='showFilters' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
+                        @yield('filters')
+                    </div>
                 @endif
             </x-slot>
             {{-- /FILTERS --}}
             {{-- SORTS --}}
             <x-slot name='sorts'>
                 @if($canShowSortButton)
-                    <div x-show.transition.opacity.1000ms='showSorts' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
+                    <div x-show.transition.opacity.1000ms='showSorts' class='md:hidden px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
                         @yield('sorts')
                     </div>
                 @endif

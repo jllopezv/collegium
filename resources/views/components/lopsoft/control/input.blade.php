@@ -27,7 +27,9 @@
     }}
     placeholder='{!! $placeholder !!}'
     x-ref='{{$id}}'
-    @keydown.enter='$refs.{{$nextref!=''?$nextref:$id}}.focus()'
+    @if($nextref!='')
+        @keydown.enter='$refs.{{$nextref!=''?$nextref:$id}}.focus()'
+    @endif
     @if($value)
         value='{!! $value !!}'
     @endif

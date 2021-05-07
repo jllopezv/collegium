@@ -6,5 +6,3 @@
     <x-lopsoft.datatable.header-th class='w-1/4' sortable sortorder='{{ $sortorder }}' columnname='group'>GRUPO</x-lopsoft.datatable.header-th>
 @endsection
 
-@section('headerxs')
-@endsection

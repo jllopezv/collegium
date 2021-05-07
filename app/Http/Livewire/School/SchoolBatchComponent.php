@@ -61,7 +61,7 @@ class SchoolBatchComponent extends Component
     public function validateRules() : array
     {
         return [
-            'batch'             => 'required|string|max:255|unique:school_batches,batch,'.$this->recordid,
+            'batch'             => 'required|string|max:255',
             'priority'          => 'required|numeric',
         ];
     }

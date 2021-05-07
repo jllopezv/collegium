@@ -33,7 +33,7 @@ class Student extends Model
         'exp', 'names', 'profile_photo_path', 'first_surname', 'second_surname', 'birth', 'gender', 'priority'
     ];
 
-    protected $appends= [ 'name', 'avatar', 'grade' ,'priority', 'params', 'section'];
+    protected $appends= [ 'name', 'avatar', 'grade' ,'priority', 'params', 'section', 'modality'];
 
     protected $dates=[ 'birth' ];
 
@@ -123,6 +123,20 @@ class Student extends Model
             'batch_id'      =>  $params->pivot->batch_id,
             'modality_id'   =>  $params->pivot->modality_id,
         ]);
+    }
+
+    public function getModalityAttribute()
+    {
+        $params=$this->params;
+        if (sizeof($params)==0) return null;
+        return SchoolModality::find($params['modality_id'])->first();
+    }
+
+    public function getBatchAttribute()
+    {
+        $params=$this->params;
+        if (sizeof($params)==0) return null;
+        return SchoolBatch::find($params['batch_id'])->first();
     }
 
     /**
@@ -256,6 +270,11 @@ class Student extends Model
     /*******************************************/
     /* Methods
     /*******************************************/
+
+    public function isEnrolled()
+    {
+        return ($this->enrolled->where('id',getUserAnnoSessionId())->first()!=null?true:false );
+    }
 
     public function enroll( $params, $anno_id=null )
     {

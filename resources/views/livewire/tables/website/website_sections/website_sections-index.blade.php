@@ -9,10 +9,6 @@
 <x-lopsoft.datatable.header-th class='w-40' sortable sortorder='{{ $sortorder }}' columnname='website_post_cat_id'>{{ transup('category')}}</x-lopsoft.datatable.header-th>
 @endsection
 
-@section('headerxs')
-@endsection
-
-
 @section('filters')
     @livewire('controls.index-filter-component', [
         'mode'          => $mode,

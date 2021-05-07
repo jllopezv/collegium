@@ -37,6 +37,7 @@ class IndexFilterComponent extends Component
     public $modelid='';
     public $template='';
     public $mode='';
+    public $firsttime=true;
 
     public function mount()
     {

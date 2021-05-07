@@ -8,5 +8,3 @@
     <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}' columnname='phonecode' >{{ transup('phonecode')  }}</x-lopsoft.datatable.header-th>
 @endsection
 
-@section('headerxs')
-@endsection

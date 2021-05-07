@@ -2,15 +2,12 @@
 
 @section('header')
     <x-lopsoft.datatable.header-th class='w-16' justify='center'>{{ transup('photo') }}</x-lopsoft.datatable.header-th>
-    <x-lopsoft.datatable.header-th class='w-80'  sortable sortorder='{{ $sortorder }}' columnname='first_surname'>{{ transup('student')}}</x-lopsoft.datatable.header-th>
+    <x-lopsoft.datatable.header-th class='w-96'  sortable sortorder='{{ $sortorder }}' columnname='first_surname'>{{ transup('student')}}</x-lopsoft.datatable.header-th>
     <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}' columnname='grade_id'>{{ transup('grade')}}</x-lopsoft.datatable.header-th>
     <x-lopsoft.datatable.header-th class='w-40' sortable sortorder='{{ $sortorder }}'  columnname='section_id'>{{ transup('section')}}</x-lopsoft.datatable.header-th>
     <x-lopsoft.datatable.header-th class='w-40' sortable sortorder='{{ $sortorder }}'  columnname='modality_id'>{{ transup('modality')}}</x-lopsoft.datatable.header-th>
     <x-lopsoft.datatable.header-th class='w-24' justify='end' sortable sortorder='{{ $sortorder }}' columnname='priority'>{{ transup('priority')}}</x-lopsoft.datatable.header-th>
     @include('components.lopsoft.datatable.header-setpriority')
-@endsection
-
-@section('headerxs')
 @endsection
 
 @section('filters')
@@ -69,7 +66,6 @@
         </div>
     </div>
 @endsection
-
 
 @section('sorts')
     <div class='w-full mr-2 md:w-auto md:hidden'>
