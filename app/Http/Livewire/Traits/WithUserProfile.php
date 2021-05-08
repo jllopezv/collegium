@@ -125,6 +125,7 @@ Trait WithUserProfile
         $this->profileemailsdropdown=$emails;
         $this->userProfileSetEmails($emails);
         $this->checkUserProfileUsername();
+        $this->checkUserProfileEmail();
     }
 
     // Override this for customization
