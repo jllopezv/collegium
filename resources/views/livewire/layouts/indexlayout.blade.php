@@ -19,6 +19,12 @@
             canShowSortButton={{ $canShowSortButton }}
             >
 
+            {{-- MODEL ACTIONS --}}
+            <x-slot name='modelactions'>
+                @yield('modelactions')
+            </x-slot>
+            {{-- /MODEL ACTIONS --}}
+
             {{-- BATCH COMMON --}}
                 <x-slot name='tableactions'>
                     @if(count($rowselected))
@@ -182,20 +188,24 @@
                                     <div  class='flex items-baseline justify-between'>
                                         <div>
                                             @if(method_exists($item,'syncPriority'))
-                                                <div class='flex items-center justify-start'>
-                                                    <div class='pt-1 tooltip'>
-                                                        <i wire:click='upPriority({{$item->id}})' class="fa fa-angle-up fa-lg {{ $item->priority<2?'text-cool-gray-300':'text-cool-gray-400 hover:text-cool-gray-600 cursor-pointer ' }}"></i>
-                                                        <span class='tooltiptext tooltiptext-center-right'>AUMENTAR PRIORIDAD</span>
+                                                @if($item->priority==0)
+                                                    <span class='text-cool-gray-500 ml-2'><i class='fa fa-lock'></i></span>
+                                                @else
+                                                    <div class='flex items-center justify-start'>
+                                                        <div class='pt-1 tooltip'>
+                                                            <i wire:click='upPriority({{$item->id}})' class="fa fa-angle-up fa-lg {{ $item->priority<2?'text-cool-gray-300':'text-cool-gray-400 hover:text-cool-gray-600 cursor-pointer ' }}"></i>
+                                                            <span class='tooltiptext tooltiptext-center-right'>AUMENTAR PRIORIDAD</span>
+                                                        </div>
+                                                        <div class='px-2 tooltip'>
+                                                            <span class='px-2 text-xs font-bold text-green-300 rounded-md bg-cool-gray-600'>{{ $item->priority }}</span>
+                                                            <span class='tooltiptext tooltiptext-center-right'>PRIORIDAD</span>
+                                                        </div>
+                                                        <div class='pt-1 tooltip'>
+                                                            <i wire:click='downPriority({{$item->id}})' class='cursor-pointer text-cool-gray-400 hover:text-cool-gray-600 fa fa-angle-down fa-lg'></i>
+                                                            <span class='tooltiptext tooltiptext-center-right'>DECREMENTAR PRIORIDAD</span>
+                                                        </div>
                                                     </div>
-                                                    <div class='px-2 tooltip'>
-                                                        <span class='px-2 text-xs font-bold text-green-300 rounded-md bg-cool-gray-600'>{{ $item->priority }}</span>
-                                                        <span class='tooltiptext tooltiptext-center-right'>PRIORIDAD</span>
-                                                    </div>
-                                                    <div class='pt-1 tooltip'>
-                                                        <i wire:click='downPriority({{$item->id}})' class='cursor-pointer text-cool-gray-400 hover:text-cool-gray-600 fa fa-angle-down fa-lg'></i>
-                                                        <span class='tooltiptext tooltiptext-center-right'>DECREMENTAR PRIORIDAD</span>
-                                                    </div>
-                                                </div>
+                                                @endif
                                             @endif
                                         </div>
                                         <div class=''>

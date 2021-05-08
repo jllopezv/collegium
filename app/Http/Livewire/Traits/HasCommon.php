@@ -586,7 +586,7 @@ Trait HasCommon
                 $dir='asc';
                 $field=$this->sortorder;
             }
-            $this->data->orderBy($field,$dir);
+            $this->data->orderBy($field,$dir); // if builder dont get that field...fail!!
         }
 
         $this->setDataFilterOwner();
@@ -690,6 +690,8 @@ Trait HasCommon
                 $this->rowselected[]="$item->id";   // Must be string
             }
         }
+
+
     }
 
     /**

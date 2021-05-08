@@ -70,7 +70,7 @@ class SchoolSectionComponent extends Component
     public function validateRules() : array
     {
         return [
-            'section'           => 'required|string|max:255|unique:school_sections,section,'.$this->recordid,
+            'section'           => 'required|string|max:255',
             'priority'          => 'required|numeric',
             'grade_id'          => 'required',
         ];

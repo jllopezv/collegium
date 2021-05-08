@@ -1,13 +1,38 @@
 @extends('livewire.layouts.indexlayout', [ 'minwidth' => '500px'])
 
 @section('header')
+
     <x-lopsoft.datatable.header-th class='w-16' justify='center'>{{ transup('photo') }}</x-lopsoft.datatable.header-th>
     <x-lopsoft.datatable.header-th class='w-96'  sortable sortorder='{{ $sortorder }}' columnname='first_surname'>{{ transup('student')}}</x-lopsoft.datatable.header-th>
+    @if($this->showOnlyEnrolls)
     <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}' columnname='grade_id'>{{ transup('grade')}}</x-lopsoft.datatable.header-th>
-    <x-lopsoft.datatable.header-th class='w-40' sortable sortorder='{{ $sortorder }}'  columnname='section_id'>{{ transup('section')}}</x-lopsoft.datatable.header-th>
-    <x-lopsoft.datatable.header-th class='w-40' sortable sortorder='{{ $sortorder }}'  columnname='modality_id'>{{ transup('modality')}}</x-lopsoft.datatable.header-th>
+    <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}'  columnname='section_id'>{{ transup('section')}}</x-lopsoft.datatable.header-th>
+    <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}'  columnname='modality_id'>{{ transup('modality')}}</x-lopsoft.datatable.header-th>
+    @else
+    <x-lopsoft.datatable.header-th class='w-60' columnname='grade_id'>{{ transup('grade')}}</x-lopsoft.datatable.header-th>
+    <x-lopsoft.datatable.header-th class='w-60' columnname='section_id'>{{ transup('section')}}</x-lopsoft.datatable.header-th>
+    <x-lopsoft.datatable.header-th class='w-60' columnname='modality_id'>{{ transup('modality')}}</x-lopsoft.datatable.header-th>
+    @endif
+
     <x-lopsoft.datatable.header-th class='w-24' justify='end' sortable sortorder='{{ $sortorder }}' columnname='priority'>{{ transup('priority')}}</x-lopsoft.datatable.header-th>
     @include('components.lopsoft.datatable.header-setpriority')
+@endsection
+
+@section('modelactions')
+    <div x-show='$wire.showOnlyEnrolls' class='mr-1'>
+        <x-lopsoft.button.gray
+            wire:click='hideEnrolleds'
+            icon='fa fa-graduation-cap'
+            help='MOSTRAR NO INSCRITOS' helpclass='tooltiptext-up-right'>
+        </x-lopsoft.button.gray>
+    </div>
+    <div x-cloak x-show='!$wire.showOnlyEnrolls' class='mr-1'>
+        <x-lopsoft.button.coolgray
+            wire:click='showEnrolleds'
+            icon='fa fa-graduation-cap'
+            help='MOSTRAR SOLO INSCRITOS' helpclass='tooltiptext-up-right'>
+        </x-lopsoft.button.coolgray>
+    </div>
 @endsection
 
 @section('filters')

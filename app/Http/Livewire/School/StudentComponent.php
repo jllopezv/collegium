@@ -78,6 +78,7 @@ class StudentComponent extends Component
     public $oldusername='';
     public $olduseremail='';
     public $canAssignParent=true;
+    public $showOnlyEnrolls=true;
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -594,6 +595,17 @@ class StudentComponent extends Component
         }
     }
 
+    public function preSortOrder()
+    {
+        //$this->sortorder='id';
+        //\$this->data->orderBy('id','desc');
+    }
+    public function forceGetQueryData($ret)
+    {
+        if (!$this->showOnlyEnrolls) $ret=Student::query();
+        return $ret;
+    }
+
     public function findRecordBuilder()
     {
         // Special find cause it has pivot fields like grade_id, section_id, batch_id, modality_id
@@ -714,6 +726,18 @@ class StudentComponent extends Component
     public function parentDialogClosed()
     {
         $this->showParents=false;
+    }
+
+    public function showEnrolleds()
+    {
+        $this->showOnlyEnrolls=true;
+        $this->sortorder='grade_id';
+    }
+
+    public function hideEnrolleds()
+    {
+        $this->showOnlyEnrolls=false;
+        $this->sortorder='id';
     }
 
 }

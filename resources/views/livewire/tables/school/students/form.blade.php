@@ -1,6 +1,6 @@
 <div class='w-full'>
 
-    @if(!$record->isEnrolled())
+    @if($record!=null && !$record->isEnrolled())
         <div class='my-4 text-white p-8 bg-red-500 font-bold rounded-lg text-center'>
             <span class='text-lg'>EL ESTUDIANTE NO ESTÁ INSCRITO ESTE AÑO</span>
         </div>
@@ -100,7 +100,7 @@
                 </div>
             </div>
 
-            @if($record->isEnrolled())
+            @if($mode=='create' || $record->isEnrolled())
 
                 <x-lopsoft.control.inputform
                     wire:model.lazy='priority'

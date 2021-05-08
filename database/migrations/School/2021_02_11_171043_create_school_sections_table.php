@@ -16,7 +16,7 @@ class CreateSchoolSectionsTable extends Migration
         Schema::create('school_sections', function (Blueprint $table) {
             $table->id();
             $table->boolean('active')->default(1);
-            $table->string('section')->unique();
+            $table->string('section');
             $table->foreignId('grade_id')->nullable()->references('id')->on('school_grades');
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');

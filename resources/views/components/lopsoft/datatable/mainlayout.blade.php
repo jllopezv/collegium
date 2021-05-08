@@ -31,6 +31,7 @@
                     </div>
                 </x-lopsoft.link.gray>
             </div>
+            {{ $modelactions }}
             {{-- FILTERS AND SORT --}}
             @if($canShowFilterButton)
                 <div class='mr-1'>
