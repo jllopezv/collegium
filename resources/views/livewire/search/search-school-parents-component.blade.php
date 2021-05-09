@@ -26,7 +26,7 @@
                 <div class='flex flex-wrap items-center justify-center md:justify-start w-full '>
                     <div class='w-full md:w-80 '>
                         <div class='text-center md:text-left'>
-                            <a href="{{route('school_parents.show', ['id' => $parent->id])}}" target='_blank'><i class='fa fa-info-circle text-blue-400 hover:text-blue-500'></i></a><span class='ml-2'>{{$parent->parent}}</span>
+                            <a href="{{route('school_parents.show', ['id' => $parent->id])}}" target='_blank'><i class='fa fa-info-circle text-cool-gray-400 hover:text-blue-500'></i></a><span class='ml-2'>{{$parent->parent}}</span>
                         </div>
                     </div>
                     <div class='md:pl-8 w-full md:w-auto md:flex  items-center justify-center md:justify-start '>

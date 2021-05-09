@@ -333,6 +333,11 @@
                                             <a href='{{ route('school_parents.edit', ['id' => $infoParent->id??0 ]) }}' target='_blank' ><i class='fa fa-pencil'></i></a>
                                         </div>
                                     @endhasAbility
+                                    @hasAbility('school_parents.show')
+                                        <div class='ml-2 text-cool-gray-400 hover:text-blue-500 cursor-pointer'>
+                                            <a href='{{ route('school_parents.show', ['id' => $infoParent->id??0 ]) }}' target='_blank' ><i class='fa fa-info-circle'></i></a>
+                                        </div>
+                                    @endhasAbility
                                     @isSuperadmin
                                         <div class='ml-2 bg-blue-500 text-white py-0.5 px-1 text-xs rounded font-bold'>
                                             ID {{ $infoParent->id??'' }}

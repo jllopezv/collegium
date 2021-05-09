@@ -18,7 +18,7 @@
     </div>
 @else
     <div class='mt-1 font-bold text-center'>
-        <span class='font-bold text-red-500 text-md'>NO INSCRITO</span>
+        <span class='font-bold text-red-500 text-md'>NO INSCRITO EN ESTE AÑO ACADÉMICO</span>
     </div>
 @endif
 
