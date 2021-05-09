@@ -559,6 +559,8 @@ class StudentComponent extends Component
 
     public function setDataFilter()
     {
+        if (!$this->showOnlyEnrolls) return;
+
         if ($this->filtergrade!='' || $this->filtersection!='' || $this->filterbatch!='' || $this->filtermodality!='')
         {
             if ($this->filtergrade!='')

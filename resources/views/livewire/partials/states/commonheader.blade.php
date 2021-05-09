@@ -13,3 +13,6 @@
 @if($mode=='index')
     @include('livewire.partials.headeraaction', ['headertext' => $title , 'routeback' => $routeback??''])
 @endif
+
+@yield('related')
+
