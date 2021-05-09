@@ -18,7 +18,6 @@ class AddFieldsToUsers extends Migration
             $table->string('username')->after('name')->unique();
 
             $table->unsignedInteger('level')->nullable()->default( config('lopsoft.maxlevelVIPUsers') );
-
             $table->string('dateformat');
             $table->foreignId('timezone_id')->nullable()->references('id')->on('timezones')->onDelete('set null');
             $table->foreignId('country_id')->nullable()->references('id')->on('countries')->onDelete('set null');

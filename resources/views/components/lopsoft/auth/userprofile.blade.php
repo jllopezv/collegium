@@ -1,9 +1,20 @@
 <div x-data='{}' class='relative '>
     @if($mode=='edit' || $mode=='show')
-        <div class='absolute top-0 right-0 mt-2'>
-            <a href="{{ route('users.edit', ['id' => $record->user->id]) }}" target="_blank">
-                <i class='fa fa-pencil text-cool-gray-400 hover:text-cool-gray-500 cursor-pointer'></i>
-            </a>
+        <div class='absolute top-0 right-0 mt-2 flex items-center justify-end'>
+            @hasAbility('users.show')
+                <div class='mr-2'>
+                    <a href="{{ route('users.show', ['id' => $record->user->id]) }}" target="_blank">
+                        <i class='fa fa-info-circle text-cool-gray-400 hover:text-blue-500 cursor-pointer'></i>
+                    </a>
+                </div>
+            @endhasAbility
+            @hasAbility('users.edit')
+                <div class=''>
+                    <a href="{{ route('users.edit', ['id' => $record->user->id]) }}" target="_blank">
+                        <i class='fa fa-pencil text-cool-gray-400 hover:text-cool-gray-500 cursor-pointer'></i>
+                    </a>
+                </div>
+            @endhasAbility
         </div>
     @endif
     <div class='flex-block md:flex items-start justify-start '>

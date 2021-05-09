@@ -23,6 +23,7 @@ use App\Models\Website\WebsitePage;
 use App\Models\Website\WebsitePost;
 use App\Models\Auth\PermissionGroup;
 use App\Models\School\SchoolSection;
+use Illuminate\Support\Facades\Auth;
 use App\Models\School\SchoolModality;
 use App\Models\Website\WebsiteBanner;
 use Illuminate\Support\Facades\Route;
@@ -119,7 +120,7 @@ Route::get('/sendcontact', [ SendMailController::class, 'mail' ] );
 /*****************************************************/
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboards.'.Auth::user()->dashboard);
 })->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/profile', function() {

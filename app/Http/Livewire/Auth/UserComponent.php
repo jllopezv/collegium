@@ -36,6 +36,7 @@ class UserComponent extends Component
     public  $password_confirmation;
     public  $profile_photo_path;
     public  $avatar;
+    public  $dashboard;
     public  $roles=[];
     public  $dateformat;
     public  $timezone_id;
@@ -119,6 +120,7 @@ class UserComponent extends Component
         $this->profile_photo_path=null;
         $this->password='';
         $this->password_confirmation='';
+        $this->dashboard='user';
         $this->roles=[];
         $this->loadDefaults();
         $this->emit('setvalue', 'rolecomponent', null);
@@ -141,6 +143,7 @@ class UserComponent extends Component
             'username'              =>  $this->username,
             'email'                 =>  $this->email,
             'profile_photo_path'    =>  $this->profile_photo_path,
+            'dashboard'             =>  $this->dashboard,
             'dateformat'            =>  $this->dateformat,
             'timezone_id'           =>  $this->timezone_id,
             'country_id'            =>  $this->country_id,
@@ -218,6 +221,7 @@ class UserComponent extends Component
         $this->timezone_id=$this->record->timezone_id;
         $this->country_id=$this->record->country_id;
         $this->language_id=$this->record->language_id;
+        $this->dashboard=$this->record->dashboard;
     }
 
     public function getKeyNotification($record)
@@ -294,8 +298,5 @@ class UserComponent extends Component
 
         return redirect()->route('dashboard');
     }
-
-
-
 
 }

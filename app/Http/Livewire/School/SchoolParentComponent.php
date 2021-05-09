@@ -321,7 +321,7 @@ class SchoolParentComponent extends Component
             }
         }
 
-        $this->userProfileSaveUser($recordStored, $this->parent, 'parent');
+        $this->userProfileSaveUser($recordStored, $this->parent, 'schoolparent');
 
     }
 

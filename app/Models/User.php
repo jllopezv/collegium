@@ -140,6 +140,16 @@ class User extends Authenticatable
     /* Accessors and mutators
     /*******************************************/
 
+    public function getMainRoleAttribute()
+    {
+        return $this->roles()->orderBy('level','desc')->first();
+    }
+
+    public function getDashboardAttribute()
+    {
+        return $this->mainRole->dashboard;
+    }
+
     /**
      * Get Avatar, if not exists return defaul avatar
      *

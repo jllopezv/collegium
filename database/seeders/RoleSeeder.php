@@ -16,9 +16,9 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $record=new Role;
-        $record->role="SUPERUSER";
+        $record->role="SUPERADMIN";
         $record->level=1;
-        $record->dashboard='superuser';
+        $record->dashboard='superadmin';
         $record->color_id=2;
         $record->save();
         $record->allowedActions()->create([  'allowShow'     => false,
@@ -84,9 +84,9 @@ class RoleSeeder extends Seeder
                                         ]);
 
         $record=new Role;
-        $record->role="PARENT";
+        $record->role="SCHOOLPARENT";
         $record->level=5010;
-        $record->dashboard='parent';
+        $record->dashboard='schoolparent';
         $record->color_id=6;
         $record->save();
         $record->allowedActions()->create([  'allowShow'     => false,
