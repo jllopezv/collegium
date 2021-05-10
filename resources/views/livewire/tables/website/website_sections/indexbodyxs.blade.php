@@ -12,3 +12,4 @@
 <div class='mt-1 font-bold text-center'>
     {!! $item->category->categoryName !!}
 </div>
+

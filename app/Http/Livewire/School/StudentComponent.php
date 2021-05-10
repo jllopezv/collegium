@@ -597,11 +597,6 @@ class StudentComponent extends Component
         }
     }
 
-    public function preSortOrder()
-    {
-        //$this->sortorder='id';
-        //\$this->data->orderBy('id','desc');
-    }
     public function forceGetQueryData($ret)
     {
         if (!$this->showOnlyEnrolls) $ret=Student::query();

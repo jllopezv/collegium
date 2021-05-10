@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\HasPriority;
+use App\Http\Livewire\Traits\WithAnnoSupport;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
@@ -26,8 +27,10 @@ class SchoolLevelComponent extends Component
     use WithModalConfirm;
     use HasPriority;
     use HasAvailable;
+    use WithAnnoSupport;
 
     public  $level;
+
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -168,6 +171,17 @@ class SchoolLevelComponent extends Component
 
             $this->refreshDatatable();
         }
+    }
+
+
+    /**
+     * Anno Support
+     */
+
+    public function forceGetQueryData($ret)
+    {
+
+        return $this->annoSupportForceGetQueryData($ret, SchoolLevel::query() );
     }
 
 

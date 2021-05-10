@@ -450,7 +450,6 @@ Trait HasCommon
     {
         try
         {
-
             $this->querySearch();
             $this->data=$this->data->paginate(config('lopsoft.default_paginate'));
         }
@@ -572,7 +571,6 @@ Trait HasCommon
         // Raw Order
 
         $this->preSortOrder();
-
         // Order
         if($this->sortorder!='')
         {

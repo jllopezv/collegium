@@ -27,4 +27,15 @@ trait HasAnno
         return $relationship;
     }
 
+    public function annosToLabel()
+    {
+        $annos=$this->annos;
+        $ret='';
+        foreach($annos as $anno)
+        {
+            $ret.="<span class='text-xs font-bold px-2 bg-cool-gray-600 text-green-300 rounded'>".$anno->anno."</span>";
+        }
+        return $ret;
+    }
+
 }

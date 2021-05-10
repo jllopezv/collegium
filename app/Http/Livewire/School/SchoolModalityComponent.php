@@ -4,10 +4,12 @@ namespace App\Http\Livewire\School;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\School\SchoolModality;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\HasAvailable;
 use App\Http\Livewire\Traits\WithModalAlert;
+use App\Http\Livewire\Traits\WithAnnoSupport;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
 use App\Http\Livewire\Traits\WithModalConfirm;
@@ -22,6 +24,7 @@ class SchoolModalityComponent extends Component
     use WithModalConfirm;
     use HasPriority;
     use HasAvailable;
+    use WithAnnoSupport;
 
     public  $modality;
 
@@ -124,5 +127,14 @@ class SchoolModalityComponent extends Component
     public function postUpdate($updatedRecord)
     {
         $updatedRecord->priority=$this->priority;    // Pivot value
+    }
+
+    /**
+     * Anno Support
+     */
+
+    public function forceGetQueryData($ret)
+    {
+        return $this->annoSupportForceGetQueryData($ret, SchoolModality::query() );
     }
 }
