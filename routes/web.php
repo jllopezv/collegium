@@ -16,6 +16,7 @@ use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
 use App\Models\Setting\AppSetting;
 use App\Models\School\SchoolParent;
+use App\Models\School\SchoolPeriod;
 use App\Models\Setting\ModelConfig;
 use App\Models\Website\WebsiteMenu;
 use App\Models\Website\WebsiteNews;
@@ -49,6 +50,7 @@ use App\Http\Controllers\School\SchoolGradeController;
 use App\Http\Controllers\School\SchoolLevelController;
 use App\Http\Controllers\Setting\AppSettingController;
 use App\Http\Controllers\School\SchoolParentController;
+use App\Http\Controllers\School\SchoolPeriodController;
 use App\Http\Controllers\Setting\ModelConfigController;
 use App\Http\Controllers\Website\WebsiteMenuController;
 use App\Http\Controllers\Website\WebsiteNewsController;
@@ -161,8 +163,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('school_batches', SchoolBatchController::class, SchoolBatch::class);
     LopHelp::generateCommonModelRoute('school_modalities', SchoolModalityController::class, SchoolModality::class);
     LopHelp::generateCommonModelRoute('school_parents', SchoolParentController::class, SchoolParent::class);
-
-
+    LopHelp::generateCommonModelRoute('school_periods', SchoolPeriodController::class, SchoolPeriod::class);
 
 
     Route::get('/showstudentslevel/{id}', function($id) {

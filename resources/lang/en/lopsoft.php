@@ -26,6 +26,7 @@ return [
         'school_sections'   =>  'sections',
         'school_modalities' =>  'modalities',
         'school_parents'    =>  'school parents',
+        'school_periods'    =>  'school periods',
         'website_pages'     =>  'website pages',
         'website_menus'     =>  'website menus',
         'website_advertisement_cats'    => 'website advertisement categories',
@@ -183,4 +184,6 @@ return [
     'message'               =>  'message',
     'write_text'            =>  'write text',
     'logout'                =>  'logout',
+    'period'                =>  'period',
+    'periods'               =>  'periods',
 ];

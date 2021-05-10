@@ -8,6 +8,7 @@ use App\Models\Traits\HasCommon;
 use App\Models\School\SchoolBatch;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
+use App\Models\School\SchoolPeriod;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
@@ -64,6 +65,11 @@ class Anno extends Model
     public function schoolSections()
     {
         return $this->belongsToMany(SchoolSection::class)->active()->available()->withPivot(['priority','available'])->orderBy('priority');
+    }
+
+    public function schoolPeriods()
+    {
+        return $this->belongsToMany(SchoolPeriod::class)->active()->available()->withPivot(['priority','available'])->orderBy('priority');
     }
 
     public function students()

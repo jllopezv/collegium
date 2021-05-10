@@ -254,7 +254,8 @@
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
     @hasAbilityOr([ 'school_levels.access', 'school_grades.access',
-                    'school_batches.access', 'school_modalities.access', 'school_sections.access'])
+                    'school_batches.access', 'school_modalities.access', 'school_sections.access',
+                    'school_periods.access', 'annos.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-graduation-cap'
             link='linkeando'
@@ -303,6 +304,15 @@
                 icon='hover:text-red-500 fa fa-graduation-cap'
                 link="{{ route('school_modalities.index') }}"
                 text="{{ transup('modalities') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['school_periods.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-calendar'
+                link="{{ route('school_periods.index') }}"
+                text="{{ transup('tables.school_periods') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

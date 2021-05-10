@@ -28,6 +28,7 @@ return [
         'school_sections'   =>  'secciones académicas',
         'school_modalities' =>  'modalidades académicas',
         'school_parents'    =>  'parientes',
+        'school_periods'    =>  'períodos académicos',
         'website_pages'     =>  'páginas del website',
         'website_menus'     =>  'menús del website',
         'website_advertisement_cats'    => 'categorías de avisos',
@@ -185,4 +186,6 @@ return [
     'logout'                =>  'cerrar sesión',
     'schoollevel'           =>  'nivel académico',
     'schoollevels'          =>  'niveles académicos',
+    'period'                =>  'período',
+    'periods'               =>  'períodos',
 ];
