@@ -72,6 +72,7 @@ Trait HasCommon
     public $filterdata="";
     public $canShowFilterButton=false;
     public $canShowSortButton=false;
+    public $showOnlyAnno=true;
     private $data=null;
     private $newmodel=null;
 
@@ -851,14 +852,29 @@ Trait HasCommon
         $this->showlocks=$value;
     }
 
+    public function deletingRecordAnno($record)
+    {
+        // Anno case
+        if ( property_exists($this->model,'hasAnno') )
+        {
+            if ($record->annos->count()>0)
+            {
+                $this->showError('EL REGISTRO NO PUEDE SE BORRADO. ESTA ASOCIADO A ALGÚN AÑO ACADÉMICO');
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Controls if is possible to delete record ( must be override in class to obtain a diferent behavior)
      *
      * @return void
      */
-    public function deletingRecord()
+    public function deletingRecord($record)
     {
-        return true;
+        return $this->deletingRecordAnno($record);
     }
 
     /**

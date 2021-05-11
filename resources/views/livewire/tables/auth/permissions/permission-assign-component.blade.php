@@ -68,6 +68,10 @@
                             <i class='fa fa-cogs'></i>
                             <span class='tooltiptext tooltiptext-center-left'>CONFIGURACIÓN</span>
                         </div>
+                        <div class='w-8 font-bold text-center border-b-2 border-gray-400 cursor-pointer tooltip'>
+                            <i class='fa fa-calendar-check'></i>
+                            <span class='tooltiptext tooltiptext-center-left'>ACTIVAR / DESACTIVAR EN EL AÑO ACADÉMICO</span>
+                        </div>
 
                     @endif
                 </div>
@@ -305,6 +309,21 @@
                                 <div class='w-8 text-center'>
                                     @php
                                         $permission=$permissions->where('slug',$table.'.settings')->first();
+                                    @endphp
+                                    @if(!is_null($permission))
+                                        @hasAbility($permission->slug)
+                                            @if(!is_null($permission))
+                                                <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
+                                                    class="w-5 h-5 text-blue-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
+                                            @endif
+                                        @else
+                                            <i class='text-red-500 fa fa-ban'></i>
+                                        @endhasAbility
+                                    @endif
+                                </div>
+                                <div class='w-8 text-center'>
+                                    @php
+                                        $permission=$permissions->where('slug',$table.'.activateanno')->first();
                                     @endphp
                                     @if(!is_null($permission))
                                         @hasAbility($permission->slug)

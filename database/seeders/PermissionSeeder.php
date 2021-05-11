@@ -144,6 +144,18 @@ class PermissionSeeder extends Seeder
                                             'allowDelete'   => false,
                                             'allowLock'     => false,
                                         ]);
+
+        $record=new Permission;
+        $record->name="ACTIVAR/DESACTIVAR REGISTROS EN OTROS AÑOS";
+        $record->slug='records.activateanno';
+        $record->description="PERMITE ACTIVAR O DESACTIVAR REGISTROS PARA PASARLOS DE AÑO";
+        $record->group=$this->getGroupID('ESPECIALES');
+        $record->save();
+        $record->allowedActions()->create([ 'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false,
+                                        ]);
     }
 
     public function createPermissions($table, $group)

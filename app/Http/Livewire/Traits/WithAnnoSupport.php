@@ -7,7 +7,7 @@ use App\Models\School\SchoolLevel;
 Trait WithAnnoSupport
 {
 
-    public $showOnlyAnno=true;
+    // public $showOnlyAnno=true;  //Defined in HasCommon for compatibility
 
     /**
      * Show All Annos
@@ -32,6 +32,18 @@ Trait WithAnnoSupport
         if (!$this->showOnlyAnno) $ret=$query;
         return $ret;
     }
+
+    public function activateRecordInAnno($id)
+    {
+        $this->showConfirm("error","¿SEGURO QUE DESEA ACTIVAR EL REGISTRO EN EL AÑO ACADÉMICO ACTUAL?","ACTIVAR REGISTRO","activateRecordInAnnoAction","close","$id");
+    }
+
+    public function deactivateRecordInAnno($id)
+    {
+        $this->showConfirm("error","¿SEGURO QUE DESEA DESACTIVAR EL REGISTRO EN EL AÑO ACADÉMICO ACTUAL?","DESACTIVAR REGISTRO","deactivateRecordInAnnoAction","close","$id");
+    }
+
+
 
 
 }

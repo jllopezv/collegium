@@ -35,6 +35,7 @@ return [
         'website_news'        => 'website news',
         'website_section_cats'    => 'website section categories',
         'website_sections'        => 'website sections',
+        'records'           =>  'records',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -186,4 +187,7 @@ return [
     'logout'                =>  'logout',
     'period'                =>  'period',
     'periods'               =>  'periods',
+    'activate'              =>  'activate',
+    'open_this_year'        =>  'open for this academic year',
+    'close_this_year'       =>  'close for this academic year',
 ];

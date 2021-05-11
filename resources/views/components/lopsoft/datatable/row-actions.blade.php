@@ -7,6 +7,7 @@
     'actioncandelete'  =>  'true',
     'actioncanedit'    =>  'true',
     'actioncanlock'    =>  'true',
+    'showOnlyAnno'     =>  'true',
 ])
 
 @php

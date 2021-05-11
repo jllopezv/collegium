@@ -29,13 +29,30 @@ trait HasAnno
 
     public function annosToLabel()
     {
-        $annos=$this->annos;
-        $ret='';
+        $anno=$this->annos->last();
+        if ($anno==null) return "";
+        return "<span class='text-xs font-bold px-2 bg-cool-gray-600 text-green-300 rounded'>".$anno->anno."</span>";
+        /*$ret='';
         foreach($annos as $anno)
         {
             $ret.="<span class='text-xs font-bold px-2 bg-cool-gray-600 text-green-300 rounded'>".$anno->anno."</span>";
         }
-        return $ret;
+        return $ret;*/
+    }
+
+    public function isInAnno($anno_id=null)
+    {
+        if ($anno_id==null)
+        {
+            $anno=getUserAnnoSession();
+            $anno_id=$anno->id;
+        }
+        $annos=$this->annos;
+        foreach($annos as $itemanno)
+        {
+            if ($itemanno->id==$anno_id) return true;
+        }
+        return false;
     }
 
 }

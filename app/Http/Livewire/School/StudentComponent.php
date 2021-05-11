@@ -347,7 +347,11 @@ class StudentComponent extends Component
 
     public function deletingRecord($record)
     {
-        return $this->deleteAvatar($record);
+        if ($this->deletingRecordAnno($record))
+        {
+            return $this->deleteAvatar($record);
+        }
+        return false;
     }
 
     public function getProfileUsername()

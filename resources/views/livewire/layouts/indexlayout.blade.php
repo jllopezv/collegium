@@ -115,6 +115,7 @@
                                             actioncandelete="{{ $actioncandelete }}"
                                             actioncanlock="{{ $actioncanlock }}"
                                             actioncanedit="{{ $actioncanedit }}"
+                                            showonlyanno="{{ $showOnlyAnno }}"
                                         />
                                     @endif
                                 </x-lopsoft.datatable.body-tr>
@@ -214,7 +215,8 @@
                                                 model='{{$model}}'
                                                 module='{{ $module }}'
                                                 itemid="{{ $item->id }}"
-                                                active="{{ $item->active??true }}"/>
+                                                active="{{ $item->active??true }}"
+                                                showonlyanno="{{ $showOnlyAnno }}"/>
                                         </div>
                                     </div>
                                 </div>

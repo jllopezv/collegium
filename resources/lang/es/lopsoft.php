@@ -37,6 +37,7 @@ return [
         'website_news'      => 'noticias',
         'website_section_cats'    => 'categorías de secciones',
         'website_sections'        => 'secciones',
+        'records'           =>  'registros',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -188,4 +189,7 @@ return [
     'schoollevels'          =>  'niveles académicos',
     'period'                =>  'período',
     'periods'               =>  'períodos',
+    'activate'              =>  'activar',
+    'open_this_year'        =>  'activar en este año académico',
+    'close_this_year'       =>  'desactivar en este año académico',
 ];
