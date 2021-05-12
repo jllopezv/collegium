@@ -192,4 +192,6 @@ return [
     'activate'              =>  'activar',
     'open_this_year'        =>  'activar en este año académico',
     'close_this_year'       =>  'desactivar en este año académico',
+    'schoolgrade'           =>  'grado académico',
+    'annos'                 =>  'años',
 ];

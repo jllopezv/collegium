@@ -53,9 +53,9 @@
             {{ $tableactions }}
 
         </div>
-        <div class='flex items-center justify-center '>
+        <div class='flex items-center justify-center  w-full sm:w-auto'>
             @if($cansearch!='false')
-                <x-lopsoft.datatable.searchbar textcolor="{{ $slave=='true'?'text-white':'' }}" />
+                <x-lopsoft.datatable.searchbar textcolor="{{ $slave=='true'?'text-white':'' }}" class='w-full sm:w-auto' />
                 @hasAbilityOr([$table.'.lock', $table.'.lock.owner'])
                     <div class='ml-1'>
                         @if(property_exists($model,'hasactive'))

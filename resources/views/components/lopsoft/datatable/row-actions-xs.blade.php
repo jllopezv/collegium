@@ -60,6 +60,20 @@
                 @endif
             @endif
         @endif
+        {{-- Available --}}
+        @if (property_exists($record, 'hasAvailable'))
+            @if($record->available)
+                <div class='tooltip'>
+                    <i wire:click="unAvailable({{ $itemid }})" class='cursor-pointer far fa-eye-slash fa-lg fa-fw text-cool-gray-400 hover:text-red-600'></i>
+                    <span class='tooltiptext tooltiptext-center-left'>DESHABILITAR</span>
+                </div>
+            @else
+                <div class='tooltip'>
+                    <i wire:click="available({{ $itemid }})" class='cursor-pointer far fa-eye fa-lg fa-fw text-cool-gray-400 hover:text-cool-gray-600'></i>
+                    <span class='tooltiptext tooltiptext-center-left'>HABILITAR</span>
+                </div>
+            @endif
+        @endif
         @includeIf('livewire.tables.'.$module.'.'.$table.'.actions-xs')
     </div>
 @endif

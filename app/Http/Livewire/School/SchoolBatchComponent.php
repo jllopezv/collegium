@@ -35,6 +35,8 @@ class SchoolBatchComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
+        'activateRecordInAnnoAction' => 'activateRecordInAnnoAction',
+        'deactivateRecordInAnnoAction' => 'deactivateRecordInAnnoAction',
     ];
 
     /**
@@ -136,6 +138,19 @@ class SchoolBatchComponent extends Component
     public function forceGetQueryData($ret)
     {
         return $this->annoSupportForceGetQueryData($ret, SchoolBatch::query() );
+    }
+
+    public function activateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $item=$this->model::find($id);
+        $anno->schoolBatches()->attach([$id => ['priority' => $item->annos->last()->pivot->priority??1 ]]);
+    }
+
+    public function deactivateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $anno->schoolBatches()->detach($id);
     }
 
 }

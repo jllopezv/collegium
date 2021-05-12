@@ -60,14 +60,11 @@
                     <x-lopsoft.datatable.header-tr>
                         @if($canselect!=='false') <x-lopsoft.datatable.header-th-checkbox class='w-20' /> @endif
                         <x-lopsoft.datatable.header-th class='w-16' justify='end' sortable sortorder='{{ $sortorder }}' columnname='id'>ID</x-lopsoft.datatable.header-th>
-                        @isSuperadmin
-                            {{-- <x-lopsoft.datatable.header-th class='w-32'>AÑO</x-lopsoft.datatable.header-th> --}}
-                        @endisSuperadmin
                         @yield('header')
                         @if($showactions!='false')
-                            <x-lopsoft.datatable.header-th-space class='w-2/4' ></x-lopsoft.datatable.header-th-space>
+                            <x-lopsoft.datatable.header-th-space class=''></x-lopsoft.datatable.header-th-space>
                             <x-lopsoft.datatable.header-th-actions
-                                class='w-52'
+                                class='w-60'
                                 justify='end'
                                 actioncandelete="{{ $actioncandelete }}"
                                 actioncanlock="{{ $actioncanlock }}"
@@ -100,9 +97,6 @@
                                         @endif
                                     @endif
                                     @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->id, 'classrow' => 'text-right'])
-                                    @isSuperadmin
-                                        {{-- @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->anno(getUserAnnoSession()->id)!=null?$item->anno(getUserAnnoSession()->id)->anno:'' ] ) --}}
-                                    @endisSuperadmin
                                     @include('livewire.tables.'.$module.".".$table.".indexbody")
                                     @if($showactions!='false')
                                         <x-lopsoft.datatable.row-column-space />
@@ -137,7 +131,7 @@
                                 <x-lopsoft.control.checkbox label='SELECCIONAR TODOS'  model='rowselectall'  color='text-green-600' classlabel='font-bold'/>
                             </div>
                         @endif
-                        @if(!is_null($data) && method_exists($data->first(),'syncPriority'))
+                        @if(!is_null($data) && method_exists($data->first(),'syncPriority') && $showPriority)
                             <i wire:click='syncPriority' class='font-bold cursor-pointer fa fa-sync fa-fw fa-sm text-cool-gray-400 hover:text-cool-gray-600'></i><span class='pl-3 text-sm font-bold'>SYNC PRIORIDAD</span>
                         @endif
                     </div>
@@ -188,7 +182,7 @@
                                     @endif
                                     <div  class='flex items-baseline justify-between'>
                                         <div>
-                                            @if(method_exists($item,'syncPriority'))
+                                            @if(method_exists($item,'syncPriority') && $showPriority)
                                                 @if($item->priority==0)
                                                     <span class='text-cool-gray-500 ml-2'><i class='fa fa-lock'></i></span>
                                                 @else

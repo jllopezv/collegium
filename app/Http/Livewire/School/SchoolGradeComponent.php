@@ -218,5 +218,18 @@ class SchoolGradeComponent extends Component
         return $this->annoSupportForceGetQueryData($ret, SchoolGrade::query() );
     }
 
+    public function activateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $item=$this->model::find($id);
+        $anno->schoolGrades()->attach([$id => ['priority' => $item->annos->last()->pivot->priority??1]]);
+    }
+
+    public function deactivateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $anno->schoolGrades()->detach($id);
+    }
+
 
 }

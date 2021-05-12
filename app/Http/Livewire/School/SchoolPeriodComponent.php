@@ -37,6 +37,7 @@ class SchoolPeriodComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
+        'eventfilterorder'      => 'eventFilterOrder',
         'activateRecordInAnnoAction' => 'activateRecordInAnnoAction',
         'deactivateRecordInAnnoAction' => 'deactivateRecordInAnnoAction',
 
@@ -60,6 +61,7 @@ class SchoolPeriodComponent extends Component
             $this->loadDefaults();
         }
 
+        $this->canShowSortButton=true;
 
     }
 
@@ -158,7 +160,7 @@ class SchoolPeriodComponent extends Component
     {
         $anno=getUserAnnoSession();
         $item=$this->model::find($id);
-        $anno->schoolPeriods()->attach([$id => ['priority' => $item->annos->last()->pivot->priority]]);
+        $anno->schoolPeriods()->attach([$id => ['priority' => $item->annos->last()->pivot->priority??1]]);
     }
 
     public function deactivateRecordInAnnoAction($id)
@@ -166,6 +168,29 @@ class SchoolPeriodComponent extends Component
         $anno=getUserAnnoSession();
         $anno->schoolPeriods()->detach($id);
     }
+
+    /*********************************
+     * Sorts
+     */
+
+    public function eventFilterOrder($field, $change)
+    {
+        if ($change)
+        {
+
+            if ($this->sortorder==$field)
+            {
+                $this->sortorder='-'.$field;
+            }
+            else
+            {
+                $this->sortorder=$field;
+            }
+
+            $this->refreshDatatable();
+        }
+    }
+
 
 
 }

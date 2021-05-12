@@ -2,6 +2,7 @@
 
 namespace App\Models\School;
 
+use App\Http\Livewire\Traits\WithAnnoSupport;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;

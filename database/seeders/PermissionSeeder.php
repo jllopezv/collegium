@@ -156,6 +156,18 @@ class PermissionSeeder extends Seeder
                                             'allowDelete'   => false,
                                             'allowLock'     => false,
                                         ]);
+
+                                        $record=new Permission;
+        $record->name="CAMBIAR PRIORIDAD";
+        $record->slug='records.changepriority';
+        $record->description="PERMITE CAMBIAR EL ORDEN DE PRIORIDAD DE LOS REGISTROS";
+        $record->group=$this->getGroupID('ESPECIALES');
+        $record->save();
+        $record->allowedActions()->create([ 'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false,
+                                        ]);
     }
 
     public function createPermissions($table, $group)

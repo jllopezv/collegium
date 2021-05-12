@@ -73,6 +73,7 @@ Trait HasCommon
     public $canShowFilterButton=false;
     public $canShowSortButton=false;
     public $showOnlyAnno=true;
+    public $showPriority=false;
     private $data=null;
     private $newmodel=null;
 

@@ -1,15 +1,15 @@
-@extends('livewire.layouts.indexlayout', [ 'minwidth' => '1000px'])
+@extends('livewire.layouts.indexlayout', [ 'minwidth' => '1400px'])
 
 @section('header')
-
     <x-lopsoft.datatable.header-th class='w-80' sortable sortorder='{{ $sortorder }}' columnname='grade'>{{ transup('grade')}}</x-lopsoft.datatable.header-th>
-    <x-lopsoft.datatable.header-th class='w-full' sortable sortorder='{{ $sortorder }}' columnname='level_id'>{{ transup('level')}}</x-lopsoft.datatable.header-th>
+    <x-lopsoft.datatable.header-th class='w-80' sortable sortorder='{{ $sortorder }}' columnname='level_id'>{{ transup('level')}}</x-lopsoft.datatable.header-th>
+    <x-lopsoft.datatable.header-th-space class='w-full'></x-lopsoft.datatable.header-th-space>
     @include('components.lopsoft.datatable.header-anno-priority')
-
 @endsection
 
 @section('modelactions')
     @include('components.lopsoft.modelactions.showanno')
+    @include('components.lopsoft.modelactions.showpriority')
 @endsection
 
 @section('filters')

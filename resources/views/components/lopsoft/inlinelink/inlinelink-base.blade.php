@@ -33,7 +33,7 @@
             </div>
         @endif
         @if($text)
-            <div class="{{ ($slot!='' && $textxs!==false)?'mr-1':'ml-1' }}  {{ $textxs===false?'hidden sm:block':'block' }}">
+            <div class="  {{ $textxs===false?'hidden sm:block':'block' }}">
                 {!! $text !!}
             </div>
         @endif

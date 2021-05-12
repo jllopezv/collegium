@@ -28,6 +28,15 @@ Trait HasPriority
         $this->model::syncPriority($this->querySearch()->get());
     }
 
+    public function hidePriority()
+    {
+        $this->showPriority=false;
+        $this->emit('refreshDatatable');  // redraw component
+    }
 
+    public function showPriority()
+    {
+        $this->showPriority=true;
+    }
 
 }

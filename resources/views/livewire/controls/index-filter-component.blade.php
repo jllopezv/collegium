@@ -45,7 +45,7 @@
                 @if($showcontent)
                     <div class='absolute left-0 right-0 z-10 p-1 bg-gray-100 border border-gray-300 rounded-b-lg shadow-lg list-group {{$isTop?'bottom-10':''}}' >
                         @if($cansearch)
-                            <input type='text' class='w-full p-2 border border-gray-400 rounded-lg shadow' placeholder='buscar...' />
+                            <input type='text' class='w-full p-2 border border-gray-400 rounded-lg shadow' placeholder='Buscar...' />
                         @endif
                         <div class='w-full overflow-y-scroll max-h-40 '>
                             @foreach($options as $index => $option)

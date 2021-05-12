@@ -9,9 +9,9 @@
 <th
 
     {{ $attributes->merge([
-        'class' => '',
+        'class' => 'bg-gray-700',
         'width' =>  $width,
     ]) }}
-    style='max-width: 100%; width: auto'>
+    style='max-width: 100%; '>
     {{ $slot }}
 </th>

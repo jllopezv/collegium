@@ -12,7 +12,7 @@
         wire:click="sortBy('{{$columnname}}')"
     @endif
     {{ $attributes->merge([
-        'class' =>  ( $sortable || ( $sortorder==$columnname || $sortorder=='-'.$columnname ) )?"text-green-300 cursor-pointer":"text-white",
+        'class' =>  ( $sortable || ( $sortorder==$columnname || $sortorder=='-'.$columnname ) )?"text-green-300 cursor-pointer bg-gray-700":" bg-gray-700 text-white",
         'width' =>  $width,
     ]) }}
     style='{{$style}}'

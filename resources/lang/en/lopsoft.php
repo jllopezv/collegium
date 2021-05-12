@@ -190,4 +190,6 @@ return [
     'activate'              =>  'activate',
     'open_this_year'        =>  'open for this academic year',
     'close_this_year'       =>  'close for this academic year',
+    'schoolgrade'           =>  'school grade',
+    'annos'                 =>  'years',
 ];

@@ -40,6 +40,8 @@ class SchoolLevelComponent extends Component
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
         'eventfilterorder'      => 'eventFilterOrder',
+        'activateRecordInAnnoAction' => 'activateRecordInAnnoAction',
+        'deactivateRecordInAnnoAction' => 'deactivateRecordInAnnoAction',
     ];
 
     /**
@@ -180,9 +182,19 @@ class SchoolLevelComponent extends Component
 
     public function forceGetQueryData($ret)
     {
-
         return $this->annoSupportForceGetQueryData($ret, SchoolLevel::query() );
     }
+    public function activateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $item=$this->model::find($id);
+        $anno->schoolLevels()->attach([$id => ['priority' => $item->annos->last()->pivot->priority??1]]);
+    }
 
+    public function deactivateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $anno->schoolLevels()->detach($id);
+    }
 
 }

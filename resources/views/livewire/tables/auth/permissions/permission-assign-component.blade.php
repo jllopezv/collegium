@@ -72,6 +72,10 @@
                             <i class='fa fa-calendar-check'></i>
                             <span class='tooltiptext tooltiptext-center-left'>ACTIVAR / DESACTIVAR EN EL AÑO ACADÉMICO</span>
                         </div>
+                        <div class='w-8 font-bold text-center border-b-2 border-gray-400 cursor-pointer tooltip'>
+                            <i class='fa fa-sort-numeric-up'></i>
+                            <span class='tooltiptext tooltiptext-center-left'>PERMITIR CAMBIAR PRIORIDAD</span>
+                        </div>
 
                     @endif
                 </div>
@@ -336,6 +340,21 @@
                                         @endhasAbility
                                     @endif
                                 </div>
+                                <div class='w-8 text-center'>
+                                    @php
+                                        $permission=$permissions->where('slug',$table.'.changepriority')->first();
+                                    @endphp
+                                    @if(!is_null($permission))
+                                        @hasAbility($permission->slug)
+                                            @if(!is_null($permission))
+                                                <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
+                                                    class="w-5 h-5 text-blue-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
+                                            @endif
+                                        @else
+                                            <i class='text-red-500 fa fa-ban'></i>
+                                        @endhasAbility
+                                    @endif
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -346,238 +365,3 @@
 
     </div>
 </div>
-
-
-
-
-{{-- <div class='max-w-full overflow-x-scroll'>
-    @foreach($permissiongroups as $group)
-        <table class='mb-4 table-fixed'>
-            <thead>
-                <tr>
-                    <th class='invisible text-left w-80 md:visible '><span class='font-bold text-green-400'>{{ $group->group }}</span></th>
-                    @if($group->group!='ESPECIALES')
-                        <th class='text-left'>
-                            <div class='mx-2 font-bold cursor-pointer tooltip'>
-                                <i class='fa fa-table'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>ACCESO</span>
-                            </div>
-                        </th>
-                        <th class='text-left'>
-                            <div class='mx-2 font-bold cursor-pointer tooltip'>
-                                <i class='fa fa-plus text-cool-gray-600'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>CREAR</span>
-                            </div>
-                        </th>
-                        <th class='text-left'>
-                            <div class='mx-2 font-bold cursor-pointer tooltip'>
-                                <i class='fa fa-eye text-cool-gray-600'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>VER</span>
-                            </div>
-                        </th>
-                        <th class='text-left'>
-                            <div class='mx-2 font-bold cursor-pointer tooltip'>
-                                <i class='fa fa-eye text-cool-gray-400'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>VER SOLO PROPIOS</span>
-                            </div>
-                        </th>
-                        <th class='text-left'>
-                            <div class='mx-2 font-bold cursor-pointer tooltip'>
-                                <i class='fa fa-edit text-cool-gray-600'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>EDITAR</span>
-                            </div>
-                        </th>
-                        <th class='text-left'>
-                            <div class='mx-2 font-bold cursor-pointer tooltip'>
-                                <i class='fa fa-edit text-cool-gray-400'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>EDITAR</span>
-                            </div>
-                        </th>
-                        <th class='text-left'>
-                            <div class='mx-2 font-bold cursor-pointer tooltip'>
-                                <i class='fa fa-trash text-cool-gray-600'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>BORRAR</span>
-                            </div>
-                        </th>
-                        <th class='text-left'>
-                            <div class='mx-2 font-bold cursor-pointer tooltip'>
-                                <i class='fa fa-trash text-cool-gray-400'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>BORRAR SOLO PROPIOS</span>
-                            </div>
-                        </th>
-                        <th class='text-left'>
-                            <div class='mx-2 font-bold cursor-pointer tooltip'>
-                                <i class='fa fa-print text-cool-gray-600'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>IMPRIMIR</span>
-                            </div>
-                        </th>
-                        <th class='text-left'>
-                            <div class='mx-2 font-bold cursor-pointer tooltip'>
-                                <i class='fa fa-print text-cool-gray-400'></i>
-                                <span class='tooltiptext tooltiptext-up-left'>IMPRIMIR SOLO PROPIOS</span>
-                            </div>
-                        </th>
-                    @else
-                        <th class='text-left' colspan='10'>
-                            <div class='w-full'>
-                                <i class='fa fa-signin text-cool-gray-400'></i>
-                            </div>
-                        </th>
-                    @endif
-                </tr>
-            </thead>
-            <tbody class=''>
-                @php
-                    $permissions=\App\Models\Auth\Permission::active()->where('group',$group->id)->get();
-                    $tables=\App\Models\Auth\Permission::getTablesFromCollection($permissions);
-                @endphp
-                @foreach($tables as $table)
-                    <tr class=''>
-                        <td class='hidden'>
-                        </td>
-                        <td colspan='10'>
-                            <span class='font-bold'>{{ transup('tables.'.$table) }}</span>
-                        </td>
-                    </tr>
-                    <tr class=''>
-                        <td class='invisible md:visible'>
-                            <span class='font-bold'>{{ transup('tables.'.$table) }}</span>
-                        </td>
-                        <td class='text-center'>
-                            @php
-                                $permission=$permissions->where('slug',$table.'.access')->first();
-                            @endphp
-                            @if( !is_null($permission) )
-                                @hasAbility($permission->slug)
-                                    @if( !is_null($permission) )
-                                        <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
-                                            class="w-5 h-5 text-green-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500"
-                                            @if($mode=='show')
-                                                disabled
-                                            @endif/>
-                                    @else
-                                        <i class='text-red-500 fa fa-ban'></i>
-                                    @endif
-                                @endhasAbility
-                            @endif
-                        </td>
-                        <td class='text-center'>
-                            @php
-                                $permission=$permissions->where('slug',$table.'.create')->first();
-                            @endphp
-                            @if( !is_null($permission) )
-                                @hasAbility($permission->slug)
-                                    @if(!is_null($permission))
-                                        <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
-                                            class="w-5 h-5 text-green-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
-                                    @else
-                                        <i class='text-red-500 fa fa-ban'></i>
-                                    @endif
-                                @endhasAbility
-                            @endif
-                        </td>
-                        <td class='text-center'>
-                            @php
-                                $permission=$permissions->where('slug',$table.'.show')->first();
-                            @endphp
-                            @if( !is_null($permission) )
-                                @hasAbility($permission->slug)
-                                    @if(!is_null($permission))
-                                        <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
-                                            class="w-5 h-5 text-green-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
-                                    @else
-                                        <i class='text-red-500 fa fa-ban'></i>
-                                    @endif
-                                @endhasAbility
-                            @endif
-                        </td>
-                        <td class='text-center'>
-                            @php
-                                $permission=$permissions->where('slug',$table.'.show.owner')->first();
-                            @endphp
-                            @if(!is_null($permission))
-                                <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
-                                    class="w-5 h-5 text-green-300 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
-                            @endif
-                        </td>
-                        <td class='text-center'>
-                            @php
-                                $permission=$permissions->where('slug',$table.'.edit')->first();
-                            @endphp
-                            @if( !is_null($permission) )
-                                @hasAbility($permission->slug)
-                                    @if(!is_null($permission))
-                                        <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
-                                            class="w-5 h-5 text-green-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
-                                    @else
-                                        <i class='text-red-500 fa fa-ban'></i>
-                                    @endif
-                                @endhasAbility
-                            @endif
-                        </td>
-                        <td class='text-center'>
-                            @php
-                                $permission=$permissions->where('slug',$table.'.edit.owner')->first();
-                            @endphp
-                            @if(!is_null($permission))
-                                <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
-                                    class="w-5 h-5 text-green-300 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
-                            @endif
-                        </td>
-                        <td class='text-center'>
-                            @php
-                                $permission=$permissions->where('slug',$table.'.destroy')->first();
-                            @endphp
-                            @if( !is_null($permission) )
-                                @hasAbility($permission->slug)
-                                    @if(!is_null($permission))
-                                        <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
-                                            class="w-5 h-5 text-green-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
-                                    @else
-                                        <i class='text-red-500 fa fa-ban'></i>
-                                    @endif
-                                @endhasAbility
-                            @endif
-                        </td>
-                        <td class='text-center'>
-                            @php
-                                $permission=$permissions->where('slug',$table.'.destroy.owner')->first();
-                            @endphp
-                            @if(!is_null($permission))
-                                <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
-                                    class="w-5 h-5 text-green-300 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
-                            @endif
-                        </td>
-                        <td class='text-center'>
-                            @php
-                                $permission=$permissions->where('slug',$table.'.print')->first();
-                            @endphp
-                            @if(!is_null($permission))
-                                @hasAbility($permission->slug)
-                                    @if(!is_null($permission))
-                                        <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
-                                            class="w-5 h-5 text-green-400 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
-                                    @else
-                                        <i class='text-red-500 fa fa-ban'></i>
-                                    @endif
-                                @endhasAbility
-                            @endif
-                        </td>
-                        <td class='text-center'>
-                            @php
-                                $permission=$permissions->where('slug',$table.'.print.owner')->first();
-                            @endphp
-                            @if(!is_null($permission))
-                                <input type='checkbox' wire:model='permissionsselected' name='permission_{{ $permission->id }}' value='{{ $permission->id }}'
-                                    class="w-5 h-5 text-green-300 cursor-pointer form-checkbox hover:shadow-none hover:border-gray-500 active:shadow-none focus:shadow-none focus:border-gray-500" @if($mode=='show') disabled @endif/>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-                <tr>
-                    <td colspan='10' class='pb-3 border-b-2 border-cool-gray-200'></td>
-                </tr>
-            </tbody>
-        </table>
-    @endforeach
-</div> --}}

@@ -35,6 +35,8 @@ class SchoolModalityComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
+        'activateRecordInAnnoAction' => 'activateRecordInAnnoAction',
+        'deactivateRecordInAnnoAction' => 'deactivateRecordInAnnoAction',
     ];
 
     /**
@@ -129,6 +131,8 @@ class SchoolModalityComponent extends Component
         $updatedRecord->priority=$this->priority;    // Pivot value
     }
 
+
+
     /**
      * Anno Support
      */
@@ -136,5 +140,18 @@ class SchoolModalityComponent extends Component
     public function forceGetQueryData($ret)
     {
         return $this->annoSupportForceGetQueryData($ret, SchoolModality::query() );
+    }
+
+    public function activateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $item=$this->model::find($id);
+        $anno->schoolModalities()->attach([$id => ['priority' => $item->annos->last()->pivot->priority??1 ]]);
+    }
+
+    public function deactivateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $anno->schoolModalities()->detach($id);
     }
 }
