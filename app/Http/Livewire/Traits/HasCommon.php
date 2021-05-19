@@ -497,6 +497,11 @@ Trait HasCommon
 
     }
 
+    public function createFilter()
+    {
+
+    }
+
     /**
      * Force Filter must be $this->data->whereIn('id', array of valid ids)
      *

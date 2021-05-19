@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use App\Models\School\Student;
 use App\Models\School\SchoolGrade;
+use App\Models\School\SchoolLevel;
 use App\Models\School\SchoolParent;
 use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
@@ -17,10 +18,10 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Livewire\Traits\IsUserType;
 use App\Http\Livewire\Traits\HasPriority;
 use App\Http\Livewire\Traits\WithModalAlert;
+use App\Http\Livewire\Traits\WithUserProfile;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
 use App\Http\Livewire\Traits\WithModalConfirm;
-use App\Http\Livewire\Traits\WithUserProfile;
 
 class StudentComponent extends Component
 {
@@ -44,6 +45,7 @@ class StudentComponent extends Component
     public  $gender;
     public  $avatar;
     public  $profile_photo_path;
+    public  $level_id;
     public  $grade_id;
     public  $section_id;
     public  $batch_id;
@@ -90,10 +92,12 @@ class StudentComponent extends Component
         'avatarupdated'         => 'avatarUpdated',
         'eventsetbirth'         => 'eventSetBirth',
         'eventsetgender'        => 'eventSetGender',
+        'eventsetlevel'         => 'eventSetLevel',
         'eventsetgrade'         => 'eventSetGrade',
         'eventsetsection'       => 'eventSetSection',
         'eventsetbatch'         => 'eventSetBatch',
         'eventsetmodality'      => 'eventSetModality',
+        'eventfilterlevel'      => 'eventFilterLevel',
         'eventfiltergrade'      => 'eventFilterGrade',
         'eventfiltersection'    => 'eventFilterSection',
         'eventfilterbatch'      => 'eventFilterBatch',
@@ -103,6 +107,8 @@ class StudentComponent extends Component
         'hidesearchdialog'      => 'hideParentsDialog',
         'parentsearchupdated'   => 'parentSearchUpdated',
         'parentdialogclosed'    => 'parentDialogClosed',
+        'dropdownupdated'       => 'dropdownUpdated',
+        'selecteddropdown'      => 'selectedDropdown',
     ];
 
     /**
@@ -284,6 +290,12 @@ class StudentComponent extends Component
     {
         $this->gender=$gender;
 
+    }
+
+    public function eventSetLevel($level_id, $change)
+    {
+        $this->level_id=$level_id;
+        $this->emit('setfilterraw','gradecomponent','level_id='.$level_id);
     }
 
     public function eventSetGrade($grade_id, $change)
@@ -498,6 +510,27 @@ class StudentComponent extends Component
     public function delete($id)
     {
         $this->showConfirm("error","¿SEGURO QUE DESEA BORRAR EL ESTUDIANTE? <br/><br/>¡¡ATENCIÓN!!<br/><b>BORRARÁ TAMBIÉN EL USUARIO ASOCIADO</b>","BORRAR ESTUDIANTE","deleteRecord","close","$id");
+    }
+
+    /**
+     * FILTERS
+     */
+
+    public function eventFilterLevel($level_id)
+    {
+        $this->filterdata='';
+        $this->level_id=$level_id;
+        if ($level_id=='*')
+        {
+            $datafiltered=getUserAnnoSession()->schoolGrades();
+        }
+        else
+        {
+            $datafiltered=SchoolLevel::find($level_id)->grades();
+        }
+        $newoptions=LopHelp::getFilterDropdownBuilder($datafiltered, 'id', 'grade', '', true, '');
+        $this->emit('setoptions','filtergradecomponent',$newoptions);
+
     }
 
     public function eventFilterGrade($grade_id)
@@ -740,5 +773,14 @@ class StudentComponent extends Component
         $this->showOnlyEnrolls=false;
         $this->sortorder='id';
     }
+
+    public function dropdownUpdated($uid, $value)
+    {
+        if ($uid=='gradecomponent')
+        {
+            $this->emit('setfilterraw','sectioncomponent','grade_id='.$value);
+        }
+    }
+
 
 }

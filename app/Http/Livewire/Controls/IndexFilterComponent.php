@@ -162,8 +162,7 @@ class IndexFilterComponent extends Component
         $this->showcontent=false;
         if ($this->template!="")
         {
-
-            $this->contenttoshow=view($this->template, [ 'option' => $this->options[$index], 'index' => $index ])->render();
+            $this->contenttoshow=view($this->template, [ 'option' => $this->options[$index??0], 'index' => $index??0 ])->render();
         }
         else
         {

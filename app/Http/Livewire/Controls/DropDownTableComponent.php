@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Controls;
 
+use App\Http\Livewire\Traits\WithAlertMessage;
 use Livewire\Component;
 use App\Models\School\Anno;
 use Illuminate\Support\Arr;
@@ -12,6 +13,9 @@ use Illuminate\Support\Facades\Cache;
 
 class DropDownTableComponent extends Component
 {
+
+    use WithAlertMessage;
+
     public $uid='';                 // Unique ID in components in page
     public $modelid;                // Bind model
     public $mode='';                // Mode
@@ -95,11 +99,11 @@ class DropDownTableComponent extends Component
      * @param  mixed $index
      * @return void
      */
-    public function setValue($uid, $index)
+    public function setValue($uid, $index,$change=false)
     {
         if ($uid==$this->uid || $uid=='*')
         {
-            $this->select($index,false);
+            $this->select($index,false, $change);
         }
     }
 
@@ -216,9 +220,11 @@ class DropDownTableComponent extends Component
         // }
         if (is_null($index))
         {
+
             try
             {
                 $record=$this->data->first();
+                //$this->ShowInfo($record->id,'select '.$this->eventname,'',true);
             }
             catch(\Exception $e)
             {
@@ -260,6 +266,8 @@ class DropDownTableComponent extends Component
             $this->value=null;
             $this->contenttoshow="SIN SELECCIÓN";
         }
+
+        $this->emit('dropdownupdated',$this->uid,$this->value);
     }
 
     /**

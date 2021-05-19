@@ -82,9 +82,15 @@ class SchoolSection extends Model
         $anno->schoolSections()->updateExistingPivot($this->id, ['available' => $value]);
     }
 
+    public function getSectionLabelAttribute()
+    {
+        $grade=SchoolGrade::find($this->grade_id);
+        return $this->section." - ".$grade->grade;
+    }
+
 
     /**
-     * Set Batch
+     * Set Section
      *
      * @param  String $value
      * @return void

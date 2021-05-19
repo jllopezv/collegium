@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                <div class='w-full overflow-y-auto max-h-40 nosb'
+                <div class='w-full overflow-y-auto max-h-40'
                     >
                     @if(count($records))
 

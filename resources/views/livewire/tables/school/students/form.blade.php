@@ -115,8 +115,27 @@
                 />
 
                 <div class='flex flex-wrap items-center justify-start'>
-
-                    <div class='w-full pr-2 md:w-2/4 lg:w-2/4 xl:w-1/4'>
+                    <div class='w-full pr-2 md:w-2/4 lg:w-2/4 xl:w-1/3'>
+                        @livewire('controls.drop-down-table-component', [
+                            'model'         => \App\Models\School\SchoolLevel::class,
+                            'mode'          => $mode,
+                            'filterraw'     => '',
+                            'sortorder'     => 'priority',
+                            'label'         => transup('level'),
+                            'classdropdown' => '',
+                            'key'           => 'id',
+                            'field'         => 'level',
+                            'defaultvalue'  =>  ($this->mode=='create')?null:$record->pivot->level_id,
+                            'eventname'     => 'eventsetlevel',
+                            'uid'           => 'levelcomponent',
+                            'modelid'       => 'level_id',
+                            'isTop'         =>  true,
+                            'requiredfield' =>  true,
+                            'help'          =>  transup('mandatory'),
+                            'linknew'       =>  Auth::user()->hasAbility('school_levels.create')?route('school_levels.create'):'',
+                        ])
+                    </div>
+                    <div class='w-full pr-2 md:w-2/4 lg:w-2/4 xl:w-1/3'>
                         @livewire('controls.drop-down-table-component', [
                             'model'         => \App\Models\School\SchoolGrade::class,
                             'mode'          => $mode,
@@ -136,9 +155,13 @@
                             'linknew'       =>  Auth::user()->hasAbility('school_grades.create')?route('school_grades.create'):'',
                         ])
                     </div>
+                </div>
+
+                <div class='flex flex-wrap items-center justify-start w-full'>
 
 
-                    <div class='w-full pr-2 md:w-2/4 lg:w-2/4 xl:w-1/4'>
+
+                    <div class='w-full pr-2 md:w-2/4 lg:w-2/4 xl:w-1/3'>
                         @livewire('controls.drop-down-table-component', [
                             'model'         => \App\Models\School\SchoolSection::class,
                             'mode'          => $mode,
@@ -159,7 +182,7 @@
                         ])
                     </div>
 
-                    <div class='w-full pr-2 md:w-2/4 lg:w-2/4 xl:w-1/4'>
+                    <div class='w-full pr-2 md:w-2/4 lg:w-2/4 xl:w-1/3'>
                         @livewire('controls.drop-down-table-component', [
                             'model'         => \App\Models\School\SchoolBatch::class,
                             'mode'          => $mode,
@@ -180,7 +203,7 @@
                         ])
                     </div>
 
-                    <div class='w-full pr-2 md:w-2/4 lg:w-2/4 xl:w-1/4'>
+                    <div class='w-full pr-2 md:w-2/4 lg:w-2/4 xl:w-1/3'>
                         @livewire('controls.drop-down-table-component', [
                             'model'         => \App\Models\School\SchoolModality::class,
                             'mode'          => $mode,

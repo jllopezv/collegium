@@ -351,7 +351,11 @@ class SchoolSubjectComponent extends Component
     {
         $anno=getUserAnnoSession();
         $item=$this->model::find($id);
-        $anno->schoolSubjects()->attach([$id => ['priority' => $item->annos->last()->pivot->priority??1]]);
+        $anno->schoolSubjects()->attach([$id => [
+            'priority' => $item->annos->last()->pivot->priority??1,
+            'grade_id' => $item->annos()->withPivot('grade_id')->get()->last()->pivot->grade_id??null,
+            'period_id' => $item->annos()->withPivot('period_id')->get()->last()->pivot->period_id??null,
+            ]]);
     }
 
     public function deactivateRecordInAnnoAction($id)

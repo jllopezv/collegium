@@ -5,28 +5,29 @@
     <x-lopsoft.datatable.header-th class='w-16' justify='center'>{{ transup('photo') }}</x-lopsoft.datatable.header-th>
     <x-lopsoft.datatable.header-th class='w-96'  sortable sortorder='{{ $sortorder }}' columnname='first_surname'>{{ transup('student')}}</x-lopsoft.datatable.header-th>
     @if($this->showOnlyEnrolls)
-    <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}' columnname='grade_id'>{{ transup('grade')}}</x-lopsoft.datatable.header-th>
-    <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}'  columnname='section_id'>{{ transup('section')}}</x-lopsoft.datatable.header-th>
-    <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}'  columnname='modality_id'>{{ transup('modality')}}</x-lopsoft.datatable.header-th>
+        <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}' columnname='grade_id'>{{ transup('grade')}}</x-lopsoft.datatable.header-th>
+        <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}'  columnname='section_id'>{{ transup('section')}}</x-lopsoft.datatable.header-th>
+        <x-lopsoft.datatable.header-th class='w-60' sortable sortorder='{{ $sortorder }}'  columnname='modality_id'>{{ transup('modality')}}</x-lopsoft.datatable.header-th>
     @else
-    <x-lopsoft.datatable.header-th class='w-60' columnname='grade_id'>{{ transup('grade')}}</x-lopsoft.datatable.header-th>
-    <x-lopsoft.datatable.header-th class='w-60' columnname='section_id'>{{ transup('section')}}</x-lopsoft.datatable.header-th>
-    <x-lopsoft.datatable.header-th class='w-60' columnname='modality_id'>{{ transup('modality')}}</x-lopsoft.datatable.header-th>
+        <x-lopsoft.datatable.header-th class='w-60' columnname='grade_id'>{{ transup('grade')}}</x-lopsoft.datatable.header-th>
+        <x-lopsoft.datatable.header-th class='w-60' columnname='section_id'>{{ transup('section')}}</x-lopsoft.datatable.header-th>
+        <x-lopsoft.datatable.header-th class='w-60' columnname='modality_id'>{{ transup('modality')}}</x-lopsoft.datatable.header-th>
     @endif
 
-    <x-lopsoft.datatable.header-th class='w-24' justify='end' sortable sortorder='{{ $sortorder }}' columnname='priority'>{{ transup('priority')}}</x-lopsoft.datatable.header-th>
-    @include('components.lopsoft.datatable.header-setpriority')
+    <x-lopsoft.datatable.header-th-space class='w-full'></x-lopsoft.datatable.header-th-space>
+    @include('components.lopsoft.datatable.header-anno-priority')
 @endsection
 
 @section('modelactions')
-    <div x-show='$wire.showOnlyEnrolls' class='mr-1'>
+    @include('components.lopsoft.modelactions.showpriority')
+    <div x-show='$wire.showOnlyEnrolls' class='mr-1 mb-1'>
         <x-lopsoft.button.gray
             wire:click='hideEnrolleds'
             icon='fa fa-graduation-cap'
             help='MOSTRAR NO INSCRITOS' helpclass='tooltiptext-up-right'>
         </x-lopsoft.button.gray>
     </div>
-    <div x-cloak x-show='!$wire.showOnlyEnrolls' class='mr-1'>
+    <div x-cloak x-show='!$wire.showOnlyEnrolls' class='mr-1 mb-1'>
         <x-lopsoft.button.coolgray
             wire:click='showEnrolleds'
             icon='fa fa-graduation-cap'
@@ -40,13 +41,26 @@
         <div class='w-full mr-2 md:w-auto'>
             @livewire('controls.index-filter-component', [
                 'mode'          => $mode,
+                'label'         => transup('level'),
+                'classdropdown' => 'w-full md:w-60',
+                'options'       => \App\Lopsoft\LopHelp::getFilterDropdownBuilder(getUserAnnoSession()->schoolLevels(), 'id', 'level', '', true, ''),
+                'defaultvalue'  => '*',
+                'eventname'     => 'eventfilterlevel',
+                'uid'           => 'filterlevelcomponent',
+                'modelid'       => 'level_id',
+                'isTop'         =>  false,
+            ])
+        </div>
+        <div class='w-full mr-2 md:w-auto'>
+            @livewire('controls.index-filter-component', [
+                'mode'          => $mode,
                 'label'         => transup('grade'),
                 'classdropdown' => 'w-full md:w-60',
                 'options'       => \App\Lopsoft\LopHelp::getFilterDropdownBuilder(getUserAnnoSession()->schoolGrades(), 'id', 'grade', '', true, ''),
                 'defaultvalue'  => '*',
                 'eventname'     => 'eventfiltergrade',
                 'uid'           => 'filtergradecomponent',
-                'modelid'       => 'gradeid',
+                'modelid'       => 'grade_id',
                 'isTop'         =>  false,
             ])
         </div>
@@ -59,8 +73,9 @@
                 'defaultvalue'  => '*',
                 'eventname'     => 'eventfiltersection',
                 'uid'           => 'filtersectioncomponent',
-                'modelid'       => 'sectionid',
+                'modelid'       => 'section_id',
                 'isTop'         =>  false,
+                'template'      => 'components.lopsoft.dropdown.schoolsections'
             ])
         </div>
         <div class='w-full mr-2 md:w-auto'>
