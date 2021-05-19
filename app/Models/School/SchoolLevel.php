@@ -54,6 +54,12 @@ class SchoolLevel extends Model
         return SchoolLevel::find($record);
     }
 
+    public function grades()
+    {
+        $anno=getUserAnnoSession();
+        return $anno->schoolGrades()->where('level_id', $this->id);
+    }
+
     /*******************************************/
     /* Accessors and mutators
     /*******************************************/

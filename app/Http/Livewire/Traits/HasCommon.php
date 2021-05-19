@@ -71,7 +71,9 @@ Trait HasCommon
     public $commonSaveAnnoSession=true;
     public $filterdata="";
     public $canShowFilterButton=false;
+    public $showFilters=true;
     public $canShowSortButton=false;
+    public $showSorts=false;
     public $showOnlyAnno=true;
     public $showPriority=false;
     private $data=null;
@@ -517,6 +519,17 @@ Trait HasCommon
         }
     }
 
+    public function getFilter()
+    {
+        $this->emit('getvalue', '*');
+    }
+
+    public function resetFilter()
+    {
+        $this->filterdata='';
+        $this->initFilter();
+    }
+
     /**
      * forceGetQueryData Overwrite getQueryData
      *
@@ -533,6 +546,8 @@ Trait HasCommon
         // It depends of Anno Session
 
         $ret=$this->model::query();
+
+
 
         if ( property_exists($this->model,'hasAnno') )
         {

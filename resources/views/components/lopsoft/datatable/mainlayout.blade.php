@@ -15,44 +15,47 @@
     'canShowFilterButton'       => 'false',
     'canShowSortButton'         => 'false',
 ])
-<div x-data='{ showFilters:true, showSorts:false, screen_width:getScreenWidth()  }' @resize.window='screen_width=getScreenWidth()'>
+<div x-data='{ screen_width:getScreenWidth()  }' @resize.window='screen_width=getScreenWidth()'>
     <div
         {{-- x-show='screen_width>640'  --}}
         class='{{ ($slave=='true')?'pt-2 rounded-t-lg bg-gray-700':''}}' >
     </div>
     <div class='flex flex-wrap items-center justify-between {{ ($slave!='true')?'mb-2':'bg-gray-700 px-2 py-2' }} '>
-        <div class='flex items-center justify-start'>
-            <div class='mr-1'>
+        <div class='flex flex-wrap items-center justify-start'>
+            <div class='mr-1 mb-1'>
                 <x-lopsoft.link.gray
                     wire:click='refreshDatatable'>
                     <div class='flex items-center justify-center'>
-                        <div wire:loading><i class="fas fa-sync fa-spin"></i></div>
-                        <div wire:loading.remove><i class="fas fa-sync"></i></div>
+                        <div wire:loading><i class="fas fa-sync fa-spin fa-fw"></i></div>
+                        <div wire:loading.remove><i class="fas fa-sync fa-fw"></i></div>
                     </div>
                 </x-lopsoft.link.gray>
             </div>
-            {{ $modelactions }}
+
             {{-- FILTERS AND SORT --}}
             @if($canShowFilterButton)
-                <div class='mr-1'>
-                    <x-lopsoft.link.gray @click="showFilters=!showFilters" icon='fa fa-filter' ></x-lopsoft.link.gray>
+                <div class='mr-1 mb-1'>
+                    <x-lopsoft.link.gray @click="$wire.showFilters=!$wire.showFilters" icon='fa fa-filter fa-fw' ></x-lopsoft.link.gray>
                 </div>
             @endif
             @if($canShowSortButton)
-                <div class='mr-1 sm:hidden'>
-                    <x-lopsoft.link.gray @click="showSorts=!showSorts" icon='fa fa-sort-alpha-down'></x-lopsoft.link.gray>
+                <div class='mr-1 sm:hidden mb-1'>
+                    <x-lopsoft.link.gray @click="$wire.showSorts=!$wire.showSorts" icon='fa fa-sort-alpha-down fa-fw'></x-lopsoft.link.gray>
                 </div>
             @endif
+            {{ $modelactions }}
             @if($canadd!='false')
                 @if(Auth::user()->hasAbility($table.".create"))
-                <div class='mr-1'>
-                    <x-lopsoft.link.success link="{{route($table.'.create')}}" icon='fa fa-plus' text='NUEVO'></x-lopsoft.link.teal>
+                <div class='mr-1 mb-1'>
+                    <x-lopsoft.link.success link="{{route($table.'.create')}}" icon='fa fa-plus fa-fw' text='NUEVO'></x-lopsoft.link.teal>
                 </div>
                 @endif
             @endif
-            {{ $tableactions }}
-
+            <div class='block'>
+                {{ $tableactions }}
+            </div>
         </div>
+
         <div class='flex items-center justify-center  w-full sm:w-auto'>
             @if($cansearch!='false')
                 <x-lopsoft.datatable.searchbar textcolor="{{ $slave=='true'?'text-white':'' }}" class='w-full sm:w-auto' />

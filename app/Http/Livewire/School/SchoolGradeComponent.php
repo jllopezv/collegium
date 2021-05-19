@@ -215,7 +215,7 @@ class SchoolGradeComponent extends Component
 
     public function forceGetQueryData($ret)
     {
-        return $this->annoSupportForceGetQueryData($ret, SchoolGrade::query() );
+        return $this->annoSupportForceGetQueryData($ret, getUserAnnoSession()->schoolGrades() );
     }
 
     public function activateRecordInAnnoAction($id)

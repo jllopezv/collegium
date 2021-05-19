@@ -226,7 +226,9 @@
             @endhasAbility
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
-    @hasAbilityOr([ 'students.access' ])
+    @hasAbilityOr([ 'students.access',
+                    'school_parents.access',
+                    'school_subjects.access' ])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user-graduate'
             text="{{ transup('students') }}"
@@ -247,6 +249,15 @@
                 icon='hover:text-red-500 fa fa-user-graduate'
                 link="{{ route('school_parents.index') }}"
                 text="{{ transup('tables.school_parents') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['school_subjects.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user-graduate'
+                link="{{ route('school_subjects.index') }}"
+                text="{{ transup('tables.school_subjects') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

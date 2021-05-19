@@ -24,6 +24,7 @@ use App\Models\Website\WebsitePage;
 use App\Models\Website\WebsitePost;
 use App\Models\Auth\PermissionGroup;
 use App\Models\School\SchoolSection;
+use App\Models\School\SchoolSubject;
 use Illuminate\Support\Facades\Auth;
 use App\Models\School\SchoolModality;
 use App\Models\Website\WebsiteBanner;
@@ -58,6 +59,7 @@ use App\Http\Controllers\Website\WebsitePageController;
 use App\Http\Controllers\Website\WebsitePostController;
 use App\Http\Controllers\Auth\PermissionGroupController;
 use App\Http\Controllers\School\SchoolSectionController;
+use App\Http\Controllers\School\SchoolSubjectController;
 use App\Http\Controllers\School\SchoolModalityController;
 use App\Http\Controllers\Website\WebsiteBannerController;
 use App\Http\Controllers\Setting\AppSettingPageController;
@@ -164,6 +166,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('school_modalities', SchoolModalityController::class, SchoolModality::class);
     LopHelp::generateCommonModelRoute('school_parents', SchoolParentController::class, SchoolParent::class);
     LopHelp::generateCommonModelRoute('school_periods', SchoolPeriodController::class, SchoolPeriod::class);
+    LopHelp::generateCommonModelRoute('school_subjects', SchoolSubjectController::class, SchoolSubject::class);
 
 
     Route::get('/showstudentslevel/{id}', function($id) {

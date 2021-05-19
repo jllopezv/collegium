@@ -139,7 +139,7 @@ class SchoolModalityComponent extends Component
 
     public function forceGetQueryData($ret)
     {
-        return $this->annoSupportForceGetQueryData($ret, SchoolModality::query() );
+        return $this->annoSupportForceGetQueryData($ret, getUserAnnoSession()->schoolModalities() );
     }
 
     public function activateRecordInAnnoAction($id)

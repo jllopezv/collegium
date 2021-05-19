@@ -137,7 +137,7 @@ class SchoolBatchComponent extends Component
 
     public function forceGetQueryData($ret)
     {
-        return $this->annoSupportForceGetQueryData($ret, SchoolBatch::query() );
+        return $this->annoSupportForceGetQueryData($ret, getUserAnnoSession()->schoolBatches() );
     }
 
     public function activateRecordInAnnoAction($id)

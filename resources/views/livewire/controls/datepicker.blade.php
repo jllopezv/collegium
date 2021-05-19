@@ -49,9 +49,9 @@
                     <div wire:click='prevMonth' class='items-center w-8 h-8 text-xl font-bold text-center rounded-full cursor-pointer hover:bg-cool-gray-300'>
                         <i class='fa fa-angle-left'></i>
                     </div>
-                    <div x-data='{showanno: false, showmonth: false}' >
+                    <div x-data='{showcalendaranno: false, showmonth: false}' >
                         <span @click='showmonth=true' @click.away='showmonth=false' class='font-bold cursor-pointer '> {{ mb_strtoupper($currentdate->locale(config('lopsoft.locale_default'))->monthName) }} </span>
-                        <span @click='showanno=true' @click.away='showanno=false'class='font-bold cursor-pointer '> {{ mb_strtoupper($currentdate->year) }} </span>
+                        <span @click='showcalendaranno=true' @click.away='showcalendaranno=false'class='font-bold cursor-pointer '> {{ mb_strtoupper($currentdate->year) }} </span>
                         <div x-show='showmonth' class='absolute left-0 w-full overflow-y-auto text-white bg-gray-600 rounded-md shadow-xl h-60 nosb'>
                             @for($mn=0;$mn<12;$mn++,$monthname->addMonth())
                                 <div wire:click='goMonth({{$mn}})' class="cursor-pointer p-2 hover:font-bold hover:bg-green-400 text-xl text-center {{ $monthname->month==$month ? 'bg-green-600 font-bold  text-white': '' }}">
@@ -59,7 +59,7 @@
                                 </div>
                             @endfor
                         </div>
-                        <div x-show='showanno' class='absolute left-0 right-0 overflow-y-auto text-white bg-gray-600 rounded-md shadow-xl h-60 nosb'>
+                        <div x-show='showcalendaranno' class='absolute left-0 right-0 overflow-y-auto text-white bg-gray-600 rounded-md shadow-xl h-60 nosb'>
                             @for($anno=1970;$anno<2100;$anno++)
                             <div wire:click='goYear({{$anno}})' class="cursor-pointer p-2 hover:font-bold hover:bg-green-400 text-xl text-center  {{ $anno==$year ? 'bg-green-600 font-bold  text-white': '' }}">{{ $anno }}</div>
                             @endfor

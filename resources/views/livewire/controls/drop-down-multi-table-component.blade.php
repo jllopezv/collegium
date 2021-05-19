@@ -62,7 +62,7 @@
                         @endif
                         @if($linknew)
                             <div class='ml-1'>
-                                <x-lopsoft.link.success target='_blank' :link="$linknew" icon='fa fa-plus' text="{{mb_strtoupper(trans('lopsoft.new'))}}"  />
+                                <x-lopsoft.link.success target='_blank' @click='$wire.showcontent=false' :link="$linknew" icon='fa fa-plus' text="{{mb_strtoupper(trans('lopsoft.new'))}}"  />
                             </div>
                         @endif
                         <div class='ml-1'>

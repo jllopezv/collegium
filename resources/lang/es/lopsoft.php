@@ -29,6 +29,7 @@ return [
         'school_modalities' =>  'modalidades académicas',
         'school_parents'    =>  'parientes',
         'school_periods'    =>  'períodos académicos',
+        'school_subjects'   =>  'asignaturas',
         'website_pages'     =>  'páginas del website',
         'website_menus'     =>  'menús del website',
         'website_advertisement_cats'    => 'categorías de avisos',
@@ -194,4 +195,5 @@ return [
     'close_this_year'       =>  'desactivar en este año académico',
     'schoolgrade'           =>  'grado académico',
     'annos'                 =>  'años',
+    'schoolsubject'         =>  'asignatura',
 ];

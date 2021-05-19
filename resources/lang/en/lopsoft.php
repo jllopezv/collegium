@@ -27,6 +27,7 @@ return [
         'school_modalities' =>  'modalities',
         'school_parents'    =>  'school parents',
         'school_periods'    =>  'school periods',
+        'school_subjects'   =>  'school subjects',
         'website_pages'     =>  'website pages',
         'website_menus'     =>  'website menus',
         'website_advertisement_cats'    => 'website advertisement categories',
@@ -192,4 +193,5 @@ return [
     'close_this_year'       =>  'close for this academic year',
     'schoolgrade'           =>  'school grade',
     'annos'                 =>  'years',
+    'schoolsubject'         =>  'subject',
 ];

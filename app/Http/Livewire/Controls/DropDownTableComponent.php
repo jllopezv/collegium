@@ -216,7 +216,15 @@ class DropDownTableComponent extends Component
         // }
         if (is_null($index))
         {
-            $record=$this->data->first();
+            try
+            {
+                $record=$this->data->first();
+            }
+            catch(\Exception $e)
+            {
+                $record=null;
+            }
+
         }
         else
         {
@@ -338,7 +346,15 @@ class DropDownTableComponent extends Component
     {
         $this->getData();
         $data=$this->data;
-        $records=$data->get()->toArray();
+        try
+        {
+            $records=$data->get()->toArray();
+        }
+        catch(\Exception $e)
+        {
+            $records=[];
+        }
+
 
         return view('livewire.controls.drop-down-table-component',
         [ 'records' => $records ] );

@@ -28,11 +28,13 @@
             {{-- BATCH COMMON --}}
                 <x-slot name='tableactions'>
                     @if(count($rowselected))
-                        <x-lopsoft.button.danger icon='fa fa-trash' wire:click='destroyBatch' />
-                        @if (property_exists($model,'hasactive'))
-                            <x-lopsoft.button.warning wire:click='lockBatch' help='BLOQUEAR REGISTRO' helpclass='tooltiptext-up-right' class='ml-1' icon='fa fa-lock' />
-                            <x-lopsoft.button.success wire:click='unlockBatch' help='DESBLOQUEAR REGISTRO' helpclass='tooltiptext-up-right' class='ml-1' icon='fa fa-unlock' />
-                        @endif
+                        <div class='mb-1'>
+                            <x-lopsoft.button.danger icon='fa fa-trash fa-fw' wire:click='destroyBatch' />
+                            @if (property_exists($model,'hasactive'))
+                                <x-lopsoft.button.warning wire:click='lockBatch' help='BLOQUEAR REGISTRO' helpclass='tooltiptext-up-right'  icon='fa fa-lock fa-fw' />
+                                <x-lopsoft.button.success wire:click='unlockBatch' help='DESBLOQUEAR REGISTRO' helpclass='tooltiptext-up-right'  icon='fa fa-unlock fa-fw' />
+                            @endif
+                        </div>
                     @endif
                 </x-slot>
             {{-- /BATCH COMMON --}}
@@ -40,7 +42,7 @@
             {{-- FILTERS --}}
             <x-slot name='filters'>
                 @if($canShowFilterButton)
-                    <div x-show.transition.opacity.1000ms='showFilters' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
+                    <div x-show.transition.opacity.1000ms='$wire.showFilters' class='px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
                         @yield('filters')
                     </div>
                 @endif
@@ -49,7 +51,7 @@
             {{-- SORTS --}}
             <x-slot name='sorts'>
                 @if($canShowSortButton)
-                    <div x-show.transition.opacity.1000ms='showSorts' class='md:hidden px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
+                    <div x-show.transition.opacity.1000ms='$wire.showSorts' class='md:hidden px-2 border rounded-lg bg-cool-gray-100 border-cool-gray-300'>
                         @yield('sorts')
                     </div>
                 @endif
@@ -146,8 +148,6 @@
                                 <div class='p-2 m-2 bg-white
                                     @include('livewire.partials.cardstates', [ 'record' => $item ])
                                     rounded-lg shadow'>
-
-
                                     <div class='flex items-center justify-between'>
                                         <div class=''>
                                             @if($canselect!=='false')

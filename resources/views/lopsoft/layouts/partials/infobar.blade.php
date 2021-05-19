@@ -1,13 +1,13 @@
-<div x-data='{showAnno: false}' class="relative p-1 text-white bg-gray-900">
-    <div @click='showAnno=!showAnno' class='flex items-center justify-end'>
+<div x-data='{showInfoAnno: false}' class="relative p-1 text-white bg-gray-900">
+    <div @click='showInfoAnno=!showInfoAnno' class='flex items-center justify-end'>
         <span class='px-2 mr-4 text-sm font-bold
         {{ (Auth::user()->anno!=null)?( Auth::user()->anno->id!=(new \App\Models\School\Anno)->current()->id ? 'text-white bg-red-400': 'text-green-300 bg-cool-gray-600'  ):'text-green-300 bg-cool-gray-600'}}
           rounded-md cursor-pointer '>{{ (Auth::user()->anno!=null)?Auth::user()->anno->anno:(new \App\Models\School\Anno)->current()->anno }}</span>
     </div>
     @hasAbility('users.changeannosession')
         <div id='anno_display'
-            @click.away='showAnno=false'
-            x-show='showAnno'
+            @click.away='showInfoAnno=false'
+            x-show='showInfoAnno'
             x-cloak
             class="absolute z-50 h-32 mt-1 overflow-y-scroll origin-top-right rounded-md shadow-lg right-3 w-80 bg-cool-gray-600 nosb">
             <div class='p-2 rounded-b-lg'>

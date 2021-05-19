@@ -182,7 +182,7 @@ class SchoolLevelComponent extends Component
 
     public function forceGetQueryData($ret)
     {
-        return $this->annoSupportForceGetQueryData($ret, SchoolLevel::query() );
+        return $this->annoSupportForceGetQueryData($ret, getUserAnnoSession()->schoolLevels() );
     }
     public function activateRecordInAnnoAction($id)
     {

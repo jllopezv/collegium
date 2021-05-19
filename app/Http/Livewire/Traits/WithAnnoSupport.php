@@ -13,14 +13,18 @@ Trait WithAnnoSupport
      * Show All Annos
      */
 
-    public function showAnno()
+    public function showAnnoGrid()
     {
         $this->showOnlyAnno=true;
+        $this->showFilters=true;
+        $this->createFilter();
+        $this->getFilter();
     }
 
-    public function hideAnno()
+    public function hideAnnoGrid()
     {
         $this->showOnlyAnno=false;
+        $this->showFilters=false;
     }
 
     public function annoSupportForceGetQueryData($ret, $query)

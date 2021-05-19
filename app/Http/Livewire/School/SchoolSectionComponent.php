@@ -201,7 +201,7 @@ class SchoolSectionComponent extends Component
 
     public function forceGetQueryData($ret)
     {
-        return $this->annoSupportForceGetQueryData($ret, SchoolSection::query() );
+        return $this->annoSupportForceGetQueryData($ret, getUserAnnoSession()->schoolSections() );
     }
 
     public function activateRecordInAnnoAction($id)
