@@ -196,4 +196,6 @@ return [
     'schoolgrade'           =>  'grado académico',
     'annos'                 =>  'años',
     'schoolsubject'         =>  'asignatura',
+    'enroll'                =>  'inscribir',
+    'unenroll'              =>  'desinscribir',
 ];

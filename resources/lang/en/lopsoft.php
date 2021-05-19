@@ -194,4 +194,6 @@ return [
     'schoolgrade'           =>  'school grade',
     'annos'                 =>  'years',
     'schoolsubject'         =>  'subject',
+    'enroll'                =>  'enroll',
+    'unenroll'              =>  'unenroll',
 ];

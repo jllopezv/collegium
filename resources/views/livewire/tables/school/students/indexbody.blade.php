@@ -14,9 +14,13 @@
     @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->section ])
     @include('components.lopsoft.datatable.rowcolumn', ['slot'=> \App\Models\School\SchoolModality::find($item->params['modality_id'])->modality??'' ])
 @else
-    @include('components.lopsoft.datatable.rowcolumn', ['slot'=> "<span class='text-red-500 font-bold'>NO INSCRITO EN ESTE AÑO ACADÉMICO</span>" ])
-    @include('components.lopsoft.datatable.rowcolumn', ['slot'=> '' ])
-    @include('components.lopsoft.datatable.rowcolumn', ['slot'=> '' ])
+    <x-lopsoft.datatable.row-column
+        colspan='3'
+        canshow="{{ $item->canShowRecord() && $item->allowShow() }}"
+        class="w-full"
+        link="{{ route($table.'.show',$item->id) }}">
+            <span class='text-red-500 font-bold'>NO INSCRITO EN ESTE AÑO ACADÉMICO</span>
+    </x-lopsoft.datatable.row-column>
 @endif
 <x-lopsoft.datatable.row-column-space />
 @include('components.lopsoft.datatable.row-anno-priority')
