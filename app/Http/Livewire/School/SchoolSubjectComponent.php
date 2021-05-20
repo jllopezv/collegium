@@ -4,8 +4,11 @@ namespace App\Http\Livewire\School;
 
 use Livewire\Component;
 use App\Lopsoft\LopHelp;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
+use App\Models\School\SchoolPeriod;
 use App\Models\School\SchoolSubject;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\HasPriority;
@@ -30,6 +33,7 @@ class SchoolSubjectComponent extends Component
 
     public  $code;
     public  $subject;
+    public  $abbr;
     public  $level_id;
     public  $grade_id;
     public  $period_id;
@@ -90,6 +94,7 @@ class SchoolSubjectComponent extends Component
         return [
             'code'              => 'required|string|max:255|unique:school_subjects,code,'.$this->recordid,
             'subject'           => 'required|string|max:255',
+            'abbr'              => 'required|string|max:255',
             'priority'          => 'required|numeric',
         ];
     }
@@ -108,6 +113,7 @@ class SchoolSubjectComponent extends Component
         $this->priority='';
         $this->subject='';
         $this->code='';
+        $this->abbr='';
         $this->loadDefaults();
     }
 
@@ -115,6 +121,7 @@ class SchoolSubjectComponent extends Component
     {
         $this->code=$this->record->code;
         $this->subject=$this->record->subject;
+        $this->abbr=$this->record->abbr;
         $this->priority=$this->record->priority;
         $this->emit('setvalue', 'gradecomponent', $this->grade_id);
     }
@@ -134,6 +141,7 @@ class SchoolSubjectComponent extends Component
         return [
             'code'                  =>  $this->code,
             'subject'               =>  $this->subject,
+            'abbr'                  =>  $this->abbr,
             'priority'              =>  $this->priority,
         ];
     }
@@ -148,9 +156,25 @@ class SchoolSubjectComponent extends Component
         return [
             'code'                    =>  $this->code,
             'subject'                 =>  $this->subject,
+            'abbr'                    =>  $this->abbr,
         ];
     }
 
+    public function preStore()
+    {
+        if ($this->code=='-')
+        {
+            $newnumber=0;
+            $levelcode=Str::substr(SchoolLevel::find($this->level_id)->level??'',0,1);
+            $gradecode=Str::substr(SchoolGrade::find($this->grade_id)->grade??'',0,1);
+            $periodcode=Str::substr(SchoolPeriod::find($this->period_id)->period??'',0,1);
+            do{
+                $this->code=$this->abbr.'-'.$this->level_id.$levelcode.$this->grade_id.$gradecode.$this->period_id.$periodcode.Str::substr(getUserAnnoSession()->anno,0,4).
+                ($newnumber==0?'':$newnumber);
+                $newnumber++;
+            }while($this->model::where('code', $this->code)->first()!=null);
+        }
+    }
 
     public function postStore($storedRecord)
     {
@@ -183,6 +207,7 @@ class SchoolSubjectComponent extends Component
     public function eventSetLevel($level_id, $change)
     {
         $this->level_id=$level_id;
+        $this->emit('setfilterraw','gradecomponent','level_id='.$level_id);
     }
 
     /*************************************

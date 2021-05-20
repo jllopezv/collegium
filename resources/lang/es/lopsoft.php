@@ -198,4 +198,5 @@ return [
     'schoolsubject'         =>  'asignatura',
     'enroll'                =>  'inscribir',
     'unenroll'              =>  'desinscribir',
+    'abbreviation'          =>  'abreviatura',
 ];

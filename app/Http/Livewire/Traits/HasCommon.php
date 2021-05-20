@@ -770,6 +770,18 @@ Trait HasCommon
         $this->showed=0;
     }
 
+    public function generateNewCode($field, $prefix,$long,$sufix,$fill='0')
+    {
+        // Generate $middle = count(records)+1
+        $newnumber=$this->model::count();
+        do{
+            $newnumber++;
+            $newcode=$prefix.Str::padLeft($newnumber,$long,$fill).$sufix;
+        }while($this->model::where($field, $newcode)->first()!=null);
+
+        return $newcode;
+    }
+
     /*******************************************************************************
      * REDIRECT FUNCTIONS
      *******************************************************************************/

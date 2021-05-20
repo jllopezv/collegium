@@ -16,8 +16,8 @@
                         @if ($setting->type=='text' || $setting->type=='number')
                             <x-lopsoft.control.inputform
                                 id='{{ $setting->settingkey }}'
-                                label="{{ $setting->settingkey }}"
-                                sublabel="{{ $setting->settingdesc }}"
+                                label="{{ $setting->settingdesc }}"
+                                sublabel="{{ $setting->settingkey }}"
                                 autofocus
                                 classcontainer="{{ $setting->type=='text'?'w-full':'w-80' }}"
                                 classcomponent="{{ true?'bg-cool-gray-100 px-2':''}}"
@@ -29,8 +29,8 @@
                         @if ($setting->type=='boolean')
                             <x-lopsoft.control.checkboxform
                                 id='{{ $setting->settingkey }}'
-                                label="{{ $setting->settingkey }}"
-                                sublabel="{{ $setting->settingdesc }}"
+                                label="{{ $setting->settingdesc }}"
+                                sublabel="{{ $setting->settingkey }}"
                                 color='text-blue-400' classlabel='font-bold'
                                 wire:model='settingsvalues.{{ $setting->settingkey }}'
                                 classcomponent="{{ true?'bg-cool-gray-100 px-2':''}}"
@@ -41,8 +41,8 @@
                                 <div class='w-full'>
                                     <x-lopsoft.control.imageform
                                         id='{{ $setting->settingkey }}'
-                                        label="{{ $setting->settingkey }}"
-                                        sublabel="{{ $setting->settingdesc }}"
+                                        label="{{ $setting->settingdesc }}"
+                                        sublabel="{{ $setting->settingkey }}"
                                         classcontainer='w-full'
                                         mode="create"
                                         fileid="filetypeimage"

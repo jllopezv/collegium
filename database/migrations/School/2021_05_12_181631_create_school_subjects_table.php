@@ -18,6 +18,7 @@ class CreateSchoolSubjectsTable extends Migration
             $table->boolean('active')->default(1);
             $table->string('code')->unique();
             $table->string('subject')->default('');
+            $table->string('abbr')->default('');
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');

@@ -102,5 +102,16 @@ class AppSettingPageSeeder extends Seeder
                                                 'allowDelete'   => false,
                                                 'allowLock'     => false
                                         ]);
+
+        $record=new AppSettingPage();
+        $record->settingpage=transup('students');
+        $record->onlysuperadmin=false;
+        $record->priority=9;
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                                'allowEdit'     => false,
+                                                'allowDelete'   => false,
+                                                'allowLock'     => false
+                                        ]);
     }
 }

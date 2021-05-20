@@ -52,7 +52,6 @@ return [
 
     'maxActivityLog'    =>  2000,
 
-
     /*
     |--------------------------------------------------------------------------
     | Login
@@ -80,8 +79,6 @@ return [
     'temp_dir'                  =>  'temp',         // Folder of disk public
     'garbagecollection_days'    =>  1,              // Days to let temp files
 
-
-
     /*
     |--------------------------------------------------------------------------
     | Files Manager
@@ -91,7 +88,6 @@ return [
     'filemanager_disk'              =>  'public',
     'filemanager_storage_folder'    =>  'files',
     'filemanager_max_upload_size'   =>  8192,
-
 
      /*
     |--------------------------------------------------------------------------
@@ -113,7 +109,6 @@ return [
         [ 'min'   => 5001,  'max'  => 50000,    'color' => 'color-gray'     ],     // Services
     ],
 
-
     /*
     |--------------------------------------------------------------------------
     | System presets
@@ -134,7 +129,9 @@ return [
     */
 
     'studentsname_uppercase'      =>  true,
-
+    'students_exp_prefix'         =>  'EXP',
+    'students_exp_long'           =>  '5',
+    'students_exp_sufix'          =>  '',
 
     /*
     |--------------------------------------------------------------------------
@@ -170,7 +167,6 @@ return [
     'advertisements_default_image'           => 'defaults/default_image.png',
     'advertisements_index_showthumb'         => false,
     'advertisements_to_show'                 => 8,
-
 
     /*
     |--------------------------------------------------------------------------

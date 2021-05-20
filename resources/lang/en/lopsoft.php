@@ -196,4 +196,6 @@ return [
     'schoolsubject'         =>  'subject',
     'enroll'                =>  'enroll',
     'unenroll'              =>  'unenroll',
+    'abbreviation'          =>  'abbreviation',
+
 ];

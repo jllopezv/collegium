@@ -34,7 +34,7 @@ class SchoolSubject extends Model
      * @var array
      */
     protected $fillable = [
-        'code', 'subject', 'priority'
+        'code', 'subject', 'abbr', 'priority'
     ];
 
     protected $appends=['priority', 'available'];
@@ -125,6 +125,28 @@ class SchoolSubject extends Model
      * @return String
      */
     public function getSubjectAttribute($value)
+    {
+        return mb_strtoupper($value);
+    }
+
+    /**
+     * Set Abbr
+     *
+     * @param  String $value
+     * @return void
+     */
+    public function setAbbrAttribute($value)
+    {
+        $this->attributes['abbr']=mb_strtoupper($value);
+    }
+
+    /**
+     * Get Abbr
+     *
+     * @param  String $value
+     * @return String
+     */
+    public function getAbbrAttribute($value)
     {
         return mb_strtoupper($value);
     }

@@ -192,6 +192,7 @@ class StudentComponent extends Component
         $this->emit('setvalue', 'birthcomponent', getDateString($this->birth));
         $this->grade_id=null;
         $this->emit('setvalue', 'gradecomponent', $this->grade_id);
+        $this->exp='-';
 
         // User profile
         $this->userProfileClear();
@@ -450,6 +451,21 @@ class StudentComponent extends Component
             'batch_id'      =>  $this->batch_id,
             'modality_id'   =>  $this->modality_id,
         ]);
+    }
+
+    public function preStore()
+    {
+        if ($this->exp=='-')
+        {
+            $newcode=$this->generateNewCode(
+                'exp',
+                appsetting('students_exp_prefix'),
+                appsetting('students_exp_long'),
+                appsetting('students_exp_sufix')
+            );
+
+            $this->exp=$newcode;
+        }
     }
 
     /*

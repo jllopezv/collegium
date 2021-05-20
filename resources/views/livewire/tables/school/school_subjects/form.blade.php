@@ -18,9 +18,23 @@
     sublabel="Use - para obtener un código automático"
     class='w-full'
     autofocus
-    classcontainer='w-24'
+    classcontainer='w-48'
     requiredfield
     help="{{ transup('mandatory_unique') }}"
+    mode="{{ $mode }}"
+    nextref='abbr'
+/>
+<x-lopsoft.control.inputform
+    wire:model.lazy='abbr'
+    id='abbr'
+    x-ref='abbr'
+    label="{{ transup('abbreviation') }}"
+    sublabel="Abreviación para la asignatura"
+    class='w-full'
+    autofocus
+    classcontainer='w-32'
+    requiredfield
+    help="{{ transup('mandatory') }}"
     mode="{{ $mode }}"
     nextref='subject'
 />

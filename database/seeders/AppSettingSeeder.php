@@ -398,6 +398,35 @@ class AppSettingSeeder extends Seeder
         $record->page_id=AppSettingPage::where('settingpage',transup('sections'))->first()->id;
         $record->save();
 
+        /* STUDENTS */
+
+        $record=new AppSetting();
+        $record->settingkey='STUDENTS_EXP_PREFIX';
+        $record->settingdesc='STUDENTS EXP PREFIX';
+        $record->settingvalue=config('lopsoft.students_exp_prefix');
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('students'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='STUDENTS_EXP_LONG';
+        $record->settingdesc='STUDENTS CODE EXP LONG';
+        $record->settingvalue=config('lopsoft.students_exp_long');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('students'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='STUDENTS_EXP_SUFIX';
+        $record->settingdesc='STUDENTS CODE EXP SUFIX';
+        $record->settingvalue=config('lopsoft.students_exp_sufix');
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('students'))->first()->id;
+        $record->save();
+
 
     }
 }
