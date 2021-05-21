@@ -33,7 +33,7 @@
         disabled='{{ $disabled ? "disabled" : "" }}'
         classcontainer="{{$classcontainer}}"
         {{ $attributes->merge([
-            'class' => ($errors->has($id)?'border-red-500':'')
+            'class' => ($errors->has($id)?'border-red-500 bg-transparent':' bg-transparent')
         ]) }}
         placeholder='{{ $placeholder }}'
         nextref='{{$nextref}}'

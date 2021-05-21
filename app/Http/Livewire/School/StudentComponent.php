@@ -89,7 +89,12 @@ class StudentComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
+
+        /*Avatar*/
         'avatarupdated'         => 'avatarUpdated',
+
+        /*Events*/
+
         'eventsetbirth'         => 'eventSetBirth',
         'eventsetgender'        => 'eventSetGender',
         'eventsetlevel'         => 'eventSetLevel',
@@ -467,55 +472,6 @@ class StudentComponent extends Component
             $this->exp=$newcode;
         }
     }
-
-    /*
-    public function generateEmail()
-    {
-
-        if ($this->names=='')
-        {
-            $this->ShowError("NO SE DEFINIÓ NINGÚN NOMBRE");
-            return;
-        }
-        $suggest=$this->getProfileUsername();
-        $this->email=generateAppEmail($suggest);
-    }
-
-    /*
-    public function updatedEmail()
-    {
-        if (!Str::of($this->email)->contains('@') || $this->email=='' || ( Str::of($this->email)->contains('@') && Str::of($this->email)->after('@')=='') )
-        {
-            $this->checkedEmail=false;
-            return;
-        }
-        $this->email=mb_strtolower($this->email);
-        $user=User::where('email', $this->email)->first();
-        $this->checkedEmail=true;
-        if ($user==null)
-        {
-            $this->validEmail=true;
-            return;
-        }
-        if ( $this->mode=='edit' && $user->profile!=null && $user->profile->id==$this->record->id)
-        {
-            $this->validEmail=true;
-        }
-        else
-        {
-            $this->validEmail=$user==null?true:false;
-        }
-    }
-
-    public function preStore()
-    {
-        $this->updatedEmail();
-    }
-
-    public function preUpdate()
-    {
-        $this->updatedEmail();
-    }*/
 
     /**
      * Entry point to delete action

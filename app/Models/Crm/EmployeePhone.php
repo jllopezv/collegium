@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Models\School;
+namespace App\Models\Crm;
 
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ParentEmail extends Model
+class EmployeePhone extends Model
 {
     use HasActive;
     use HasOwner;
@@ -24,7 +25,7 @@ class ParentEmail extends Model
      * @var array
      */
     protected $fillable = [
-        'email', 'description', 'notif', 'school_parent_id'
+        'phone', 'description', 'employee_id'
     ];
 
     /*******************************************/
@@ -41,7 +42,7 @@ class ParentEmail extends Model
 
     public function scopeSearch($query, $search)
     {
-        return $query->where('email', 'like', '%'.$search.'%' )
+        return $query->where('phone', 'like', '%'.$search.'%' )
             ->orWhere('description','like', '%'.$search.'%' );
     }
 }

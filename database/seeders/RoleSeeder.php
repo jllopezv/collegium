@@ -95,6 +95,18 @@ class RoleSeeder extends Seeder
                                              'allowLock'     => false
                                         ]);
 
+        $record=new Role;
+        $record->role="EMPLOYEE";
+        $record->level=9000;
+        $record->dashboard='employee';
+        $record->color_id=7;
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                             'allowEdit'     => false,
+                                             'allowDelete'   => false,
+                                             'allowLock'     => false
+                                        ]);
+
     }
 
 

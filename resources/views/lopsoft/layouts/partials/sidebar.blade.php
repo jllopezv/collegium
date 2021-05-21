@@ -264,6 +264,35 @@
             @endhasAbility
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
+    @hasAbilityOr([ 'employee_types.access'])
+        <x-lopsoft.control.sidebar-menu
+            icon='fa fa-user-tie'
+            link='linkeando'
+            text="{{ transup('crm') }}"
+            help="{{ transup('crm') }}"
+            menuid='menucrm'
+            classmenu='hover:text-green-300'>
+            @hasAbility(['employees.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-hard-hat'
+                link="{{ route('employees.index') }}"
+                text="{{ transup('employees') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['employee_types.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-bars'
+                link="{{ route('employee_types.index') }}"
+                text="{{ transup('employee_types') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+
+        </x-lopsoft.control.sidebar-menu>
+    @endhasAbilityOr
     @hasAbilityOr([ 'school_levels.access', 'school_grades.access',
                     'school_batches.access', 'school_modalities.access', 'school_sections.access',
                     'school_periods.access', 'annos.access'])

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\School;
+namespace App\Models\Crm;
 
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use Illuminate\Database\Eloquent\Model;
 
-class ParentEmail extends Model
+class EmployeeEmail extends Model
 {
     use HasActive;
     use HasOwner;
@@ -24,7 +24,7 @@ class ParentEmail extends Model
      * @var array
      */
     protected $fillable = [
-        'email', 'description', 'notif', 'school_parent_id'
+        'email', 'description', 'notif', 'employee_id'
     ];
 
     /*******************************************/

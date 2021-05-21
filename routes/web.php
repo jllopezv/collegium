@@ -9,8 +9,10 @@ use App\Models\Aux\Image;
 use App\Models\Aux\Country;
 use App\Models\School\Anno;
 use App\Models\Aux\Language;
+use App\Models\Crm\Employee;
 use App\Models\School\Student;
 use App\Models\Auth\Permission;
+use App\Models\Crm\EmployeeType;
 use App\Models\School\SchoolBatch;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
@@ -44,8 +46,10 @@ use App\Http\Controllers\Aux\CountryController;
 use App\Http\Controllers\School\AnnoController;
 use App\Models\Website\WebsiteAdvertisementCat;
 use App\Http\Controllers\Aux\LanguageController;
+use App\Http\Controllers\Crm\EmployeeController;
 use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\Auth\PermissionController;
+use App\Http\Controllers\Crm\EmployeeTypeController;
 use App\Http\Controllers\School\SchoolBatchController;
 use App\Http\Controllers\School\SchoolGradeController;
 use App\Http\Controllers\School\SchoolLevelController;
@@ -124,7 +128,14 @@ Route::get('/sendcontact', [ SendMailController::class, 'mail' ] );
 /*****************************************************/
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboards.'.Auth::user()->dashboard);
+    try
+    {
+        return view('dashboards.'.Auth::user()->dashboard);
+    }
+    catch(\Exception $e)
+    {
+        return redirect()->route('login');
+    }
 })->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/profile', function() {
@@ -148,6 +159,19 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
 
 });
 
+
+/*****************************************************/
+/* CRM                                               */
+/*****************************************************/
+
+Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
+                'middleware'    => ['web', 'auth', 'verified'],
+                'namespace'     => '\App\Http\Controllers\Crm' ], function() {
+
+    LopHelp::generateCommonModelRoute('employee_types', EmployeeTypeController::class, EmployeeType::class);
+    LopHelp::generateCommonModelRoute('employees', EmployeeController::class, Employee::class);
+
+});
 
 /*****************************************************/
 /* ACADÉMICA                                         */

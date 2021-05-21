@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStudentsTable extends Migration
+class CreateEmployeeEmailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreateStudentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('employee_emails', function (Blueprint $table) {
             $table->id();
             $table->boolean('active')->default(1);
-            $table->string('exp')->unique();
-            $table->string('names');
-            $table->string('first_surname');
-            $table->string('second_surname');
-            $table->date('birth');
-            $table->char('gender');
-            $table->text('profile_photo_path')->nullable();
+            $table->string('email')->default('');
+            $table->string('description')->default('');
+            $table->boolean('notif')->default(1);   // email to notifications
+            $table->foreignId('employee_id')->nullable()->references('id')->on('employees')->onDelete('cascade');
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');
             $table->foreignId('updated_by')->nullable()->references('id')->on('users')->onDelete('set null');
@@ -36,6 +33,6 @@ class CreateStudentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('employee_emails');
     }
 }

@@ -69,6 +69,9 @@ class PermissionSeeder extends Seeder
         $table='school_subjects';
         $this->createPermissions($table,'ACADÉMICA');
 
+        $table='employee_type';
+        $this->createPermissions($table,'CRM');
+
         $table='app_setting_pages';
         $this->createPermissions($table,'CONFIGURACIÓN');
 

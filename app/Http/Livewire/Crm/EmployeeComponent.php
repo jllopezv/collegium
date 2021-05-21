@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Livewire\School;
+namespace App\Http\Livewire\Crm;
 
-use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Aux\Country;
-use Illuminate\Support\Str;
 use Livewire\WithPagination;
-use App\Models\School\Student;
-use App\Models\School\ParentEmail;
-use App\Models\School\ParentPhone;
+use App\Models\Crm\EmployeeEmail;
+use App\Models\Crm\EmployeePhone;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\IsUserType;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +19,7 @@ use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
 use App\Http\Livewire\Traits\WithModalConfirm;
 
-class SchoolParentComponent extends Component
+class EmployeeComponent extends Component
 {
     use WithPagination;
     use HasCommon;
@@ -30,8 +29,9 @@ class SchoolParentComponent extends Component
     use WithModalConfirm;
     use IsUserType;
     use WithUserProfile;
+    use HasAvatar;
 
-    public $parent;
+    public $employee;
     public $address1;
     public $address2;
     public $city;
@@ -41,10 +41,19 @@ class SchoolParentComponent extends Component
     public $notes;
     public $phones=[];
     public $emails=[];
-    public $students=[];
-    public $studentsnotenrolled=[];
+    public $age;
+    public $birth;
+    public $hired;
+    public $degree;
+    public $salary;
+    public $employee_type_id;
 
-    public $emailcomponent='parentsemails'; // Emails component name
+    /* Avatar */
+    private $avatarfolder='employees-photos';
+    public  $avatar;
+    public  $profile_photo_path;
+
+    public $emailcomponent='employeesemails'; // Emails component name
 
     public $phone=[
         'id'            =>  0,
@@ -67,19 +76,18 @@ class SchoolParentComponent extends Component
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
         'eventsetcountry'       => 'eventSetCountry',
+        'eventsettype'          => 'eventSetType',
         'eventsetphones'        => 'eventSetPhones',
         'eventsetuserprofileemail' => 'eventSetUserProfileEmail',
+        'eventsetbirth'         => 'eventSetBirth',
+
+        /*Avatar*/
+        'avatarupdated'         => 'avatarUpdated',
 
         // UserProfile
         'eventEmailsTableUpdatedEmails'     => 'eventSetEmails',
 
-        /*// UserProfile
-        'eventEmailsTableUpdatedEmails'     => 'eventSetEmails',
-        'userprofileupdatedvalidation'      =>  'userProfileUpdatedValidation',
-        'userprofileupdateddata'            =>  'userProfileUpdatedData',
-        'userprofileusernamerequired'       => 'userProfileSetUsername',
-        'userprofileemailrequired'          => 'userProfileSetEmail',
-        'eventsetuserprofileemail'          => 'eventSetUserProfileEmail',*/
+
     ];
 
     /**
@@ -89,10 +97,11 @@ class SchoolParentComponent extends Component
      */
     public function mount()
     {
-        $this->table='school_parents';
-        $this->module='school';
+        $this->table='employees';
+        $this->module='crm';
         $this->commonMount();
         $this->multiple=true;
+        $this->avatar_prefix='employee';
         // Default order for table
         $this->sortorder='id';
         if ($this->mode=='create')
@@ -114,13 +123,15 @@ class SchoolParentComponent extends Component
     public function validateRules() : array
     {
         return [
-            'parent'                => 'required|string|max:255',//|unique:school_levels,level,'.$this->recordid,
+            'employee'              => 'required|string|max:255',//|unique:school_levels,level,'.$this->recordid,
             'address1'              => 'nullable|string|max:255',
             'address2'              => 'nullable|string|max:255',
             'city'                  => 'nullable|string|max:255',
             'state'                 => 'nullable|string|max:255',
             'pbox'                  => 'nullable|string|max:255',
             'notes'                 => 'nullable|string|max:1024',
+            'degree'                => 'nullable|string|max:255',
+            'salary'                => 'nullable|string|max:255',
         ];
     }
 
@@ -128,6 +139,13 @@ class SchoolParentComponent extends Component
     {
         $this->country_id=Auth::user()->country_id??(Country::where('country',config('lopsoft.country_default'))->first())->id??null;
         $this->emit('setvalue', 'countrycomponent', $this->country_id );
+        $this->birth=getDateFromDate(1974,1,1);
+        $this->emit('setvalue', 'birthcomponent', getDateString($this->birth));
+        $this->hired=Carbon::now();
+        $this->emit('setvalue', 'hiredcomponent', getDateString($this->hired));
+
+        $this->degree='';
+        $this->salary='0.0';
 
         // Userprofile
         $this->userProfileClear();
@@ -135,39 +153,42 @@ class SchoolParentComponent extends Component
 
     public function resetForm()
     {
-        $this->parent='';
+        $this->employee='';
         $this->address1='';
         $this->address2='';
         $this->city='';
         $this->state='';
         $this->pbox='';
         $this->notes='';
+        $this->profile_photo_path=null;
         $this->phones=[];
         $this->phones[]=$this->phone;
         $this->emails=[];
         $this->emails[]=$this->email;
         $this->loadDefaults();
-        $this->emit('setphones','parentsphones' , $this->phones);
-        $this->emit('setemails','parentsemails' , $this->emails);
+        $this->emit('setphones','employeesphones' , $this->phones);
+        $this->emit('setemails','employeesemails' , $this->emails);
+        $this->resetAvatar();
     }
 
     public function loadRecordDef()
     {
-        $this->parent=$this->record->parent;
+        $this->employee=$this->record->employee;
         $this->address1=$this->record->address1;
         $this->address2=$this->record->address2;
         $this->city=$this->record->city;
         $this->state=$this->record->state;
         $this->pbox=$this->record->pbox;
         $this->notes=$this->record->notes;
+        $this->birth=$this->record->birth;
+        $this->hired=$this->record->hired;
+        $this->degree=$this->record->degree;
+        $this->salary=$this->record->salary;
+        $this->avatar=$this->record->avatar;
+        $this->profile_photo_path=$this->record->profile_photo_path;
+        $this->employee_type_id=$this->record->employee_type_id;
         $this->phones=getPhones($this->record->phones);
         $this->emails=getEmails($this->record->emails);
-
-        /* Only for the current academic year */
-        $anno=getUserAnnoSession();
-        $this->students=$anno->belongsToMany(Student::class)->orderBy('anno_student.grade_id','asc')->whereIn('students.id',$this->record->students->pluck('id'))->get();
-        $this->studentsnotenrolled=$this->record->students()->whereNotIn('students.id',$this->students->pluck('id'))->get();
-
 
         // User Profile
         $this->userProfileLoadRecord($this->record, $this->emails);
@@ -178,7 +199,7 @@ class SchoolParentComponent extends Component
 
     public function getKeyNotification($record)
     {
-        return ($record->parent);
+        return ($record->employee);
     }
 
     /**
@@ -189,13 +210,16 @@ class SchoolParentComponent extends Component
     public function validateFields()
     {
         return [
-            'parent'                 =>  $this->parent,
+            'employee'               =>  $this->employee,
             'address1'               => $this->address1,
             'address2'               => $this->address2,
             'city'                   => $this->city,
             'state'                  => $this->state,
             'pbox'                   => $this->pbox,
             'notes'                  => $this->notes,
+            'degree'                 => $this->degree,
+            'salary'                 => $this->salary,
+            'profile_photo_path'    =>  $this->profile_photo_path,
         ];
     }
 
@@ -207,7 +231,7 @@ class SchoolParentComponent extends Component
     public function saveRecord()
     {
         return [
-            'parent'                 => $this->parent,
+            'employee'               => $this->employee,
             'address1'               => $this->address1,
             'address2'               => $this->address2,
             'city'                   => $this->city,
@@ -215,15 +239,55 @@ class SchoolParentComponent extends Component
             'pbox'                   => $this->pbox,
             'notes'                  => $this->notes,
             'country_id'             => $this->country_id,
-        ];
+            'employee_type_id'       => $this->employee_type_id,
+            'birth'                  => $this->birth,
+            'hired'                  => $this->hired,
+            'degree'                 => $this->degree,
+            'salary'                 => $this->salary,
+            'profile_photo_path'     => $this->profile_photo_path,
+       ];
     }
+
+    public function canUpdate()
+    {
+        return $this->saveAvatar();
+    }
+
+    public function canStore()
+    {
+        if ($this->saveAvatar()==false) return false;
+        if (!$this->validateUserProfile())
+        {
+            $this->checkFlashErrors();
+            return false;
+        }
+        return true;
+    }
+
+    public function beforeGoBack()
+    {
+        $this->deleteTemp();
+    }
+
+    public function deletingRecord($record)
+    {
+        if ($this->deletingRecordAnno($record))
+        {
+            return $this->deleteAvatar($record);
+        }
+        return false;
+    }
+
 
     public function eventSetCountry($country, $change)
     {
         $this->country_id=$country;
-
     }
 
+    public function eventSetType($type_id, $change)
+    {
+        $this->employee_type_id=$type_id;
+    }
 
     public function customValidation()
     {
@@ -300,10 +364,10 @@ class SchoolParentComponent extends Component
         {
             if ($phone['phone']!='')
             {
-                ParentPhone::create([
+                EmployeePhone::create([
                     'phone'             => $phone['phone'],
                     'description'       => $phone['description'],
-                    'school_parent_id'  => $recordStored->id,
+                    'employee_id'       => $recordStored->id,
                 ]);
             }
         }
@@ -312,16 +376,16 @@ class SchoolParentComponent extends Component
         {
             if ($email['email']!='')
             {
-                ParentEmail::create([
+                EmployeeEmail::create([
                     'email'             => $email['email'],
                     'description'       => $email['description'],
                     'notif'             => $email['notif'],
-                    'school_parent_id'  => $recordStored->id,
+                    'employee_id'       => $recordStored->id,
                 ]);
             }
         }
 
-        $this->userProfileSaveUser($recordStored, $this->parent, 'schoolparent');
+        $this->userProfileSaveUser($recordStored, $this->employee, 'employee');
 
     }
 
@@ -334,18 +398,18 @@ class SchoolParentComponent extends Component
             {
                 if ($phone['id']!=0)
                 {
-                   ParentPhone::where('id',$phone['id'])->update([
+                    EmployeePhone::where('id',$phone['id'])->update([
                         'phone'             => $phone['phone'],
                         'description'       => $phone['description'],
-                        'school_parent_id'  => $recordUpdated->id,
+                        'employee_id'       => $recordUpdated->id,
                     ]);
                 }
                 else
                 {
-                    ParentPhone::create([
+                    EmployeePhone::create([
                         'phone'             => $phone['phone'],
                         'description'       => $phone['description'],
-                        'school_parent_id'  => $recordUpdated->id,
+                        'employee_id'       => $recordUpdated->id,
                     ]);
                 }
 
@@ -358,20 +422,20 @@ class SchoolParentComponent extends Component
             {
                 if ($email['id']!=0)
                 {
-                    ParentEmail::where('id',$email['id'])->update([
+                    EmployeeEmail::where('id',$email['id'])->update([
                         'email'             => $email['email'],
                         'description'       => $email['description'],
                         'notif'             => $email['notif'],
-                        'school_parent_id'  => $recordUpdated->id,
+                        'employee_id'       => $recordUpdated->id,
                     ]);
                 }
                 else
                 {
-                    ParentEmail::create([
+                    EmployeeEmail::create([
                         'email'             => $email['email'],
                         'description'       => $email['description'],
                         'notif'             => $email['notif'],
-                        'school_parent_id'  => $recordUpdated->id,
+                        'employee_id'       => $recordUpdated->id,
                     ]);
                 }
 
@@ -397,7 +461,7 @@ class SchoolParentComponent extends Component
 
     public function getProfileUsername()
     {
-        $parts=explode(' ',$this->parent);
+        $parts=explode(' ',$this->employee);
         if (sizeof($parts)==1)
         {
             $username=$parts[0];
@@ -413,5 +477,19 @@ class SchoolParentComponent extends Component
         $username=mb_strtolower( withoutAccents($username) );
         return $username;
     }
+
+    public function eventSetBirth($date)
+    {
+        if ($date!=null)
+        {
+            $this->birth=getDateFromFormat($date);
+            $this->birth->hour(0);
+            $this->birth->minute(0);
+            $this->birth->second(0);
+            $this->age=getAge($this->birth);
+        }
+
+    }
+
 
 }

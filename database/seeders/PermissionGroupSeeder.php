@@ -46,7 +46,7 @@ class PermissionGroupSeeder extends Seeder
                                         ]);
 
         $group=new PermissionGroup;
-        $group->group='CONFIGURACIÓN';
+        $group->group='CRM';
         $group->priority=4;
         $group->save();
         $group->allowedActions()->create([  'allowShow'     => false,
@@ -56,8 +56,18 @@ class PermissionGroupSeeder extends Seeder
                                         ]);
 
         $group=new PermissionGroup;
-        $group->group='WEBSITE';
+        $group->group='CONFIGURACIÓN';
         $group->priority=5;
+        $group->save();
+        $group->allowedActions()->create([  'allowShow'     => false,
+                                            'allowEdit'     => false,
+                                            'allowDelete'   => false,
+                                            'allowLock'     => false
+                                        ]);
+
+        $group=new PermissionGroup;
+        $group->group='WEBSITE';
+        $group->priority=6;
         $group->save();
         $group->allowedActions()->create([  'allowShow'     => false,
                                             'allowEdit'     => false,

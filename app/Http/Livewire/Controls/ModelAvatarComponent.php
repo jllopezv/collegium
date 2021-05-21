@@ -52,13 +52,13 @@ class ModelAvatarComponent extends Component
 
         if ($this->image)
         {
-            $this->savetemporary();
-            $this->emit('avatarupdated', $this->tempfilename);
+            $this->savetemporary(true);
+
         }
 
     }
 
-    public function savetemporary()
+    public function savetemporary($emitevent=false)
     {
         $filename=$this->image->getFileName();
         $this->ext=$this->image->getClientOriginalExtension();
@@ -69,6 +69,8 @@ class ModelAvatarComponent extends Component
         $this->tempavatar=$savedimage;
         Storage::disk(config('lopsoft.temp_disk'))->delete(config('lopsoft.temp_dir').'/'.$filename);
         $this->tempfilename=basename($savedimage);
+
+        if ($emitevent)  $this->emit('avatarupdated', $this->tempfilename, $this->ext);
     }
 
     public function rotateAvatar()
