@@ -2,7 +2,7 @@
 
 namespace App\Models\School;
 
-use App\Models\Traits\HasOwner;
+use App\Models\Crm\Employee;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use App\Models\School\SchoolBatch;
@@ -12,7 +12,7 @@ use App\Models\School\SchoolPeriod;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasAllowedActions;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Anno extends Model
 {
@@ -80,6 +80,11 @@ class Anno extends Model
     public function students()
     {
         return $this->belongsToMany(Student::class)->withPivot(['grade_id','section_id','batch_id','modality_id','priority'])->orderBy('priority');
+    }
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class)->withPivot(['priority','available'])->orderBy('priority');
     }
 
     /*******************************************/

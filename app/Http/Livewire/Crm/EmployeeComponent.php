@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Crm;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Aux\Country;
+use App\Models\Crm\Employee;
 use Livewire\WithPagination;
 use App\Models\Crm\EmployeeEmail;
 use App\Models\Crm\EmployeePhone;
@@ -12,8 +13,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\IsUserType;
+use App\Http\Livewire\Traits\HasPriority;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Livewire\Traits\HasAvailable;
 use App\Http\Livewire\Traits\WithModalAlert;
+use App\Http\Livewire\Traits\WithAnnoSupport;
 use App\Http\Livewire\Traits\WithUserProfile;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
@@ -21,15 +25,25 @@ use App\Http\Livewire\Traits\WithModalConfirm;
 
 class EmployeeComponent extends Component
 {
+    /* Common */
     use WithPagination;
     use HasCommon;
+
+    /* Messages */
     use WithFlashMessage;
     use WithAlertMessage;
     use WithModalAlert;
     use WithModalConfirm;
+
+    /* User */
     use IsUserType;
     use WithUserProfile;
     use HasAvatar;
+
+    /* Anno Support */
+    use HasPriority;
+    use HasAvailable;
+    use WithAnnoSupport;
 
     public $employee;
     public $address1;
@@ -81,6 +95,10 @@ class EmployeeComponent extends Component
         'eventsetuserprofileemail' => 'eventSetUserProfileEmail',
         'eventsetbirth'         => 'eventSetBirth',
 
+        /* Anno Support */
+        'activateRecordInAnnoAction' => 'activateRecordInAnnoAction',
+        'deactivateRecordInAnnoAction' => 'deactivateRecordInAnnoAction',
+
         /* Dates */
         'eventsetbirth'         => 'eventSetBirth',
         'eventsethired'         => 'eventSetHired',
@@ -91,6 +109,9 @@ class EmployeeComponent extends Component
 
         // UserProfile
         'eventEmailsTableUpdatedEmails'     => 'eventSetEmails',
+
+        /* Filters */
+        'eventfiltertype'     => 'eventFilterType',
 
 
     ];
@@ -119,6 +140,9 @@ class EmployeeComponent extends Component
 
         /* Avatar */
         $this->avatar_prefix='employee';
+
+        // Filter and sorts
+        $this->canShowFilterButton=true;
 
 
    }
@@ -154,6 +178,10 @@ class EmployeeComponent extends Component
 
         $this->degree='';
         $this->salary='0.0';
+
+        $anno=getUserAnnoSession();
+        $employees=$anno->employees;
+        $this->priority=max(count($employees), $employees->max('pivot.priority'))+1;
 
         // Userprofile
         $this->userProfileClear();
@@ -508,6 +536,64 @@ class EmployeeComponent extends Component
         {
             $this->hired=getDateFromFormat($date);
         }
+    }
+
+    /**
+     * Filters
+     */
+
+    public function eventFilterType($type_id)
+    {
+        $this->type_id=$type_id;
+        $this->filterdata='';
+
+        if ($this->type_id!='*')
+        {
+            $this->filterdata=' employee_type_id='.$type_id;
+        }
+    }
+
+    public function setDataFilter()
+    {
+
+        if ($this->filterdata!='')
+        {
+
+            $this->data->whereRaw( $this->filterdata );
+        }
+    }
+
+
+    /**
+     * Anno Support
+     */
+
+    public function forceGetQueryData($ret)
+    {
+
+        if ($this->showOnlyAnno)
+        {
+            $subset=getUserAnnoSession()->employees();
+        }
+        else
+        {
+            $subset=Employee::query();
+            $this->resetFilter();
+        }
+        return $this->annoSupportForceGetQueryData($ret, $subset );
+    }
+
+    public function activateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $item=$this->model::find($id);
+        $anno->employees()->attach($id);
+    }
+
+    public function deactivateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $anno->employees()->detach($id);
     }
 
 

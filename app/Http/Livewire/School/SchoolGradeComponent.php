@@ -215,14 +215,23 @@ class SchoolGradeComponent extends Component
 
     public function forceGetQueryData($ret)
     {
-        return $this->annoSupportForceGetQueryData($ret, getUserAnnoSession()->schoolGrades() );
+        if ($this->showOnlyAnno)
+        {
+            $subset=getUserAnnoSession()->schoolGrades();
+        }
+        else
+        {
+            $subset=SchoolGrade::query();
+            $this->resetFilter();
+        }
+        return $this->annoSupportForceGetQueryData($ret, $subset );
     }
 
     public function activateRecordInAnnoAction($id)
     {
         $anno=getUserAnnoSession();
         $item=$this->model::find($id);
-        $anno->schoolGrades()->attach([$id => ['priority' => $item->annos->last()->pivot->priority??1]]);
+        $anno->schoolGrades()->attach($id);
     }
 
     public function deactivateRecordInAnnoAction($id)

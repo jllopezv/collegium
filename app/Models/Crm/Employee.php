@@ -2,13 +2,16 @@
 
 namespace App\Models\Crm;
 
+use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
+use App\Models\Crm\EmployeeEmail;
 use App\Models\Crm\EmployeePhone;
 use App\Models\Traits\IsUserType;
+use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
-use App\Models\Crm\EmployeeEmail;
+use App\Models\Traits\HasAvailable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
@@ -21,6 +24,9 @@ class Employee extends Model
     use HasAbilities;
     use HasAllowedActions;
     use IsUserType;
+    use HasAnno;
+    use HasPriority;
+    use HasAvailable;
 
 
     /*******************************************/
@@ -59,6 +65,36 @@ class Employee extends Model
     /* Accessors and mutators
     /*******************************************/
 
+    public function getPriorityAttribute()
+    {
+        $anno=getUserAnnoSession();
+        $grade=$anno->employees->where('id', $this->id)->first();
+        if ($grade==null) return 0;
+        return $grade->pivot->priority;
+    }
+
+    public function setPriorityAttribute($value)
+    {
+        $anno=getUserAnnoSession();
+        $anno->employees()->updateExistingPivot($this->id, ['priority' => $value]);
+    }
+
+    public function getAvailableAttribute()
+    {
+
+        $anno=getUserAnnoSession();
+        $grade=$anno->employees->where('id', $this->id)->first();
+        if ($grade==null) return null;
+        return $grade->pivot->available;
+
+    }
+
+    public function setAvailableAttribute($value)
+    {
+        $anno=getUserAnnoSession();
+        $anno->employees()->updateExistingPivot($this->id, ['available' => $value]);
+    }
+
     /**
      * Get Avatar, if not exists return defaul avatar
      *
@@ -85,7 +121,7 @@ class Employee extends Model
     {
         $type=EmployeeType::find($this->employee_type_id);
         if ($type==null) return null;
-        return EmployeeType::find($this->employee_type_id)->first();
+        return $type;
     }
 
     /**

@@ -201,14 +201,23 @@ class SchoolSectionComponent extends Component
 
     public function forceGetQueryData($ret)
     {
-        return $this->annoSupportForceGetQueryData($ret, getUserAnnoSession()->schoolSections() );
+        if ($this->showOnlyAnno)
+        {
+            $subset=getUserAnnoSession()->schoolSections();
+        }
+        else
+        {
+            $subset=SchoolSection::query();
+            $this->resetFilter();
+        }
+        return $this->annoSupportForceGetQueryData($ret, $subset );
     }
 
     public function activateRecordInAnnoAction($id)
     {
         $anno=getUserAnnoSession();
         $item=$this->model::find($id);
-        $anno->schoolSections()->attach([$id => ['priority' => $item->annos->last()->pivot->priority??1]]);
+        $anno->schoolSections()->attach($id);
     }
 
     public function deactivateRecordInAnnoAction($id)

@@ -529,6 +529,11 @@ Trait HasCommon
         $this->emit('getvalue', '*');
     }
 
+    public function initFilter()
+    {
+
+    }
+
     public function resetFilter()
     {
         $this->filterdata='';

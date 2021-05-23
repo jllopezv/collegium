@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Traits;
 Trait HasAvailable
 {
 
-    public $available;
+    public $available=true;
 
     public function available($id)
     {

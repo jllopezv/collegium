@@ -133,20 +133,29 @@ class SchoolModalityComponent extends Component
 
 
 
-    /**
+        /**
      * Anno Support
      */
 
     public function forceGetQueryData($ret)
     {
-        return $this->annoSupportForceGetQueryData($ret, getUserAnnoSession()->schoolModalities() );
+        if ($this->showOnlyAnno)
+        {
+            $subset=getUserAnnoSession()->schoolModalities();
+        }
+        else
+        {
+            $subset=SchoolModality::query();
+            $this->resetFilter();
+        }
+        return $this->annoSupportForceGetQueryData($ret, $subset );
     }
 
     public function activateRecordInAnnoAction($id)
     {
         $anno=getUserAnnoSession();
         $item=$this->model::find($id);
-        $anno->schoolModalities()->attach([$id => ['priority' => $item->annos->last()->pivot->priority??1 ]]);
+        $anno->schoolModalities()->attach($id);
     }
 
     public function deactivateRecordInAnnoAction($id)
