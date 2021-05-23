@@ -131,6 +131,20 @@ use App\Models\Setting\AppSetting;
         }
     }
 
+    if (! function_exists('getHiredTime')) {
+
+        /**
+         * getDate
+         *
+         * @param  Carbon $carbondate
+         * @return void
+         */
+        function getHiredTime( $carbondate )
+        {
+            return $carbondate->diff(\Carbon\Carbon::now())->format('%y '.transup('years'). ' %m '.transup('months'). ' %d '.transup('days'));
+        }
+    }
+
     if (! function_exists('getAgo')) {
 
         /**

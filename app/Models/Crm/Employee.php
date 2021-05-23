@@ -81,6 +81,13 @@ class Employee extends Model
         return Storage::disk('public')->url( 'thumbs/'.$this->profile_photo_path );
     }
 
+    public function getTypeAttribute()
+    {
+        $type=EmployeeType::find($this->employee_type_id);
+        if ($type==null) return null;
+        return EmployeeType::find($this->employee_type_id)->first();
+    }
+
     /**
      * Set avatar path for user
      *

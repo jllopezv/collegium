@@ -12,6 +12,7 @@ class ModelAvatarComponent extends Component
 {
     use WithFileUploads;
 
+    public $tempfoldername='';
     public $canmodify=false;    // Can click on image to change
     public $mode;               // Mode
     public $preview=null;       // URL to show
@@ -22,9 +23,16 @@ class ModelAvatarComponent extends Component
 
     public function mount()
     {
-        //$this->foldertemp=uniqid()."-".now()->format('H-m-s');
+        $this->tempfoldername=uniqid()."-".now()->format('H-m-s');
         if ($this->preview==null) $this->preview=$this->getDefaultAvatar();
         $this->tempavatar=$this->avatarpath;
+        //Storage::disk(config('lopsoft.temp_disk'))->makeDirectory(config('lopsoft.temp_dir').'/'.$this->tempfoldername);
+
+        if ($this->mode=='edit')
+        {
+            if (!Storage::disk('public')->exists(config('lopsoft.temp_dir').'/'.basename($this->tempavatar))) Storage::disk('public')->copy($this->tempavatar,config('lopsoft.temp_dir').'/'.basename($this->tempavatar));
+            $this->tempavatar=config('lopsoft.temp_dir').'/'.basename($this->tempavatar);
+        }
     }
 
     public function resetAvatar()
@@ -48,7 +56,7 @@ class ModelAvatarComponent extends Component
             'image' => 'nullable|image|mimes:jpg,gif,jpeg,bmp,png|file|max:'.config('lopsoft.avatar_max_size')
         ]);
 
-        if (Storage::disk(config('lopsoft.temp_disk'))->exists($this->tempavatar)) Storage::disk(config('lopsoft.temp_disk'))->delete($this->tempavatar);
+        if (Storage::disk(config('lopsoft.temp_disk'))->exists(config('lopsoft.temp_dir').'/'.$this->tempavatar)) Storage::disk(config('lopsoft.temp_disk'))->delete(config('lopsoft.temp_dir').'/'.$this->tempavatar);
 
         if ($this->image)
         {
@@ -62,7 +70,7 @@ class ModelAvatarComponent extends Component
     {
         $filename=$this->image->getFileName();
         $this->ext=$this->image->getClientOriginalExtension();
-        $savedimage=$this->image->store(config('lopsoft.temp_dir').$this->foldertemp,config('lopsoft.temp_disk'));
+        $savedimage=$this->image->store( config('lopsoft.temp_dir').$this->foldertemp,config('lopsoft.temp_disk') );
         $handlerimg=Image::make($this->image->getRealPath())->fit(300);
         $ret=$handlerimg->save(Storage::disk(config('lopsoft.temp_disk'))->path($savedimage));
         $this->preview=Storage::disk(config('lopsoft.temp_disk'))->url($savedimage);
@@ -85,7 +93,7 @@ class ModelAvatarComponent extends Component
             $handle->rotate(90);
             $handle->save(Storage::disk($disk)->path($path.$basename));
             Storage::disk($disk)->delete($this->tempavatar);
-            $this->tempavatar=$path.$basename;
+            $this->tempavatar=$path.$basename; // $this->tempavatar=$path.$basename;
         }
         catch(\Exception $e)
         {
@@ -95,7 +103,7 @@ class ModelAvatarComponent extends Component
         }
 
         $this->preview=Storage::disk($disk)->url($path.$basename);
-        $this->emit('avatarupdated', $path.$basename);
+        $this->emit('avatarupdated', $basename,'jpg'); // $this->emit('avatarupdated', $path.$basename);
 
     }
 

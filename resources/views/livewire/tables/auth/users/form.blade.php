@@ -1,6 +1,6 @@
 <div class='flex flex-wrap items-center justify-center'>
     <div class='self-start w-full lg:w-1/3'>
-        @include('livewire.partials.avatar' , [ 'canmodify' => ($mode=='edit' || $mode=='create')?true:false ])
+        @include('livewire.partials.modelavatar' , [ 'canmodify' => ($mode=='edit' || $mode=='create')?true:false ])
     </div>
     <div class='w-full lg:w-2/3'>
 

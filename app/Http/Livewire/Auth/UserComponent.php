@@ -52,8 +52,15 @@ class UserComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
-        'avatarupdated'        => 'avatarUpdated',
-        'useravatarreset'       => 'clearAvatar',
+
+        /* Avatar */
+        //'avatarupdated'         => 'avatarUpdated',
+        //'useravatarreset'       => 'clearAvatar',
+
+        /* Avatar */
+        'avatarupdated'         => 'avatarUpdated',
+        'avatarreset'           => 'clearAvatar',
+
         'eventsetrole'          => 'eventSetRole',
         'eventsettimezone'      => 'eventSetTimezone',
         'eventsetcountry'       => 'eventSetCountry',

@@ -1,6 +1,6 @@
 <div class='flex flex-wrap items-center justify-center'>
     <div class='self-start w-full lg:w-1/4'>
-        @include('livewire.partials.employeeavatar' , [
+        @include('livewire.partials.modelavatar' , [
             'canmodify' => ($mode=='edit' || $mode=='create')?true:false
             ])
     </div>
@@ -50,7 +50,7 @@
             'id'                =>  'hired',
             'modelid'           =>  'hired',
             'label'             =>  transup('hired'),
-            'defaultvalue'      =>  getDateString(Carbon\Carbon::now()),
+            'defaultvalue'      =>  getDateString($this->hired),
             'uid'               =>  'hiredcomponent',
             'eventname'         =>  'eventsethired',
         ])
@@ -163,7 +163,7 @@
                     'id'                =>  'birth',
                     'modelid'           =>  'birth',
                     'label'             =>  transup('birth'),
-                    'defaultvalue'      =>  getDateString(getDateFromDate(1974,1,1)),
+                    'defaultvalue'      =>  getDateString($this->birth),
                     'uid'               =>  'birthcomponent',
                     'eventname'         =>  'eventsetbirth',
                 ])
@@ -197,9 +197,11 @@
                     x-ref='salary'
                     label="{{ transup('salary') }}"
                     autofocus
+                    class='text-right'
                     classcontainer='w-80'
                     mode="{{ $mode }}"
                     nextref='employee'
+                    sufix='RD$'
                 />
             </div>
 

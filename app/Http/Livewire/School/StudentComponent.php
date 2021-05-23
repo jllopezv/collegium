@@ -92,6 +92,7 @@ class StudentComponent extends Component
 
         /*Avatar*/
         'avatarupdated'         => 'avatarUpdated',
+        'avatarreset'           => 'clearAvatar',
 
         /*Events*/
 

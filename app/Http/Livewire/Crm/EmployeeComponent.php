@@ -81,8 +81,13 @@ class EmployeeComponent extends Component
         'eventsetuserprofileemail' => 'eventSetUserProfileEmail',
         'eventsetbirth'         => 'eventSetBirth',
 
-        /*Avatar*/
+        /* Dates */
+        'eventsetbirth'         => 'eventSetBirth',
+        'eventsethired'         => 'eventSetHired',
+
+        /* Avatar */
         'avatarupdated'         => 'avatarUpdated',
+        'avatarreset'           => 'clearAvatar',
 
         // UserProfile
         'eventEmailsTableUpdatedEmails'     => 'eventSetEmails',
@@ -101,7 +106,7 @@ class EmployeeComponent extends Component
         $this->module='crm';
         $this->commonMount();
         $this->multiple=true;
-        $this->avatar_prefix='employee';
+
         // Default order for table
         $this->sortorder='id';
         if ($this->mode=='create')
@@ -111,6 +116,9 @@ class EmployeeComponent extends Component
             $this->phones[]=$this->phone;
             $this->emails[]=$this->email;
         }
+
+        /* Avatar */
+        $this->avatar_prefix='employee';
 
 
    }
@@ -210,7 +218,7 @@ class EmployeeComponent extends Component
     public function validateFields()
     {
         return [
-            'employee'               =>  $this->employee,
+            'employee'               => $this->employee,
             'address1'               => $this->address1,
             'address2'               => $this->address2,
             'city'                   => $this->city,
@@ -219,7 +227,8 @@ class EmployeeComponent extends Component
             'notes'                  => $this->notes,
             'degree'                 => $this->degree,
             'salary'                 => $this->salary,
-            'profile_photo_path'    =>  $this->profile_photo_path,
+            'profile_photo_path'     => $this->profile_photo_path,
+
         ];
     }
 
@@ -245,6 +254,8 @@ class EmployeeComponent extends Component
             'degree'                 => $this->degree,
             'salary'                 => $this->salary,
             'profile_photo_path'     => $this->profile_photo_path,
+            'hired'                  => $this->hired,
+            'birth'                  => $this->birth,
        ];
     }
 
@@ -489,6 +500,14 @@ class EmployeeComponent extends Component
             $this->age=getAge($this->birth);
         }
 
+    }
+
+    public function eventSetHired($date)
+    {
+        if ($date!=null)
+        {
+            $this->hired=getDateFromFormat($date);
+        }
     }
 
 

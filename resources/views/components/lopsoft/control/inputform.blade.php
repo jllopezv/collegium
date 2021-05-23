@@ -14,6 +14,7 @@
     'mode'          =>  'create',
     'value'         =>  '',
     'classcomponent' => '',
+    'sufix'         =>  '',
 ])
 
 <div class='{{ $label!=""?'py-4':''}} {{ $classcomponent }}'>
@@ -45,7 +46,7 @@
         errormsg="{{ $errors->has($id)?($errors->get($id))[0]:'' }}"
     >
 
-    {{ $slot }}
+    {!! $slot !!}{!! $sufix !!}
 
     </x-lopsoft.control.input>
 </div>
