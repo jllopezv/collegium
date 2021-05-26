@@ -38,6 +38,8 @@ class SchoolPeriodComponent extends Component
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
         'eventfilterorder'      => 'eventFilterOrder',
+
+        // Anno Support
         'activateRecordInAnnoAction' => 'activateRecordInAnnoAction',
         'deactivateRecordInAnnoAction' => 'deactivateRecordInAnnoAction',
 

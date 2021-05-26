@@ -168,6 +168,7 @@ Trait HasCommon
             'numeric'   =>  'DEBE INTRODUCIR UN NÚMERO',
             'date'      =>  'LA FECHA NO ES CORRECTA',
             'email'     =>  'EL CORREO ELECTRÓNICO NO ES VÁLIDO',
+            'after'     =>  'LA FECHA DE FIN DEBE SER POSTERIOR A LA DE COMIENZO',
         ];
     }
 

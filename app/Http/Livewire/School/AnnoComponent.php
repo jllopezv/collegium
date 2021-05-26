@@ -24,6 +24,17 @@ class AnnoComponent extends Component
     public  $anno_start;
     public  $anno_end;
     public  $current=false;
+    public  $process=[
+        'anno_id'       =>  0,
+        'periods'       =>  true,
+        'levels'        =>  true,
+        'grades'        =>  true,
+        'sections'      =>  true,
+        'batches'       =>  true,
+        'modalities'    =>  true,
+        'subjects'      =>  true,
+        'employees'     =>  true,
+    ];
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -32,8 +43,9 @@ class AnnoComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
-        'eventsetstart'         => 'eventSetStart',
-        'eventsetend'           => 'eventSetEnd',
+        'eventsetannostart'     => 'eventSetStart',
+        'eventsetannoend'       => 'eventSetEnd',
+        'eventsetanno'          => 'eventSetProcessAnno',
     ];
 
     /**
@@ -64,6 +76,8 @@ class AnnoComponent extends Component
     {
         return [
             'anno'              => 'required|string|max:255|unique:annos,anno,'.$this->recordid,
+            'anno_start'        => 'required|date',
+            'anno_end'          => 'required|date|after:anno_start'
         ];
     }
 
@@ -135,6 +149,8 @@ class AnnoComponent extends Component
         {
             $this->anno_end=getDateFromFormat($date);
         }
+
+
     }
 
     public function setCurrent($id)
@@ -159,6 +175,128 @@ class AnnoComponent extends Component
     public function showStudentsAnno($id)
     {
         return redirect()->route('showstudentsanno', ['id' => $id]);
+    }
+
+    public function eventSetProcessAnno($anno_id)
+    {
+        $this->process['anno_id']=$anno_id;
+    }
+
+    public function postStore($recordstored)
+    {
+        if ($this->process['anno_id']==0) return;
+
+        /* Process */
+        $anno=Anno::where('id',$this->process['anno_id'])->first();
+        if ($anno==null) return;
+
+        // Periods
+        if ($this->process['periods'])
+        {
+            foreach($anno->schoolPeriods as $record)
+            {
+                $recordstored->schoolPeriods()->attach([$record->id =>
+                [
+                    'priority'  =>  $record->pivot->priority,
+                    'available' =>  $record->pivot->available,
+                ]]);
+            }
+        }
+
+        // Levels
+        if ($this->process['levels'])
+        {
+            foreach($anno->schoolLevels as $record)
+            {
+                $recordstored->schoolLevels()->attach([$record->id =>
+                [
+                    'priority'  =>  $record->pivot->priority,
+                    'available' =>  $record->pivot->available,
+                ]]);
+            }
+        }
+
+        // Grades
+        if ($this->process['grades'])
+        {
+            foreach($anno->schoolGrades as $record)
+            {
+                $recordstored->schoolGrades()->attach([$record->id =>
+                [
+                    'priority'  =>  $record->pivot->priority,
+                    'available' =>  $record->pivot->available,
+                ]]);
+            }
+        }
+
+        // Sections
+        if ($this->process['sections'])
+        {
+            foreach($anno->schoolSections as $record)
+            {
+                $recordstored->schoolSections()->attach([$record->id =>
+                [
+                    'priority'  =>  $record->pivot->priority,
+                    'available' =>  $record->pivot->available,
+                ]]);
+            }
+        }
+
+        // Batches
+        if ($this->process['batches'])
+        {
+            foreach($anno->schoolBatches as $record)
+            {
+                $recordstored->schoolBatches()->attach([$record->id =>
+                [
+                    'priority'  =>  $record->pivot->priority,
+                    'available' =>  $record->pivot->available,
+                ]]);
+            }
+        }
+
+        // Modalities
+        if ($this->process['modalities'])
+        {
+            foreach($anno->schoolModalities as $record)
+            {
+                $recordstored->schoolModalities()->attach([$record->id =>
+                [
+                    'priority'  =>  $record->pivot->priority,
+                    'available' =>  $record->pivot->available,
+                ]]);
+            }
+        }
+
+        // Subjects
+        if ($this->process['subjects'])
+        {
+            foreach($anno->schoolSubjects as $record)
+            {
+                $recordstored->schoolSubjects()->attach([$record->id =>
+                [
+                    'priority'  =>  $record->pivot->priority,
+                    'available' =>  $record->pivot->available,
+                    'grade_id'  =>  $record->pivot->grade_id,
+                    'period_id' =>  $record->pivot->period_id,
+                ]]);
+            }
+        }
+
+        // Employees
+        if ($this->process['employees'])
+        {
+            foreach($anno->employees as $record)
+            {
+                $recordstored->employees()->attach([$record->id =>
+                [
+                    'priority'  =>  $record->pivot->priority,
+                    'available' =>  $record->pivot->available,
+                ]]);
+            }
+        }
+
+
     }
 
 

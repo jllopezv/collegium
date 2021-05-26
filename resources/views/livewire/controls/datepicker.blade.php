@@ -27,19 +27,22 @@
                     </div>
                 @endif
             </div>
-            @if($requiredfield && !$readonly)
-                <div class='cursor-pointer tooltip'>
-                    <i class='text-red-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
-                    @if($help!='')
-                        <span class='tooltiptext tooltiptext-down-left'>
-                            {!! $help !!}
-                        </span>
-                    @endif
+            @if($validationerror=='')
+                @if($requiredfield && !$readonly)
+                    <div class="cursor-pointer tooltip" onclick="ShowInfo('{!! $help !!}')">
+                        <i class='text-blue-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
+                        @if($help!='')
+                            <span class='tooltiptext tooltiptext-down-left'>
+                                {!! $help !!}
+                            </span>
+                        @endif
+                    </div>
+                @endif
+            @else
+                <div onclick="ShowError('{!! $validationerror !!}')">
+                    <i class='text-red-400 cursor-pointer fa fa-exclamation-triangle fa-fw fa-xs'></i>
                 </div>
             @endif
-        </div>
-        <div>
-            <span class='text-red-500'>{{ $validationerror }}</span>
         </div>
         @if($showcontent)
             <div @click.away='$wire.hidebody()' class='absolute border border-gray-300  rounded-lg z-10

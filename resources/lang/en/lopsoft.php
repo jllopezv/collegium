@@ -196,6 +196,7 @@ return [
     'schoolgrade'           =>  'school grade',
     'annos'                 =>  'years',
     'schoolsubject'         =>  'subject',
+    'schoolsubjects'        =>  'subject',
     'enroll'                =>  'enroll',
     'unenroll'              =>  'unenroll',
     'abbreviation'          =>  'abbreviation',
@@ -208,4 +209,5 @@ return [
     'fired'                 =>  'fired',
     'degree'                =>  'academic degree',
     'salary'                =>  'salary',
+    'fromyear'              =>  'from year,'
 ];

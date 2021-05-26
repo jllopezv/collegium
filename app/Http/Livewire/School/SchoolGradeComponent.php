@@ -40,6 +40,10 @@ class SchoolGradeComponent extends Component
         'eventsetlevel'         => 'eventSetLevel',
         'eventfilterlevel'      => 'eventFilterLevel',
         'eventfilterorder'      => 'eventFilterOrder',
+
+        // Anno Support
+        'activateRecordInAnnoAction' => 'activateRecordInAnnoAction',
+        'deactivateRecordInAnnoAction' => 'deactivateRecordInAnnoAction',
     ];
 
     /**
