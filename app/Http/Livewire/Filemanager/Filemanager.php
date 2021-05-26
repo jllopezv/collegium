@@ -57,6 +57,7 @@ class Filemanager extends Component
     public $previewImage=null;
     public $previewImageHeight='';
     public $previewImageWidth='';
+    public $use_userid=true;
 
     protected $listeners = [
         'showFilemanager' => 'open',
@@ -117,6 +118,7 @@ class Filemanager extends Component
 
     public function getUserFolder()
     {
+        if (!$this->use_userid) return '';
         $userid=Auth::user()->id;
         if ( Auth::user()->level==1 ) $userid='';
         return $userid;

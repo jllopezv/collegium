@@ -16,6 +16,7 @@ use App\Http\Livewire\Traits\IsUserType;
 use App\Http\Livewire\Traits\HasPriority;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Livewire\Traits\HasAvailable;
+use App\Http\Livewire\Traits\HasDocuments;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithAnnoSupport;
 use App\Http\Livewire\Traits\WithUserProfile;
@@ -44,6 +45,9 @@ class EmployeeComponent extends Component
     use HasPriority;
     use HasAvailable;
     use WithAnnoSupport;
+
+    /* Documents */
+    use HasDocuments;
 
     public $employee;
     public $address1;
@@ -113,6 +117,12 @@ class EmployeeComponent extends Component
         /* Filters */
         'eventfiltertype'     => 'eventFilterType',
 
+        /* Documents */
+        'document-documentadded'      => 'documentAdded',
+        'document-documentupdated'    => 'documentUpdated',
+        'document-documentdeleted'    => 'documentDeleted',
+        'document-refresh'            => 'documentRefresh',
+
 
     ];
 
@@ -143,6 +153,10 @@ class EmployeeComponent extends Component
 
         // Filter and sorts
         $this->canShowFilterButton=true;
+
+        // Documents
+        $this->documentscomponent='document-employees';
+        $this->documents_root='documents/employees';
 
 
    }

@@ -2,16 +2,17 @@
 
 namespace App\Models\School;
 
+use App\Models\Aux\Document;
 use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use App\Models\Traits\IsUserType;
+use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
-use App\Models\Traits\HasPriority;
 
 class Student extends Model
 {
@@ -69,6 +70,16 @@ class Student extends Model
     public function parents()
     {
         return $this->belongsToMany(SchoolParent::class,'school_parent_student')->withPivot('relationship');
+    }
+
+    /**
+     * Get all of the models's documents.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
     }
 
 

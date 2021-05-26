@@ -149,6 +149,7 @@
     <x-slot name='tabs'>
         <x-lopsoft.control.tabs-index title='USUARIO' index='1'></x-lopsoft.control.tabs-index>
         <x-lopsoft.control.tabs-index title='DATOS' index='2'></x-lopsoft.control.tabs-index>
+        <x-lopsoft.control.tabs-index title='DOCUMENTOS' index='3'></x-lopsoft.control.tabs-index>
     </x-slot>
     <x-slot name='tabscontent'>
         <x-lopsoft.control.tabs-content index='1'>
@@ -205,6 +206,27 @@
                 />
             </div>
 
+        </x-lopsoft.control.tabs-content>
+        <x-lopsoft.control.tabs-content index='3'>
+
+            @if($mode=='create')
+                <div>
+                    <span class='font-bold text-red-400'>DEBE CREAR PRIMERO AL EMPLEADO PARA PODER ASIGNARLE DOCUMENTOS</span>
+                </div>
+            @else
+                <div class='mt-4'>
+                    @livewire('controls.document-list-component', [
+
+                        'documentable_type' =>  \App\Models\Crm\Employee::class,
+                        'documentable_id'   =>  $record->id??null,
+                        'mode'              =>  $mode,
+                        'table'             =>  'documents',
+                        'uuid'              =>  'document-employees',
+                        'record'            =>  $record,
+                        'documents_root'    =>  $documents_root,
+                    ])
+                </div>
+            @endif
         </x-lopsoft.control.tabs-content>
     </x-slot>
 </x-lopsoft.control.tabs>

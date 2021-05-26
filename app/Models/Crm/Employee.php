@@ -2,6 +2,7 @@
 
 namespace App\Models\Crm;
 
+use App\Models\Aux\Document;
 use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
@@ -59,6 +60,16 @@ class Employee extends Model
     public function emails()
     {
         return $this->hasMany(EmployeeEmail::class,'employee_id');
+    }
+
+    /**
+     * Get all of the models's documents
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
     }
 
     /*******************************************/

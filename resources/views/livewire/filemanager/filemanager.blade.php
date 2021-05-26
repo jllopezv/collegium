@@ -47,11 +47,11 @@
                             {{-- <div>UUID: {{ $uuid }}</div> --}}
                             <div><i class='fa fa-user'></i> {{ Auth::user()->username }}</div>
                             <div><i class='fa fa-folder'></i> {{ $dir }}</div>
-                            {{-- <div> Root: {{ $root }}</div>
+                            {{--<div> Root: {{ $root }}</div>
                             <div> currentdir: {{ $currentdir }}</div>
                             <div> path: {{ $path }}</div>
                             <div> dir: {{ $dir }}</div>
-                            <div> getPath: {{ $root.$path.$dir }}</div> --}}
+                            <div> getPath: {{ $root.$path.$dir }}</div>--}}
                         </div>
                         <div class='pt-1 text-right'>
                             <i @click='$refs.filemanager_selectfile.click()' class='mr-2 text-indigo-300 fas fa-cloud-upload-alt fa-lg fa-fw'></i>

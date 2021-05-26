@@ -7,13 +7,16 @@ use App\Models\User;
 use Livewire\Component;
 use App\Lopsoft\LopHelp;
 use Illuminate\Support\Str;
+use App\Models\Aux\Document;
 use Livewire\WithPagination;
 use App\Models\School\Student;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
 use App\Models\School\SchoolParent;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
+use App\Http\Livewire\Traits\HasDocuments;
 use Illuminate\Support\Facades\Session;
 use App\Http\Livewire\Traits\IsUserType;
 use App\Http\Livewire\Traits\HasPriority;
@@ -25,16 +28,26 @@ use App\Http\Livewire\Traits\WithModalConfirm;
 
 class StudentComponent extends Component
 {
+    /* Common */
     use WithPagination;
     use HasCommon;
+
+    /* User */
     use HasAvatar;
+    use IsUserType;
+    use WithUserProfile;
+
+    /* Messages */
     use WithFlashMessage;
     use WithAlertMessage;
     use WithModalAlert;
     use WithModalConfirm;
-    use IsUserType;
+
+    /* Anno Support */
     use HasPriority;
-    use WithUserProfile;
+
+    /* Documents */
+    use HasDocuments;
 
     public  $exp;
     public  $names;
@@ -54,12 +67,12 @@ class StudentComponent extends Component
 
     private $avatarfolder='students-photos';
 
-
     public  $studentname;
     public  $username;
     public  $checkedEmail=false;
     public  $validEmail=false;
     public  $infoParent=null;
+
 
     // Filters
 
@@ -115,6 +128,12 @@ class StudentComponent extends Component
         'parentdialogclosed'    => 'parentDialogClosed',
         'dropdownupdated'       => 'dropdownUpdated',
         'selecteddropdown'      => 'selectedDropdown',
+
+        /* Documents */
+        'document-documentadded'      => 'documentAdded',
+        'document-documentupdated'    => 'documentUpdated',
+        'document-documentdeleted'    => 'documentDeleted',
+        'document-refresh'            => 'documentRefresh',
     ];
 
     /**
@@ -141,6 +160,10 @@ class StudentComponent extends Component
         // Filter and sorts
         $this->canShowFilterButton=true;
         $this->canShowSortButton=true;
+
+        // Documents
+        $this->documentscomponent='document-students';
+        $this->documents_root='documents/students';
 
     }
 
@@ -754,6 +777,4 @@ class StudentComponent extends Component
             $this->emit('setfilterraw','sectioncomponent','grade_id='.$value);
         }
     }
-
-
 }
