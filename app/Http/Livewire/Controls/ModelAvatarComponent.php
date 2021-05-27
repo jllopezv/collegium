@@ -12,6 +12,10 @@ class ModelAvatarComponent extends Component
 {
     use WithFileUploads;
 
+    protected $listeners=[
+        'modelavatarreset'   =>  'resetAvatar',
+    ];
+
     public $tempfoldername='';
     public $canmodify=false;    // Can click on image to change
     public $mode;               // Mode
@@ -42,7 +46,7 @@ class ModelAvatarComponent extends Component
         $this->preview=$this->getDefaultAvatar();
         $this->image=null;
         $this->tempavatar=null;
-        $this->emit('avatarreset');
+        //$this->emit('avatarreseted');
     }
 
     public function getDefaultAvatar()

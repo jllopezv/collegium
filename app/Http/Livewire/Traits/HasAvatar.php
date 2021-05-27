@@ -70,7 +70,7 @@ Trait HasAvatar
      */
     public function resetAvatar()
     {
-        $this->emit('avatarreset');
+        $this->emit('modelavatarreset');
         $this->tempavatar=null;
     }
 

@@ -109,7 +109,6 @@ class EmployeeComponent extends Component
 
         /* Avatar */
         'avatarupdated'         => 'avatarUpdated',
-        'avatarreset'           => 'clearAvatar',
 
         // UserProfile
         'eventEmailsTableUpdatedEmails'     => 'eventSetEmails',

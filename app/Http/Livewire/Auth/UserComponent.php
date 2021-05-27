@@ -54,12 +54,7 @@ class UserComponent extends Component
         'actionUnLockBatch'     => 'actionUnLockBatch',
 
         /* Avatar */
-        //'avatarupdated'         => 'avatarUpdated',
-        //'useravatarreset'       => 'clearAvatar',
-
-        /* Avatar */
         'avatarupdated'         => 'avatarUpdated',
-        'avatarreset'           => 'clearAvatar',
 
         'eventsetrole'          => 'eventSetRole',
         'eventsettimezone'      => 'eventSetTimezone',
@@ -133,14 +128,6 @@ class UserComponent extends Component
         $this->emit('setvalue', 'rolecomponent', null);
         $this->resetAvatar();
     }
-
-    public function clearAvatar()
-    {
-        Storage::disk('public')->delete($this->profile_photo_path);
-        $this->profile_photo_path=null;
-        $this->resetAvatar();
-    }
-
 
 
     public function saveRecord()
