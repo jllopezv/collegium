@@ -10,8 +10,8 @@ use App\Models\Traits\HasCommon;
 use App\Models\Traits\IsUserType;
 use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
+use App\Models\Traits\HasModelAvatar;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
 
 class Student extends Model

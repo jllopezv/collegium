@@ -5,7 +5,7 @@
             @livewire('controls.model-avatar-component', ['mode' => $mode, 'canmodify'=>$canmodify, 'preview' => $avatar, 'avatarpath' => $profile_photo_path])
             <div class='mt-4 text-center'>
                 <div class=''>
-                    <span class='font-bold text-gray-500'>{{ $exp }} </span>
+                    <span class='font-bold text-gray-500'>{{ $exp!='-'?$exp:'' }} </span>
                 </div>
                 <div class=''>
                     <span class='text-sm text-gray-400'>{{ $studentname }} </span>

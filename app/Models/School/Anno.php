@@ -3,6 +3,7 @@
 namespace App\Models\School;
 
 use App\Models\Crm\Employee;
+use App\Models\School\Teacher;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use App\Models\School\SchoolBatch;
@@ -85,6 +86,11 @@ class Anno extends Model
     public function employees()
     {
         return $this->belongsToMany(Employee::class)->withPivot(['priority','available'])->orderBy('priority');
+    }
+
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class)->withPivot(['priority','available'])->orderBy('priority');
     }
 
     /*******************************************/

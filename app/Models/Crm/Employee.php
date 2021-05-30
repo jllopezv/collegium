@@ -24,11 +24,17 @@ class Employee extends Model
     use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
+
+    /* Profile */
     use IsUserType;
+
+    /* Has Avatar */
+    use HasModelAvatar;
+
+    /* Anno Support */
     use HasAnno;
     use HasPriority;
     use HasAvailable;
-    use HasModelAvatar;
 
 
     /*******************************************/

@@ -2,24 +2,19 @@
 
 namespace App\Http\Livewire\School;
 
-use Carbon\Carbon;
-use App\Models\User;
 use Livewire\Component;
 use App\Lopsoft\LopHelp;
 use Illuminate\Support\Str;
-use App\Models\Aux\Document;
 use Livewire\WithPagination;
 use App\Models\School\Student;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
 use App\Models\School\SchoolParent;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
-use App\Http\Livewire\Traits\HasDocuments;
-use Illuminate\Support\Facades\Session;
 use App\Http\Livewire\Traits\IsUserType;
 use App\Http\Livewire\Traits\HasPriority;
+use App\Http\Livewire\Traits\HasDocuments;
 use App\Http\Livewire\Traits\WithModalAlert;
 use App\Http\Livewire\Traits\WithUserProfile;
 use App\Http\Livewire\Traits\WithAlertMessage;

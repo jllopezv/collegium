@@ -5,6 +5,7 @@ namespace App\Http\Livewire\School;
 use Livewire\Component;
 use App\Models\Crm\Employee;
 use Livewire\WithPagination;
+use App\Models\School\Teacher;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\IsUserType;
 use App\Http\Livewire\Traits\HasPriority;
@@ -223,6 +224,39 @@ class TeacherComponent extends Component
         $this->employeedata=$this->employee->toArray();
         $this->emit('setvalue','hiredcomponent', getDateString($this->employee->hired));
     }
+
+    /**
+     * Anno Support
+     */
+
+    public function forceGetQueryData($ret)
+    {
+
+        if ($this->showOnlyAnno)
+        {
+            $subset=getUserAnnoSession()->teachers();
+        }
+        else
+        {
+            $subset=Teacher::query();
+            $this->resetFilter();
+        }
+        return $this->annoSupportForceGetQueryData($ret, $subset );
+    }
+
+    public function activateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $item=$this->model::find($id);
+        $anno->teachers()->attach($id);
+    }
+
+    public function deactivateRecordInAnnoAction($id)
+    {
+        $anno=getUserAnnoSession();
+        $anno->teachers()->detach($id);
+    }
+
 
 
 }

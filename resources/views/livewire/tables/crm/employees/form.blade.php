@@ -21,8 +21,6 @@
     nextref='address1'
 />
 
-
-
 <div class='flex flex-wrap items-end justify-start'>
     <div class=''>
         @livewire('controls.drop-down-table-component', [

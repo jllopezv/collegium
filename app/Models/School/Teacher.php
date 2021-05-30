@@ -3,14 +3,19 @@
 namespace App\Models\School;
 
 use App\Models\Crm\Employee;
+use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use App\Models\Traits\IsUserType;
+use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
+use App\Models\Traits\HasAvailable;
 use App\Models\Traits\HasModelAvatar;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
+
 
 class Teacher extends Model
 {
@@ -19,8 +24,17 @@ class Teacher extends Model
     use HasCommon;
     use HasAbilities;
     use HasAllowedActions;
+
+    /* Profile */
     use IsUserType;
+
+    /* Avatar */
     use HasModelAvatar;
+
+    /* Anno Support */
+    use HasAnno;
+    use HasPriority;
+    use HasAvailable;
 
 
     /*******************************************/
@@ -73,6 +87,36 @@ class Teacher extends Model
             }
         }
         return Storage::disk('public')->url( 'thumbs/'.$this->profile_photo_path );
+    }
+
+    public function getPriorityAttribute()
+    {
+        $anno=getUserAnnoSession();
+        $grade=$anno->teachers->where('id', $this->id)->first();
+        if ($grade==null) return 0;
+        return $grade->pivot->priority;
+    }
+
+    public function setPriorityAttribute($value)
+    {
+        $anno=getUserAnnoSession();
+        $anno->teachers()->updateExistingPivot($this->id, ['priority' => $value]);
+    }
+
+    public function getAvailableAttribute()
+    {
+
+        $anno=getUserAnnoSession();
+        $grade=$anno->teachers->where('id', $this->id)->first();
+        if ($grade==null) return null;
+        return $grade->pivot->available;
+
+    }
+
+    public function setAvailableAttribute($value)
+    {
+        $anno=getUserAnnoSession();
+        $anno->teachers()->updateExistingPivot($this->id, ['available' => $value]);
     }
 
     /*******************************************/
