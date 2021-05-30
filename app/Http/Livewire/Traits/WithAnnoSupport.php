@@ -9,6 +9,11 @@ Trait WithAnnoSupport
 
     // public $showOnlyAnno=true;  //Defined in HasCommon for compatibility
 
+    public function enableFilters($enabled)
+    {
+        $this->emit('enablefilter','*',$enabled);
+    }
+
     /**
      * Show All Annos
      */
@@ -16,15 +21,17 @@ Trait WithAnnoSupport
     public function showAnnoGrid()
     {
         $this->showOnlyAnno=true;
-        $this->showFilters=true;
+        //$this->showFilters=true;
         $this->createFilter();
         $this->getFilter();
+        $this->enableFilters(true);
     }
 
     public function hideAnnoGrid()
     {
         $this->showOnlyAnno=false;
-        $this->showFilters=false;
+        //$this->showFilters=false;
+        $this->enableFilters(false);
     }
 
     public function annoSupportForceGetQueryData($ret, $query)

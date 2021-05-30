@@ -32,6 +32,9 @@ class DatabaseSeeder extends Seeder
         $this->call(WebsiteSectionCatSeeder::class);
         $this->call(WebsiteMenuSeeder::class);
 
+        //CRM
+        $this->call(EmployeeTypeSeeder::class);
+
         // School
         $this->call(SchoolLevelSeeder::class);
         $this->call(SchoolGradeSeeder::class);

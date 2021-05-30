@@ -319,7 +319,7 @@ class StudentComponent extends Component
     public function eventSetLevel($level_id, $change)
     {
         $this->level_id=$level_id;
-        $this->emit('setfilterraw','gradecomponent','level_id='.$level_id);
+        $this->emit('setfilterraw','gradecomponent','level_id='.$level_id,$change?null:false);
     }
 
     public function eventSetGrade($grade_id, $change)
@@ -340,7 +340,7 @@ class StudentComponent extends Component
         if ($change==true)
         {
             // Set filterraw para section
-            $this->emit('setfilterraw','sectioncomponent','grade_id='.$grade_id);
+            $this->emit('setfilterraw','sectioncomponent','grade_id='.$grade_id, $change?null:false);
 
         }
     }
@@ -766,7 +766,7 @@ class StudentComponent extends Component
 
     public function dropdownUpdated($uid, $value)
     {
-        if ($uid=='gradecomponent')
+        if ($uid=='gradecomponent'  && ($this->mode=='edit' || $this->mode=='create'))
         {
             $this->emit('setfilterraw','sectioncomponent','grade_id='.$value);
         }

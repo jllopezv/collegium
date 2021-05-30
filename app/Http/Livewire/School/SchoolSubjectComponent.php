@@ -45,13 +45,20 @@ class SchoolSubjectComponent extends Component
         'actionDestroyBatch'    => 'actionDestroyBatch',
         'actionLockBatch'       => 'actionLockBatch',
         'actionUnLockBatch'     => 'actionUnLockBatch',
+
+        /* Events */
         'eventsetlevel'         => 'eventSetLevel',
         'eventsetgrade'         => 'eventSetGrade',
         'eventsetperiod'        => 'eventSetPeriod',
+        'dropdownupdated'       => 'dropdownUpdated',
+
+        /* Filters */
         'eventfilterlevel'      => 'eventFilterLevel',
         'eventfiltergrade'      => 'eventFilterGrade',
         'eventfilterperiod'     => 'eventFilterPeriod',
         'eventfilterorder'      => 'eventFilterOrder',
+
+        /* Anno Support */
         'activateRecordInAnnoAction' => 'activateRecordInAnnoAction',
         'deactivateRecordInAnnoAction' => 'deactivateRecordInAnnoAction',
     ];
@@ -123,7 +130,7 @@ class SchoolSubjectComponent extends Component
         $this->subject=$this->record->subject;
         $this->abbr=$this->record->abbr;
         $this->priority=$this->record->priority;
-        $this->emit('setvalue', 'gradecomponent', $this->grade_id);
+
     }
 
     public function getKeyNotification($record)
@@ -194,28 +201,43 @@ class SchoolSubjectComponent extends Component
         ]);
     }
 
+    /* Events */
+
     public function eventSetPeriod($period_id, $change)
     {
+        if ($this->mode=='index') return;
         $this->period_id=$period_id;
     }
 
     public function eventSetGrade($grade_id, $change)
     {
+        if ($this->mode=='index') return;
         $this->grade_id=$grade_id;
     }
 
     public function eventSetLevel($level_id, $change)
     {
+        if ($this->mode=='index') return;
         $this->level_id=$level_id;
-        $this->emit('setfilterraw','gradecomponent','level_id='.$level_id);
+        $this->emit('setfilterraw','gradecomponent','level_id='.$level_id, $change?null:false); // No select first
+    }
+
+    public function dropdownUpdated($uid, $value)
+    {
+        if ($uid=='gradecomponent' && ($this->mode=='edit' || $this->mode=='create'))
+        {
+            $this->emit('getvalue','gradecomponent');
+        }
     }
 
     /*************************************
      * FILTERS
      */
 
+
     public function eventFilterLevel($level_id)
     {
+        if ($this->mode!='index') return;   // Filter only in index mode
         $this->filterdata='';
         $this->level_id=$level_id;
         if ($level_id=='*')
@@ -226,12 +248,6 @@ class SchoolSubjectComponent extends Component
         {
             $datafiltered=SchoolLevel::find($level_id)->grades();
         }
-        /*
-        foreach($datafiltered->get() as $item)
-        {
-            if ($this->filterdata!='') $this->filterdata.=' or ';
-            $this->filterdata.=' grade_id='.$item->id.' ';
-        }*/
         $this->createFilter();
         $newoptions=LopHelp::getFilterDropdownBuilder($datafiltered, 'id', 'grade', '', true, '');
         $this->emit('setoptions','filtergradecomponent',$newoptions);
@@ -240,41 +256,21 @@ class SchoolSubjectComponent extends Component
 
     public function eventFilterGrade($grade_id)
     {
+        if ($this->mode!='index') return;   // Filter only in index mode
         $this->grade_id=$grade_id;
-        /*
-        $this->filterdata='';
-        if ($grade_id!='*')
-        {
-            $this->filterdata="grade_id=".$grade_id;
-        }
-        else
-        {
-            if ($this->level_id=='*')
-            {
-                $datafiltered=getUserAnnoSession()->schoolGrades();
-            }
-            else
-            {
-                $datafiltered=SchoolLevel::find($this->level_id)->grades();
-            }
-            foreach($datafiltered->get() as $item)
-            {
-                if ($this->filterdata!='') $this->filterdata.=' or ';
-                $this->filterdata.=' grade_id='.$item->id.' ';
-            }
-        }*/
         $this->createFilter();
     }
 
     public function eventFilterPeriod($period_id)
     {
+        if ($this->mode!='index') return;   // Filter only in index mode
         $this->period_id=$period_id;
         $this->createFilter();
     }
 
     public function createFilter()
     {
-
+        if ($this->mode!='index') return;   // Filter only in index mode
         $this->filterdata='';
 
         // LEVELS
@@ -311,6 +307,7 @@ class SchoolSubjectComponent extends Component
 
     public function initFilter()
     {
+        if ($this->mode!='index') return;   // Filter only in index mode
         $this->level_id='*';
         $this->grade_id='*';
         $this->period_id='*';
@@ -332,6 +329,7 @@ class SchoolSubjectComponent extends Component
 
     public function eventFilterOrder($field, $change=false)
     {
+        if ($this->mode!='index') return;   // Sort only in index mode
         if ($change)
         {
             if ($this->sortorder==$field)
@@ -347,6 +345,7 @@ class SchoolSubjectComponent extends Component
         }
 
     }
+
 
 
     /**

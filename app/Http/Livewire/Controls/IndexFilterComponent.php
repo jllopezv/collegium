@@ -9,10 +9,11 @@ use Illuminate\Support\Arr;
 class IndexFilterComponent extends Component
 {
     protected $listeners=[
-        'setvalue'  =>  'setValue',
-        'getvalue'  =>  'getValue',
-        'setoptions'    =>  'setOptions',
-        'validationerror'   =>  'validationError'
+        'setvalue'          =>  'setValue',
+        'getvalue'          =>  'getValue',
+        'setoptions'        =>  'setOptions',
+        'validationerror'   =>  'validationError',
+        'enablefilter'      =>  'enableFilter',
     ];
 
     public $options=[];
@@ -38,19 +39,20 @@ class IndexFilterComponent extends Component
     public $template='';
     public $mode='';
     public $firsttime=true;
+    public $enabled=true;
 
     public function mount()
     {
         $this->text='';
         $this->index=0;
         if ($this->mode=='show') $this->readonly=true;
-        if ($this->readonly)
+        if ($this->readonly || !$this->enabled)
         {
             $this->classchevron='text-gray-300 hover:text-gray-300';
         }
         else
         {
-            $this->classchevron='text-gray-300 hover:text-gray-700';
+            $this->classchevron='text-gray-300 '.(($this->enabled)?'hover:text-gray-700':'hover:text-gray-300');
 
         }
         if ($this->defaultvalue!="")
@@ -74,23 +76,35 @@ class IndexFilterComponent extends Component
             }
         }
 
-        $this->classchevron='text-gray-300 hover:text-gray-700';
+        $this->classchevron='text-gray-300 '.(($this->enabled)?'hover:text-gray-700':'hover:text-gray-300');
+    }
+
+    public function enableFilter($uid, $value)
+    {
+        if ($uid==$this->uid || $uid=='*')
+        {
+
+            $this->enabled=$value;
+        }
     }
 
     public function showbody()
     {
+        if (!$this->enabled) return;
         $this->showcontent=true;
         $this->classchevron='text-gray-700';
 
     }
     public function hidebody()
     {
+        if (!$this->enabled) return;
         $this->showcontent=false;
-        $this->classchevron='text-gray-300 hover:text-gray-700';
+        $this->classchevron='text-gray-300 '.(($this->enabled)?'hover:text-gray-300':'');
 
     }
     public function togglebody()
     {
+        if (!$this->enabled) return;
         if ($this->readonly) return;
         if (!$this->showcontent)
         {
@@ -142,11 +156,13 @@ class IndexFilterComponent extends Component
 
     public function selectchange($index)
     {
+        if (!$this->enabled) return;
         $this->select($index,true);
     }
 
     public function select($index, $change=false)
     {
+        if (!$this->enabled) return;
         if (!count($this->options)) return;
         if ($index==null)
         {

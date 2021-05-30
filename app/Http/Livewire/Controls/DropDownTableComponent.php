@@ -51,12 +51,14 @@ class DropDownTableComponent extends Component
     public $isTop=false;            // where show seach list
     public $searchInField=false;     // Search only in indicated field or use search scope of model. If model has translations then set to false.
     public $linknew='';             // Link to create new
+    public $enabled=true;
 
     protected $listeners=[
         'setvalue'          =>  'setValue',
         'getvalue'          =>  'getValue',
         'setfilterraw'      =>  'setFilterraw',
-        'validationerror'   =>  'validationError'
+        'validationerror'   =>  'validationError',
+        'enabledropdown'    =>  'enableDropDown',
     ];
 
     /**
@@ -81,17 +83,6 @@ class DropDownTableComponent extends Component
         $this->select($this->defaultvalue); // Default Value
     }
 
-    /**
-     * Emit his value everytime is refreshed
-     *
-     * @return void
-     */
-    /*
-    public function hydrate()
-    {
-        // Send value everytime is hydrated
-        $this->emit( $this->eventname, $this->value );
-    }*/
 
     /**
      * Set value
@@ -115,12 +106,20 @@ class DropDownTableComponent extends Component
         }
     }
 
-    public function setFilterraw($uid,$filter)
+    public function enableDropDown($uid, $value)
+    {
+        if ($uid==$this->uid || $uid=='*')
+        {
+            $this->enabled=$value;
+        }
+    }
+
+    public function setFilterraw($uid,$filter, $index=null)
     {
         if ($uid==$this->uid || $uid=='*')
         {
             $this->filterraw=$filter;
-            $this->select(null,false); // Select first if change filterraw
+            if ($index!==false) $this->select(null,false); // Select first if change filterraw
         }
     }
 
@@ -160,6 +159,7 @@ class DropDownTableComponent extends Component
      */
     public function showbody()
     {
+        if (!$this->enabled) return;
         $this->showcontent=true;
         $this->classchevron='text-gray-700';
 
@@ -172,6 +172,7 @@ class DropDownTableComponent extends Component
      */
     public function hidebody()
     {
+        if (!$this->enabled) return;
         $this->showcontent=false;
         $this->classchevron='text-gray-300 hover:text-gray-700';
 
@@ -185,6 +186,7 @@ class DropDownTableComponent extends Component
      */
     public function togglebody()
     {
+        if (!$this->enabled) return;
         if ($this->readonly) return;
         if (!$this->showcontent)
         {
@@ -198,6 +200,7 @@ class DropDownTableComponent extends Component
 
     public function selectchange($index)
     {
+        if (!$this->enabled) return;
         $this->select($index,true,true);
     }
 
@@ -209,22 +212,15 @@ class DropDownTableComponent extends Component
      */
     public function select($index, $emitevent=true, $change=false)
     {
+        if (!$this->enabled) return;
         $this->getData();
 
-        // if (is_null($index) && ($this->mode=='edit' || $this->mode=='show') )
-        // {
-        //     $this->value=null;
-        //     $this->text='';
-        //     $this->contenttoshow='SIN SELECCIÓN';
-        //     return;
-        // }
         if (is_null($index))
         {
 
             try
             {
                 $record=$this->data->first();
-                //$this->ShowInfo($record->id,'select '.$this->eventname,'',true);
             }
             catch(\Exception $e)
             {

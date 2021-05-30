@@ -215,7 +215,7 @@ class UpdateProfile extends Component
     public function updated()
     {
         // Request report from children
-        $this->emit("getvalue","*");
+        //$this->emit("getvalue","*");
     }
 
 

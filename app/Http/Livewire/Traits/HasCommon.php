@@ -378,8 +378,6 @@ Trait HasCommon
      */
     public function updated()
     {
-        // Request report from children
-        //$this->emit("getvalue","*");
         $this->updatedCore();
     }
 

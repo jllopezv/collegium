@@ -1,9 +1,7 @@
-// TODO: Process to create a new academic year
-         Dont copy SchoolLevels , SchoolGrades only --> create
-         anno_school_level
-         anno_school_grade
+// TODO: Promote Students
 
-         Promote Students
+// Subject Cuando creo asignaturas hay que pinchar en el grado para que se grabe, sino no se graba.
+           Ejecutar el evento una vez que cambia el nivel para que marque la opci'on.
 
 
 
