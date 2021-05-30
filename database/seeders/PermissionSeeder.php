@@ -69,7 +69,13 @@ class PermissionSeeder extends Seeder
         $table='school_subjects';
         $this->createPermissions($table,'ACADÉMICA');
 
+        $table='teachers';
+        $this->createPermissions($table,'ACADÉMICA');
+
         $table='employee_type';
+        $this->createPermissions($table,'CRM');
+
+        $table='employees';
         $this->createPermissions($table,'CRM');
 
         $table='app_setting_pages';
@@ -163,7 +169,7 @@ class PermissionSeeder extends Seeder
                                             'allowLock'     => false,
                                         ]);
 
-                                        $record=new Permission;
+        $record=new Permission;
         $record->name="CAMBIAR PRIORIDAD";
         $record->slug='records.changepriority';
         $record->description="PERMITE CAMBIAR EL ORDEN DE PRIORIDAD DE LOS REGISTROS";

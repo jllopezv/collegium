@@ -24,6 +24,7 @@ class Student extends Model
     use IsUserType;
     use HasAnno;
     use HasPriority;
+    use HasModelAvatar;
 
     /**
      * The attributes that are mass assignable.
@@ -243,39 +244,6 @@ class Student extends Model
     public function setSecondSurnameAttribute($value)
     {
         if (config('lopsoft.studentsname_uppercase')) $this->attributes['second_surname'] = mb_strtoupper($value);
-    }
-
-    /**
-     * Get Avatar, if not exists return defaul avatar
-     *
-     * @return void
-     */
-    public function getAvatarAttribute()
-    {
-        if (is_null($this->profile_photo_path)) return Storage::disk('public')->url(config('lopsoft.default_avatar'));
-        if ( !Storage::disk('public')->exists( 'thumbs/'.$this->profile_photo_path ) )
-        {
-            if ( !Storage::disk('public')->exists( $this->profile_photo_path ) )
-            {
-                return Storage::disk('public')->url(config('lopsoft.default_avatar'));
-            }
-            else
-            {
-                return Storage::disk('public')->url( $this->profile_photo_path );
-            }
-        }
-        return Storage::disk('public')->url( 'thumbs/'.$this->profile_photo_path );
-    }
-
-    /**
-     * Set avatar path for user
-     *
-     * @param  mixed $value
-     * @return void
-     */
-    public function setAvatarAttribute($value)
-    {
-        $this->profile_photo_path=$value;
     }
 
     /*******************************************/

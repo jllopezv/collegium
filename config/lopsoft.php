@@ -11,6 +11,7 @@ return [
 
     'version'               =>  '0.1',
     'vendor'                =>  'lopsoft',
+    'debug_mode'            =>  true,
     'copyright'             =>  '(C) Lopsoft 2020',
     'vendorlink'            =>  'https://lopsoft.com',
     'vendorweb'             =>  'www.lopsoft.com',

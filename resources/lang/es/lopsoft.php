@@ -41,6 +41,7 @@ return [
         'records'           =>  'registros',
         'employee_types'    =>  'tipos de empleados',
         'employees'         =>  'empleados',
+        'teachers'          =>  'profesores',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -212,4 +213,7 @@ return [
     'degree'                =>  'titulación',
     'salary'                =>  'sueldo',
     'fromyear'              =>  'desde el año',
+    'teacher'               =>  'profesor',
+    'teachers'              =>  'profesores',
+
 ];

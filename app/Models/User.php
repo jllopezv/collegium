@@ -21,6 +21,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
+use App\Models\Traits\HasModelAvatar;
 use Illuminate\Notifications\Notifiable;
 use Facade\Ignition\Support\FakeComposer;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -41,6 +42,7 @@ class User extends Authenticatable
     use HasAllowedActions;
     use HasCommon;
     use HasModelConfig;
+    use HasModelAvatar;
 
     /*******************************************/
     /* Properties
@@ -148,39 +150,6 @@ class User extends Authenticatable
     public function getDashboardAttribute()
     {
         return $this->mainRole->dashboard;
-    }
-
-    /**
-     * Get Avatar, if not exists return defaul avatar
-     *
-     * @return void
-     */
-    public function getAvatarAttribute()
-    {
-        if (is_null($this->profile_photo_path)) return Storage::disk('public')->url(config('lopsoft.default_avatar'));
-        if ( !Storage::disk('public')->exists( 'thumbs/'.$this->profile_photo_path ) )
-        {
-            if ( !Storage::disk('public')->exists( $this->profile_photo_path ) )
-            {
-                return Storage::disk('public')->url(config('lopsoft.default_avatar'));
-            }
-            else
-            {
-                return Storage::disk('public')->url( $this->profile_photo_path );
-            }
-        }
-        return Storage::disk('public')->url( 'thumbs/'.$this->profile_photo_path );
-    }
-
-    /**
-     * Set avatar path for user
-     *
-     * @param  mixed $value
-     * @return void
-     */
-    public function setAvatarAttribute($value)
-    {
-        $this->profile_photo_path=$value;
     }
 
     /*********************************************/

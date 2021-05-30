@@ -11,6 +11,7 @@ use App\Models\School\Anno;
 use App\Models\Aux\Language;
 use App\Models\Crm\Employee;
 use App\Models\School\Student;
+use App\Models\School\Teacher;
 use App\Models\Auth\Permission;
 use App\Models\Crm\EmployeeType;
 use App\Models\School\SchoolBatch;
@@ -48,6 +49,7 @@ use App\Models\Website\WebsiteAdvertisementCat;
 use App\Http\Controllers\Aux\LanguageController;
 use App\Http\Controllers\Crm\EmployeeController;
 use App\Http\Controllers\School\StudentController;
+use App\Http\Controllers\School\TeacherController;
 use App\Http\Controllers\Auth\PermissionController;
 use App\Http\Controllers\Crm\EmployeeTypeController;
 use App\Http\Controllers\School\SchoolBatchController;
@@ -127,7 +129,8 @@ Route::get('/sendcontact', [ SendMailController::class, 'mail' ] );
 /* ADMIN                                             */
 /*****************************************************/
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('dashboard', function () {
+
     try
     {
         return view('dashboards.'.Auth::user()->dashboard);
@@ -191,7 +194,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('school_parents', SchoolParentController::class, SchoolParent::class);
     LopHelp::generateCommonModelRoute('school_periods', SchoolPeriodController::class, SchoolPeriod::class);
     LopHelp::generateCommonModelRoute('school_subjects', SchoolSubjectController::class, SchoolSubject::class);
-
+    LopHelp::generateCommonModelRoute('teachers', TeacherController::class, Teacher::class);
 
     Route::get('/showstudentslevel/{id}', function($id) {
         return view('school.showstudentslevel', ['id' => $id]);

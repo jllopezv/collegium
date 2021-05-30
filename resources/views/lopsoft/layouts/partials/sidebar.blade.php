@@ -104,6 +104,9 @@
         @endhasAbility
     </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
+
+    {{-- WEBSITE --}}
+
     @hasAbilityOr([ 'website_post_cats.access',
                     'website_banners.access',
                     'website_posts.access',
@@ -226,9 +229,12 @@
             @endhasAbility
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
+
+    {{-- STUDENTS --}}
+
     @hasAbilityOr([ 'students.access',
                     'school_parents.access',
-                    'school_subjects.access' ])
+                    'school_subjects.access',])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user-graduate'
             text="{{ transup('students') }}"
@@ -264,6 +270,40 @@
             @endhasAbility
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
+
+    {{-- TEACHERS --}}
+
+    @hasAbilityOr([ 'teachers.access','school_subjects.access'])
+        <x-lopsoft.control.sidebar-menu
+            icon='fa fa-user-graduate'
+            text="{{ transup('teachers') }}"
+            help="{{ transup('teachers') }}"
+            menuid='menuteacher'
+            classmenu='hover:text-green-300'>
+            @hasAbility(['teachers.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user-graduate'
+                link="{{ route('teachers.index') }}"
+                text="{{ transup('teachers') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['school_subjects.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user-graduate'
+                link="{{ route('school_subjects.index') }}"
+                text="{{ transup('tables.school_subjects') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+        </x-lopsoft.control.sidebar-menu>
+    @endhasAbilityOr
+
+
+    {{-- CRM --}}
+
     @hasAbilityOr([ 'employee_types.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user-tie'
@@ -293,6 +333,9 @@
 
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
+
+    {{-- ACADEMIC --}}
+
     @hasAbilityOr([ 'school_levels.access', 'school_grades.access',
                     'school_batches.access', 'school_modalities.access', 'school_sections.access',
                     'school_periods.access', 'annos.access'])

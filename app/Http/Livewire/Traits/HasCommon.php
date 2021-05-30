@@ -728,8 +728,17 @@ Trait HasCommon
      */
     public function showException(\Exception $e)
     {
-
-        $this->showAlertError('SE PRODUJO UN ERROR INESPERADO<br/><br/>'.$e->getMessage(),"ERROR INESPERADO");
+        $trace='';
+        if (appsetting('debug_mode'))
+        {
+            $trace="<div class='h-32 overflow-y-auto mt-4 border border-t-red-505 p-2'>";
+            foreach($e->getTrace() as $traceline)
+            {
+                $trace.="<div class=''>".$traceline['line'].' '.$traceline['file']."</div>";
+            }
+            $trace.='</div>';
+        }
+        $this->showAlertError('SE PRODUJO UN ERROR INESPERADO<br/><br/>'.$e->getMessage().$trace,"ERROR INESPERADO");
     }
 
     public function checkFlashErrors()

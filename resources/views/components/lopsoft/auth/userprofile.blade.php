@@ -38,7 +38,7 @@
             <div class='flex flex-wrap md:flex-no-wrap items-bottom justify-between'>
                 <div class='w-full xl:w-2/3'>
                     <x-lopsoft.control.inputform
-                        wire:model.lazy='profileusername'
+                        wire:model.bounce.500ms='profileusername'
                         id='profileusername'
                         x-ref='profileusername'
                         label="{{ transup('username') }}"
@@ -89,7 +89,7 @@
                         </div>
                         @else
                             <x-lopsoft.control.inputform
-                                wire:model.lazy='profileuseremail'
+                                wire:model.bounce.500ms='profileuseremail'
                                 id='profileuseremail'
                                 x-ref='profileuseremail'
                                 label="{{ transup('email') }}"

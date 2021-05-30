@@ -29,6 +29,9 @@ Trait WithUserProfile
         $haserrors=false;
         $this->emit("userprofileclearerrors");
 
+        $this->checkUserProfileEmail();
+        $this->checkUserProfileUsername();
+
         if (!$this->validEmail)
         {
             $this->addError('profileuseremail', 'EMAIL DE USUARIO NO VÁLIDO');
@@ -157,6 +160,7 @@ Trait WithUserProfile
 
     public function userProfileSaveUser($recordStored, $name, $role)
     {
+
         $userprofile=User::createProfileUser($name, $this->profileusername, $this->profileuseremail, config('lopsoft.users_defaultpassword'), $role );
         if ($userprofile==null)
         {

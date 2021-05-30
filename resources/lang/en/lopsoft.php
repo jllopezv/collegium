@@ -39,6 +39,7 @@ return [
         'records'           =>  'records',
         'employee_types'    =>  'employee types',
         'employees'         =>  'employees',
+        'teachers'          =>  'teachers',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -209,5 +210,8 @@ return [
     'fired'                 =>  'fired',
     'degree'                =>  'academic degree',
     'salary'                =>  'salary',
-    'fromyear'              =>  'from year,'
+    'fromyear'              =>  'from year',
+    'teacher'               =>  'teacher',
+    'teachers'              =>  'teachers',
 ];
+

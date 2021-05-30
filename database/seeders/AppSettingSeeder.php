@@ -25,6 +25,15 @@ class AppSettingSeeder extends Seeder
         $record->save();
 
         $record=new AppSetting();
+        $record->settingkey='DEBUG_MODE';
+        $record->settingdesc='DEBUG MODE';
+        $record->settingvalue=config('lopsoft.debug_mode');
+        $record->type='boolean';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','SISTEMA')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
         $record->settingkey='VENDOR';
         $record->settingdesc='VENDOR NAME';
         $record->settingvalue=config('lopsoft.vendor');

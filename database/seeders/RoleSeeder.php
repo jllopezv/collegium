@@ -71,9 +71,11 @@ class RoleSeeder extends Seeder
 
 
 
+        // Levels 5000 -> School
+
         $record=new Role;
         $record->role="STUDENT";
-        $record->level=5000;
+        $record->level=5050;
         $record->dashboard='student';
         $record->color_id=5;
         $record->save();
@@ -85,7 +87,7 @@ class RoleSeeder extends Seeder
 
         $record=new Role;
         $record->role="SCHOOLPARENT";
-        $record->level=5010;
+        $record->level=5100;
         $record->dashboard='schoolparent';
         $record->color_id=6;
         $record->save();
@@ -94,6 +96,20 @@ class RoleSeeder extends Seeder
                                              'allowDelete'   => false,
                                              'allowLock'     => false
                                         ]);
+
+        $record=new Role;
+        $record->role="TEACHER";
+        $record->level=5000;
+        $record->dashboard='teacher';
+        $record->color_id=8;
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                                'allowEdit'     => false,
+                                                'allowDelete'   => false,
+                                                'allowLock'     => false
+                                        ]);
+
+        // Level 9000 -> CRM
 
         $record=new Role;
         $record->role="EMPLOYEE";

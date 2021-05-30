@@ -169,6 +169,7 @@ class EmployeeComponent extends Component
     {
         return [
             'employee'              => 'required|string|max:255',//|unique:school_levels,level,'.$this->recordid,
+            'employee_type_id'      => 'required|exists:employee_types,id',
             'address1'              => 'nullable|string|max:255',
             'address2'              => 'nullable|string|max:255',
             'city'                  => 'nullable|string|max:255',
@@ -260,6 +261,7 @@ class EmployeeComponent extends Component
     {
         return [
             'employee'               => $this->employee,
+            'employee_type_id'       => $this->employee_type_id,
             'address1'               => $this->address1,
             'address2'               => $this->address2,
             'city'                   => $this->city,

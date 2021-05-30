@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Traits;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 Trait IsUserType
 {
@@ -22,6 +23,26 @@ Trait IsUserType
     {
         $user=$this->getUserProfileCredentials();
         return($user->validateCreateProfile());
+    }
+
+    public function login($table, $id)
+    {
+        if (Auth::check() && Auth::user()->hasAbilityOr($table.'login'))
+        {
+            Auth::logout();
+            $user=Auth::loginUsingId($id, true);
+
+            if ($user===false)
+            {
+                $this->showError("NO SE PUDO REALIZAR LOGIN CON EL USUARIO");
+                return;
+            }
+
+            return redirect()->route('dashboard');
+        }
+
+        $this->showError("NO TIENE AUTORIZACION PARA REALIZAR LA OPERACION");
+        return;
     }
 
 

@@ -13,8 +13,8 @@ use App\Models\Traits\IsUserType;
 use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
 use App\Models\Traits\HasAvailable;
+use App\Models\Traits\HasModelAvatar;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Traits\HasAllowedActions;
 
 class Employee extends Model
@@ -28,6 +28,7 @@ class Employee extends Model
     use HasAnno;
     use HasPriority;
     use HasAvailable;
+    use HasModelAvatar;
 
 
     /*******************************************/
@@ -106,44 +107,12 @@ class Employee extends Model
         $anno->employees()->updateExistingPivot($this->id, ['available' => $value]);
     }
 
-    /**
-     * Get Avatar, if not exists return defaul avatar
-     *
-     * @return void
-     */
-    public function getAvatarAttribute()
-    {
-        if (is_null($this->profile_photo_path)) return Storage::disk('public')->url(config('lopsoft.default_avatar'));
-        if ( !Storage::disk('public')->exists( 'thumbs/'.$this->profile_photo_path ) )
-        {
-            if ( !Storage::disk('public')->exists( $this->profile_photo_path ) )
-            {
-                return Storage::disk('public')->url(config('lopsoft.default_avatar'));
-            }
-            else
-            {
-                return Storage::disk('public')->url( $this->profile_photo_path );
-            }
-        }
-        return Storage::disk('public')->url( 'thumbs/'.$this->profile_photo_path );
-    }
 
     public function getTypeAttribute()
     {
         $type=EmployeeType::find($this->employee_type_id);
         if ($type==null) return null;
         return $type;
-    }
-
-    /**
-     * Set avatar path for user
-     *
-     * @param  mixed $value
-     * @return void
-     */
-    public function setAvatarAttribute($value)
-    {
-        $this->profile_photo_path=$value;
     }
 
     /*******************************************/
