@@ -75,6 +75,9 @@ class AppSettingComponent extends Component
 
         // Filter and sorts
         $this->canShowFilterButton=true;
+
+        // Priority
+        $this->showPriority=true;
     }
 
     /**

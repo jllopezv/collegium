@@ -1,5 +1,3 @@
-@include('components.lopsoft.datatable.row-priority')
-@include('components.lopsoft.datatable.setpriority')
 @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->settingpage ])
 @isSuperadmin
 <x-lopsoft.datatable.row-column
@@ -14,3 +12,5 @@
         </div>
 </x-lopsoft.datatable.row-column>
 @endisSuperadmin
+@include('components.lopsoft.datatable.row-priority')
+@include('components.lopsoft.datatable.setpriority')

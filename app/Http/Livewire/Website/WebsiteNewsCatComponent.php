@@ -52,6 +52,8 @@ class WebsiteNewsCatComponent extends Component
             // default create options
             $this->loadDefaults();
         }
+
+        $this->showPriority=true;
     }
 
     /**

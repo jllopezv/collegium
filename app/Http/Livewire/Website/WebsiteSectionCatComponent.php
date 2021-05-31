@@ -52,6 +52,8 @@ class WebsiteSectionCatComponent extends Component
             // default create options
             $this->loadDefaults();
         }
+
+        $this->showPriority=true;
     }
 
     /**

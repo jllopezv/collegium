@@ -1,5 +1,3 @@
-@include('components.lopsoft.datatable.row-priority')
-@include('components.lopsoft.datatable.setpriority')
 <x-lopsoft.datatable.row-column-image
     canshow="{{ $item->canShowRecord() && $item->allowShow() }}"
     class="{{ $classrow??'' }} "
@@ -16,3 +14,5 @@
 </x-lopsoft.datatable.row-column>
 @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->title ])
 @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->category->categoryName ])
+@include('components.lopsoft.datatable.row-priority')
+@include('components.lopsoft.datatable.setpriority')

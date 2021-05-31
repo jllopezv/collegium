@@ -81,7 +81,7 @@ nextref='settingkey'
         </div>
 
         <div x-show="$wire.type=='boolean'" >
-            <x-lopsoft.control.checkboxform label="{{ transup('value') }}" model='typecheckbox' color='text-blue-400' classlabel='font-bold'/>
+            <x-lopsoft.control.checkboxform mode="{{ $mode }}" label="{{ transup('value') }}" model='typecheckbox' color='text-blue-400' classlabel='font-bold'/>
         </div>
 
         <div x-show="$wire.type=='image'" >

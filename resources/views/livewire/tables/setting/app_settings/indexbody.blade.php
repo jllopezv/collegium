@@ -1,5 +1,3 @@
-@include('components.lopsoft.datatable.row-priority')
-@include('components.lopsoft.datatable.setpriority')
 <x-lopsoft.datatable.row-column
     canshow="{{ $item->canShowRecord() && $item->allowShow() }}"
     link="{{ route($table.'.show',$item->id) }}" >
@@ -56,4 +54,7 @@
         @endswitch
     </div>
 </x-lopsoft.datatable.row-column>
+@include('components.lopsoft.datatable.row-priority')
+@include('components.lopsoft.datatable.setpriority')
+
 

@@ -53,6 +53,8 @@ class AppSettingPageComponent extends Component
             $this->priority=AppSettingPage::count()+1;   // Default falue
             $this->onlysuperadmin=false;
         }
+        // Priority
+        $this->showPriority=true;
     }
 
     /**

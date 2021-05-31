@@ -34,7 +34,7 @@ return [
         'website_menus'     =>  'menús del website',
         'website_advertisement_cats'    => 'categorías de avisos',
         'website_advertisements'        => 'avisos',
-        'website_news_cats'             => 'categorías de nonticias',
+        'website_news_cats'             => 'categorías de noticias',
         'website_news'                  => 'noticias',
         'website_section_cats'          => 'categorías de secciones',
         'website_sections'              => 'secciones',

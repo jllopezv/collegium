@@ -60,6 +60,8 @@ class WebsiteMenuComponent extends Component
 
         // Filter and sorts
         $this->canShowFilterButton=true;
+
+        $this->showPriority=true;
     }
 
     /**

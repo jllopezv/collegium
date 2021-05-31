@@ -47,6 +47,7 @@ class PermissionGroupComponent extends Component
         // Default order for table
         $this->sortorder='priority';
         if ($this->mode=='create') $this->priority=PermissionGroup::count()+1;   // Default falue
+        $this->showPriority=true;
     }
 
     /**
