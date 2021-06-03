@@ -59,6 +59,11 @@ class Teacher extends Model
         return $this->belongsTo(Employee::class,'employee_id');
     }
 
+    public function subjects()
+    {
+        return $this->belongsToMany(SchoolSubject::class,'id','teacher_id', 'anno_subject_teacher');
+    }
+
     /*******************************************/
     /* Accessors and mutators
     /*******************************************/

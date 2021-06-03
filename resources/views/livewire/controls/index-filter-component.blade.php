@@ -12,7 +12,7 @@
                 @endif
             </label>
         </div>
-        <div class=''>
+        <div class='w-full'>
             <div class='relative pt-1 {{ $classdropdown }} w-full'>
                 <div class='flex items-center justify-center'>
                     <div class='flex items-center justify-between

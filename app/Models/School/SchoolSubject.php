@@ -7,6 +7,7 @@ use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use App\Models\Traits\HasPriority;
+use Illuminate\Support\Facades\DB;
 use App\Models\School\SchoolPeriod;
 use App\Models\Traits\HasAbilities;
 use App\Models\Traits\HasAvailable;
@@ -149,6 +150,14 @@ class SchoolSubject extends Model
     public function getAbbrAttribute($value)
     {
         return mb_strtoupper($value);
+    }
+
+    public function teachers()
+    {
+        $anno=getUserAnnoSession();
+        $teachers=DB::table('anno_school_subject_teacher')->where('anno_id', $anno->id)
+            ->where('school_subject_id', $this->id)->pluck('teacher_id');
+        return $anno->teachers()->whereIn('teachers.id', $teachers)->get();
     }
 
     /*******************************************/

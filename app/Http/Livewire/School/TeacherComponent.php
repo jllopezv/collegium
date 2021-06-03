@@ -3,9 +3,13 @@
 namespace App\Http\Livewire\School;
 
 use Livewire\Component;
+use App\Lopsoft\LopHelp;
 use App\Models\Crm\Employee;
 use Livewire\WithPagination;
 use App\Models\School\Teacher;
+use App\Models\School\SchoolLevel;
+use Illuminate\Support\Facades\DB;
+use App\Models\School\SchoolSubject;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\IsUserType;
 use App\Http\Livewire\Traits\HasPriority;
@@ -43,6 +47,16 @@ class TeacherComponent extends Component
     public $employee=null;
     public $employeedata=[];
 
+    /* Subjects Tab */
+    public $level_id='*';
+    public $grade_id='*';
+    public $period_id='*';
+    public $subjects=[];
+    public $filtersubjects='';
+    public $subjects_selected;
+    public $subjects_id_selected;
+
+
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
         'refreshForm'           => 'refreshForm',           // Refresh all components in show or edit mode
@@ -58,6 +72,11 @@ class TeacherComponent extends Component
 
         /* Events */
         'eventsetemployee'      =>  'eventSetEmployee',
+
+        /* Filters */
+        'eventsubjectfilterlevel'      => 'eventSubjectFilterLevel',
+        'eventsubjectfiltergrade'      => 'eventSubjectFilterGrade',
+        'eventsubjectfilterperiod'      => 'eventSubjectFilterPeriod',
 
     ];
 
@@ -79,6 +98,7 @@ class TeacherComponent extends Component
             // default create options
             $this->loadDefaults();
         }
+
    }
 
     /**
@@ -95,8 +115,12 @@ class TeacherComponent extends Component
 
     public function loadDefaults()
     {
+        $this->subjects_selected=collect([]);
+
         // Userprofile
         $this->userProfileClear();
+
+        $this->createSubjectsFilter();
     }
 
     public function resetForm()
@@ -112,10 +136,16 @@ class TeacherComponent extends Component
         $this->teacher=$this->record->teacher;
         $this->employee_id=$this->record->employee_id;
 
-
-
         $this->profileuseremail=$this->record->user->email;
         $this->profileusername=$this->record->user->username;
+
+        $anno=getUserAnnoSession();
+        $subjectsdata=DB::table('anno_school_subject_teacher')->where('anno_id', $anno->id)
+            ->where('teacher_id', $this->record->id);
+
+        $this->subjects_id_selected=collect($subjectsdata->pluck('school_subject_id'));
+        $this->subjects_selected=$anno->belongsToMany(SchoolSubject::class)->active()->available()->withPivot(['grade_id','period_id','priority','available'])->orderBy('grade_id')->whereIn('school_subject_id', $this->subjects_id_selected )->get();
+
     }
 
     public function getKeyNotification($record)
@@ -187,6 +217,17 @@ class TeacherComponent extends Component
         // Update user
         $this->userProfileUpdateUser($recordUpdated);
 
+        // Update subjects
+        $anno=getUserAnnoSession();
+        DB::table('anno_school_subject_teacher')->where('anno_id',$anno->id)
+            ->where('teacher_id', $recordUpdated->id)->delete();
+        foreach($this->subjects_selected as $subj)
+        {
+            $anno->schoolSubjectsTeachers()->attach([ $subj->id => [
+                'teacher_id'    =>  $recordUpdated->id,
+            ]]);
+        }
+
     }
 
     public function getProfileUsername()
@@ -208,6 +249,23 @@ class TeacherComponent extends Component
         return $username;
     }
 
+    public function selectSubject($subject_id)
+    {
+        $this->subjects_id_selected[]=$subject_id;
+        $anno=getUserAnnoSession();
+        $s=$anno->belongsToMany(SchoolSubject::class)->active()->available()->withPivot(['grade_id','period_id','priority','available'])->orderBy('grade_id');
+        $s=$s->whereIn('school_subjects.id', $this->subjects_id_selected)->get();
+        $this->subjects_selected=$s;
+    }
+    public function deleteSubject($array_id)
+    {
+        $this->subjects_id_selected->splice($array_id, 1);
+        $anno=getUserAnnoSession();
+        $s=$anno->belongsToMany(SchoolSubject::class)->active()->available()->withPivot(['grade_id','period_id','priority','available'])->orderBy('grade_id');
+        $s=$s->whereIn('school_subjects.id', $this->subjects_id_selected)->get();
+        $this->subjects_selected=$s;
+    }
+
     /** Events */
 
     public function eventSetEmployee($employee_id)
@@ -223,6 +281,8 @@ class TeacherComponent extends Component
         }
         $this->employeedata=$this->employee->toArray();
         $this->emit('setvalue','hiredcomponent', getDateString($this->employee->hired));
+
+        $this->teacher = $this->employee->employee;
     }
 
     /**
@@ -255,6 +315,78 @@ class TeacherComponent extends Component
     {
         $anno=getUserAnnoSession();
         $anno->teachers()->detach($id);
+    }
+
+    /* Filters */
+
+    public function eventSubjectFilterLevel($level_id)
+    {
+        $this->level_id=$level_id;
+        if ($level_id=='*')
+        {
+            $datafiltered=getUserAnnoSession()->schoolGrades();
+        }
+        else
+        {
+            $datafiltered=SchoolLevel::find($level_id)->grades();
+        }
+        $this->createSubjectsFilter();
+        $newoptions=LopHelp::getFilterDropdownBuilder($datafiltered, 'id', 'grade', '', true, '');
+        $this->emit('setoptions','subjectfiltergradecomponent',$newoptions);
+
+    }
+
+    public function eventSubjectFilterGrade($grade_id)
+    {
+        $this->grade_id=$grade_id;
+        $this->createSubjectsFilter();
+    }
+
+    public function eventSubjectFilterPeriod($period_id)
+    {
+        $this->period_id=$period_id;
+        $this->createSubjectsFilter();
+    }
+
+    public function createSubjectsFilter()
+    {
+        $this->filtersubjects='';
+
+        // LEVELS
+
+        if ($this->level_id=='*')
+        {
+            $datafiltered=getUserAnnoSession()->schoolGrades();
+        }
+        else
+        {
+            $datafiltered=SchoolLevel::find($this->level_id)->grades();
+        }
+        foreach($datafiltered->get() as $item)
+        {
+            if ($this->filtersubjects!='') $this->filtersubjects.=' or ';
+            $this->filtersubjects.=' grade_id='.$item->id.' ';
+        }
+
+        // GRADES
+
+        if ($this->grade_id!='*')
+        {
+            $this->filtersubjects="grade_id=".$this->grade_id;
+        }
+
+        // PERIODS
+
+        if ($this->period_id!='*')
+        {
+            $this->filtersubjects='('.$this->filtersubjects.') and period_id='.$this->period_id;
+        }
+
+        $anno=getUserAnnoSession();
+        $this->subjects=$anno->belongsToMany(SchoolSubject::class)->active()->available()->withPivot(['grade_id','period_id','priority','available'])->orderBy('grade_id');
+        $this->subjects=$this->subjects->whereRaw( $this->filtersubjects )->get();
+
+
     }
 
 

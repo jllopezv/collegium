@@ -78,6 +78,11 @@ class Anno extends Model
         return $this->belongsToMany(SchoolSubject::class)->active()->available()->withPivot(['grade_id','period_id','priority','available'])->orderBy('priority');
     }
 
+    public function schoolSubjectsTeachers()
+    {
+        return $this->belongsToMany(SchoolSubject::class,'anno_school_subject_teacher');
+    }
+
     public function students()
     {
         return $this->belongsToMany(Student::class)->withPivot(['grade_id','section_id','batch_id','modality_id','priority'])->orderBy('priority');
