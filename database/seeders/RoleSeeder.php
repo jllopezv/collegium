@@ -109,13 +109,25 @@ class RoleSeeder extends Seeder
                                                 'allowLock'     => false
                                         ]);
 
-        // Level 9000 -> CRM
+        // Level 10000 -> CRM
 
         $record=new Role;
         $record->role="EMPLOYEE";
-        $record->level=9000;
+        $record->level=10000;
         $record->dashboard='employee';
         $record->color_id=7;
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                             'allowEdit'     => false,
+                                             'allowDelete'   => false,
+                                             'allowLock'     => false
+                                        ]);
+
+        $record=new Role;
+        $record->role="CUSTOMER";
+        $record->level=30000;
+        $record->dashboard='customer';
+        $record->color_id=8;
         $record->save();
         $record->allowedActions()->create([  'allowShow'     => false,
                                              'allowEdit'     => false,

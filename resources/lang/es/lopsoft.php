@@ -42,6 +42,8 @@ return [
         'employee_types'    =>  'tipos de empleados',
         'employees'         =>  'empleados',
         'teachers'          =>  'profesores',
+        'customer_types'    =>  'tipos de clientes',
+        'customers'         =>  'clientes',
     ],
     'group'                 =>  'grupo',
     'permission_group'      =>  'grupo de permisos',
@@ -91,6 +93,7 @@ return [
     'exit'                  =>  'salir',
     'mandatory'             =>  'obligatorio',
     'mandatory_unique'      =>  'obligatorio y único',
+    'unique'                =>  'único',
     'sex'                   =>  'sexo',
     'male'                  =>  'masculino',
     'female'                =>  'femenino',
@@ -217,5 +220,9 @@ return [
     'teachers'              =>  'profesores',
     'periodtypes'           =>  'tipos de períodos',
     'periodtype'            =>  'tipo de período',
+    'customer'              =>  'cliente',
+    'customers'             =>  'clientes',
+    'customer_types'        =>  'tipos de clientes',
+    'rnc'                   =>  'rnc',
 
 ];

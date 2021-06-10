@@ -9,10 +9,12 @@ use App\Models\Aux\Image;
 use App\Models\Aux\Country;
 use App\Models\School\Anno;
 use App\Models\Aux\Language;
+use App\Models\Crm\Customer;
 use App\Models\Crm\Employee;
 use App\Models\School\Student;
 use App\Models\School\Teacher;
 use App\Models\Auth\Permission;
+use App\Models\Crm\CustomerType;
 use App\Models\Crm\EmployeeType;
 use App\Models\School\SchoolBatch;
 use App\Models\School\SchoolGrade;
@@ -47,10 +49,12 @@ use App\Http\Controllers\Aux\CountryController;
 use App\Http\Controllers\School\AnnoController;
 use App\Models\Website\WebsiteAdvertisementCat;
 use App\Http\Controllers\Aux\LanguageController;
+use App\Http\Controllers\Crm\CustomerController;
 use App\Http\Controllers\Crm\EmployeeController;
 use App\Http\Controllers\School\StudentController;
 use App\Http\Controllers\School\TeacherController;
 use App\Http\Controllers\Auth\PermissionController;
+use App\Http\Controllers\Crm\CustomerTypeController;
 use App\Http\Controllers\Crm\EmployeeTypeController;
 use App\Http\Controllers\School\SchoolBatchController;
 use App\Http\Controllers\School\SchoolGradeController;
@@ -94,7 +98,11 @@ Route::get('/', function () {
     {
         return view('website.maintenance');
     }
-    return view('website.welcome');
+    if (appsetting('entrypoint_website'))
+    {
+        return view('website.welcome');
+    }
+    return redirect()->route('login');
 })->name('website.welcome');
 
 
@@ -173,6 +181,8 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
 
     LopHelp::generateCommonModelRoute('employee_types', EmployeeTypeController::class, EmployeeType::class);
     LopHelp::generateCommonModelRoute('employees', EmployeeController::class, Employee::class);
+    LopHelp::generateCommonModelRoute('customers', CustomerController::class, Customer::class);
+    LopHelp::generateCommonModelRoute('customer_types', CustomerTypeController::class, CustomerType::class);
 
 });
 

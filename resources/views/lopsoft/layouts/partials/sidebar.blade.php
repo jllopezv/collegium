@@ -304,7 +304,7 @@
 
     {{-- CRM --}}
 
-    @hasAbilityOr([ 'employee_types.access'])
+    @hasAbilityOr([ 'employee_types.access', 'customer_types.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user-tie'
             link='linkeando'
@@ -312,6 +312,24 @@
             help="{{ transup('crm') }}"
             menuid='menucrm'
             classmenu='hover:text-green-300'>
+            @hasAbility(['customers.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user-tie'
+                link="{{ route('customers.index') }}"
+                text="{{ transup('customers') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['customer_types.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-bars'
+                link="{{ route('customer_types.index') }}"
+                text="{{ transup('customer_types') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
             @hasAbility(['employees.access'])
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-hard-hat'

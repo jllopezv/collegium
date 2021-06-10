@@ -9,6 +9,7 @@
     'classcontainer'    => '',
     'mode'          => 'create',
     'errormsg'         =>  '',
+    'rows'          =>  10,
     ])
 
 
@@ -33,7 +34,7 @@
     @if($mode=='show')
         readonly
     @endif
-    rows='10'
+    rows='{{ $rows }}'
 >{!! $value !!}</textarea>
     </div>
     @if($errormsg=='')

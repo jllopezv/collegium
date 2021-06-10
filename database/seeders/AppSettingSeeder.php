@@ -88,6 +88,15 @@ class AppSettingSeeder extends Seeder
         $record->save();
 
         $record=new AppSetting();
+        $record->settingkey='ENTRYPOINT_WEBSITE';
+        $record->settingdesc='WEBSITE IS WELCOME PAGE';
+        $record->settingvalue=config('lopsoft.entrypoint_website');
+        $record->type='boolean';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage','SISTEMA')->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
         $record->settingkey='MAINTENANCE MODE';
         $record->settingdesc='MAINTENANCE MODE';
         $record->settingvalue=config('lopsoft.maintenance_mode');
@@ -410,6 +419,15 @@ class AppSettingSeeder extends Seeder
         /* STUDENTS */
 
         $record=new AppSetting();
+        $record->settingkey='STUDENTSNAME_UPPERCASE';
+        $record->settingdesc='STUDENTS FORCE UPPERCASE NAME';
+        $record->settingvalue=config('lopsoft.studentsname_uppercase');
+        $record->type='boolean';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('students'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
         $record->settingkey='STUDENTS_EXP_PREFIX';
         $record->settingdesc='STUDENTS EXP PREFIX';
         $record->settingvalue=config('lopsoft.students_exp_prefix');
@@ -434,6 +452,53 @@ class AppSettingSeeder extends Seeder
         $record->type='text';
         $record->level=1;
         $record->page_id=AppSettingPage::where('settingpage',transup('students'))->first()->id;
+        $record->save();
+
+        /* CUSTOMERS */
+
+        $record=new AppSetting();
+        $record->settingkey='CUSTOMERSNAME_UPPERCASE';
+        $record->settingdesc='CUSTOMERS FORCE UPPERCASE NAME';
+        $record->settingvalue=config('lopsoft.customersname_uppercase');
+        $record->type='boolean';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('customers'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='CUSTOMERS_EXP_PREFIX';
+        $record->settingdesc='CUSTOMERS EXP PREFIX';
+        $record->settingvalue=config('lopsoft.customers_exp_prefix');
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('customers'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='CUSTOMERS_EXP_LONG';
+        $record->settingdesc='CUSTOMERS CODE EXP LONG';
+        $record->settingvalue=config('lopsoft.customers_exp_long');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('customers'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='CUSTOMERS_EXP_SUFIX';
+        $record->settingdesc='CUSTOMERS CODE EXP SUFIX';
+        $record->settingvalue=config('lopsoft.customers_exp_sufix');
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('customers'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='CUSTOMERS_AVATAR';
+        $record->settingdesc='SHOW CUSTOMERS AVATAR';
+        $record->settingvalue=config('lopsoft.customers_avatar');
+        $record->type='boolean';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('customers'))->first()->id;
         $record->save();
 
 

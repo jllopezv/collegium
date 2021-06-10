@@ -2,6 +2,7 @@
 
 namespace App\Models\Aux;
 
+use App\Models\Crm\Customer;
 use App\Models\Crm\Employee;
 use App\Models\Traits\HasAbilities;
 use App\Models\Website\WebsiteBanner;
@@ -37,6 +38,11 @@ class Document extends Model
     public function employees()
     {
         $this->morphedMany(Employee::class, 'documentable');
+    }
+
+    public function customers()
+    {
+        $this->morphedMany(Customer::class, 'documentable');
     }
 
     public function scopeSearch($query, $search)

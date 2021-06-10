@@ -19,6 +19,7 @@ return [
     'vendorlogo'            =>  'system/vendorlogo.png',
     'prefix_admin'          =>  'admin',
     'timeout_ckeditor'      =>  2000,           //  It dependes of webserver
+    'entrypoint_website'    =>  false,
 
     /*
     |--------------------------------------------------------------------------
@@ -133,6 +134,19 @@ return [
     'students_exp_prefix'         =>  'EXP',
     'students_exp_long'           =>  '5',
     'students_exp_sufix'          =>  '',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Customers
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'customersname_uppercase'      =>  true,
+    'customers_exp_prefix'         =>  'C',
+    'customers_exp_long'           =>  '5',
+    'customers_exp_sufix'          =>  '',
+    'customers_avatar'             =>  false,
 
     /*
     |--------------------------------------------------------------------------

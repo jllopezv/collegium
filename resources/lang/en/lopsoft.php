@@ -40,6 +40,8 @@ return [
         'employee_types'    =>  'employee types',
         'employees'         =>  'employees',
         'teachers'          =>  'teachers',
+        'customer_types'    =>  'customer types',
+        'customers'         =>  'customers',
     ],
     'group'                 =>  'group',
     'permission_group'      =>  'permission groups',
@@ -89,6 +91,7 @@ return [
     'exit'                  =>  'exit',
     'mandatory'             =>  'mandatory',
     'mandatory_unique'      =>  'mandatory and unique',
+    'unique'                =>  'unique',
     'sex'                   =>  'sex',
     'male'                  =>  'male',
     'female'                =>  'female',
@@ -215,5 +218,9 @@ return [
     'teachers'              =>  'teachers',
     'periodtypes'           =>  'period types',
     'periodtype'            =>  'period type',
+    'customer'              =>  'customer',
+    'customers'             =>  'customers',
+    'customer_types'        =>  'customer types',
+    'rnc'                   =>  'id',
 ];
 

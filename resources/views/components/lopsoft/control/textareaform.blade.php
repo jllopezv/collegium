@@ -41,6 +41,7 @@
         help='{!! $help !!}'
         mode='{{ $mode }}'
         value='{!! $value !!}'
+        rows='20'
         errormsg="{{ $errors->has($id)?($errors->get($id))[0]:'' }}"
     />
 
