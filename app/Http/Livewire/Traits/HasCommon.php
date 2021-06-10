@@ -284,6 +284,16 @@ Trait HasCommon
     }
 
     /**
+     * Pre Save Code
+     *
+     * @return void
+     */
+    public function generateCodeStore()
+    {
+        return;
+    }
+
+    /**
      * Pre Save Data
      *
      * @return void
@@ -1341,7 +1351,7 @@ Trait HasCommon
             return;
         }
         $this->hideFlashMessage($this->flashmessageid);
-
+        $this->generateCodeStore();
         try
         {
             $storedrecord=$this->model::create($this->saveRecord());
@@ -1404,7 +1414,6 @@ Trait HasCommon
             return;
         }
         $this->hideFlashMessage($this->flashmessageid);
-
         try
         {
             $record=$this->model::find($this->recordid);

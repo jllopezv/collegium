@@ -45,7 +45,11 @@
 
         <div x-show='$wire.showcontent' class='absolute left-0 right-0 z-10 p-1 bg-gray-100 border border-gray-300 rounded-b-lg shadow-lg list-group {{$isTop?'bottom-10':''}}' >
             @if($cansearch)
-                <input type='text' class='w-full p-2 border border-gray-400 rounded-lg shadow' placeholder='buscar...' />
+                <input type='text' class='w-full p-2 border border-gray-400 rounded-lg shadow
+                hover:border-gray-500 hover:shadow-none
+                active:border-gray-500 active:shadow-none
+                focus:border-gray-500 focus:shadow-none
+                focus-visible:border-gray-500 focus-visible:shadow-none' placeholder='Buscar...' />
             @endif
             <div class='w-full overflow-y-scroll max-h-40 nosb'
                 >

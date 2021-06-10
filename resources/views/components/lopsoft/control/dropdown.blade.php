@@ -18,7 +18,11 @@
     @endphp
 
     <div x-show.transition='showselect' class='border border-gray-300' >
-        <input type='text' class='w-full p-2 border border-gray-400' placeholder='buscar...' />
+        <input type='text' class='w-full p-2 border border-gray-400
+            hover:border-gray-500 hover:shadow-none
+                active:border-gray-500 active:shadow-none
+                focus:border-gray-500 focus:shadow-none
+                focus-visible:border-gray-500 focus-visible:shadow-none' placeholder='Buscar...' />
         <div class='overflow-y-scroll max-h-32'>
             @foreach($options as $option)
                 <div class='flex items-center justify-center bg-red-100' @click="showselect=false">

@@ -6,8 +6,10 @@ use Livewire\Component;
 use App\Lopsoft\LopHelp;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use App\Models\School\Teacher;
 use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolLevel;
+use Illuminate\Support\Facades\DB;
 use App\Models\School\SchoolPeriod;
 use App\Models\School\SchoolSubject;
 use App\Http\Livewire\Traits\HasCommon;
@@ -38,6 +40,15 @@ class SchoolSubjectComponent extends Component
     public  $grade_id;
     public  $period_id;
 
+    // others
+
+    public $showTeachers=false;
+    public $selectedTeacher;
+    public $searchTeacher='';
+    public $teachers_list=null;
+    public $mustEdit=false;
+
+
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
         'refreshForm'           => 'refreshForm',           // Refresh all components in show or edit mode
@@ -61,6 +72,13 @@ class SchoolSubjectComponent extends Component
         /* Anno Support */
         'activateRecordInAnnoAction' => 'activateRecordInAnnoAction',
         'deactivateRecordInAnnoAction' => 'deactivateRecordInAnnoAction',
+
+        /* Teachers Support */
+
+        'teacherselected'        => 'teacherSelected',
+        'hidesearchdialog'       => 'hideParentsDialog',
+        'teachersearchupdated'   => 'teacherSearchUpdated',
+        'teacherdialogclosed'    => 'teacherDialogClosed',
     ];
 
     /**
@@ -112,6 +130,7 @@ class SchoolSubjectComponent extends Component
         $subjects=$anno->schoolSubjects;
         $this->priority=max(count($subjects), $subjects->max('pivot.priority'))+1;
         $this->code='-';
+        $this->teachers_list=collect([]);
 
     }
 
@@ -130,6 +149,9 @@ class SchoolSubjectComponent extends Component
         $this->subject=$this->record->subject;
         $this->abbr=$this->record->abbr;
         $this->priority=$this->record->priority;
+
+
+        $this->loadTeachers();
 
     }
 
@@ -167,7 +189,7 @@ class SchoolSubjectComponent extends Component
         ];
     }
 
-    public function preStore()
+    public function generateCodeStore()
     {
         if ($this->code=='-')
         {
@@ -190,6 +212,10 @@ class SchoolSubjectComponent extends Component
             'grade_id'  =>  $this->grade_id,
             'period_id' =>  $this->period_id,
         ]);
+
+        $this->syncTeachers($storedRecord->id);
+        $this->loadTeachers();
+
     }
 
     public function postUpdate($updatedRecord)
@@ -199,7 +225,12 @@ class SchoolSubjectComponent extends Component
             'grade_id'  =>  $this->grade_id,
             'period_id' =>  $this->period_id,
         ]);
+
+        $this->syncTeachers($updatedRecord->id);
+        $this->loadTeachers();
+
     }
+
 
     /* Events */
 
@@ -387,4 +418,126 @@ class SchoolSubjectComponent extends Component
         $anno=getUserAnnoSession();
         $anno->schoolSubjects()->detach($id);
     }
+
+    /** Teacher Support  */
+
+    public function showTeachersDialog()
+    {
+        $this->emit('showteacherdialog');
+        $this->showTeachers=true;
+    }
+    public function hideTeachersDialog()
+    {
+        $this->emit('hideteacherdialog');
+    }
+
+    public function teacherSelected($id)
+    {
+        $this->emit('setvalue', 'searchteachercomponent', '');
+        if (!$this->teachers_list->pluck('teacher.id')->contains($id))
+        {
+            $this->createTeachersListItem(0,$id);
+        }
+    }
+
+    public function deleteTeacher( $index )
+    {
+        $this->teachers_list->pull($index);
+    }
+
+    public function teacherSearchUpdated($search)
+    {
+        $this->searchteacher=$search;
+    }
+
+    public function teacherDialogClosed()
+    {
+        $this->showTeachers=false;
+    }
+
+    public function syncTeachers($subject_id=null)
+    {
+
+        if ($subject_id==null) return;
+
+        $anno=getUserAnnoSession();
+        $teacherstodelete=DB::table('anno_school_subject_teacher')->where('anno_id', $anno->id)
+        ->where('school_subject_id', $subject_id)->whereNotIn('teacher_id',$this->teachers_list->pluck('teacher.id'));
+        $teacherstodelete->delete();
+        foreach($this->teachers_list as $item)
+        {
+            if ($item['id']==0)
+            {
+                // Create row
+                DB::table('anno_school_subject_teacher')->insert([
+                    'anno_id'               =>  $anno->id,
+                    'school_subject_id'     =>  $subject_id,
+                    'teacher_id'            =>  $item['teacher']['id'],
+                    'coordinator'           =>  $item['teacher']['coordinator'],
+                ]);
+            }
+            else
+            {
+                // Update
+                DB::table('anno_school_subject_teacher')->where('id', $item['id'])->update([
+                    'anno_id'               =>  $anno->id,
+                    'school_subject_id'     =>  $subject_id,
+                    'teacher_id'            =>  $item['teacher']['id'],
+                    'coordinator'           =>  $item['teacher']['coordinator'],
+                ]);
+            }
+        }
+
+    }
+
+    public function setCoordinator($teacher_id)
+    {
+        $teacher=$this->teachers_list->where('teacher.id', $teacher_id)->first();
+        if ($teacher==null) return;
+        $changedvalue=1-$teacher['teacher']['coordinator'];
+        $key=$this->teachers_list->where('teacher.id', $teacher_id)->keys()->first();
+        $replaced=$this->teachers_list->replace( [ $key => [
+                'id'            => $teacher['id'],
+                'teacher'       => [
+                    'id'            =>  $teacher['teacher']['id'],
+                    'teacher'       =>  $teacher['teacher']['teacher'],
+                    'degree'        =>  $teacher['teacher']['degree'],
+                    'avatar'        =>  $teacher['teacher']['avatar'],
+                    'coordinator'   =>  $changedvalue,
+                ]
+        ]]);
+
+        $this->teachers_list=$replaced;
+
+    }
+
+    public function createTeachersListItem($anno_school_subject_teacher_id, $teacher_id)
+    {
+        $teacher=Teacher::find($teacher_id);
+        $this->teachers_list->push([
+            'id'            => $anno_school_subject_teacher_id,
+            'teacher'       => [
+                'id'            =>  $teacher->id,
+                'teacher'       =>  $teacher->teacher,
+                'degree'        =>  $teacher->employee->degree,
+                'avatar'        =>  $teacher->avatar,
+                'coordinator'   =>  $teacher->setSubject($this->recordid)->coordinator,
+            ]
+        ]);
+
+    }
+
+    public function loadTeachers()
+    {
+        $this->teachers_list=collect([]);
+
+        $anno=getUserAnnoSession();
+        $teachers=DB::table('anno_school_subject_teacher')->where('anno_id', $anno->id)
+            ->where('school_subject_id', $this->recordid)->get();
+        foreach($teachers as $item)
+        {
+            $this->createTeachersListItem($item->id, $item->teacher_id);
+        }
+    }
+
 }

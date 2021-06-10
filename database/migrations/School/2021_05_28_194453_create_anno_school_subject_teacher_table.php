@@ -18,6 +18,7 @@ class CreateAnnoSchoolSubjectTeacherTable extends Migration
             $table->foreignId('anno_id')->nullable()->constrained('annos')->cascadeOnDelete();
             $table->foreignId('school_subject_id')->nullable()->constrained('school_subjects')->cascadeOnDelete();
             $table->foreignId('teacher_id')->nullable()->constrained('teachers')->cascadeOnDelete();
+            $table->boolean('coordinator')->default(false);
         });
     }
 

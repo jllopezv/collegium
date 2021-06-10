@@ -52,7 +52,11 @@
                     <div class='flex items-center py-1 mb-1 overflow-x-hidden border-b-2 border-cool-gray-200'>
                         @if($cansearch)
                         <div class='w-full'>
-                            <input type='text' class='w-full p-2 border-cool-gray-300 '
+                            <input type='text' class='w-full p-2 border-cool-gray-300
+                            hover:border-gray-500 hover:shadow-none
+                    active:border-gray-500 active:shadow-none
+                    focus:border-gray-500 focus:shadow-none
+                    focus-visible:border-gray-500 focus-visible:shadow-none'
                                 wire:model.debounce.500ms='search'
                                 wire:keydown.escape='clearSearch'
                                 placeholder="Buscar..."

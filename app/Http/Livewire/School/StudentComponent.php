@@ -476,7 +476,7 @@ class StudentComponent extends Component
         ]);
     }
 
-    public function preStore()
+    public function generateCodeStore()
     {
         if ($this->exp=='-')
         {

@@ -55,7 +55,9 @@ class TeacherComponent extends Component
     public $filtersubjects='';
     public $subjects_selected;
     public $subjects_id_selected;
-
+    public $withoutteacher=true;
+    public $showSubjectsDialog=false;
+    public $subjects_list=null;
 
     protected $listeners=[
         'refreshDatatable'      => 'refreshDatatable',
@@ -116,6 +118,7 @@ class TeacherComponent extends Component
     public function loadDefaults()
     {
         $this->subjects_selected=collect([]);
+        $this->subjects_list=collect([]);
 
         // Userprofile
         $this->userProfileClear();
@@ -139,13 +142,15 @@ class TeacherComponent extends Component
         $this->profileuseremail=$this->record->user->email;
         $this->profileusername=$this->record->user->username;
 
+        /*
         $anno=getUserAnnoSession();
         $subjectsdata=DB::table('anno_school_subject_teacher')->where('anno_id', $anno->id)
             ->where('teacher_id', $this->record->id);
 
         $this->subjects_id_selected=collect($subjectsdata->pluck('school_subject_id'));
         $this->subjects_selected=$anno->belongsToMany(SchoolSubject::class)->active()->available()->withPivot(['grade_id','period_id','priority','available'])->orderBy('grade_id')->whereIn('school_subject_id', $this->subjects_id_selected )->get();
-
+        */
+        $this->loadSubjects();
     }
 
     public function getKeyNotification($record)
@@ -207,26 +212,23 @@ class TeacherComponent extends Component
         return $this->customValidation();
     }
 
-    public function postStore($recordStored)
+    public function postStore($storedRecord)
     {
-        $this->userProfileSaveUser($recordStored, $this->teacher, 'teacher');
+        $this->userProfileSaveUser($storedRecord, $this->teacher, 'teacher');
+
+        $this->syncSubjects($storedRecord->id);
+        $this->loadSubjects();
+
+        $this->showSubjectsDialog=false;
     }
 
-    public function postUpdate($recordUpdated)
+    public function postUpdate($updatedRecord)
     {
         // Update user
-        $this->userProfileUpdateUser($recordUpdated);
+        $this->userProfileUpdateUser($updatedRecord);
 
-        // Update subjects
-        $anno=getUserAnnoSession();
-        DB::table('anno_school_subject_teacher')->where('anno_id',$anno->id)
-            ->where('teacher_id', $recordUpdated->id)->delete();
-        foreach($this->subjects_selected as $subj)
-        {
-            $anno->schoolSubjectsTeachers()->attach([ $subj->id => [
-                'teacher_id'    =>  $recordUpdated->id,
-            ]]);
-        }
+        $this->syncSubjects($updatedRecord->id);
+        $this->loadSubjects();
 
     }
 
@@ -249,24 +251,12 @@ class TeacherComponent extends Component
         return $username;
     }
 
-    public function selectSubject($subject_id)
-    {
-        $this->subjects_id_selected[]=$subject_id;
-        $anno=getUserAnnoSession();
-        $s=$anno->belongsToMany(SchoolSubject::class)->active()->available()->withPivot(['grade_id','period_id','priority','available'])->orderBy('grade_id');
-        $s=$s->whereIn('school_subjects.id', $this->subjects_id_selected)->get();
-        $this->subjects_selected=$s;
-    }
-    public function deleteSubject($array_id)
-    {
-        $this->subjects_id_selected->splice($array_id, 1);
-        $anno=getUserAnnoSession();
-        $s=$anno->belongsToMany(SchoolSubject::class)->active()->available()->withPivot(['grade_id','period_id','priority','available'])->orderBy('grade_id');
-        $s=$s->whereIn('school_subjects.id', $this->subjects_id_selected)->get();
-        $this->subjects_selected=$s;
-    }
-
     /** Events */
+
+    public function updatedSearch()
+    {
+        $this->createSubjectsFilter();
+    }
 
     public function eventSetEmployee($employee_id)
     {
@@ -382,10 +372,121 @@ class TeacherComponent extends Component
             $this->filtersubjects='('.$this->filtersubjects.') and period_id='.$this->period_id;
         }
 
+        // Search
+
+
+
         $anno=getUserAnnoSession();
         $this->subjects=$anno->belongsToMany(SchoolSubject::class)->active()->available()->withPivot(['grade_id','period_id','priority','available'])->orderBy('grade_id');
-        $this->subjects=$this->subjects->whereRaw( $this->filtersubjects )->get();
+        $subjectsbuilder=$this->subjects->whereRaw( $this->filtersubjects );
+        $this->subjects=$subjectsbuilder->get();
+        if ($this->search!='')
+        {
+            $search=$this->search;
+            $this->subjects=SchoolSubject::whereIn('id', $subjectsbuilder->pluck('id'))->search($this->search)->get();
+        }
+    }
 
+    /* Subjects Support */
+
+    public function createSubjectsListItem($anno_school_subject_teacher_id, $subject_id)
+    {
+        $obj=SchoolSubject::find($subject_id);
+        $this->subjects_list->push([
+            'id'            => $anno_school_subject_teacher_id,
+            'subject'       => [
+                'id'            =>  $obj->id,
+                'subject'       =>  $obj->subject,
+                'code'          =>  $obj->code,
+                'grade'         =>  $obj->grade->grade,
+                'period'        =>  $obj->period->period,
+                'coordinator'   =>  $obj->coordinator??0,
+            ]
+        ]);
+
+    }
+
+    public function loadSubjects()
+    {
+        $this->subjects_list=collect([]);
+
+        $anno=getUserAnnoSession();
+        $subjects=DB::table('anno_school_subject_teacher')->where('anno_id', $anno->id)
+            ->where('teacher_id', $this->recordid)->get();
+        foreach($subjects as $item)
+        {
+            $this->createSubjectsListItem($item->id, $item->school_subject_id);
+        }
+    }
+
+    public function deleteSubject( $index )
+    {
+        $this->subjects_list->pull($index);
+    }
+
+    public function selectSubject($id)
+    {
+        $this->search='';
+        if (!$this->subjects_list->pluck('subject.id')->contains($id))
+        {
+            $this->createSubjectsListItem(0,$id);
+        }
+    }
+
+    public function setCoordinator($subject_id)
+    {
+        $subject=$this->subjects_list->where('subject.id', $subject_id)->first();
+        if ($subject==null) return;
+        $changedvalue=1-$subject['subject']['coordinator'];
+        $key=$this->subjects_list->where('subject.id', $subject_id)->keys()->first();
+        $replaced=$this->subjects_list->replace( [ $key => [
+                'id'            => $subject['id'],
+                'subject'       => [
+                    'id'            =>  $subject['subject']['id'],
+                    'code'          =>  $subject['subject']['code'],
+                    'subject'       =>  $subject['subject']['subject'],
+                    'grade'         =>  $subject['subject']['grade'],
+                    'period'        =>  $subject['subject']['period'],
+                    'coordinator'   =>  $changedvalue,
+                ]
+        ]]);
+
+        $this->subjects_list=$replaced;
+
+    }
+
+    public function syncSubjects($teacher_id=null)
+    {
+
+        if ($teacher_id==null) return;
+
+        $anno=getUserAnnoSession();
+        $subjectstodelete=DB::table('anno_school_subject_teacher')->where('anno_id', $anno->id)
+        ->where('teacher_id', $teacher_id)->whereNotIn('school_subject_id',$this->subjects_list->pluck('subject.id'));
+        $subjectstodelete->delete();
+        foreach($this->subjects_list as $item)
+        {
+            if ($item['id']==0)
+            {
+                // Create row
+                DB::table('anno_school_subject_teacher')->insert([
+                    'anno_id'               =>  $anno->id,
+                    'school_subject_id'     =>  $item['subject']['id'],
+                    'teacher_id'            =>  $teacher_id,
+                    'coordinator'           =>  $item['subject']['coordinator'],
+                ]);
+            }
+            else
+            {
+                // Update
+                DB::table('anno_school_subject_teacher')->where('id', $item['id'])->update([
+                    'anno_id'               =>  $anno->id,
+                    'school_subject_id'     =>  $item['subject']['id'],
+                    'teacher_id'            =>  $teacher_id,
+                    'coordinator'           =>  $item['subject']['coordinator'],
+                ]);
+            }
+        }
 
     }
 

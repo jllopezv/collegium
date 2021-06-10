@@ -9,6 +9,7 @@ use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use App\Models\Traits\IsUserType;
 use App\Models\Traits\HasPriority;
+use Illuminate\Support\Facades\DB;
 use App\Models\Traits\HasAbilities;
 use App\Models\Traits\HasAvailable;
 use App\Models\Traits\HasModelAvatar;
@@ -36,6 +37,8 @@ class Teacher extends Model
     use HasPriority;
     use HasAvailable;
 
+    private $subject_id=0;
+
 
     /*******************************************/
     /* Properties
@@ -48,6 +51,10 @@ class Teacher extends Model
      */
     protected $fillable = [
         'teacher','employee_id'
+    ];
+
+    protected $appends = [
+        'coordinator'
     ];
 
     /*******************************************/
@@ -124,6 +131,25 @@ class Teacher extends Model
         $anno->teachers()->updateExistingPivot($this->id, ['available' => $value]);
     }
 
+    public function getCoordinatorAttribute()
+    {
+        return $this->coordinator($this->subject_id, null);
+
+    }
+
+    public function coordinator($subject_id, $anno_id=null)
+    {
+
+        if ($anno_id==null) $anno_id=getUserAnnoSessionId();
+
+        $ret=DB::table('anno_school_subject_teacher')->where('anno_id', $anno_id)
+        ->where('school_subject_id', $subject_id)
+        ->where('teacher_id', $this->id)->first();
+
+        return $ret->coordinator??0;
+
+    }
+
     /*******************************************/
     /* Methods
     /*******************************************/
@@ -131,6 +157,12 @@ class Teacher extends Model
     public function scopeSearch($query, $search)
     {
         return $query->where('teacher', 'like', '%'.$search.'%' );
+    }
+
+    public function setSubject($subject_id)
+    {
+        $this->subject_id=$subject_id;
+        return $this;
     }
 
     /*******************************************/
@@ -144,6 +176,11 @@ class Teacher extends Model
     public function postDelete()
     {
         $this->user->delete();  // Delete asocciated user
+
+        // Associated subjects
+
+        $anno=getUserAnnoSession();
+        DB::table('anno_school_subject_teacher')->where('teacher_id', $this->id)->delete();
     }
 
     public function postLock()
