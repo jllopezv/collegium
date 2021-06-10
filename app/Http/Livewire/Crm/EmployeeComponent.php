@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Crm;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Livewire\Component;
 use App\Models\Aux\Country;
+use Illuminate\Support\Str;
 use App\Models\Crm\Employee;
 use Livewire\WithPagination;
 use App\Models\Crm\EmployeeEmail;
@@ -515,20 +517,36 @@ class EmployeeComponent extends Component
 
     public function getProfileUsername()
     {
-        $parts=explode(' ',$this->employee);
-        if (sizeof($parts)==1)
+        $from=2;
+        $username='';
+
+        if ($from==1)
         {
-            $username=$parts[0];
+
+            $parts=explode(' ',$this->employee);
+            if (sizeof($parts)==1)
+            {
+                $username=$parts[0];
+            }
+            if (sizeof($parts)==2)
+            {
+                $username=$parts[0].'.'.$parts[1];
+            }
+            if (sizeof($parts)>2)
+            {
+                $username=$parts[0].substr($parts[1],0,1).'.'.$parts[2];
+            }
+            $username=mb_strtolower( withoutAccents($username) );
         }
-        if (sizeof($parts)==2)
+        if ($from==2)
         {
-            $username=$parts[0].'.'.$parts[1];
+            $count=Employee::count();
+            do{
+                $count++;
+                $candidate='e'.Str::padLeft($count,5,'0');
+            }while(User::where('username', $candidate)->first()!=null);
+            $username=$candidate;
         }
-        if (sizeof($parts)>2)
-        {
-            $username=$parts[0].substr($parts[1],0,1).'.'.$parts[2];
-        }
-        $username=mb_strtolower( withoutAccents($username) );
         return $username;
     }
 

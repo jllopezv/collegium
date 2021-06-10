@@ -4,12 +4,14 @@ namespace App\Http\Livewire\School;
 
 use Livewire\Component;
 use App\Lopsoft\LopHelp;
+use Illuminate\Support\Str;
 use App\Models\Crm\Employee;
 use Livewire\WithPagination;
 use App\Models\School\Teacher;
 use App\Models\School\SchoolLevel;
 use Illuminate\Support\Facades\DB;
 use App\Models\School\SchoolSubject;
+use App\Models\User;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\IsUserType;
 use App\Http\Livewire\Traits\HasPriority;
@@ -142,14 +144,6 @@ class TeacherComponent extends Component
         $this->profileuseremail=$this->record->user->email;
         $this->profileusername=$this->record->user->username;
 
-        /*
-        $anno=getUserAnnoSession();
-        $subjectsdata=DB::table('anno_school_subject_teacher')->where('anno_id', $anno->id)
-            ->where('teacher_id', $this->record->id);
-
-        $this->subjects_id_selected=collect($subjectsdata->pluck('school_subject_id'));
-        $this->subjects_selected=$anno->belongsToMany(SchoolSubject::class)->active()->available()->withPivot(['grade_id','period_id','priority','available'])->orderBy('grade_id')->whereIn('school_subject_id', $this->subjects_id_selected )->get();
-        */
         $this->loadSubjects();
     }
 
@@ -234,20 +228,38 @@ class TeacherComponent extends Component
 
     public function getProfileUsername()
     {
-        $parts=explode(' ',$this->teacher);
-        if (sizeof($parts)==1)
+        $from=2;
+        $username='';
+
+        if ($from==1)
         {
-            $username=$parts[0];
+
+            /* From teacher string */
+            $parts=explode(' ',$this->teacher);
+            if (sizeof($parts)==1)
+            {
+                $username=$parts[0];
+            }
+            if (sizeof($parts)==2)
+            {
+                $username=$parts[0].'.'.$parts[1];
+            }
+            if (sizeof($parts)>2)
+            {
+                $username=$parts[0].substr($parts[1],0,1).'.'.$parts[2];
+            }
+            $username=mb_strtolower( withoutAccents($username) );
         }
-        if (sizeof($parts)==2)
+        if ($from==2)
         {
-            $username=$parts[0].'.'.$parts[1];
+            $count=Teacher::count();
+            do{
+                $count++;
+                $candidate='t'.Str::padLeft($count,5,'0');
+            }while(User::where('username', $candidate)->first()!=null);
+            $username=$candidate;
         }
-        if (sizeof($parts)>2)
-        {
-            $username=$parts[0].substr($parts[1],0,1).'.'.$parts[2];
-        }
-        $username=mb_strtolower( withoutAccents($username) );
+
         return $username;
     }
 

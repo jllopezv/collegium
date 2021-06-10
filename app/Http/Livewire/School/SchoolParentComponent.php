@@ -10,6 +10,7 @@ use Livewire\WithPagination;
 use App\Models\School\Student;
 use App\Models\School\ParentEmail;
 use App\Models\School\ParentPhone;
+use App\Models\School\SchoolParent;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\IsUserType;
@@ -397,20 +398,36 @@ class SchoolParentComponent extends Component
 
     public function getProfileUsername()
     {
-        $parts=explode(' ',$this->parent);
-        if (sizeof($parts)==1)
+        $from=2;
+        $username='';
+
+        if ($from==1)
         {
-            $username=$parts[0];
+            /* From parent */
+            $parts=explode(' ',$this->parent);
+            if (sizeof($parts)==1)
+            {
+                $username=$parts[0];
+            }
+            if (sizeof($parts)==2)
+            {
+                $username=$parts[0].'.'.$parts[1];
+            }
+            if (sizeof($parts)>2)
+            {
+                $username=$parts[0].substr($parts[1],0,1).'.'.$parts[2];
+            }
+            $username=mb_strtolower( withoutAccents($username) );
         }
-        if (sizeof($parts)==2)
+        if ($from==2)
         {
-            $username=$parts[0].'.'.$parts[1];
+            $count=SchoolParent::count();
+            do{
+                $count++;
+                $candidate='p'.Str::padLeft($count,5,'0');
+            }while(User::where('username', $candidate)->first()!=null);
+            $username=$candidate;
         }
-        if (sizeof($parts)>2)
-        {
-            $username=$parts[0].substr($parts[1],0,1).'.'.$parts[2];
-        }
-        $username=mb_strtolower( withoutAccents($username) );
         return $username;
     }
 
