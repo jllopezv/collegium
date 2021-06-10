@@ -67,7 +67,7 @@
             <div class=''>
                 <x-lopsoft.control.checkbox
                     id='chk_periods'
-                    label="{{ transup('periods') }}"
+                    label="{{ transup('periodtypes') }}"
                     color='text-blue-400' classlabel='font-bold'
                     wire:model='process.periods'
                 />

@@ -395,7 +395,7 @@
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-calendar'
                 link="{{ route('school_periods.index') }}"
-                text="{{ transup('tables.school_periods') }}"
+                text="{{ transup('periodtypes') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

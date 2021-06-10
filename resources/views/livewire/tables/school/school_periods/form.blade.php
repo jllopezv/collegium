@@ -14,7 +14,7 @@
     wire:model.lazy='period'
     id='period'
     x-ref='period'
-    label="{{ transup('period') }}"
+    label="{{ transup('periodtype') }}"
     class='w-full'
     autofocus
     classcontainer='w-full'

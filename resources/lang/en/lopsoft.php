@@ -26,7 +26,7 @@ return [
         'school_sections'   =>  'sections',
         'school_modalities' =>  'modalities',
         'school_parents'    =>  'school parents',
-        'school_periods'    =>  'school periods',
+        'school_periods'    =>  'school period types',
         'school_subjects'   =>  'school subjects',
         'website_pages'     =>  'website pages',
         'website_menus'     =>  'website menus',
@@ -213,5 +213,7 @@ return [
     'fromyear'              =>  'from year',
     'teacher'               =>  'teacher',
     'teachers'              =>  'teachers',
+    'periodtypes'           =>  'period types',
+    'periodtype'            =>  'period type',
 ];
 

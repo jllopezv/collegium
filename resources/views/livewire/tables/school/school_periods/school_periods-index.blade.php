@@ -1,7 +1,7 @@
 @extends('livewire.layouts.indexlayout', [ 'minwidth' => '1000px'])
 
 @section('header')
-    <x-lopsoft.datatable.header-th class='w-full' sortable sortorder='{{ $sortorder }}' columnname='period'>{{ transup('period')}}</x-lopsoft.datatable.header-th>
+    <x-lopsoft.datatable.header-th class='w-full' sortable sortorder='{{ $sortorder }}' columnname='period'>{{ transup('periodtype')}}</x-lopsoft.datatable.header-th>
     @include('components.lopsoft.datatable.header-anno-priority')
 @endsection
 

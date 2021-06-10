@@ -28,7 +28,7 @@ return [
         'school_sections'   =>  'secciones académicas',
         'school_modalities' =>  'modalidades académicas',
         'school_parents'    =>  'parientes',
-        'school_periods'    =>  'períodos académicos',
+        'school_periods'    =>  'tipos de períodos académicos',
         'school_subjects'   =>  'asignaturas',
         'website_pages'     =>  'páginas del website',
         'website_menus'     =>  'menús del website',
@@ -215,5 +215,7 @@ return [
     'fromyear'              =>  'desde el año',
     'teacher'               =>  'profesor',
     'teachers'              =>  'profesores',
+    'periodtypes'           =>  'tipos de períodos',
+    'periodtype'            =>  'tipo de período',
 
 ];

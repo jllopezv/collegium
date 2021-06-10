@@ -3,9 +3,7 @@
 namespace App\Http\Livewire\School;
 
 use Livewire\Component;
-use App\Lopsoft\LopHelp;
 use Livewire\WithPagination;
-use App\Models\School\SchoolGrade;
 use App\Models\School\SchoolPeriod;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\HasPriority;

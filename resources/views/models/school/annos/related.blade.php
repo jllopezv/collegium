@@ -4,7 +4,7 @@
             <x-lopsoft.inlinelink.gray class='mb-1 bg-cool-gray-300 text-cool-gray-600 hover:bg-cool-gray-700 hover:text-green-300 p-2' link="{{route('annos.index')}}" textxs text="{{ transup('annos')}}"   />
         @endhasAbility
         @hasAbility('school_periods.access')
-            <x-lopsoft.inlinelink.gray class='mb-1 bg-cool-gray-300 text-cool-gray-600 hover:bg-cool-gray-700 hover:text-green-300 p-2' link="{{route('school_periods.index')}}" textxs text="{{ transup('periods')}}"   />
+            <x-lopsoft.inlinelink.gray class='mb-1 bg-cool-gray-300 text-cool-gray-600 hover:bg-cool-gray-700 hover:text-green-300 p-2' link="{{route('school_periods.index')}}" textxs text="{{ transup('periodtypes')}}"   />
         @endhasAbility
         @hasAbility('school_levels.access')
             <x-lopsoft.inlinelink.gray class='mb-1 bg-cool-gray-300 text-cool-gray-600 hover:bg-cool-gray-700 hover:text-green-300 p-2' link="{{route('school_levels.index')}}" textxs text="{{ transup('levels')}}"   />
