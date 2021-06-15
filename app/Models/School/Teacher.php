@@ -68,7 +68,15 @@ class Teacher extends Model
 
     public function subjects()
     {
-        return $this->belongsToMany(SchoolSubject::class,'id','teacher_id', 'anno_subject_teacher');
+        return $this->belongsToMany(SchoolSubject::class,'anno_school_subject_teacher', 'teacher_id', 'id' );
+    }
+
+    public function grades()
+    {
+        $anno=getUserAnnoSession();
+        $subjects=$this->subjects();
+        $anno_subjects=$anno->schoolSubjects()->whereIn('school_subject_id', $subjects->pluck('school_subject_id'))->pluck('grade_id');
+        return $anno->schoolGrades()->whereIn('school_grades.id', $anno_subjects);
     }
 
     /*******************************************/

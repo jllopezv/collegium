@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
         //CRM
         $this->call(EmployeeTypeSeeder::class);
         $this->call(CustomerTypeSeeder::class);
+        $this->call(CustomerSeeder::class);
 
         // School
         $this->call(SchoolLevelSeeder::class);

@@ -224,5 +224,6 @@ return [
     'customers'             =>  'clientes',
     'customer_types'        =>  'tipos de clientes',
     'rnc'                   =>  'rnc',
+    'economic_rep'          =>  'representante económico',
 
 ];

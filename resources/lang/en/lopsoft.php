@@ -222,5 +222,6 @@ return [
     'customers'             =>  'customers',
     'customer_types'        =>  'customer types',
     'rnc'                   =>  'id',
+    'economic_rep'          =>  'economic representative',
 ];
 

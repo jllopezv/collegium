@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <div  class='justify-center inline-block w-full h-full px-4 py-2 mt-4 items-top'>
+    <div class='justify-center inline-block w-full h-full px-4 py-2 mt-4 items-top'>
 
         @if($anno!=null)
             @if(count($levels))

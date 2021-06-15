@@ -1,6 +1,6 @@
 <div class='flex items-center justify-end w-full bg-gray-700 p-3'>
     @hasAbility($table.".login")
-        @if($record->user->id!=Auth::user()->id)
+        @if($record->user!=null && $record->user->id!=Auth::user()->id)
             <div class=''>
                 <div class='text-right'>
                     <div class='tooltip'>

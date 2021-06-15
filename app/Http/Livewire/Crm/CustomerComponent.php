@@ -60,6 +60,7 @@ class CustomerComponent extends Component
     public $phones=[];
     public $emails=[];
     public $customer_type_id;
+    public $students=null;
 
     /* Avatar */
     private $avatarfolder='customers-photos';
@@ -178,6 +179,8 @@ class CustomerComponent extends Component
 
         // Userprofile
         $this->userProfileClear();
+
+        $this->students=Customer::find($this->recordid)->students??collect([]);
     }
 
     public function resetForm()

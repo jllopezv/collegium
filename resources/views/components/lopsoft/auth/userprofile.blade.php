@@ -3,14 +3,14 @@
         <div class='absolute top-0 right-0 mt-2 flex items-center justify-end'>
             @hasAbility('users.show')
                 <div class='mr-2'>
-                    <a href="{{ route('users.show', ['id' => $record->user->id]) }}" target="_blank">
+                    <a href="{{ route('users.show', ['id' => $record->user->id??0 ]) }}" target="_blank">
                         <i class='fa fa-info-circle text-cool-gray-400 hover:text-blue-500 cursor-pointer'></i>
                     </a>
                 </div>
             @endhasAbility
             @hasAbility('users.edit')
                 <div class=''>
-                    <a href="{{ route('users.edit', ['id' => $record->user->id]) }}" target="_blank">
+                    <a href="{{ route('users.edit', ['id' => $record->user->id??0 ]) }}" target="_blank">
                         <i class='fa fa-pencil text-cool-gray-400 hover:text-cool-gray-500 cursor-pointer'></i>
                     </a>
                 </div>
@@ -27,8 +27,8 @@
             @endif
             @if($mode!='create')
                 <div class='w-40  md:mr-4 mt-4'>
-                    <a href="{{ getImage($record->user->profile_photo_path,false) }}" target='_blank'>
-                        <img class='rounded-full w-40 h-40' src="{{ $record->user->avatar }}" />
+                    <a href="{{ getImage($record->user->profile_photo_path??0,false) }}" target='_blank'>
+                        <img class='rounded-full w-40 h-40' src="{{ $record->user->avatar??Storage::disk('public')->url(config('lopsoft.default_avatar')) }}" />
                     </a>
                 </div>
             @endif

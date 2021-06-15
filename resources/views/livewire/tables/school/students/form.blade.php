@@ -226,12 +226,29 @@
 
                 </div>
             @endif
+            <div class='w-full'>
+                @livewire('controls.drop-down-table-component', [
+                    'model'         => \App\Models\Crm\Customer::class,
+                    'mode'          => $mode,
+                    'filterraw'     => '',
+                    'sortorder'     => 'customer',
+                    'label'         => transup('economic_rep'),
+                    'classdropdown' => 'xl:w-1/2',
+                    'key'           => 'id',
+                    'field'         => 'customer',
+                    'defaultvalue'  =>  ($this->mode=='create')?1:$record->customer_id,
+                    'eventname'     => 'eventsetcustomer',
+                    'uid'           => 'customercomponent',
+                    'modelid'       => 'customer_id',
+                    'isTop'         =>  true,
+                    'requiredfield' =>  true,
+                    'help'          =>  transup('mandatory'),
+                    'linknew'       =>  Auth::user()->hasAbility('customers.create')?route('customers.create'):'',
+                    'linkshowtable' =>  'customers',
+                ])
+            </div>
         </div>
-
     </div>
-
-
-
 
     <x-lopsoft.control.tabs minheight='600px'>
         <x-slot name='tabs'>

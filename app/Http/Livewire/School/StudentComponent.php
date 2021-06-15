@@ -58,6 +58,7 @@ class StudentComponent extends Component
     public  $section_id;
     public  $batch_id;
     public  $modality_id;
+    public  $customer_id;
     public  $recordparents=[];
 
     private $avatarfolder='students-photos';
@@ -110,6 +111,7 @@ class StudentComponent extends Component
         'eventsetsection'       => 'eventSetSection',
         'eventsetbatch'         => 'eventSetBatch',
         'eventsetmodality'      => 'eventSetModality',
+        'eventsetcustomer'      => 'eventSetCustomer',
         'eventfilterlevel'      => 'eventFilterLevel',
         'eventfiltergrade'      => 'eventFilterGrade',
         'eventfiltersection'    => 'eventFilterSection',
@@ -204,6 +206,7 @@ class StudentComponent extends Component
             'section_id'            =>  $this->section_id,
             'batch_id'              =>  $this->batch_id,
             'modality_id'           =>  $this->modality_id,
+            'customer_id'           =>  $this->customer_id,
         ];
     }
 
@@ -238,6 +241,7 @@ class StudentComponent extends Component
         $this->loadDefaults();
         $this->resetAvatar();
         $this->grade_id=null;
+        $this->customer_id=null;
         $this->recordparents=[];
         $this->emit('setvalue', 'gradecomponent', $this->grade_id);
 
@@ -287,6 +291,7 @@ class StudentComponent extends Component
             'second_surname'        =>  $this->second_surname,
             'birth'                 =>  $this->birth,
             'gender'                =>  $this->gender,
+            'customer_id'           =>  $this->customer_id,
         ];
     }
 
@@ -358,6 +363,11 @@ class StudentComponent extends Component
     public function eventSetModality($modality_id)
     {
         $this->modality_id=$modality_id;
+    }
+
+    public function eventSetCustomer($customer_id)
+    {
+        $this->customer_id=$customer_id;
     }
 
     public function canUpdate()

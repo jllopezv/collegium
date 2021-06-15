@@ -3,6 +3,7 @@
 namespace App\Models\Crm;
 
 use App\Models\Aux\Document;
+use App\Models\School\Student;
 use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
@@ -63,6 +64,11 @@ class Customer extends Model
     public function emails()
     {
         return $this->hasMany(CustomerEmail::class,'customer_id');
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'customer_id');
     }
 
     /**

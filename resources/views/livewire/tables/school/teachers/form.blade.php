@@ -31,7 +31,8 @@ nextref='btnCreate'
         'requiredfield' =>  true,
         'help'          =>  transup('mandatory'),
         'linknew'       =>  Auth::user()->hasAbility('employees.create')?route('employees.create'):'',
-        'template'      => 'components.lopsoft.dropdown.employees',
+        'template'      =>  'components.lopsoft.dropdown.employees',
+        'linkshowtable' =>  'employees',
     ])
 </div>
 

@@ -51,6 +51,8 @@ class DropDownTableComponent extends Component
     public $isTop=false;            // where show seach list
     public $searchInField=false;     // Search only in indicated field or use search scope of model. If model has translations then set to false.
     public $linknew='';             // Link to create new
+    public $linkshow='';            // Show info circle button to show record
+    public $linkshowtable='';
     public $enabled=true;
 
     protected $listeners=[
@@ -81,6 +83,7 @@ class DropDownTableComponent extends Component
 
         }
         $this->select($this->defaultvalue); // Default Value
+
     }
 
 
@@ -264,6 +267,14 @@ class DropDownTableComponent extends Component
         }
 
         $this->emit('dropdownupdated',$this->uid,$this->value);
+
+        if ($this->linkshowtable!='' && Auth::user()->hasAbility($this->linkshowtable.'.show'))
+        {
+            if ($this->value!=null && $this->value!='' && $this->value!='*')
+            {
+                $this->linkshow=route($this->linkshowtable.'.show', [ 'id' => $this->value ]);
+            }
+        }
     }
 
     /**

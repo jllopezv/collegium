@@ -26,6 +26,13 @@
                     <div class="{{ $readonly?'cursor-default':'cursor-pointer'}} pr-1" ><i class='fa fa-angle-{{$isTop?'up':'down'}} pt-2'></i></div>
                 @endif
             </div>
+            @if($linkshow!='')
+                <div class=''>
+                    <a href='{{ $linkshow }}' target='_blank'>
+                        <i class='text-cool-gray-400 hover:text-blue-500 cursor-pointer fa fa-external-link-alt fa-fw'></i>
+                    </a>
+                </div>
+            @endif
             @if($requiredfield && $mode!='show' && $validationerror=="")
                 <div class='cursor-pointer tooltip' onclick="ShowInfo('{!! $help !!}')">
                     <i class='text-blue-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
@@ -41,6 +48,7 @@
                     <i class='text-red-400 cursor-pointer fa fa-exclamation-triangle fa-fw fa-xs'></i>
                 </div>
             @endif
+
         </div>
         {{-- <div>
             <span class='text-red-500'>{{ $validationerror }}</span>
@@ -51,16 +59,16 @@
 
                     <div class='flex items-center py-1 mb-1 overflow-x-hidden border-b-2 border-cool-gray-200'>
                         @if($cansearch)
-                        <div class='w-full'>
+                        <div class='w-full p-1'>
                             <input type='text' class='w-full p-2 border-cool-gray-300
-                            hover:border-gray-500 hover:shadow-none
-                    active:border-gray-500 active:shadow-none
-                    focus:border-gray-500 focus:shadow-none
-                    focus-visible:border-gray-500 focus-visible:shadow-none'
+                            hover:border-cool-gray-500 hover:shadow-none
+                            active:border-cool-gray-500 active:shadow-none
+                            focus:border-cool-gray-500 focus:shadow-none
+                            focus-visible:border-cool-gray-500 focus-visible:shadow-none'
                                 wire:model.debounce.500ms='search'
                                 wire:keydown.escape='clearSearch'
                                 placeholder="Buscar..."
-                                autofocus />
+                                autofocus/>
                         </div>
                         @else
                         <div class='w-full'></div>

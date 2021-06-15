@@ -123,8 +123,8 @@ Trait WithUserProfile
 
     public function userProfileLoadRecord($record, $emails=[])
     {
-        $this->profileuseremail=$record->user->email;
-        $this->profileusername=$record->user->username;
+        $this->profileuseremail=$record->user->email??'';
+        $this->profileusername=$record->user->username??'';
         $this->profileemailsdropdown=$emails;
         $this->userProfileSetEmails($emails);
         $this->checkUserProfileUsername();

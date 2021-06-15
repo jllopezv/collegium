@@ -3,6 +3,7 @@
 namespace App\Models\School;
 
 use App\Models\Aux\Document;
+use App\Models\Crm\Customer;
 use App\Models\Traits\HasAnno;
 use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
@@ -32,7 +33,7 @@ class Student extends Model
      * @var array
      */
     protected $fillable = [
-        'exp', 'names', 'profile_photo_path', 'first_surname', 'second_surname', 'birth', 'gender', 'priority'
+        'exp', 'names', 'profile_photo_path', 'first_surname', 'second_surname', 'birth', 'gender', 'priority', 'customer_id'
     ];
 
     protected $appends= [ 'name', 'avatar', 'grade' ,'priority', 'params', 'section', 'modality'];
@@ -71,6 +72,11 @@ class Student extends Model
     public function parents()
     {
         return $this->belongsToMany(SchoolParent::class,'school_parent_student')->withPivot('relationship');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class,'customer_id');
     }
 
     /**
