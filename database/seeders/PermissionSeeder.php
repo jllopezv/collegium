@@ -27,6 +27,8 @@ class PermissionSeeder extends Seeder
         $table='roles';
         $this->createPermissions($table,'AUTENTICACIÓN');
 
+        /* AUX */
+
         $table='colors';
         $this->createPermissions($table,'AUXILIARES');
 
@@ -41,6 +43,11 @@ class PermissionSeeder extends Seeder
 
         $table='images';
         $this->createPermissions($table,'AUXILIARES');
+
+        $table='currencies';
+        $this->createPermissions($table,'AUXILIARES');
+
+        /* ACADEMIC */
 
         $table='students';
         $this->createPermissions($table,'ACADÉMICA');
@@ -85,6 +92,9 @@ class PermissionSeeder extends Seeder
         $this->createPermissions($table,'CRM');
 
         $table='customers';
+        $this->createPermissions($table,'CRM');
+
+        $table='invoices';
         $this->createPermissions($table,'CRM');
 
         /* SETTINGS */

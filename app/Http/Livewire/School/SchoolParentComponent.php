@@ -73,14 +73,6 @@ class SchoolParentComponent extends Component
 
         // UserProfile
         'eventEmailsTableUpdatedEmails'     => 'eventSetEmails',
-
-        /*// UserProfile
-        'eventEmailsTableUpdatedEmails'     => 'eventSetEmails',
-        'userprofileupdatedvalidation'      =>  'userProfileUpdatedValidation',
-        'userprofileupdateddata'            =>  'userProfileUpdatedData',
-        'userprofileusernamerequired'       => 'userProfileSetUsername',
-        'userprofileemailrequired'          => 'userProfileSetEmail',
-        'eventsetuserprofileemail'          => 'eventSetUserProfileEmail',*/
     ];
 
     /**

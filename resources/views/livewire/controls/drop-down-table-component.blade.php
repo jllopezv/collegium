@@ -1,9 +1,8 @@
 <div x-data="{}"
    @click.away='$wire.hidebody()'
    x-init='$wire.getValue($wire.uid)'
-   class='py-4 '
+   class=' ' {{-- class='py-4' --}}
 >
-
     <label class="block font-bold {{ $validationerror?'text-red-600 ':''}}">
         {{ $label }}
         @if($sublabel!="")
@@ -12,17 +11,17 @@
     </label>
     <div class='relative {{ $classdropdown }} pt-2'>
         <div class='flex items-center justify-center'>
-            <div class='flex items-center justify-between
-            p-0 m-0 rounded-none border-b-2 border-t-0 border-l-0 border-r-0 border-gray-300
+            <div class="flex items-center justify-between
+            p-0 m-0 rounded-none {{ $borderless?'':'border-b-2' }} border-t-0 border-l-0 border-r-0 border-gray-300
             hover:border-gray-500 hover:shadow-none
             active:border-gray-500 active:shadow-none
             focus:border-gray-500 focus:shadow-none
-            transition-all duration-300 w-full {{ $readonly?'cursor-default':'cursor-pointer'}}  {{$classchevron}}' wire:click='togglebody'>
+            transition-all duration-300 w-full {{ $readonly?'cursor-default':'cursor-pointer'}}  {{$classchevron}}" wire:click='togglebody'>
                 <div class='w-full py-1 pl-1'>
-                    <div class='text-black'>{!! $contenttoshow !!}</div>
+                    <div class='{{ $classinput }}'>{!! $contenttoshow !!}</div>
                     <input wire:model='value' type='text' class='hidden w-full pb-1 pl-1 bg-transparent border-0 form-input hover:shadow-none active:shadow-none focus:shadow-none' readonly/>
                 </div>
-                @if(!$readonly)
+                @if(!$readonly && !$arrowless)
                     <div class="{{ $readonly?'cursor-default':'cursor-pointer'}} pr-1" ><i class='fa fa-angle-{{$isTop?'up':'down'}} pt-2'></i></div>
                 @endif
             </div>
@@ -81,12 +80,14 @@
                             @endhasAbility
                         @endif
                         <div class='ml-1'>
-                            <div wire:loading.delay >
-                                <x-lopsoft.link.gray wire:click='getData' icon='fa fa-spin fa-sync fa-fw'  />
-                            </div>
-                            <div wire:loading.delay.remove >
-                                <x-lopsoft.link.gray wire:click='getData' icon='fa fa-sync fa-fw'  />
-                            </div>
+                            @if($cansync)
+                                <div wire:loading.delay >
+                                    <x-lopsoft.link.gray wire:click='getData' icon='fa fa-spin fa-sync fa-fw'  />
+                                </div>
+                                <div wire:loading.delay.remove >
+                                    <x-lopsoft.link.gray wire:click='getData' icon='fa fa-sync fa-fw'  />
+                                </div>
+                            @endif
                         </div>
                     </div>
                 <div class='w-full overflow-y-auto max-h-40'

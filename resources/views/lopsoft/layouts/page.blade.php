@@ -89,6 +89,10 @@
                 window.scrollTo(0,0);
             });
 
+            window.addEventListener('appSetFocus', event => {
+                $("#"+event.detail.element_id).focus();
+            });
+
 
         </script>
 

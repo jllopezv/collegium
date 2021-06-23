@@ -339,6 +339,23 @@ use App\Models\Setting\AppSetting;
         }
     }
 
+    if (! function_exists('getInvoiceLines')) {
+
+        function getInvoiceLines($lines)
+        {
+            $retlines=[];
+            foreach($lines as $line)
+            {
+                $retlines[]=[
+                    'id'            =>  $line->id,
+                    'code'         =>  $line->code,
+                    'item'   =>  $line->item,
+                ];
+            }
+            return $retlines;
+        }
+    }
+
 
 
 

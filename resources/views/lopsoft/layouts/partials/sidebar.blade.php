@@ -348,6 +348,15 @@
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
             @endhasAbility
+            @hasAbility(['invoices.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-file-invoice-dollar'
+                link="{{ route('invoices.index') }}"
+                text="{{ transup('invoices') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
 
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
@@ -478,6 +487,15 @@
                 icon='hover:text-red-500 fa fa-user'
                 link="{{ route('languages.index') }}"
                 text="{{ transup('tables.languages') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['currencies.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-dollar-sign'
+                link="{{ route('currencies.index') }}"
+                text="{{ transup('tables.currencies') }}"
                 class='hover:text-green-300'
                 help=''>
             </x-lopsoft.control.sidebar-sublink>

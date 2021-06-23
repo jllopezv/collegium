@@ -7,7 +7,9 @@ use App\Models\Aux\Color;
 use App\Models\Aux\Image;
 
 use App\Models\Aux\Country;
+use App\Models\Crm\Invoice;
 use App\Models\School\Anno;
+use App\Models\Aux\Currency;
 use App\Models\Aux\Language;
 use App\Models\Crm\Customer;
 use App\Models\Crm\Employee;
@@ -46,8 +48,10 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Aux\ColorController;
 use App\Http\Controllers\Aux\ImageController;
 use App\Http\Controllers\Aux\CountryController;
+use App\Http\Controllers\Crm\InvoiceController;
 use App\Http\Controllers\School\AnnoController;
 use App\Models\Website\WebsiteAdvertisementCat;
+use App\Http\Controllers\Aux\CurrencyController;
 use App\Http\Controllers\Aux\LanguageController;
 use App\Http\Controllers\Crm\CustomerController;
 use App\Http\Controllers\Crm\EmployeeController;
@@ -183,7 +187,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('employees', EmployeeController::class, Employee::class);
     LopHelp::generateCommonModelRoute('customers', CustomerController::class, Customer::class);
     LopHelp::generateCommonModelRoute('customer_types', CustomerTypeController::class, CustomerType::class);
-
+    LopHelp::generateCommonModelRoute('invoices', InvoiceController::class, Invoice::class);
 });
 
 /*****************************************************/
@@ -248,6 +252,7 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('countries', CountryController::class, Country::class);
     LopHelp::generateCommonModelRoute('languages', LanguageController::class, Language::class);
     LopHelp::generateCommonModelRoute('images', ImageController::class, Image::class);
+    LopHelp::generateCommonModelRoute('currencies', CurrencyController::class, Currency::class);
 
 });
 

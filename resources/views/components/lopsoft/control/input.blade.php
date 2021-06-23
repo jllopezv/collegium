@@ -8,7 +8,7 @@
     'help'          => '',
     'classcontainer'    => '',
     'mode'          => 'create',
-    'errormsg'      =>  $errors->has('showed')?($errors->get('showed'))[0]:'',
+    'errormsg'      => '',
     ])
 
 
@@ -38,7 +38,7 @@
     @endif
 >
     </div>
-    @if($errormsg=='')
+    @if(($errors->has($id)?($errors->get($id))[0]:'')=='')
         @if($requiredfield && ( $mode!='show'))
             <div class='cursor-pointer tooltip' onclick="ShowInfo('{!! $help !!}')">
                 <i class='text-blue-400 fa fa-exclamation-circle fa-fw fa-xs'></i>
@@ -50,7 +50,7 @@
             </div>
         @endif
     @else
-        <div onclick="ShowError('{!! $errormsg !!}')">
+        <div onclick="ShowError('{!! $errors->has($id)?($errors->get($id))[0]:'' !!}')">
             <i class='text-red-400 cursor-pointer fa fa-exclamation-triangle fa-fw fa-xs'></i>
         </div>
     @endif

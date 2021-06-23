@@ -30,12 +30,16 @@ class DropDownTableComponent extends Component
     public $requiredfield=false;    // show info
     public $help='';                // show help for requiredfield
     public $cansearch=true;         // can show search box
+    public $cansync=true;
     public $search='';              // string to search
     public $readonly=false;         // Readonly property
     public $validationerror='';     // VAlidation errors
     public $classdropdown='w-full'; // Class for container
+    public $classinput='text-black';// Class for input
     public $table='';
     public $onlyanno=true;          // Only session current
+    public $borderless=false;       // Sin border
+    public $arrowless=false;
 
     /* table */
     private $data=null;             // data to show
@@ -61,6 +65,7 @@ class DropDownTableComponent extends Component
         'setfilterraw'      =>  'setFilterraw',
         'validationerror'   =>  'validationError',
         'enabledropdown'    =>  'enableDropDown',
+        'setmode'           =>  'setMode',
     ];
 
     /**
@@ -114,6 +119,14 @@ class DropDownTableComponent extends Component
         if ($uid==$this->uid || $uid=='*')
         {
             $this->enabled=$value;
+        }
+    }
+
+    public function setMode($uid, $value)
+    {
+        if ($uid==$this->uid || $uid=='*')
+        {
+            $this->mode=$value;
         }
     }
 
@@ -266,7 +279,7 @@ class DropDownTableComponent extends Component
             $this->contenttoshow="SIN SELECCIÓN";
         }
 
-        $this->emit('dropdownupdated',$this->uid,$this->value);
+        $this->emit('dropdownupdated',$this->uid,$this->value, $change);
 
         if ($this->linkshowtable!='' && Auth::user()->hasAbility($this->linkshowtable.'.show'))
         {

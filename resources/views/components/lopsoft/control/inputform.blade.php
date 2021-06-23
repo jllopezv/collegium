@@ -15,6 +15,7 @@
     'value'         =>  '',
     'classcomponent' => '',
     'sufix'         =>  '',
+    'ref'           =>  Str::random(20),
 ])
 
 <div class='{{ $label!=""?'py-4':''}} {{ $classcomponent }}'>
@@ -38,6 +39,7 @@
             'class' => ($errors->has($id)?'border-red-500':'')
         ]) }}
         placeholder='{{ $placeholder }}'
+        x-ref='{{ $ref }}'
         nextref='{{$nextref}}'
         requiredfield='{{$requiredfield}}'
         help='{!! $help !!}'
