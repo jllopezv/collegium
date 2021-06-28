@@ -1,31 +1,7 @@
 <div>
-    <x-lopsoft.control.inputform
-        wire:model.lazy='ref'
-        id='ref'
-        ref='ref'
-        label="{{ transup('ref') }}"
-        class='w-full'
-        autofocus
-        classcontainer='w-32'
-        requiredfield
-        help="{{ transup('mandatory_unique') }}"
-        mode="{{ $mode }}"
-        nextref='description'
-    />
 
-    <x-lopsoft.control.inputform
-        wire:model.lazy='description'
-        id='description'
-        ref='description'
-        label="{{ transup('description') }}"
-        class='w-full'
-        autofocus
-        classcontainer='w-full'
-        requiredfield
-        help="{{ transup('mandatory_unique') }}"
-        mode="{{ $mode }}"
-        nextref='invoiceline_code_0'
-    />
+
+
 
     <div class='w-full sm:w-80'>
         @livewire('controls.drop-down-table-component', [
@@ -47,13 +23,12 @@
             'template'      => 'components.lopsoft.dropdown.currencies',
         ])
     </div>
-
     {{-- LINEAS --}}
     <div class='mt-4'>
         @livewire('controls.invoice-lines-component',[
             'mode'  =>  $mode,
             'uid'   =>  'invoicelines',
-            'lines' =>  null,
+            'defaultlines' =>  $defaultlines,
             'model' =>  App\Models\Crm\Invoice::class,
         ])
     </div>

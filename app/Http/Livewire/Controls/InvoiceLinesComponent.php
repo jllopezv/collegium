@@ -9,6 +9,7 @@ use App\Models\Aux\Currency;
 class InvoiceLinesComponent extends Component
 {
     public $lines=[];
+    public $defaultlines;
     public $mode;
     public $uid;
     public $model;
@@ -17,10 +18,11 @@ class InvoiceLinesComponent extends Component
     public $currency_id;
 
     protected $listeners=[
-        'setlines'                  => 'setLines',
+        'setvaluelines'             =>  'setLines',
         'currencyinputformupdated'  =>  'currencyInputFormSync',
         'dropdownupdated'           =>  'dropdownSync',
         'eventsetinvoicecurrency'   =>  'setInvoiceCurrency',
+        'calculateinvoiceline'     =>  'calculateLine'
     ];
 
     public function mount()
@@ -30,14 +32,20 @@ class InvoiceLinesComponent extends Component
         if ($this->mode=='create') $this->LineAdd();
         if ($this->mode=='edit' && count($this->lines)==0) $this->LineAdd();
 
-
+        if ($this->defaultlines!=null)
+        {
+            $this->lines=$this->defaultlines;
+            $this->calculateLines(); // First time in edit
+        }
     }
 
     public function setLines($uid, $lines)
     {
+
         if ($this->uid==$uid)
         {
             $this->lines=$lines;
+            if (count($this->lines)==0) $this->LineAdd();
         }
 
     }
@@ -70,111 +78,116 @@ class InvoiceLinesComponent extends Component
         $this->syncValues();
     }
 
+    public function customValidationLine($key)
+    {
+        if (trim($this->lines[$key]['quantity'])=='')
+        {
+            $this->lines[$key]['quantity']=0;
+        }
+        // Quantity
+        if (!is_numeric($this->lines[$key]['quantity']))
+        {
+            $this->addError('invoiceline_quantity_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
+            return false;
+        }
+
+        if (trim($this->lines[$key]['price'])=='')
+        {
+            $this->lines[$key]['price']=0;
+        }
+        // Price
+        if (!is_numeric($this->lines[$key]['price']))
+        {
+            $this->addError('invoiceline_price_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
+            return false;
+        }
+
+        if (trim($this->lines[$key]['discount'])=='')
+        {
+            $this->lines[$key]['discount']=0;
+        }
+        // Dto
+        if (!is_numeric($this->lines[$key]['discount']))
+        {
+            $this->addError('invoiceline_discount_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
+            return false;
+        }
+
+        if (trim($this->lines[$key]['tax'])=='')
+        {
+            $this->lines[$key]['tax']=0;
+        }
+        // Tax
+        if (!is_numeric($this->lines[$key]['tax']))
+        {
+            $this->addError('invoiceline_tax_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
+            return false;
+        }
+
+        return true;
+
+    }
+
     public function customValidation()
     {
         $this->resetErrorBag();
+        $ret=true;
         foreach($this->lines as $key=>$line)
         {
-            if (trim($line['quantity'])=='')
-            {
-                $this->lines[$key]['quantity']=0;
-                $line['quantity']=0;
-            }
-            // Quantity
-            if (!is_numeric($line['quantity']))
-            {
-                $this->addError('invoiceline_quantity_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
-                return false;
-            }
-
-            if (trim($line['price'])=='')
-            {
-                $this->lines[$key]['price']=0;
-                $line['price']=0;
-            }
-            // Price
-            if (!is_numeric($line['price']))
-            {
-                $this->addError('invoiceline_price_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
-                return false;
-            }
-
-            if (trim($line['discount'])=='')
-            {
-                $this->lines[$key]['discount']=0;
-                $line['discount']=0;
-            }
-            // Dto
-            if (!is_numeric($line['discount']))
-            {
-                $this->addError('invoiceline_discount_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
-                return false;
-            }
-
-            if (trim($line['tax'])=='')
-            {
-                $this->lines[$key]['tax']=0;
-                $line['tax']=0;
-            }
-            // Tax
-            if (!is_numeric($line['tax']))
-            {
-                $this->addError('invoiceline_tax_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
-                return false;
-            }
+            if (!$this->customValidationLine($key)) $ret=false;
 
         }
-        return true;
+        return $ret;
     }
 
     public function calculateLines($forceupdatecurrency=false)
     {
-        $this->lines_subtotal=0;
-        $this->lines_taxes=0;
+        if (!$this->customValidation()) return;
+
         foreach($this->lines as $key=>$line)
         {
-            $currency=Currency::find($line['currency_id']);
-            if ($currency!=null)
-            {
-                $taxline=0;
-                $this->lines[$key]['amount']=$line['quantity']*$line['price'];
-                if ($line['discount']!=0)
-                {
-                    if ($line['discount_percent']) $this->lines[$key]['amount']=$this->lines[$key]['amount']-($this->lines[$key]['amount']*($line['discount']/100));
-                    if (!$line['discount_percent']) $this->lines[$key]['amount']=$this->lines[$key]['amount']-$line['discount'];
-                }
-                if ($line['tax']!=0)
-                {
-                    $taxline=$this->lines[$key]['amount']*($line['tax']/100);
-                }
-
-                // In default currency
-                $this->lines[$key]['amount_currency_default']=$currency->convert(Currency::find($this->currency_id)->id,$this->lines[$key]['amount']);
-
-                $this->lines_subtotal+=$this->lines[$key]['amount_currency_default'];
-                $this->lines_taxes+=$taxline;
-
-
-                // Update currency values
-                $this->emit('invoiceline_amount_'.$key.'_setvalue', $this->lines[$key]['amount'], false);
-
-                // update currencies
-                if ($forceupdatecurrency) $this->emit('setvalue','currencycomponent_'.$key, $this->lines[$key]['currency_id']);
-            }
-
-
+            $this->calculateLine($key,false);
         }
         $this->emit('invoicelinesupdated', $this->lines, $this->lines_subtotal, $this->lines_taxes );
 
     }
 
-    public function updatedLines()
+    public function calculateLine($key, $sendevent=true)
     {
+        if (!$this->customValidation()) return;
 
-        if ($this->customValidation())
+        $line=$this->lines[$key];
+        $currency=Currency::find($line['currency_id']);
+        if ($currency!=null)
         {
-            $this->calculateLines();
+            $taxline=0;
+            $this->lines[$key]['amount']=$line['quantity']*$line['price'];
+            if ($line['discount']!=0)
+            {
+                if ($line['discount_percent']) $this->lines[$key]['amount']=$this->lines[$key]['amount']-($this->lines[$key]['amount']*($line['discount']/100));
+                if (!$line['discount_percent']) $this->lines[$key]['amount']=$this->lines[$key]['amount']-$line['discount'];
+            }
+            if ($line['tax']!=0)
+            {
+                $taxline=$this->lines[$key]['amount']*($line['tax']/100);
+            }
+
+            // In default currency
+            $this->lines[$key]['amount_currency_default']=$currency->convert(Currency::find($this->currency_id)->id,$this->lines[$key]['amount']);
+
+            $this->lines_subtotal+=$this->lines[$key]['amount_currency_default'];
+            $this->lines_taxes+=$taxline;
+
+
+            // Update currency values
+            $this->emit('invoiceline_amount_'.$key.'_setvalue', $this->lines[$key]['amount'], false);
+
+            // update currencies
+            //if ($forceupdatecurrency) $this->emit('setvalue','currencycomponent_'.$key, $this->lines[$key]['currency_id']);
         }
+
+        if ($sendevent) $this->emit('invoicelinesupdated', $this->lines, $this->lines_subtotal, $this->lines_taxes );
+
     }
 
     public function discountPercent($index, $value)
@@ -185,6 +198,7 @@ class InvoiceLinesComponent extends Component
 
     public function currencyInputFormSync($uid, $value, $currency_id, $isPercent)
     {
+
         $calculate=false;
         if (Str::startsWith($uid, 'invoiceline_price_'))
         {
@@ -200,7 +214,8 @@ class InvoiceLinesComponent extends Component
             $calculate=true;
         }
 
-        if ($calculate) $this->calculateLines();
+        if ($calculate) $this->calculateLine($linenumber);
+
     }
 
     public function dropdownSync($uid, $currency_id, $change)
@@ -215,9 +230,10 @@ class InvoiceLinesComponent extends Component
     public function setLineCurrency($linenumber, $currency_id)
     {
         $this->lines[$linenumber]['currency_id']=$currency_id;
-        $this->emit('setvalue', 'invoiceline_price_'.$linenumber.'_currency', $currency_id);
-        $this->emit('setvalue', 'invoiceline_discount_'.$linenumber.'_currency', $currency_id);
-        $this->emit('setvalue', 'invoiceline_amount_'.$linenumber.'_currency', $currency_id);
+        $this->emit('setvalue', 'invoiceline_price_'.$linenumber.'_currency', $currency_id, false);
+        $this->emit('setvalue', 'invoiceline_discount_'.$linenumber.'_currency', $currency_id, false);
+        $this->emit('setvalue', 'invoiceline_amount_'.$linenumber.'_currency', $currency_id, false);
+        $this->calculateLine($linenumber);
     }
 
     public function syncValues()
@@ -241,4 +257,6 @@ class InvoiceLinesComponent extends Component
     {
         return view('livewire.controls.invoice-lines-component');
     }
+
+
 }

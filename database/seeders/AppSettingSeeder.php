@@ -454,6 +454,53 @@ class AppSettingSeeder extends Seeder
         $record->page_id=AppSettingPage::where('settingpage',transup('students'))->first()->id;
         $record->save();
 
+        /* SUPPLIERS */
+
+        $record=new AppSetting();
+        $record->settingkey='SUPPLIERSNAME_UPPERCASE';
+        $record->settingdesc='SUPPLIERS FORCE UPPERCASE NAME';
+        $record->settingvalue=config('lopsoft.suppliersname_uppercase');
+        $record->type='boolean';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('suppliers'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='SUPPLIERS_EXP_PREFIX';
+        $record->settingdesc='SUPPLIERS EXP PREFIX';
+        $record->settingvalue=config('lopsoft.suppliers_exp_prefix');
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('suppliers'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='SUPPLIERS_EXP_LONG';
+        $record->settingdesc='SUPPLIERS CODE EXP LONG';
+        $record->settingvalue=config('lopsoft.suppliers_exp_long');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('suppliers'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='SUPPLIERS_EXP_SUFIX';
+        $record->settingdesc='SUPPLIERS CODE EXP SUFIX';
+        $record->settingvalue=config('lopsoft.suppliers_exp_sufix');
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('suppliers'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='SUPPLIERS_AVATAR';
+        $record->settingdesc='SHOW SUPPLIERS AVATAR';
+        $record->settingvalue=config('lopsoft.suppliers_avatar');
+        $record->type='boolean';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('suppliers'))->first()->id;
+        $record->save();
+
         /* CUSTOMERS */
 
         $record=new AppSetting();

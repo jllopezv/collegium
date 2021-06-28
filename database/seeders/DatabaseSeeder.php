@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LanguageSeeder::class);
         $this->call(AnnoSeeder::class);
         $this->call(SchoolPeriodSeeder::class);
+        $this->call(CurrencySeeder::class);
 
         // Setting
         $this->call(AppSettingPageSeeder::class);
@@ -35,7 +36,9 @@ class DatabaseSeeder extends Seeder
         //CRM
         $this->call(EmployeeTypeSeeder::class);
         $this->call(CustomerTypeSeeder::class);
+        $this->call(SupplierTypeSeeder::class);
         $this->call(CustomerSeeder::class);
+        $this->call(SupplierSeeder::class);
 
         // School
         $this->call(SchoolLevelSeeder::class);

@@ -42,6 +42,8 @@ return [
         'teachers'          =>  'teachers',
         'customer_types'    =>  'customer types',
         'customers'         =>  'customers',
+        'supplier_types'    =>  'supplier types',
+        'suppliers'         =>  'suppliers',
         'currencies'        =>  'currencies',
         'invoices'          =>  'invoices',
     ],
@@ -251,6 +253,9 @@ return [
     'product'               =>  'product',
     'article'               =>  'article',
     'quantity_short'        =>  'qty',
+    'supplier'              =>  'supplier',
+    'suppliers'             =>  'suppliers',
+    'supplier_types'        =>  'supplier types',
 ];
 
 

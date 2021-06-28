@@ -275,9 +275,9 @@
                             @endif
                         </div>
                         <div class='px-2 mt-2 border rounded-lg bg-gray-100 border-cool-gray-300'>
-                            @livewire('search.search-school-parents-component', [
-                                'uid'           =>  'searchschoolparentcomponent',
-                                'showdialog'    =>  $showParents,
+                            @livewire('search.search-customers-component', [
+                                'uid'           =>  'searchcustomercomponent',
+                                'showdialog'    =>  $showCustomers,
                             ])
                         </div>
                         @if($selectedParent)

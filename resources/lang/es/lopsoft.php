@@ -44,6 +44,8 @@ return [
         'teachers'          =>  'profesores',
         'customer_types'    =>  'tipos de clientes',
         'customers'         =>  'clientes',
+        'supplier_types'    =>  'tipos de suplidores',
+        'suppliers'         =>  'suplidores',
         'currencies'        =>  'divisas',
         'invoices'          =>  'facturas',
     ],
@@ -253,5 +255,8 @@ return [
     'product'               =>  'producto',
     'article'               =>  'artículo',
     'quantity_short'        =>  'cant',
+    'supplier'              =>  'suplidor',
+    'suppliers'             =>  'suplidores',
+    'supplier_types'        =>  'tipos de suplidores',
 
 ];

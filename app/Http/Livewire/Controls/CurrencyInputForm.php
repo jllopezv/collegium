@@ -7,12 +7,9 @@ use App\Models\Aux\Currency;
 
 class CurrencyInputForm extends Component
 {
-    public $inputbox;
-    public $tempinputbox=0.00;
     public $uid;
     public $mode;
     public $model;
-    public $showvalue;
     public $borderless=true;
     public $arrowless=true;
     public $classinput='';
@@ -22,6 +19,7 @@ class CurrencyInputForm extends Component
     public $showcurrency=true;
     public $currencydefault;
     public $value=0.00;
+    public $showedvalue;
     public $showpercent=false;
     public $isPercent=false;
 
@@ -39,17 +37,7 @@ class CurrencyInputForm extends Component
     {
         $this->currency=Currency::find($this->currency_id);
         if ($this->mode=='create') $this->setCurrency($this->currency_id);
-
-        if ($this->value!='')
-        {
-            $this->tempinputbox=$this->value;
-            $this->focus();
-            $this->focusout();
-        }
-
-
         $this->currencydefault=$this->currency_id;
-
 
     }
 
@@ -61,52 +49,55 @@ class CurrencyInputForm extends Component
 
         $this->currency_id=$currency_id;
         $this->currency=Currency::find($currency_id);
-        $this->focus();
-        $this->focusout();
+        $this->setShowedValue($this->value);
     }
 
     public function setValue($value, $sendstatus=true)
     {
-        $this->inputbox=$value;
-        $this->tempinputbox=$value;
-        $this->focus();
-        $this->focusout($sendstatus);
-    }
-
-    public function updatedInputbox()
-    {
-        $this->inputbox=mb_strtolower($this->inputbox);
-        $this->inputbox = preg_replace("/[a-z]+/", "", $this->inputbox);
-        $this->inputbox=doubleval($this->inputbox);
-    }
-
-    public function focusout($sendstatus=true)
-    {
-        $this->tempinputbox=$this->inputbox;
-        $this->setShowValue($this->inputbox);
-        $this->inputbox=$this->showvalue;
-
+        $this->value=$value;
+        $this->setShowedValue($this->value);
         if ($sendstatus) $this->sendStatus();
+    }
+
+    public function updatedValue()
+    {
+        // Clean value
+        $this->value = mb_strtolower($this->value);
+        $this->value = preg_replace("/[a-z]+/", "", $this->value);
+        $this->value = doubleval($this->value);
+    }
+
+    public function focusout()
+    {
+        if ($this->mode!='show')
+        {
+            $this->value=$this->showedvalue;
+            $this->setShowedValue($this->value);
+            $this->sendStatus();
+        }
     }
 
     public function focus()
     {
-        if ($this->mode=='show') return;
-        $this->inputbox=$this->tempinputbox;
+        if ($this->mode=='show')
+        {
+            $this->setShowedValue($this->value);
+            return;
+        }
+        $this->showedvalue=$this->value;
     }
 
-    public function setShowValue($value)
+    public function setShowedValue($value)
     {
-
+        $this->updatedValue($value);
         if (!$this->isPercent)
         {
-            $this->showvalue=$this->currency!=null?$this->currency->getString($value):'';
+            $this->showedvalue=$this->currency!=null?$this->currency->getString($value):'';
         }
         else
         {
-            $this->showvalue=$value; //.'%';
+            $this->showedvalue=$value; //.'%';
         }
-
     }
 
     public function currencySync($uid, $currency_id, $change)
@@ -119,12 +110,11 @@ class CurrencyInputForm extends Component
 
     public function sendStatus()
     {
-        $this->emit('currencyinputformupdated', $this->uid, $this->tempinputbox, $this->currency_id, $this->isPercent );
+        $this->emit('currencyinputformupdated', $this->uid, $this->value, $this->currency_id, $this->isPercent );
     }
 
     public function setPercent($value)
     {
-        if ($this->mode=='show') return;
         $this->isPercent=$value;
         if ($this->isPercent)
         {
@@ -141,7 +131,8 @@ class CurrencyInputForm extends Component
                 $this->emit('enabledropdown', $this->uid.'_currency', true);
             }
         }
-        $this->setCurrency($this->currency_id);
+        $this->setShowedValue($this->value);
+        $this->sendStatus();
     }
 
     /* Render */

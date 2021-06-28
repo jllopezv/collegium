@@ -161,7 +161,7 @@
 
             @if($mode=='create')
                 <div>
-                    <span class='font-bold text-red-400'>DEBE CREAR PRIMERO AL EMPLEADO PARA PODER ASIGNARLE DOCUMENTOS</span>
+                    <span class='font-bold text-red-400'>DEBE CREAR PRIMERO AL CLIENTE PARA PODER ASIGNARLE DOCUMENTOS</span>
                 </div>
             @else
                 <div class='mt-4'>

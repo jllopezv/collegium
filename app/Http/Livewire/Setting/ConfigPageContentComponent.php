@@ -39,7 +39,7 @@ class ConfigPageContentComponent extends Component
             }
             else
             {
-                $this->settingsvalues[$set->settingkey]=$set->settingvalue==='true'?true:false;
+                $this->settingsvalues[$set->settingkey]=(($set->settingvalue==='true' || $set->settingvalue==='1')?true:false);
             }
         }
     }
@@ -59,7 +59,7 @@ class ConfigPageContentComponent extends Component
             if ($setting!=null)
             {
                 $setting->settingvalue=$this->settingsvalues[$setting->settingkey];
-                if ($setting->type=='boolean') $setting->settingvalue=$this->settingsvalues[$setting->settingkey]==true?'true':'false';
+                if ($setting->type=='boolean') $setting->settingvalue=$this->settingsvalues[$setting->settingkey]==true?1:0;
                 if ($setting->type=='number')
                 {
                     if (!is_numeric($this->settingsvalues[$setting->settingkey]))

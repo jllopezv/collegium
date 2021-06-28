@@ -23,8 +23,8 @@ class CreateCurrencyTable extends Migration
             $table->boolean('left')->default(true); // true symbol at left, false symbol at right
             $table->integer('spaces')->default(2);
             $table->integer('decimals')->default(2);
-            $table->string('decimals_separator')->default('');
-            $table->string('thousands_separator')->default('');
+            $table->string('decimals_separator')->default('.');
+            $table->string('thousands_separator')->default(',');
             $table->double('rate')->default(0);
             $table->timestamps();
             $table->foreignId('created_by')->nullable()->references('id')->on('users')->onDelete('set null');

@@ -7,6 +7,9 @@
     {{-- @resize.window='checkWidth()' --}}
     :class="'absolute top-0 left-0 z-50 bg-gray-800 text-white h-full text-xs transition-all duration-500 w-72 overflow-y-auto nosb'">
     {{-- <x-lopsoft.control.sidebar-open /> --}}
+
+    {{--  HOME  --}}
+
     <x-lopsoft.control.sidebar-link
         icon='fa fa-home'
         link="{{ route('dashboard') }}"
@@ -14,6 +17,9 @@
         help="{{ transup('home') }}"
         class='hover:text-green-300'>
     </x-lopsoft.control.sidebar-link>
+
+    {{--  SETTINGS  --}}
+
     @hasAbilityOr(['app.settings', 'app_settings.access', 'app_setting_pages.access', 'model_config.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-cogs'
@@ -58,6 +64,9 @@
             @endhasAbility
         </x-lopsoft.control.sidebar-menu>
     @endhasAbilityOr
+
+    {{--  USERS  --}}
+
     @hasAbilityOr(["permission_groups.access", "permissions.access", "roles.access", "users.access"])
     <x-lopsoft.control.sidebar-menu
         icon='fa fa-user'
@@ -304,7 +313,11 @@
 
     {{-- CRM --}}
 
-    @hasAbilityOr([ 'employee_types.access', 'customer_types.access'])
+    @hasAbilityOr([ 'employee_types.access', 
+                    'customer_types.access', 
+                    'supplier_types.access', 
+                    'customers.access',
+                    'suppliers.access'])
         <x-lopsoft.control.sidebar-menu
             icon='fa fa-user-tie'
             link='linkeando'
@@ -330,6 +343,26 @@
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
             @endhasAbility
+            <x-lopsoft.control.sidebar-separator />
+            @hasAbility(['suppliers.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-user-tie'
+                link="{{ route('suppliers.index') }}"
+                text="{{ transup('suppliers') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            @hasAbility(['supplier_types.access'])
+            <x-lopsoft.control.sidebar-sublink
+                icon='hover:text-red-500 fa fa-bars'
+                link="{{ route('supplier_types.index') }}"
+                text="{{ transup('supplier_types') }}"
+                class='hover:text-green-300'
+                help=''>
+            </x-lopsoft.control.sidebar-sublink>
+            @endhasAbility
+            <x-lopsoft.control.sidebar-separator />
             @hasAbility(['employees.access'])
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-hard-hat'
@@ -348,6 +381,7 @@
                 help=''>
             </x-lopsoft.control.sidebar-sublink>
             @endhasAbility
+            <x-lopsoft.control.sidebar-separator />
             @hasAbility(['invoices.access'])
             <x-lopsoft.control.sidebar-sublink
                 icon='hover:text-red-500 fa fa-file-invoice-dollar'

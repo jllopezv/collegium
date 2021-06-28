@@ -135,6 +135,18 @@ class RoleSeeder extends Seeder
                                              'allowLock'     => false
                                         ]);
 
+        $record=new Role;
+        $record->role="SUPPLIER";
+        $record->level=31000;
+        $record->dashboard='supplier';
+        $record->color_id=9;
+        $record->save();
+        $record->allowedActions()->create([  'allowShow'     => false,
+                                             'allowEdit'     => false,
+                                             'allowDelete'   => false,
+                                             'allowLock'     => false
+                                        ]);
+
     }
 
 

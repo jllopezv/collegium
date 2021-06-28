@@ -24,11 +24,11 @@ use App\Models\Setting\AppSetting;
     {
         function appsetting($key)
         {
-            $cfg=AppSetting::where('settingkey', $key)->first();
+            $cfg=AppSetting::where('settingkey', mb_strtoupper($key))->first();
             if (is_null($cfg)) return config('lopsoft.'.$key);
             if ($cfg->type=='boolean')
             {
-                return $cfg->settingvalue=='true'?true:false;
+                return ($cfg->settingvalue=='true' || $cfg->settingvalue==1)?1:0;
             }
             return $cfg->settingvalue;
         }

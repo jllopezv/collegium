@@ -1,16 +1,16 @@
 <div class='relative'>
 
-    <div class='flex items-center justify-end mb-2'>
-        <x-lopsoft.button.success id='btnLineAdd' x-ref='btnLineAdd' wire:click='LineAdd' icon='fa fa-plus' text="{{ transup('line') }}"/>
-    </div>
+    @if($mode!='show')
+        <div class='flex items-center justify-end mb-2'>
+            <x-lopsoft.button.success id='btnLineAdd' x-ref='btnLineAdd' wire:click='LineAdd' icon='fa fa-plus' text="{{ transup('line') }}"/>
+        </div>
+    @endif
     <div class='absolute top-5 left-3 hidden' wire:loading.delay.class.remove='hidden' >
         <i class='fas fa-circle-notch fa-spin text-blue-500'></i> <span class='text-blue-500'>Sincronizando...</span>
     </div>
     <div class='p-1 xl:bg-gray-100 xl:rounded-lg xl:py-2 '>
-
         @foreach($lines as $key=>$line)
             <div class="mb-2 xl:mb-0  bg-gray-100 xl:rounded-none rounded-lg  p-2 xl:py-0" >
-
                 <div class='w-full'>
                     {{-- CONTENT --}}
                     <div class='flex flex-wrap items-center justify-start w-full '>
@@ -19,7 +19,7 @@
                                 @if($key==0)
                                     <span class='text-xs font-bold md:pl-3 text-cool-gray-500'>{{ transup('code') }}</span>
                                 @else
-                                    <span class='xl:hidden text-xs font-bold md:pl-3 text-cool-gray-500'>{{ transup('code') }}</span>
+                                    <span class='md:hidden text-xs font-bold md:pl-3 text-cool-gray-500'>{{ transup('code') }}</span>
                                 @endif
                                 <x-lopsoft.control.input
                                     id='invoiceline_code_{{$loop->index}}'
@@ -64,6 +64,7 @@
                                         placeholder="0"
                                         nextref='invoiceline_price_{{$loop->index}}_input'
                                         mode='{{ $mode }}'
+                                        @change="$wire.emit('calculateinvoiceline', {{$loop->index}})"
                                     />
                                 </div>
 
@@ -84,6 +85,7 @@
                                                 'mode'          =>  $mode,
                                                 'classinput'    =>  'text-cool-gray-700',
                                                 'currency_id'   =>  $currency_id,
+                                                'value'         =>  $lines[$key]['price']??0,
                                             ], key('price'.$loop->index))
                                         </div>
                                     </div>
@@ -102,10 +104,11 @@
                                                 'nextref'       =>  'invoiceline_tax_'.$loop->index,
                                                 'showcurrency'  =>  false,
                                                 'showpercent'   =>  true,
-                                                'isPercent'     =>  true,
+                                                'isPercent'     =>  $lines[$key]['discount_percent']??true,
                                                 'mode'          =>  $mode,
                                                 'classinput'    =>  'text-cool-gray-700',
                                                 'currency_id'   =>  $currency_id,
+                                                'value'         =>  $lines[$key]['discount'],
                                             ], key('discount'.$loop->index))
                                     </div>
                                 </div>
@@ -126,6 +129,7 @@
                                                     placeholder="0"
                                                     nextref='btnLineAdd'
                                                     mode='{{ $mode }}'
+                                                    @change="$wire.emit('calculateinvoiceline', {{$loop->index}})"
                                                 />
                                             </div>
                                             <div class='w-4'>
@@ -150,9 +154,10 @@
                                                     'mode'          =>  'show',
                                                     'classinput'    =>  'text-cool-gray-700',
                                                     'currency_id'   =>  $currency_id,
+                                                    'value'         =>  $lines[$key]['amount'],
                                                 ], key('amount'.$loop->index))
                                 </div>
-                                <div class="{{ $key==0?'mt-4':'mb-2' }}">
+                                <div class="{{ $key==0?'mt-4':'mt-4 md:mt-0 md:mb-2' }}">
                                     @livewire('controls.drop-down-table-component', [
                                         'model'         => \App\Models\Aux\Currency::class,
                                         'mode'          => $mode,

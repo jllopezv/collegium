@@ -15,6 +15,7 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->boolean('active')->default(1);
             $table->string('ref')->unique();
             $table->string('serie')->default('');
             $table->date('invoice_date')->nullable();
@@ -32,8 +33,8 @@ class CreateInvoicesTable extends Migration
             $table->string('customer_phone')->default('');
             $table->string('customer_email')->default('');
             $table->foreignId('country_id')->nullable()->references('id')->on('countries')->onDelete('set null');
-            $table->longText('notes_ext');
-            $table->longText('notes_int');
+            $table->longText('notes_ext')->default('');
+            $table->longText('notes_int')->default('');
             $table->double('discount')->default(0.0);
             $table->boolean('discount_is_percent')->default(false);
             $table->double('latefee')->default(0.0);

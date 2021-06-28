@@ -4,13 +4,19 @@ namespace App\Models\Crm;
 
 use App\Models\Crm\Customer;
 use App\Models\Traits\HasOwner;
+use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
+use App\Models\Traits\HasAbilities;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\HasAllowedActions;
 
 class Invoice extends Model
 {
+    use HasActive;
     use HasOwner;
     use HasCommon;
+    use HasAbilities;
+    use HasAllowedActions;
 
 
     /*******************************************/
@@ -23,7 +29,7 @@ class Invoice extends Model
      * @var array
      */
     protected $fillable = [
-        'ref', 'description',
+        'ref', 'description', 'currency_id',
     ];
 
     protected $dates= [ 'invoice_date', 'invoice_due' ];
@@ -43,6 +49,16 @@ class Invoice extends Model
         return $this->morphOne(Customer::class, 'documentable');
     }
 
+    /**
+     * Get invoice lines
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function lines()
+    {
+        return $this->hasMany(InvoiceLine::class);
+    }
+
     /*******************************************/
     /* Accessors and mutators
     /*******************************************/
@@ -57,8 +73,10 @@ class Invoice extends Model
             ->orWhere( 'description', 'like', '%'.$search.'%' );
     }
 
+
     /*******************************************/
     /* Actions
     /*******************************************/
+
 
 }

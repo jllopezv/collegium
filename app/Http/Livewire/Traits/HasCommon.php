@@ -574,7 +574,7 @@ Trait HasCommon
             $ret=$anno->belongsToMany($this->model);
         }
 
-        if ( property_exists($this->model,'hasActive') || !$this->showlocks)
+        if ( property_exists($this->model,'hasActive') || !$this->showlocks )
         {
             $ret=$ret->active();
         }

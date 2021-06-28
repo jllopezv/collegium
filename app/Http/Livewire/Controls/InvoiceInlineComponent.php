@@ -15,10 +15,9 @@ class InvoiceInlineComponent extends Component
     public $mode;
     public $uid;
     public $lines=[];
+    public $defaultlines;
 
     // Inovices fields
-    public $ref;
-    public $description;
     public $subtotal=0;
     public $discount=0;
     public $discount_percent=false;
@@ -32,15 +31,17 @@ class InvoiceInlineComponent extends Component
     public $total_string;
 
     protected $listeners=[
-        'invoicelinesupdated'  =>  'invoiceLinesSync',
+        'invoicelinesupdated'       =>  'invoiceLinesSync',
         'currencyinputformupdated'  =>  'currencyInputFormSync',
         'eventsetinvoicecurrency'   =>  'setInvoiceCurrency',
+        'setvaluelines'             =>  'setLines'
 
     ];
 
     public function mount()
     {
         $this->currency_id=Currency::getCurrent()->id;
+        if ($this->defaultlines!=null) $this->lines=$this->defaultlines;
     }
 
     public function invoiceLinesSync($lines, $subtotal, $taxes)
@@ -49,6 +50,8 @@ class InvoiceInlineComponent extends Component
         $this->subtotal=$subtotal;
         $this->taxes=$taxes;
         $this->calculateTotal();
+
+        $this->sendInvoiceData();
     }
 
     public function calculateTotal()
@@ -98,6 +101,28 @@ class InvoiceInlineComponent extends Component
     {
         $this->currency_id=$currency_id;
         $this->emit('invoice_discount_setcurrency', $currency_id);
+    }
+
+    public function sendInvoiceData()
+    {
+        $this->emit('invoicedataupdated', [
+            'lines'                 =>  $this->lines,
+            'currency_id'           =>  $this->currency_id,
+            'subtotal'              =>  $this->subtotal,
+            'taxes'                 =>  $this->taxes,
+            'discount'              =>  $this->discount,
+            'discount_percent'      =>  $this->discount_percent,
+            'total'                 =>  $this->total,
+        ]);
+    }
+
+    public function setLines($uid, $lines)
+    {
+        if ($this->uid==$uid)
+        {
+            $this->lines=$lines;
+            $this->emit('setvaluelines', 'invoicelines', $lines);
+        }
     }
 
     public function render()

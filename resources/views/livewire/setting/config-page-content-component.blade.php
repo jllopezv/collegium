@@ -12,7 +12,6 @@
         @if (count($settings))
             <div class='p-2 bg-white border-l border-cool-gray-400'>
                 @foreach($settings as $index => $setting)
-
                         @if ($setting->type=='text' || $setting->type=='number')
                             <x-lopsoft.control.inputform
                                 id='{{ $setting->settingkey }}'

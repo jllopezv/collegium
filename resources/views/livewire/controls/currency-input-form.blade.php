@@ -24,7 +24,7 @@
         <div class='w-full'>
             <x-lopsoft.control.input
                 id='{{ $uid }}_input'
-                wire:model.lazy='inputbox'
+                wire:model.lazy='showedvalue'
                 class='bg-transparent text-right {{ $classinput }} '
                 classcontainer="w-full"
                 placeholder="0.00"
@@ -35,14 +35,25 @@
             />
         </div>
         @if($showpercent)
+            @if($mode!='show')
+                <div class='flex items-baseline justify-start pr-1'>
+                    @if($isPercent)
+                        <div wire:click='setPercent(0)' class="{{ !$isPercent?'text-cool-gray-600':'text-cool-gray-600 hover:text-cool-gray-700 ' }} cursor-pointer"><i class="fa-fw fa fa-percent fa-xs "></i></div>
+                    @endif
+                    @if(!$isPercent)
+                        <div wire:click='setPercent(1)'><i class="fa-fw fa fa-dollar-sign fa-xs {{ $isPercent?'text-cool-gray-700':'text-cool-gray-600 hover:text-cool-gray-600 ' }} cursor-pointer"></i></div>
+                    @endif
+                </div>
+            @else
             <div class='flex items-baseline justify-start pr-1'>
                 @if($isPercent)
-                    <div wire:click='setPercent(0)' class="{{ !$isPercent?'text-cool-gray-600':'text-cool-gray-400 hover:text-cool-gray-600 ' }} cursor-pointer"><i class="fa-fw fa fa-percent fa-xs "></i></div>
+                    <div class="{{ !$isPercent?'text-cool-gray-600':'text-cool-gray-600  ' }} cursor-pointer"><i class="fa-fw fa fa-percent fa-xs "></i></div>
                 @endif
                 @if(!$isPercent)
-                    <div wire:click='setPercent(1)'><i class="fa-fw fa fa-dollar-sign fa-xs {{ $isPercent?'text-cool-gray-600':'text-cool-gray-400 hover:text-cool-gray-600 ' }} cursor-pointer"></i></div>
+                    <div ><i class="fa-fw fa fa-dollar-sign fa-xs {{ $isPercent?'text-cool-gray-600':'text-cool-gray-600 ' }} cursor-pointer"></i></div>
                 @endif
             </div>
+            @endif
         @endif
     </div>
 </div>

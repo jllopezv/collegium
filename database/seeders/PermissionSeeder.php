@@ -94,6 +94,12 @@ class PermissionSeeder extends Seeder
         $table='customers';
         $this->createPermissions($table,'CRM');
 
+        $table='suppliers';
+        $this->createPermissions($table,'CRM');
+
+        $table='supplier_type';
+        $this->createPermissions($table,'CRM');
+
         $table='invoices';
         $this->createPermissions($table,'CRM');
 

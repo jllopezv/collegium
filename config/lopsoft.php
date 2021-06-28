@@ -146,7 +146,20 @@ return [
     'customers_exp_prefix'         =>  'C',
     'customers_exp_long'           =>  '5',
     'customers_exp_sufix'          =>  '',
-    'customers_avatar'             =>  false,
+    'customers_avatar'             =>  true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Customers
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'suppliersname_uppercase'      =>  true,
+    'suppliers_exp_prefix'         =>  'S',
+    'suppliers_exp_long'           =>  '5',
+    'suppliers_exp_sufix'          =>  '',
+    'suppliers_avatar'             =>  true,
 
     /*
     |--------------------------------------------------------------------------
