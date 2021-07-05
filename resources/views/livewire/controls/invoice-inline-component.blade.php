@@ -1,8 +1,4 @@
 <div>
-
-
-
-
     <div class='w-full sm:w-80'>
         @livewire('controls.drop-down-table-component', [
             'model'         => \App\Models\Aux\Currency::class,
@@ -13,7 +9,7 @@
             'field'         => 'symbol',
             'label'         => transup('currency'),
             'sublabel'      => 'Define la divisa para la factura',
-            'defaultvalue'  => \App\Models\Aux\Currency::getCurrent()->id,
+            'defaultvalue'  => $currency_id??\App\Models\Aux\Currency::getCurrent()->id,
             'eventname'     => 'eventsetinvoicecurrency',
             'uid'           => 'invoicecurrency',
             'modelid'       => 'currency_id',
@@ -60,6 +56,7 @@
                 DTO
             </div>
             <div class='w-full sm:w-1/2 text-right'>
+                {{--
                 @livewire('controls.currency-input-form', [
                     'uid'           =>  'invoice_discount',
                     'showcurrency'  =>  false,
@@ -68,7 +65,40 @@
                     'mode'          =>  $mode,
                     'nextref'       =>  'ref',
                     'inputborderless'    =>  true
-                ])
+                ]) --}}
+                <div class='flex items-center justify-start w-full'>
+                    <div class='w-full'>
+                        <x-lopsoft.control.input
+                            id='discount'
+                            wire:model.lazy='discount'
+                            class='bg-transparent text-right'
+                            classcontainer="w-full md:px-2 text-gray-700"
+                            placeholder="{{ transup('discount') }}"
+                            mode='{{  $mode }}'
+                            />
+                    </div>
+                    <div class=''>
+                        @if($mode!='show')
+                            <div class='flex items-baseline justify-start pr-1'>
+                                @if($discount_percent)
+                                    <div wire:click='setPercent(0)' class="{{ !$discount_percent?'text-cool-gray-600':'text-cool-gray-600 hover:text-cool-gray-700 ' }} cursor-pointer"><i class="fa-fw fa fa-percent fa-xs "></i></div>
+                                @endif
+                                @if(!$discount_percent)
+                                    <div wire:click='setPercent(1)'><i class="fa-fw fa fa-dollar-sign fa-xs {{ $discount_percent?'text-cool-gray-700':'text-cool-gray-600 hover:text-cool-gray-600 ' }} cursor-pointer"></i></div>
+                                @endif
+                            </div>
+                        @else
+                            <div class='flex items-baseline justify-start pr-1'>
+                                @if($discount_percent)
+                                    <div class="{{ !$discount_percent?'text-cool-gray-600':'text-cool-gray-600  ' }} cursor-pointer"><i class="fa-fw fa fa-percent fa-xs "></i></div>
+                                @endif
+                                @if(!$discount_percent)
+                                    <div ><i class="fa-fw fa fa-dollar-sign fa-xs {{ $discount_percent?'text-cool-gray-600':'text-cool-gray-600 ' }} cursor-pointer"></i></div>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>

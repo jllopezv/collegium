@@ -11,6 +11,7 @@ use App\Models\Traits\HasCommon;
 use App\Models\Crm\CustomerEmail;
 use App\Models\Crm\CustomerPhone;
 use App\Models\Traits\IsUserType;
+use App\Models\Traits\HasInvoices;
 use App\Models\Traits\HasAbilities;
 use App\Models\Traits\HasModelAvatar;
 use Illuminate\Database\Eloquent\Model;
@@ -35,6 +36,9 @@ class Customer extends Model
     //use HasPriority;
     //use HasAvailable;
 
+    /* Has Invoices */
+    use HasInvoices;
+
 
     /*******************************************/
     /* Properties
@@ -46,7 +50,7 @@ class Customer extends Model
      * @var array
      */
     protected $fillable = [
-        'customer', 'rnc', 'address1','address2','city','state','country_id','pbox','notes',
+        'code', 'customer', 'rnc', 'address1','address2','city','state','country_id','pbox','notes',
         'profile_photo_path', 'customer_type_id'
     ];
 

@@ -258,5 +258,12 @@ return [
     'supplier'              =>  'suplidor',
     'suppliers'             =>  'suplidores',
     'supplier_types'        =>  'tipos de suplidores',
-
+    'date'                  =>  'fecha',
+    'due'                   =>  'vencimiento',
+    'pending'               =>  'pendiente',
+    'partial'               =>  'parcial',
+    'paid'                  =>  'pagada',
+    'invoice_due'           =>  'vencida',
+    'total'                 =>  'total',
+    'status'                =>  'estado',
 ];

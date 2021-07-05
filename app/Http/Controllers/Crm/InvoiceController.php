@@ -63,4 +63,36 @@ class InvoiceController extends Controller
     {
         return ($this->commonEdit($id, $options??[]));
     }
+
+
+
+    public function createCustomers($customer_id)
+    {
+        $this->checkHasAbilityCreate();
+        $params=[
+            'title'     =>  $this->title,
+            'subtitle'  =>  $this->subtitle,
+            'table'     =>  $this->table,
+            'model'     =>  $this->model,
+            'invoice_source'    => 'customers',
+            'invoice_source_id' =>  $customer_id,
+            'hideselectsource'  => true,
+        ];
+        return view('models.'.$this->module.'.'.$this->table.'.create', $params); // Create View
+    }
+
+    public function createSuppliers($supplier_id)
+    {
+        $this->checkHasAbilityCreate();
+        $params=[
+            'title'     =>  $this->title,
+            'subtitle'  =>  $this->subtitle,
+            'table'     =>  $this->table,
+            'model'     =>  $this->model,
+            'invoice_source'    => 'suppliers',
+            'invoice_source_id' =>  $supplier_id,
+            'hideselectsource'  => true,
+        ];
+        return view('models.'.$this->module.'.'.$this->table.'.create', $params); // Create View
+    }
 }

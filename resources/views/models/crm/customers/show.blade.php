@@ -11,7 +11,7 @@
 
     <div class='justify-center inline-block w-full p-2 mt-4 items-top'>
 
-        <div class='w-full mx-auto lg:w-3/4'>
+        <div class='w-full'>
             @livewire($module.'.'.$component.'-component', [
                 'table'         =>  $table,
                 'model'         =>  $model,

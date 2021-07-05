@@ -125,6 +125,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Modules
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'module_school'         =>  true,
+
+    /*
+    |--------------------------------------------------------------------------
     | Students
     |--------------------------------------------------------------------------
     |
@@ -143,23 +152,35 @@ return [
     */
 
     'customersname_uppercase'      =>  true,
-    'customers_exp_prefix'         =>  'C',
-    'customers_exp_long'           =>  '5',
-    'customers_exp_sufix'          =>  '',
+    'customers_code_prefix'         =>  'C',
+    'customers_code_long'           =>  '5',
+    'customers_code_sufix'          =>  '',
     'customers_avatar'             =>  true,
 
     /*
     |--------------------------------------------------------------------------
-    | Customers
+    | Suppliers
     |--------------------------------------------------------------------------
     |
     */
 
     'suppliersname_uppercase'      =>  true,
-    'suppliers_exp_prefix'         =>  'S',
-    'suppliers_exp_long'           =>  '5',
-    'suppliers_exp_sufix'          =>  '',
+    'suppliers_code_prefix'         =>  'S',
+    'suppliers_code_long'           =>  '5',
+    'suppliers_code_sufix'          =>  '',
     'suppliers_avatar'             =>  true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Invoices
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'invoices_ref_prefix'                   =>  'F',
+    'invoices_ref_long'                     =>  '5',
+    'invoices_ref_sufix'                    =>  '',
+    'invoices_quantity_decimals'            =>  2,
 
     /*
     |--------------------------------------------------------------------------

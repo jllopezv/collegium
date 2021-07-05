@@ -16,6 +16,7 @@ class CreateSuppliersTable extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->boolean('active')->default(1);
+            $table->string('code')->unique();
             $table->string('supplier')->default('');
             $table->string('rnc')->default('');
             $table->text('profile_photo_path')->nullable();

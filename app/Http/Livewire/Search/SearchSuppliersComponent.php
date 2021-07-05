@@ -3,10 +3,10 @@
 namespace App\Http\Livewire\Search;
 
 use Livewire\Component;
-use App\Models\Crm\Customer;
+use App\Models\Crm\Supplier;
 use Livewire\WithPagination;
 
-class SearchCustomersComponent extends Component
+class SearchSuppliersComponent extends Component
 {
     use WithPagination;
 
@@ -17,8 +17,8 @@ class SearchCustomersComponent extends Component
 
     protected $listeners=[
         'setvalue'              =>  'setValue',
-        'showcustomerdialog'    =>  'open',
-        'hidecustomerdialog'    =>  'close',
+        'showsupplierdialog'    =>  'open',
+        'hidesupplierdialog'    =>  'close',
     ];
 
     public function open()
@@ -29,7 +29,7 @@ class SearchCustomersComponent extends Component
     public function close()
     {
         $this->showdialog=false;
-        $this->emit('customerdialogclosed');
+        $this->emit('supplierdialogclosed');
     }
 
     public function setValue($uid, $value)
@@ -41,28 +41,28 @@ class SearchCustomersComponent extends Component
         }
     }
 
-    public function searchCustomer()
+    public function searchsupplier()
     {
         if ($this->search=='')
         {
             $this->data=[];
             return;
         }
-        $this->data=Customer::search($this->search)->get();
-        if ($this->search=='*') $this->data=Customer::all();
-        $this->emit('customersearchupdated', $this->search);
+        $this->data=Supplier::search($this->search)->get();
+        if ($this->search=='*') $this->data=Supplier::all();
+        $this->emit('suppliersearchupdated', $this->search);
 
     }
 
     public function updatedSearch()
     {
-        $this->searchCustomer();
+        $this->searchSupplier();
     }
 
-    public function selectCustomer($id)
+    public function selectSupplier($id)
     {
         //$this->search='';
-        $this->emit('customerselected',$id);
+        $this->emit('supplierselected',$id);
         $this->close();
     }
 
@@ -70,13 +70,13 @@ class SearchCustomersComponent extends Component
     {
         $this->close();
         $this->search="";
-        $this->emit('customersearchupdated', $this->search);
+        $this->emit('suppliersearchupdated', $this->search);
     }
 
 
     public function render()
     {
-        return view('livewire.search.search-customers-component', [
+        return view('livewire.search.search-suppliers-component', [
             'data'      =>  $this->data,
         ]);
     }

@@ -10,6 +10,21 @@
 @endif
 
 <x-lopsoft.control.inputform
+    wire:model.lazy='code'
+    id='code'
+    ref='code'
+    label="{{ transup('code') }}"
+    sublabel="Use - para obtener un código automático"
+    class='w-full'
+    autofocus
+    classcontainer='w-32'
+    requiredfield
+    help="{{ transup('mandatory_unique') }}"
+    mode="{{ $mode }}"
+    nextref='description'
+/>
+
+<x-lopsoft.control.inputform
     wire:model.lazy='customer'
     id='customer'
     x-ref='customer'
@@ -150,7 +165,10 @@
     <x-slot name='tabs'>
         <x-lopsoft.control.tabs-index title='USUARIO' index='1'></x-lopsoft.control.tabs-index>
         <x-lopsoft.control.tabs-index title='DOCUMENTOS' index='2'></x-lopsoft.control.tabs-index>
-        <x-lopsoft.control.tabs-index title='ESTUDIANTES' index='3'></x-lopsoft.control.tabs-index>
+        @if(appsetting('module_school'))
+            <x-lopsoft.control.tabs-index title='ESTUDIANTES' index='3'></x-lopsoft.control.tabs-index>
+        @endif
+        <x-lopsoft.control.tabs-index title='FACTURAS' index='10'></x-lopsoft.control.tabs-index>
         <x-lopsoft.control.tabs-index class="{{ $notes!=''?'text-red-500':'' }}" title='NOTAS' index='30'></x-lopsoft.control.tabs-index>
     </x-slot>
     <x-slot name='tabscontent'>
@@ -178,48 +196,145 @@
                 </div>
             @endif
         </x-lopsoft.control.tabs-content>
-        <x-lopsoft.control.tabs-content index='3'>
-            @forelse($students as $student)
-                <div class='flex-block md:flex flex-wrap md:flex-no-wrap items-center justify-start hover:bg-cool-gray-200 mt-2 p-2 rounded-md cursor-pointer bg-white md:bg-transparent'>
-                    <div class='flex items-center justify-end md:justify-start '>
-                        <div class="ml-2  {{ $student->isEnrolled()?'text-purple-500':'text-cool-gray-400' }}">
-                            <i class='fa fa-graduation-cap'></i>
+        @if(appsetting('module_school'))
+            <x-lopsoft.control.tabs-content index='3'>
+                @forelse($students as $student)
+                    <div class='flex-block md:flex flex-wrap md:flex-no-wrap items-center justify-start hover:bg-cool-gray-200 mt-2 p-2 rounded-md cursor-pointer bg-white md:bg-transparent'>
+                        <div class='flex items-center justify-end md:justify-start '>
+                            <div class="ml-2  {{ $student->isEnrolled()?'text-purple-500':'text-cool-gray-400' }}">
+                                <i class='fa fa-graduation-cap'></i>
+                            </div>
+                            <div class='ml-2 text-cool-gray-400 hover:text-blue-500 cursor-pointer'>
+                                <a href='{{ route('students.show', ['id' => $student->id??0 ]) }}' target='_blank' ><i class='fa fa-info-circle'></i></a>
+                            </div>
                         </div>
-                        <div class='ml-2 text-cool-gray-400 hover:text-blue-500 cursor-pointer'>
-                            <a href='{{ route('students.show', ['id' => $student->id??0 ]) }}' target='_blank' ><i class='fa fa-info-circle'></i></a>
+                        <div class='p-2 flex items-center justify-center'>
+                            <div class='w-12'>
+                                <img src='{{ $student->avatar }}' class='w-12 h-162 rounded-full' />
+                            </div>
                         </div>
+                        <div class='w-full flex-block md:flex items-center justify-center md:justify-start font-bold text-cool-gray-600'>
+                            <div class='w-full md:w-1/2 text-center md:text-left '>
+                                {{ $student->name }}
+                            </div>@if($student->isEnrolled())
+                            <div class="w-full md:w-52 text-center md:text-left  font-bold text-cool-gray-400">
+                                {{ $student->grade->grade }}
+                            </div>
+                            <div class="w-full md:w-52 text-center md:text-left font-bold text-cool-gray-400">
+                                {{ $student->section }}
+                            </div>
+                            @else
+                                <div class='w-full md:w-80 font-bold text-red-500 text-center md:text-left'>
+
+                                </div>
+                            @endif
+                        </div>
+
                     </div>
-                    <div class='p-2 flex items-center justify-center'>
-                        <div class='w-12'>
-                            <img src='{{ $student->avatar }}' class='w-12 h-162 rounded-full' />
-                        </div>
+
+                @empty
+                    <div>
+                        <span class='font-bold text-cool-gray-400'>NO HAY ESTUDIANTES ASIGNADOS AL CLIENTE</span>
                     </div>
-                    <div class='w-full flex-block md:flex items-center justify-center md:justify-start font-bold text-cool-gray-600'>
-                        <div class='w-full md:w-1/2 text-center md:text-left '>
-                            {{ $student->name }}
-                        </div>@if($student->isEnrolled())
-                        <div class="w-full md:w-52 text-center md:text-left  font-bold text-cool-gray-400">
-                            {{ $student->grade->grade }}
-                        </div>
-                        <div class="w-full md:w-52 text-center md:text-left font-bold text-cool-gray-400">
-                            {{ $student->section }}
-                        </div>
-                        @else
-                            <div class='w-full md:w-80 font-bold text-red-500 text-center md:text-left'>
+                @endforelse
+                <div class='text-right mt-2 text-sm'>
+                    <i class="text-purple-500 fa fa-graduation-cap "></i> <span class='text-cool-gray-400 font-bold'>INSCRITO EN ESTE AÑO ACADÉMICO</span>
+                </div>
+            </x-lopsoft.control.tabs-content>
+        @endif
+        <x-lopsoft.control.tabs-content index='10'>
+            <div class='my-4 flex flex-wrap items-center justify-between h-full'>
+                <div class='flex items-center justify-start'>
+                    <div class=''>
+                        <x-lopsoft.link.gray icon='fa fa-sync' wire:click='syncInvoices'/>
+                    </div>
+                    @if($mode!='create')
+                        @hasAbility('invoices.create')
+                            <div class='ml-2'>
+                                <x-lopsoft.link.success target='_blank' link="{{ route('customers.invoice.create', ['id' => $record->id ]) }}" icon='fa fa-plus' text='NUEVA' />
+                            </div>
+                        @endhasAbility
+                    @endif
+                </div>
+                <div>
+                    @if($mode!='create')
+                        <div class='flex items-center justify-end'>
+                            <div class='ml-2'>
+                                @livewire('controls.drop-down-component', [
+                                            'mode'          => 'edit',
+                                            'classdropdown' => 'w-40',
+                                            'options'       =>  \App\Lopsoft\LopHelp::getInvoicesOrder(),
+                                            'defaultvalue'  => 'invoice_date',
+                                            'eventname'     => 'eventsetinvoiceorder',
+                                            'uid'           => 'invoiceordercomponent',
+                                            'modelid'       => 'invoiceorder',
+                                            'isTop'         =>  false,
+                                        ])
 
                             </div>
-                        @endif
-                    </div>
-
+                            <div class='ml-2'>
+                                <x-lopsoft.link.gray wire:click='changeInvoiceSortDirection' icon="fa
+                                {{  Str::startsWith($invoiceorder,'-')?'fa-sort-amount-up-alt':'fa-sort-amount-down-alt' }}" />
+                            </div>
+                        </div>
+                    @endif
                 </div>
+            </div>
 
+            @livewire('crm.list-invoices-component', [
+                'invoices'      =>  $invoices,
+                'uid'           =>  'customerinvoiceslist',
+                'sortorder'     =>  '-ref',
+            ])
+            @forelse($students as $studentitem)
+                <div class='mt-8'>
+                    <span class='font-bold text-cool-gray-600 text-lg px-2'>{{  $studentitem->exp }} - {{ $studentitem->name }}</span>
+                    @livewire('crm.list-invoices-component', [
+                        'invoices'      =>  $studentitem->invoices,
+                        'uid'           =>  'studentinvoiceslist_'.$studentitem->id,
+                        'sortorder'     =>  '-ref',
+                    ], key($studentitem->id))
+                </div>
             @empty
-                <div>
-                    <span class='font-bold text-cool-gray-400'>NO HAY ESTUDIANTES ASIGNADOS AL CLIENTE</span>
-                </div>
             @endforelse
-            <div class='text-right mt-2 text-sm'>
-                <i class="text-purple-500 fa fa-graduation-cap "></i> <span class='text-cool-gray-400 font-bold'>INSCRITO EN ESTE AÑO ACADÉMICO</span>
+
+            <div class='mt-8 w-full flex flex-wrap items-center justify-end text-sm p-2 bg-cool-gray-300 rounded-md'>
+                <div class='w-full sm:w-40 text-right'>
+                    <span class='font-bold text-cool-gray-700'>{!!  $invoices_sum_total_string !!}</span>
+                    <span class='font-bold text-blue-400'>
+                        <i class='fa fa-dollar-sign'></i>
+                    </span>
+                </div>
+                <div class='w-full sm:w-40 text-right'>
+                    <span class='font-bold text-green-400'>
+                        <span class='font-bold text-cool-gray-700'>{!!  $invoices_sum_paid_string !!}</span>
+                        <i class='fa fa-hand-holding-usd'></i>
+                    </span>
+                </div>
+                <div class='w-full sm:w-40 text-right'>
+                    <span class='font-bold text-red-400'>
+                        <span class='font-bold text-cool-gray-700'>{!!  $invoices_sum_pending_string !!}</span>
+                        <i class='fa fa-money-check-alt'></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class='flex items-center justify-end text-sm mt-4'>
+                <div class='ml-2'>
+                    <span class='font-bold text-cool-gray-400'>
+                        <i class='fa fa-dollar-sign text-blue-400'></i> {{ transup('total') }}
+                    </span>
+                </div>
+                <div class='ml-2'>
+                    <span class='font-bold text-cool-gray-400'>
+                        <i class='fa fa-hand-holding-usd text-green-400'></i> {{ transup('paid') }}
+                    </span>
+                </div>
+                <div class='ml-2'>
+                    <span class='font-bold text-cool-gray-400'>
+                        <i class='fa fa-money-check-alt text-red-400'></i> {{ transup('pending') }}
+                    </span>
+                </div>
             </div>
         </x-lopsoft.control.tabs-content>
         <x-lopsoft.control.tabs-content index='30'>

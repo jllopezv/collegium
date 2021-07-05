@@ -466,27 +466,27 @@ class AppSettingSeeder extends Seeder
         $record->save();
 
         $record=new AppSetting();
-        $record->settingkey='SUPPLIERS_EXP_PREFIX';
-        $record->settingdesc='SUPPLIERS EXP PREFIX';
-        $record->settingvalue=config('lopsoft.suppliers_exp_prefix');
+        $record->settingkey='SUPPLIERS_CODE_PREFIX';
+        $record->settingdesc='SUPPLIERS CODE PREFIX';
+        $record->settingvalue=config('lopsoft.suppliers_code_prefix');
         $record->type='text';
         $record->level=1;
         $record->page_id=AppSettingPage::where('settingpage',transup('suppliers'))->first()->id;
         $record->save();
 
         $record=new AppSetting();
-        $record->settingkey='SUPPLIERS_EXP_LONG';
-        $record->settingdesc='SUPPLIERS CODE EXP LONG';
-        $record->settingvalue=config('lopsoft.suppliers_exp_long');
+        $record->settingkey='SUPPLIERS_CODE_LONG';
+        $record->settingdesc='SUPPLIERS CODE LONG';
+        $record->settingvalue=config('lopsoft.suppliers_code_long');
         $record->type='number';
         $record->level=1;
         $record->page_id=AppSettingPage::where('settingpage',transup('suppliers'))->first()->id;
         $record->save();
 
         $record=new AppSetting();
-        $record->settingkey='SUPPLIERS_EXP_SUFIX';
-        $record->settingdesc='SUPPLIERS CODE EXP SUFIX';
-        $record->settingvalue=config('lopsoft.suppliers_exp_sufix');
+        $record->settingkey='SUPPLIERS_CODE_SUFIX';
+        $record->settingdesc='SUPPLIERS CODE SUFIX';
+        $record->settingvalue=config('lopsoft.suppliers_code_sufix');
         $record->type='text';
         $record->level=1;
         $record->page_id=AppSettingPage::where('settingpage',transup('suppliers'))->first()->id;
@@ -513,27 +513,27 @@ class AppSettingSeeder extends Seeder
         $record->save();
 
         $record=new AppSetting();
-        $record->settingkey='CUSTOMERS_EXP_PREFIX';
-        $record->settingdesc='CUSTOMERS EXP PREFIX';
-        $record->settingvalue=config('lopsoft.customers_exp_prefix');
+        $record->settingkey='CUSTOMERS_CODE_PREFIX';
+        $record->settingdesc='CUSTOMERS CODE PREFIX';
+        $record->settingvalue=config('lopsoft.customers_code_prefix');
         $record->type='text';
         $record->level=1;
         $record->page_id=AppSettingPage::where('settingpage',transup('customers'))->first()->id;
         $record->save();
 
         $record=new AppSetting();
-        $record->settingkey='CUSTOMERS_EXP_LONG';
-        $record->settingdesc='CUSTOMERS CODE EXP LONG';
-        $record->settingvalue=config('lopsoft.customers_exp_long');
+        $record->settingkey='CUSTOMERS_CODE_LONG';
+        $record->settingdesc='CUSTOMERS CODE LONG';
+        $record->settingvalue=config('lopsoft.customers_code_long');
         $record->type='number';
         $record->level=1;
         $record->page_id=AppSettingPage::where('settingpage',transup('customers'))->first()->id;
         $record->save();
 
         $record=new AppSetting();
-        $record->settingkey='CUSTOMERS_EXP_SUFIX';
-        $record->settingdesc='CUSTOMERS CODE EXP SUFIX';
-        $record->settingvalue=config('lopsoft.customers_exp_sufix');
+        $record->settingkey='CUSTOMERS_CODE_SUFIX';
+        $record->settingdesc='CUSTOMERS CODE SUFIX';
+        $record->settingvalue=config('lopsoft.customers_code_sufix');
         $record->type='text';
         $record->level=1;
         $record->page_id=AppSettingPage::where('settingpage',transup('customers'))->first()->id;
@@ -548,6 +548,34 @@ class AppSettingSeeder extends Seeder
         $record->page_id=AppSettingPage::where('settingpage',transup('customers'))->first()->id;
         $record->save();
 
+        /* INVOICES */
+
+        $record=new AppSetting();
+        $record->settingkey='INVOICES_REF_PREFIX';
+        $record->settingdesc='INVOICES REF PREFIX';
+        $record->settingvalue=config('lopsoft.invoices_ref_prefix');
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('invoices'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='INVOICES_REF_LONG';
+        $record->settingdesc='INVOICES CODE REF LONG';
+        $record->settingvalue=config('lopsoft.invoices_ref_long');
+        $record->type='number';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('invoices'))->first()->id;
+        $record->save();
+
+        $record=new AppSetting();
+        $record->settingkey='INVOICES_REF_SUFIX';
+        $record->settingdesc='INVOICES CODE REF SUFIX';
+        $record->settingvalue=config('lopsoft.invoices_ref_sufix');
+        $record->type='text';
+        $record->level=1;
+        $record->page_id=AppSettingPage::where('settingpage',transup('invoices'))->first()->id;
+        $record->save();
 
     }
 }

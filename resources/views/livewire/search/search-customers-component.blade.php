@@ -7,7 +7,7 @@
         wire:model.debounce.500ms='search'
         label='BUSCAR'
         id='searchcustomer'
-        placeholder="Nombre del cliente"
+        placeholder="Nombre del cliente. Use * para listar todos"
         class='bg-transparent w-80'
         classcontainer='w-full'></x-lopsoft.control.inputform>
 
@@ -30,10 +30,10 @@
                     </div>
                     <div class='md:pl-8 w-full md:w-auto md:flex  items-center justify-center md:justify-start '>
                         <div class='md:w-60 text-cool-gray-500 text-center md:text-left'>
-                            {{$item->user->username}}
+                            {{$item->user->username??'' }}
                         </div>
                         <div class='md:w-60 text-cool-gray-500 text-center md:text-left'>
-                            {{$item->user->email}}
+                            {{$item->user->email??'' }}
                         </div>
                     </div>
                 </div>

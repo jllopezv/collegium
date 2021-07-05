@@ -16,6 +16,7 @@ class CreateCustomersTable extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->boolean('active')->default(1);
+            $table->string('code')->unique();
             $table->string('customer')->default('');
             $table->string('rnc')->default('');
             $table->text('profile_photo_path')->nullable();

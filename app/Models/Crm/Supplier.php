@@ -42,7 +42,7 @@ class Supplier extends Model
      * @var array
      */
     protected $fillable = [
-        'supplier', 'rnc', 'address1','address2','city','state','country_id','pbox','notes',
+        'code', 'supplier', 'rnc', 'address1','address2','city','state','country_id','pbox','notes',
         'profile_photo_path', 'supplier_type_id'
     ];
 

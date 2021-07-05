@@ -78,6 +78,38 @@ class LopHelp
         ];
     }
 
+    static public function getInvoicesOrder()
+    {
+        return
+        [
+            [ 'value' => 'invoice_date',        'text'  => transup('date') ],
+            [ 'value' => 'status',      'text'  => transup('status') ],
+            [ 'value' => 'ref',         'text'  => transup('ref') ],
+            [ 'value' => 'total',       'text'  => "<i class='fa fa-dollar-sign text-blue-400'></i> ".transup('total') ],
+            [ 'value' => 'paid',        'text'  => "<i class='fa fa-hand-holding-usd text-green-400'></i> ".transup('paid')],
+            [ 'value' => 'pending',     'text'  => "<i class='fa fa-money-check-alt text-red-400'></i> ".transup('pending') ],
+        ];
+    }
+
+    static public function getInvoicesSource()
+    {
+        $ret=[
+            ['text'     => transup('customer'),
+            'value'    => 'customers'],
+            ['text'     => transup('supplier'),
+            'value'    => 'suppliers'],
+        ];
+        if (appsetting('module_school'))
+        {
+            $ret[]=[
+                'text'     => transup('student'),
+                'value'    => 'students'
+            ];
+        }
+        return $ret;
+
+    }
+
     static public function getAppSettingTypesDropDown()
     {
         return

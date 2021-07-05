@@ -16,6 +16,7 @@ class SupplierSeeder extends Seeder
     public function run()
     {
         $record=new Supplier;
+        $record->code='CONTADO';
         $record->supplier="CONTADO";
         $record->supplier_type_id=SupplierType::where('type','GENERAL')->first()->id;
         $record->save();

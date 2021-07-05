@@ -7,7 +7,13 @@
         avatar="{{ $item->avatar }}"
     />
 @endif
-@include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->customer, 'classrow' => 'font-bold'])
+<x-lopsoft.datatable.row-column
+    canshow="{{ $item->canShowRecord() && $item->allowShow() }}"
+    class="{{ $classrow??'' }}"
+    link="{{ route($table.'.show',$item->id) }}">
+        <div class='text-gray-500 font-bold'>{!! $item->code !!}</div>
+        <div class='font-bold'>{!! $item->customer !!}</div>
+</x-lopsoft.datatable.row-column>
 @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->rnc ])
 @include('components.lopsoft.datatable.rowcolumn', ['slot'=> $item->type->type??''])
 

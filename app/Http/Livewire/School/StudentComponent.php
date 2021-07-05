@@ -318,7 +318,6 @@ class StudentComponent extends Component
     public function eventSetGender($gender)
     {
         $this->gender=$gender;
-
     }
 
     public function eventSetLevel($level_id, $change)

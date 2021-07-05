@@ -3,10 +3,10 @@
 namespace App\Http\Livewire\Search;
 
 use Livewire\Component;
-use App\Models\Crm\Customer;
 use Livewire\WithPagination;
+use App\Models\School\Student;
 
-class SearchCustomersComponent extends Component
+class SearchStudentsComponent extends Component
 {
     use WithPagination;
 
@@ -17,8 +17,8 @@ class SearchCustomersComponent extends Component
 
     protected $listeners=[
         'setvalue'              =>  'setValue',
-        'showcustomerdialog'    =>  'open',
-        'hidecustomerdialog'    =>  'close',
+        'showstudentdialog'     =>  'open',
+        'hidestudentdialog'     =>  'close',
     ];
 
     public function open()
@@ -29,7 +29,7 @@ class SearchCustomersComponent extends Component
     public function close()
     {
         $this->showdialog=false;
-        $this->emit('customerdialogclosed');
+        $this->emit('studentdialogclosed');
     }
 
     public function setValue($uid, $value)
@@ -37,32 +37,32 @@ class SearchCustomersComponent extends Component
         if ($this->uid==$uid)
         {
             $this->search=$value;
-            $this->searchSearch();
+            $this->searchStudent();
         }
     }
 
-    public function searchCustomer()
+    public function searchStudent()
     {
         if ($this->search=='')
         {
             $this->data=[];
             return;
         }
-        $this->data=Customer::search($this->search)->get();
-        if ($this->search=='*') $this->data=Customer::all();
-        $this->emit('customersearchupdated', $this->search);
+        $this->data=Student::search($this->search)->get();
+        if ($this->search=='*') $this->data=Student::all();
+        $this->emit('studentsearchupdated', $this->search);
 
     }
 
     public function updatedSearch()
     {
-        $this->searchCustomer();
+        $this->searchStudent();
     }
 
-    public function selectCustomer($id)
+    public function selectStudent($id)
     {
         //$this->search='';
-        $this->emit('customerselected',$id);
+        $this->emit('studentselected',$id);
         $this->close();
     }
 
@@ -70,13 +70,13 @@ class SearchCustomersComponent extends Component
     {
         $this->close();
         $this->search="";
-        $this->emit('customersearchupdated', $this->search);
+        $this->emit('studentsearchupdated', $this->search);
     }
 
 
     public function render()
     {
-        return view('livewire.search.search-customers-component', [
+        return view('livewire.search.search-students-component', [
             'data'      =>  $this->data,
         ]);
     }

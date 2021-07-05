@@ -1,5 +1,6 @@
 @props([
     'label'         =>  '',
+    'sublabel'      =>  '',
     'color'         =>  'text-gray-500',
     'classlabel'    =>  '',
     'classtext'     =>  '',
@@ -14,7 +15,10 @@
 
 <div >
     <div class='mb-2'>
-        <span class='{{ $classlabel }}'>{!! $label !!}</span>
+        <div class='{{ $classlabel }}'>{!! $label !!}</div>
+        @if($sublabel!="")
+            <div class='text-sm text-gray-400 font-normal'>{!! $sublabel !!}</div>
+        @endif
     </div>
     @foreach($options as $option)
         <div class='tooltip {{ $classcomponent }} mr-4'>

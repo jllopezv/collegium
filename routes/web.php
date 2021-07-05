@@ -194,6 +194,9 @@ Route::group( [ 'prefix'        => config('lopsoft.prefix_admin'),
     LopHelp::generateCommonModelRoute('suppliers', SupplierController::class, Supplier::class);
     LopHelp::generateCommonModelRoute('supplier_types', SupplierTypeController::class, SupplierType::class);
     LopHelp::generateCommonModelRoute('invoices', InvoiceController::class, Invoice::class);
+
+    Route::get('invoices/create/customers/{id}', [ InvoiceController::class, 'createCustomers' ])->name('customers.invoice.create');
+    Route::get('invoices/create/suppliers/{id}', [ InvoiceController::class, 'createSuppliers' ])->name('suppliers.invoice.create');
 });
 
 /*****************************************************/

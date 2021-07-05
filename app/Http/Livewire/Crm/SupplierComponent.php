@@ -149,6 +149,7 @@ class SupplierComponent extends Component
     public function validateRules() : array
     {
         return [
+            'code'                  => 'required|string|max:255|unique:suppliers,code,'.$this->recordid,
             'supplier'              => 'required|string|max:255',//|unique:school_levels,level,'.$this->recordid,
             'rnc'                   => 'required',
             'supplier_type_id'      => 'required|exists:supplier_types,id',
@@ -172,6 +173,7 @@ class SupplierComponent extends Component
 
     public function resetForm()
     {
+        $this->code='-';
         $this->supplier='';
         $this->rnc='';
         $this->address1='';
@@ -193,6 +195,7 @@ class SupplierComponent extends Component
 
     public function loadRecordDef()
     {
+        $this->code=$this->record->code;
         $this->supplier=$this->record->supplier;
         $this->rnc=$this->record->rnc;
         $this->address1=$this->record->address1;
@@ -209,8 +212,6 @@ class SupplierComponent extends Component
 
         // User Profile
         $this->userProfileLoadRecord($this->record, $this->emails);
-
-
     }
 
 
@@ -227,6 +228,7 @@ class SupplierComponent extends Component
     public function validateFields()
     {
         return [
+            'code'                   => $this->code,
             'supplier'               => $this->supplier,
             'rnc'                    => $this->rnc,
             'supplier_type_id'       => $this->supplier_type_id,
@@ -249,6 +251,7 @@ class SupplierComponent extends Component
     public function saveRecord()
     {
         return [
+            'code'                   => $this->code,
             'supplier'               => $this->supplier,
             'rnc'                    => $this->rnc,
             'address1'               => $this->address1,
@@ -366,6 +369,21 @@ class SupplierComponent extends Component
     public function customUpdateValidation()
     {
         return $this->customValidation();
+    }
+
+    public function generateCodeStore()
+    {
+        if ($this->code=='-')
+        {
+            $newcode=$this->generateNewCode(
+                'code',
+                appsetting('suppliers_code_prefix'),
+                appsetting('suppliers_code_long'),
+                appsetting('suppliers_code_sufix')
+            );
+
+            $this->code=$newcode;
+        }
     }
 
     public function postStore($recordStored)

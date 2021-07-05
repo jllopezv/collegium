@@ -51,7 +51,7 @@
                 focus:border-gray-500 focus:shadow-none
                 focus-visible:border-gray-500 focus-visible:shadow-none' placeholder='Buscar...' />
             @endif
-            <div class='w-full overflow-y-scroll max-h-40 nosb'
+            <div class='w-full overflow-y-scroll max-h-40'
                 >
                 @foreach($options as $index => $option)
 

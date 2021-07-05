@@ -49,6 +49,7 @@ class SearchTeachersComponent extends Component
             return;
         }
         $this->data=Teacher::search($this->search)->get();
+        if ($this->search=='*') $this->data=Teacher::all();
         $this->emit('teachersearchupdated', $this->search);
 
     }
@@ -69,7 +70,7 @@ class SearchTeachersComponent extends Component
     {
         $this->close();
         $this->search="";
-        $this->emit('parentsearchupdated', $this->search);
+        $this->emit('teachersearchupdated', $this->search);
     }
 
 

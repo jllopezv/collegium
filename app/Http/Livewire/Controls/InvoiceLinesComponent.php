@@ -18,11 +18,14 @@ class InvoiceLinesComponent extends Component
     public $currency_id;
 
     protected $listeners=[
-        'setvaluelines'             =>  'setLines',
+        /*
         'currencyinputformupdated'  =>  'currencyInputFormSync',
+
+        */
+        'calculateinvoiceline'     =>  'calculateLines',
         'dropdownupdated'           =>  'dropdownSync',
         'eventsetinvoicecurrency'   =>  'setInvoiceCurrency',
-        'calculateinvoiceline'     =>  'calculateLine'
+        'setvaluelines'             =>  'setLines',
     ];
 
     public function mount()
@@ -39,17 +42,6 @@ class InvoiceLinesComponent extends Component
         }
     }
 
-    public function setLines($uid, $lines)
-    {
-
-        if ($this->uid==$uid)
-        {
-            $this->lines=$lines;
-            if (count($this->lines)==0) $this->LineAdd();
-        }
-
-    }
-
     public function LineAdd()
     {
         $newline=[
@@ -61,160 +53,132 @@ class InvoiceLinesComponent extends Component
             'discount'      =>  0,
             'discount_percent'  => true,
             'tax'           =>  0,
+            'tax_amount'    =>  0,
             'amount'        =>  0,
+            'amount_string' =>  '0',
             'amount_currency_default'   =>  0,
             'currency_id'   =>  $this->currency_id,
         ];
         $this->lines[]=$newline;
         $this->dispatchBrowserEvent('appSetFocus',['element_id' => 'invoiceline_code_'.(count($this->lines)-1)]);
-        $this->setLineCurrency(count($this->lines)-1, $this->currency_id);
+        //$this->setLineCurrency(count($this->lines)-1, $this->currency_id);
     }
 
     public function LineDelete($index)
     {
         if ($index==0 && count($this->lines)==1) return; // No delete on first line
         array_splice($this->lines,$index,1);
-        $this->calculateLines(true);    // Force update currency and values
-        $this->syncValues();
+        $this->calculateLines();
     }
 
-    public function customValidationLine($key)
+
+
+    public function calculateLines()
     {
-        if (trim($this->lines[$key]['quantity'])=='')
-        {
-            $this->lines[$key]['quantity']=0;
-        }
-        // Quantity
-        if (!is_numeric($this->lines[$key]['quantity']))
-        {
-            $this->addError('invoiceline_quantity_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
-            return false;
-        }
-
-        if (trim($this->lines[$key]['price'])=='')
-        {
-            $this->lines[$key]['price']=0;
-        }
-        // Price
-        if (!is_numeric($this->lines[$key]['price']))
-        {
-            $this->addError('invoiceline_price_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
-            return false;
-        }
-
-        if (trim($this->lines[$key]['discount'])=='')
-        {
-            $this->lines[$key]['discount']=0;
-        }
-        // Dto
-        if (!is_numeric($this->lines[$key]['discount']))
-        {
-            $this->addError('invoiceline_discount_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
-            return false;
-        }
-
-        if (trim($this->lines[$key]['tax'])=='')
-        {
-            $this->lines[$key]['tax']=0;
-        }
-        // Tax
-        if (!is_numeric($this->lines[$key]['tax']))
-        {
-            $this->addError('invoiceline_tax_'.$key, "DEBE SER UN NÚMERO. USE SOLO `.` PARA SEPARADOR DECIMAL O `-` PARA NEGATIVOS");
-            return false;
-        }
-
-        return true;
-
-    }
-
-    public function customValidation()
-    {
-        $this->resetErrorBag();
-        $ret=true;
+        $this->lines_subtotal=0;
+        $this->lines_taxes=0;
         foreach($this->lines as $key=>$line)
         {
-            if (!$this->customValidationLine($key)) $ret=false;
-
-        }
-        return $ret;
-    }
-
-    public function calculateLines($forceupdatecurrency=false)
-    {
-        if (!$this->customValidation()) return;
-
-        foreach($this->lines as $key=>$line)
-        {
-            $this->calculateLine($key,false);
+            $this->calculateLine($key);
+            $this->lines_subtotal+=$this->lines[$key]['amount_currency_default'];
+            $this->lines_taxes+=$this->lines[$key]['tax_amount'];
         }
         $this->emit('invoicelinesupdated', $this->lines, $this->lines_subtotal, $this->lines_taxes );
 
     }
 
-    public function calculateLine($key, $sendevent=true)
-    {
-        if (!$this->customValidation()) return;
 
-        $line=$this->lines[$key];
-        $currency=Currency::find($line['currency_id']);
+
+    public function setLineCurrency($linenumber, $currency_id)
+    {
+        $this->lines[$linenumber]['currency_id']=$currency_id;
+        $this->calculateLines();
+    }
+
+    public function setLines($uid, $lines)
+    {
+        if ($this->uid==$uid)
+        {
+            $this->lines=$lines;
+            if (count($this->lines)==0)
+            {
+                $this->LineAdd();
+            }
+        }
+
+        $this->calculateLines();
+
+    }
+
+    public function setPercent($key, $percent)
+    {
+        $this->lines[$key]['discount_percent']=$percent;
+        $this->calculateLines();
+    }
+
+    /* Events */
+
+    public function calculateLine($key)
+    {
+        $currency=Currency::find($this->lines[$key]['currency_id']);
+
         if ($currency!=null)
         {
+
+            //Normalize
+
+            //Trim
+            $this->lines[$key]['quantity']=trim($this->lines[$key]['quantity']);
+            $this->lines[$key]['price']=trim($this->lines[$key]['price']);
+            $this->lines[$key]['discount']=trim($this->lines[$key]['discount']);
+            $this->lines[$key]['tax']=trim($this->lines[$key]['tax']);
+
+            //Only numbers
+            $this->lines[$key]['quantity']=preg_replace("/[a-zA-Z,]/","",$this->lines[$key]['quantity']);
+            $this->lines[$key]['price']=preg_replace("/[a-zA-Z,]/","",$this->lines[$key]['price']);
+            $this->lines[$key]['discount']=preg_replace("/[a-zA-Z,]/","",$this->lines[$key]['discount']);
+            $this->lines[$key]['tax']=preg_replace("/[a-zA-Z,]/","",$this->lines[$key]['tax']);
+
+            $this->lines[$key]['quantity']=doubleval($this->lines[$key]['quantity']);
+            $this->lines[$key]['price']=doubleval($this->lines[$key]['price']);
+            $this->lines[$key]['discount']=doubleval($this->lines[$key]['discount']);
+            $this->lines[$key]['tax']=doubleval($this->lines[$key]['tax']);
+
             $taxline=0;
-            $this->lines[$key]['amount']=$line['quantity']*$line['price'];
-            if ($line['discount']!=0)
+
+            $this->lines[$key]['amount']=$this->lines[$key]['quantity']*$this->lines[$key]['price'];
+            if ($this->lines[$key]['discount']!=0)
             {
-                if ($line['discount_percent']) $this->lines[$key]['amount']=$this->lines[$key]['amount']-($this->lines[$key]['amount']*($line['discount']/100));
-                if (!$line['discount_percent']) $this->lines[$key]['amount']=$this->lines[$key]['amount']-$line['discount'];
+                if ($this->lines[$key]['discount_percent']) $this->lines[$key]['amount']=$this->lines[$key]['amount']-($this->lines[$key]['amount']*($this->lines[$key]['discount']/100));
+                if (!$this->lines[$key]['discount_percent']) $this->lines[$key]['amount']=$this->lines[$key]['amount']-$this->lines[$key]['discount'];
             }
-            if ($line['tax']!=0)
+            if ($this->lines[$key]['tax']!=0)
             {
-                $taxline=$this->lines[$key]['amount']*($line['tax']/100);
+                $taxline=$this->lines[$key]['amount']*($this->lines[$key]['tax']/100);
             }
+            $this->lines[$key]['tax_amount']=$taxline;
+            $this->lines[$key]['amount']+=$taxline;
 
             // In default currency
             $this->lines[$key]['amount_currency_default']=$currency->convert(Currency::find($this->currency_id)->id,$this->lines[$key]['amount']);
 
-            $this->lines_subtotal+=$this->lines[$key]['amount_currency_default'];
-            $this->lines_taxes+=$taxline;
 
-
+            // Normalize
+            $this->lines[$key]['amount_string']=$currency->getString($this->lines[$key]['amount']);
             // Update currency values
-            $this->emit('invoiceline_amount_'.$key.'_setvalue', $this->lines[$key]['amount'], false);
+            //$this->emit('invoiceline_amount_'.$key.'_setvalue', $this->lines[$key]['amount'], false);
 
             // update currencies
             //if ($forceupdatecurrency) $this->emit('setvalue','currencycomponent_'.$key, $this->lines[$key]['currency_id']);
+
+            $this->lines[$key]['quantity']=number_format($this->lines[$key]['quantity'], appsetting('invoices_quantity_decimals'), '.', ',');
+            $this->lines[$key]['price']=number_format($this->lines[$key]['price'], $currency->decimals, '.', ',');
+            $this->lines[$key]['discount']=number_format($this->lines[$key]['discount'], $currency->decimals, '.', ',');
+            $this->lines[$key]['tax']=number_format($this->lines[$key]['tax'], $currency->decimals, '.', ',');
+
         }
 
-        if ($sendevent) $this->emit('invoicelinesupdated', $this->lines, $this->lines_subtotal, $this->lines_taxes );
-
-    }
-
-    public function discountPercent($index, $value)
-    {
-        $this->lines[$index]['discount_percent']=$value;
-        $this->calculateLines();
-    }
-
-    public function currencyInputFormSync($uid, $value, $currency_id, $isPercent)
-    {
-
-        $calculate=false;
-        if (Str::startsWith($uid, 'invoiceline_price_'))
-        {
-            $linenumber=Str::after($uid,'invoiceline_price_');
-            $this->lines[$linenumber]['price']=doubleval($value);
-            $calculate=true;
-        }
-        if (Str::startsWith($uid, 'invoiceline_discount_'))
-        {
-            $linenumber=Str::after($uid,'invoiceline_discount_');
-            $this->lines[$linenumber]['discount']=doubleval($value);
-            $this->lines[$linenumber]['discount_percent']=$isPercent;
-            $calculate=true;
-        }
-
-        if ($calculate) $this->calculateLine($linenumber);
+        //if ($sendevent) $this->emit('invoicelinesupdated', $this->lines, $this->lines_subtotal, $this->lines_taxes );
 
     }
 
@@ -227,31 +191,12 @@ class InvoiceLinesComponent extends Component
         }
     }
 
-    public function setLineCurrency($linenumber, $currency_id)
-    {
-        $this->lines[$linenumber]['currency_id']=$currency_id;
-        $this->emit('setvalue', 'invoiceline_price_'.$linenumber.'_currency', $currency_id, false);
-        $this->emit('setvalue', 'invoiceline_discount_'.$linenumber.'_currency', $currency_id, false);
-        $this->emit('setvalue', 'invoiceline_amount_'.$linenumber.'_currency', $currency_id, false);
-        $this->calculateLine($linenumber);
-    }
-
-    public function syncValues()
-    {
-        // Put values in array into currency inputform
-        foreach($this->lines as $key=>$line)
-        {
-            $this->emit('invoiceline_price_'.$key.'_setvalue', $this->lines[$key]['price'], false);
-            $this->emit('invoiceline_discount_'.$key.'_setvalue', $this->lines[$key]['discount'], false);
-        }
-
-    }
-
     public function setInvoiceCurrency($currency_id)
     {
         $this->currency_id=$currency_id;
         $this->calculateLines();
     }
+
 
     public function render()
     {

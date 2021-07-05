@@ -10,6 +10,21 @@
 @endif
 
 <x-lopsoft.control.inputform
+    wire:model.lazy='code'
+    id='code'
+    ref='code'
+    label="{{ transup('code') }}"
+    sublabel="Use - para obtener un código automático"
+    class='w-full'
+    autofocus
+    classcontainer='w-32'
+    requiredfield
+    help="{{ transup('mandatory_unique') }}"
+    mode="{{ $mode }}"
+    nextref='description'
+/>
+
+<x-lopsoft.control.inputform
     wire:model.lazy='supplier'
     id='supplier'
     x-ref='supplier'

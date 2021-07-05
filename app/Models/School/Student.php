@@ -9,6 +9,7 @@ use App\Models\Traits\HasOwner;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\HasCommon;
 use App\Models\Traits\IsUserType;
+use App\Models\Traits\HasInvoices;
 use App\Models\Traits\HasPriority;
 use App\Models\Traits\HasAbilities;
 use App\Models\Traits\HasModelAvatar;
@@ -26,6 +27,9 @@ class Student extends Model
     use HasAnno;
     use HasPriority;
     use HasModelAvatar;
+
+    /* Has Invoices */
+    use HasInvoices;
 
     /**
      * The attributes that are mass assignable.

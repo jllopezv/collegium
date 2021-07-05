@@ -256,6 +256,14 @@ return [
     'supplier'              =>  'supplier',
     'suppliers'             =>  'suppliers',
     'supplier_types'        =>  'supplier types',
+    'date'                  =>  'date',
+    'due'                   =>  'due',
+    'pending'               =>  'pending',
+    'partial'               =>  'partial',
+    'paid'                  =>  'paid',
+    'invoice_due'           =>  'due',
+    'total'                 =>  'total',
+    'status'                =>  'status',
 ];
 
 

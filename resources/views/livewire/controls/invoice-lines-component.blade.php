@@ -1,12 +1,11 @@
 <div class='relative'>
-
     @if($mode!='show')
         <div class='flex items-center justify-end mb-2'>
             <x-lopsoft.button.success id='btnLineAdd' x-ref='btnLineAdd' wire:click='LineAdd' icon='fa fa-plus' text="{{ transup('line') }}"/>
         </div>
     @endif
     <div class='absolute top-5 left-3 hidden' wire:loading.delay.class.remove='hidden' >
-        <i class='fas fa-circle-notch fa-spin text-blue-500'></i> <span class='text-blue-500'>Sincronizando...</span>
+        <i class='fas fa-circle-notch fa-spin text-blue-500'></i> <span class='text-blue-500'>Espere...</span>
     </div>
     <div class='p-1 xl:bg-gray-100 xl:rounded-lg xl:py-2 '>
         @foreach($lines as $key=>$line)
@@ -29,6 +28,7 @@
                                     placeholder="{{ transup('code') }}"
                                     nextref='invoiceline_item_{{$loop->index}}'
                                     mode='{{ $mode }}'
+                                    @change="$wire.emit('calculateinvoiceline', {{$loop->index}})"
                                 />
                             </div>
                             <div class='w-full'>
@@ -45,6 +45,7 @@
                                     placeholder="{{ transup('article') }}"
                                     nextref='invoiceline_quantity_{{$loop->index}}'
                                     mode='{{ $mode }}'
+                                    @change="$wire.emit('calculateinvoiceline', {{$loop->index}})"
                                 />
                             </div>
                         </div>
@@ -76,40 +77,63 @@
                                     @endif
                                     <div class='flex items-center justify-center w-full'>
                                         <div class='w-full'>
-                                            @livewire('controls.currency-input-form', [
-                                                'uid'           =>  'invoiceline_price_'.$loop->index,
-                                                'nextref'       =>  'invoiceline_discount_'.$loop->index.'_input',
-                                                'showcurrency'  =>  false,
-                                                'showpercent'   =>  false,
-                                                'isPercent'     =>  false,
-                                                'mode'          =>  $mode,
-                                                'classinput'    =>  'text-cool-gray-700',
-                                                'currency_id'   =>  $currency_id,
-                                                'value'         =>  $lines[$key]['price']??0,
-                                            ], key('price'.$loop->index))
+                                            <x-lopsoft.control.input
+                                                id='invoiceline_price_{{$loop->index}}'
+                                                wire:model.lazy='lines.{{$loop->index}}.price'
+                                                class='bg-transparent  text-right'
+                                                classcontainer="w-full  md:px-2 text-gray-700"
+                                                placeholder="{{ transup('price') }}"
+                                                nextref='invoiceline_discount_{{$loop->index}}'
+                                                mode='{{ $mode }}'
+                                                @change="$wire.emit('calculateinvoiceline', {{$loop->index}})"
+                                            />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class='flex items-center justify-start w-full md:w-1/3 '>
-                                <div class='w-1/2 flex items-center justify-start'>
+                            <div class='flex items-center justify-start w-full md:w-1/3'>
+                                <div class='w-1/2 flex items-center justify-start '>
                                     <div class='w-full ml-0 md:ml-2'>
                                         @if($key==0)
                                             <span class='text-xs font-bold md:pl-3 text-cool-gray-500'>{{ transup('discount_short') }}</span>
                                         @else
                                             <span class='md:hidden text-xs font-bold md:pl-3 text-cool-gray-500'>{{ transup('discount_short') }}</span>
                                         @endif
-                                        @livewire('controls.currency-input-form', [
-                                                'uid'           =>  'invoiceline_discount_'.$loop->index,
-                                                'nextref'       =>  'invoiceline_tax_'.$loop->index,
-                                                'showcurrency'  =>  false,
-                                                'showpercent'   =>  true,
-                                                'isPercent'     =>  $lines[$key]['discount_percent']??true,
-                                                'mode'          =>  $mode,
-                                                'classinput'    =>  'text-cool-gray-700',
-                                                'currency_id'   =>  $currency_id,
-                                                'value'         =>  $lines[$key]['discount'],
-                                            ], key('discount'.$loop->index))
+                                        <div class='flex items-center justify-start w-full'>
+                                            <div class='w-full'>
+                                                <x-lopsoft.control.input
+                                                    id='invoiceline_discount_{{$loop->index}}'
+                                                    wire:model.lazy='lines.{{$loop->index}}.discount'
+                                                    class='bg-transparent  text-right'
+                                                    classcontainer="w-full md:px-2 text-gray-700"
+                                                    placeholder="{{ transup('discount') }}"
+                                                    nextref='invoiceline_item_{{$loop->index}}'
+                                                    mode='{{ $mode }}'
+                                                    @change="$wire.emit('calculateinvoiceline', {{$loop->index}})"
+                                                />
+                                            </div>
+                                            <div class=''>
+                                                @if($mode!='show')
+                                                    <div class='flex items-baseline justify-start pr-1'>
+                                                        @if($line['discount_percent'])
+                                                            <div wire:click='setPercent({{ $key }},0)' class="{{ !$line['discount_percent']?'text-cool-gray-600':'text-cool-gray-600 hover:text-cool-gray-700 ' }} cursor-pointer"><i class="fa-fw fa fa-percent fa-xs "></i></div>
+                                                        @endif
+                                                        @if(!$line['discount_percent'])
+                                                            <div wire:click='setPercent({{ $key }},1)'><i class="fa-fw fa fa-dollar-sign fa-xs {{ $line['discount_percent']?'text-cool-gray-700':'text-cool-gray-600 hover:text-cool-gray-600 ' }} cursor-pointer"></i></div>
+                                                        @endif
+                                                    </div>
+                                                @else
+                                                    <div class='flex items-baseline justify-start pr-1'>
+                                                        @if($line['discount_percent'])
+                                                            <div class="{{ !$line['discount_percent']?'text-cool-gray-600':'text-cool-gray-600  ' }} cursor-pointer"><i class="fa-fw fa fa-percent fa-xs "></i></div>
+                                                        @endif
+                                                        @if(!$line['discount_percent'])
+                                                            <div ><i class="fa-fw fa fa-dollar-sign fa-xs {{ $line['discount_percent']?'text-cool-gray-600':'text-cool-gray-600 ' }} cursor-pointer"></i></div>
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class='w-1/2'>
@@ -125,7 +149,7 @@
                                                     id='invoiceline_tax_{{$loop->index}}'
                                                     wire:model.lazy='lines.{{$loop->index}}.tax'
                                                     class='bg-transparent text-right text-gray-700'
-                                                    classcontainer="w-full pl-2"
+                                                    classcontainer="w-full pl-2  text-right"
                                                     placeholder="0"
                                                     nextref='btnLineAdd'
                                                     mode='{{ $mode }}'
@@ -146,7 +170,7 @@
                                     @else
                                         <span class='md:hidden text-xs font-bold md:pl-3 text-cool-gray-500'>{{ transup('amount') }}</span>
                                     @endif
-                                    @livewire('controls.currency-input-form', [
+                                    {{--  @livewire('controls.currency-input-form', [
                                                     'uid'           =>  'invoiceline_amount_'.$loop->index,
                                                     'showcurrency'  =>  false,
                                                     'showpercent'   =>  false,
@@ -155,7 +179,17 @@
                                                     'classinput'    =>  'text-cool-gray-700',
                                                     'currency_id'   =>  $currency_id,
                                                     'value'         =>  $lines[$key]['amount'],
-                                                ], key('amount'.$loop->index))
+                                                ], key('amount'.$loop->index))--}}
+
+                                    <x-lopsoft.control.input
+                                        id='invoiceline_amount_{{$loop->index}}'
+                                        wire:model.lazy='lines.{{$loop->index}}.amount_string'
+                                        class='bg-transparent text-right'
+                                        classcontainer="w-full md:px-2 text-gray-700"
+                                        placeholder="{{ transup('amount') }}"
+                                        nextref='invoiceline_item_{{$loop->index}}'
+                                        mode='show'
+                                        />
                                 </div>
                                 <div class="{{ $key==0?'mt-4':'mt-4 md:mt-0 md:mb-2' }}">
                                     @livewire('controls.drop-down-table-component', [

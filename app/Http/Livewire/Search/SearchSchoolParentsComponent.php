@@ -49,6 +49,7 @@ class SearchSchoolParentsComponent extends Component
             return;
         }
         $this->data=SchoolParent::search($this->search)->get();
+        if ($this->search=='*') $this->data=SchoolParent::all();
         $this->emit('parentsearchupdated', $this->search);
 
     }

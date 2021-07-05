@@ -18,6 +18,9 @@
                 'title'         =>  $title,
                 'subtitle'      =>  $subtitle,
                 'mode'          =>  'create',
+                'invoice_source' => $invoice_source??'',
+                'invoice_source_id' => $invoice_source_id??0,
+                'hideselectsource'  => $hideselectsource??false,
                 ])
         </div>
 

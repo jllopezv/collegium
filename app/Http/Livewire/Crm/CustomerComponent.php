@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use App\Models\Aux\Country;
 use Illuminate\Support\Str;
+
 use App\Models\Crm\Customer;
 use Livewire\WithPagination;
 use App\Models\Crm\CustomerEmail;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Livewire\Traits\HasAvatar;
 use App\Http\Livewire\Traits\HasCommon;
 use App\Http\Livewire\Traits\IsUserType;
+use App\Http\Livewire\Traits\HasInvoices;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Livewire\Traits\HasDocuments;
 use App\Http\Livewire\Traits\WithModalAlert;
@@ -22,6 +24,7 @@ use App\Http\Livewire\Traits\WithUserProfile;
 use App\Http\Livewire\Traits\WithAlertMessage;
 use App\Http\Livewire\Traits\WithFlashMessage;
 use App\Http\Livewire\Traits\WithModalConfirm;
+
 
 class CustomerComponent extends Component
 {
@@ -40,14 +43,13 @@ class CustomerComponent extends Component
     use WithUserProfile;
     use HasAvatar;
 
-    /* Anno Support */
-    //use HasPriority;
-    //use HasAvailable;
-    //use WithAnnoSupport;
-
     /* Documents */
     use HasDocuments;
 
+    /* Invoices */
+    use HasInvoices;
+
+    public $code;
     public $customer;
     public $rnc;
     public $address1;
@@ -60,7 +62,7 @@ class CustomerComponent extends Component
     public $phones=[];
     public $emails=[];
     public $customer_type_id;
-    public $students=null;
+    public $students=[];
 
     /* Avatar */
     private $avatarfolder='customers-photos';
@@ -114,6 +116,8 @@ class CustomerComponent extends Component
         'document-documentdeleted'    => 'documentDeleted',
         'document-refresh'            => 'documentRefresh',
 
+        /* Invoices */
+        'eventsetinvoiceorder'        => 'changeInvoiceOrder'
 
     ];
 
@@ -149,6 +153,8 @@ class CustomerComponent extends Component
         $this->documentscomponent='document-customers';
         $this->documents_root='documents/customers';
 
+        /* Invoices */
+        $this->initInvoices();
 
    }
 
@@ -160,6 +166,7 @@ class CustomerComponent extends Component
     public function validateRules() : array
     {
         return [
+            'code'                  => 'required|string|max:255|unique:customers,code,'.$this->recordid,
             'customer'              => 'required|string|max:255',//|unique:school_levels,level,'.$this->recordid,
             'rnc'                   => 'required',
             'customer_type_id'      => 'required|exists:customer_types,id',
@@ -185,6 +192,7 @@ class CustomerComponent extends Component
 
     public function resetForm()
     {
+        $this->code='-';
         $this->customer='';
         $this->rnc='';
         $this->address1='';
@@ -206,6 +214,7 @@ class CustomerComponent extends Component
 
     public function loadRecordDef()
     {
+        $this->code=$this->record->code;
         $this->customer=$this->record->customer;
         $this->rnc=$this->record->rnc;
         $this->address1=$this->record->address1;
@@ -223,9 +232,7 @@ class CustomerComponent extends Component
         // User Profile
         $this->userProfileLoadRecord($this->record, $this->emails);
 
-
     }
-
 
     public function getKeyNotification($record)
     {
@@ -240,6 +247,7 @@ class CustomerComponent extends Component
     public function validateFields()
     {
         return [
+            'code'                   => $this->code,
             'customer'               => $this->customer,
             'rnc'                    => $this->rnc,
             'customer_type_id'       => $this->customer_type_id,
@@ -262,6 +270,7 @@ class CustomerComponent extends Component
     public function saveRecord()
     {
         return [
+            'code'                   => $this->code,
             'customer'               => $this->customer,
             'rnc'                    => $this->rnc,
             'address1'               => $this->address1,
@@ -301,7 +310,6 @@ class CustomerComponent extends Component
     {
         return $this->deleteAvatar($record);
     }
-
 
     public function eventSetCountry($country, $change)
     {
@@ -471,7 +479,20 @@ class CustomerComponent extends Component
 
     }
 
-    /* Events */
+    public function generateCodeStore()
+    {
+        if ($this->code=='-')
+        {
+            $newcode=$this->generateNewCode(
+                'code',
+                appsetting('customers_code_prefix'),
+                appsetting('customers_code_long'),
+                appsetting('customers_code_sufix')
+            );
+
+            $this->code=$newcode;
+        }
+    }
 
     public function eventSetPhones($phones)
     {

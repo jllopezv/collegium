@@ -145,7 +145,7 @@
                             'classdropdown' => '',
                             'key'           => 'id',
                             'field'         => 'grade',
-                            'defaultvalue'  =>  ($this->mode=='create')?null:$record->pivot->grade_id,
+                            'defaultvalue'  =>  ($this->mode=='create')?null:\App\Models\School\SchoolGrade::where('level_id', $record->pivot->grade_id)->first()->id,
                             'eventname'     => 'eventsetgrade',
                             'uid'           => 'gradecomponent',
                             'modelid'       => 'grade_id',
@@ -275,9 +275,9 @@
                             @endif
                         </div>
                         <div class='px-2 mt-2 border rounded-lg bg-gray-100 border-cool-gray-300'>
-                            @livewire('search.search-customers-component', [
-                                'uid'           =>  'searchcustomercomponent',
-                                'showdialog'    =>  $showCustomers,
+                            @livewire('search.search-school-parents-component', [
+                                'uid'           =>  'searchschoolparentscomponent',
+                                'showdialog'    =>  $showParents,
                             ])
                         </div>
                         @if($selectedParent)

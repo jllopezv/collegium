@@ -1,7 +1,7 @@
 <div x-data="{}"
    @click.away='$wire.hidebody()'
    x-init='$wire.getValue($wire.uid)'
-   class=' ' {{-- class='py-4' --}}
+   class='py-4'
 >
     <label class="block font-bold {{ $validationerror?'text-red-600 ':''}}">
         {{ $label }}

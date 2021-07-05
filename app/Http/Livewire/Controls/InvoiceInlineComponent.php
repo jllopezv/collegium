@@ -40,7 +40,10 @@ class InvoiceInlineComponent extends Component
 
     public function mount()
     {
-        $this->currency_id=Currency::getCurrent()->id;
+        if ($this->mode=='create')
+        {
+            $this->currency_id=Currency::getCurrent()->id;
+        }
         if ($this->defaultlines!=null) $this->lines=$this->defaultlines;
     }
 
@@ -62,6 +65,13 @@ class InvoiceInlineComponent extends Component
             $this->showAlertError("NO HAY DEFINIDA UNA DIVISA PARA EL DOCUMENTO. SE SELECCIONA LA DIVISA POR DEFECTO.");
             $currency=Currency::getCurrent();
         }
+
+
+        //Normalize Discount
+        $this->discount=trim($this->discount);
+        $this->discount=preg_replace("/[a-zA-Z,]/","",$this->discount);
+        $this->discount=doubleval($this->discount);
+
         $this->total=$this->subtotal;
         if ($this->discount!=0)
         {
@@ -76,15 +86,18 @@ class InvoiceInlineComponent extends Component
         }
         $this->total+=$this->taxes;
 
+        $this->discount=number_format($this->discount, $currency->decimals,'.', ',');
+
         // Convert
         $this->subtotal_string=$currency->getString($this->subtotal);
         $this->taxes_string=$currency->getString($this->taxes);
         $this->total_string=$currency->getString($this->total);
     }
 
-    public function discountPercent($value)
+    public function setPercent($value)
     {
         $this->discount_percent=$value;
+        $this->calculateTotal();
     }
 
     public function currencyInputFormSync($uid, $value, $currency_id, $isPercent)
@@ -123,6 +136,11 @@ class InvoiceInlineComponent extends Component
             $this->lines=$lines;
             $this->emit('setvaluelines', 'invoicelines', $lines);
         }
+    }
+
+    public function updatedDiscount()
+    {
+        $this->calculateTotal();
     }
 
     public function render()
